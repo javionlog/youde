@@ -1,0 +1,7 @@
+{
+  "extends": "@youde/typescript-config/base.json",
+  "compilerOptions": {
+    "jsxImportSource": "solid-js"
+  },
+  "include": ["src", "vite.config.ts"]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "@youde/api",
+  "version": "0.0.1",
+  "author": "Javionlog",
+  "license": "MIT",
+  "packageManager": "pnpm@9.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./hc": {
+      "import": {
+        "types": "./dist/hc.d.ts",
+        "default": "./dist/hc.js"
+      }
+    }
+  },
+  "scripts": {
+    "dev": "pnpm --filter @youde/api --parallel \"/^dev:.*/\"",
+    "dev:tsc": "tsc -p tsconfig.json --watch",
+    "dev:wrangler": "wrangler dev src/index.ts",
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250610.0",
+    "@youde/typescript-config": "workspace:^",
+    "wrangler": "^4.19.2"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^0.19.8",
+    "@scalar/hono-api-reference": "^0.9.3",
+    "hono": "^4.7.11"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@youde/typescript-config",
+  "version": "0.0.1",
+  "author": "Javionlog",
+  "license": "MIT",
+  "packageManager": "pnpm@9.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

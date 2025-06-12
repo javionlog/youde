@@ -1,0 +1,24 @@
+{
+  "name": "@youde/admin",
+  "version": "0.0.1",
+  "author": "Javionlog",
+  "license": "MIT",
+  "packageManager": "pnpm@9.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "solid-js": "^1.9.5"
+  },
+  "devDependencies": {
+    "@youde/typescript-config": "workspace:^",
+    "vite": "^6.3.5",
+    "vite-plugin-solid": "^2.11.6"
+  }
+}
