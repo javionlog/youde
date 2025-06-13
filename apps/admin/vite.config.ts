@@ -1,15 +1,7 @@
 import { defineConfig } from 'vite'
+import { cloudflare } from '@cloudflare/vite-plugin'
 import solid from 'vite-plugin-solid'
 
 export default defineConfig({
-  plugins: [solid()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8787',
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, '')
-      }
-    }
-  }
+  plugins: [solid(), cloudflare()]
 })

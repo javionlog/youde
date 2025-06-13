@@ -2,7 +2,7 @@
   "extends": "@youde/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "types": ["@cloudflare/workers-types/latest"]
+    "types": ["node", "./worker-configuration.d.ts"]
   },
   "include": ["src"]
 }

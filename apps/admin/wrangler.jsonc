@@ -1,0 +1,25 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "youde-admin",
+  "main": "server/index.ts",
+  "compatibility_date": "2025-06-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "not_found_handling": "single-page-application"
+  },
+  "env": {
+    "dev": {
+      "vars": {
+        "API_HOST": "localhost:8787"
+      }
+    },
+    "prod": {
+      "vars": {
+        "API_HOST": "youde-api.javionlog.top"
+      }
+    }
+  }
+}

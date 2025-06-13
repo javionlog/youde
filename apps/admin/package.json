@@ -9,16 +9,20 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "solid-js": "^1.9.5"
+    "dev": "cross-env CLOUDFLARE_ENV=dev vite dev",
+    "build": "tsc -b && cross-env CLOUDFLARE_ENV=prod vite build",
+    "preview": "pnpm run build &&  wrangler dev",
+    "deploy": "pnpm run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.5.1",
+    "@types/node": "^24.0.1",
     "@youde/typescript-config": "workspace:^",
     "vite": "^6.3.5",
     "vite-plugin-solid": "^2.11.6"
+  },
+  "dependencies": {
+    "solid-js": "^1.9.5"
   }
 }
