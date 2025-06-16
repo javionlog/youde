@@ -6,5 +6,33 @@
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true
+  },
+  "routes": [
+    {
+      "pattern": "youde-api.javionlog.top",
+      "custom_domain": true
+    }
+  ],
+  "dev": {
+    "local_protocol": "http",
+    "upstream_protocol": "https",
+    "ip": "localhost",
+    "port": 8787
+  },
+  "env": {
+    "dev": {
+      "vars": {
+        "BETTER_AUTH_URL": "",
+        "BETTER_AUTH_SECRET": "",
+        "DATABASE_URL": ""
+      }
+    },
+    "prod": {
+      "vars": {
+        "BETTER_AUTH_URL": "",
+        "BETTER_AUTH_SECRET": "",
+        "DATABASE_URL": ""
+      }
+    }
   }
 }

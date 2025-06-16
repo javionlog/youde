@@ -22,19 +22,26 @@
   "scripts": {
     "dev": "pnpm --filter @youde/api --parallel \"/^dev:.*/\"",
     "dev:tsc": "tsc -b --watch",
-    "dev:wrangler": "wrangler dev src/index.ts",
+    "dev:wrangler": "wrangler dev src/index.ts --env dev",
     "build": "tsc -b",
-    "deploy": "pnpm run build && wrangler deploy",
-    "cf-typegen": "wrangler types"
+    "deploy": "pnpm run build && wrangler deploy --env prod",
+    "cf-typegen": "wrangler types",
+    "better-auth:generate": "pnpm dlx @better-auth/cli@latest generate --config ./src/modules/auth/lib/better-auth/config.ts --output ./src/db/schemas/auth.ts",
+    "drizzle:generate": "drizzle-kit generate",
+    "drizzle:migrate": "drizzle-kit migrate"
   },
   "devDependencies": {
     "@types/node": "^24.0.1",
     "@youde/admin": "workspace:^",
-    "@youde/typescript-config": "workspace:^"
+    "@youde/typescript-config": "workspace:^",
+    "drizzle-kit": "^0.31.1"
   },
   "dependencies": {
     "@hono/zod-openapi": "^0.19.8",
+    "@neondatabase/serverless": "^1.0.1",
     "@scalar/hono-api-reference": "^0.9.3",
+    "better-auth": "^1.2.9",
+    "drizzle-orm": "^0.44.2",
     "hono": "^4.7.11"
   }
 }
