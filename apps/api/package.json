@@ -20,12 +20,10 @@
     }
   },
   "scripts": {
-    "dev": "pnpm --filter @youde/api --parallel \"/^dev:.*/\"",
-    "dev:tsc": "tsc -b --watch",
-    "dev:wrangler": "wrangler dev src/index.ts --env dev",
+    "dev": "wrangler dev src/index.ts --env dev",
     "build": "tsc -b",
     "deploy": "pnpm run build && wrangler deploy --env prod",
-    "cf-typegen": "wrangler types",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "better-auth:generate": "pnpm dlx @better-auth/cli@latest generate --config ./src/modules/auth/lib/better-auth/config.ts --output ./src/db/schemas/auth.ts",
     "drizzle:generate": "drizzle-kit generate",
     "drizzle:migrate": "drizzle-kit migrate"

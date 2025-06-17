@@ -24,6 +24,6 @@
     "cross-env": "^7.0.3",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3",
-    "wrangler": "^4.19.2"
+    "wrangler": "^4.20.0"
   }
 }
