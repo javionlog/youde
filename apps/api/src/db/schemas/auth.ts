@@ -13,7 +13,9 @@ export const user = pgTable('user', {
     .notNull(),
   updatedAt: timestamp('updated_at')
     .$defaultFn(() => /* @__PURE__ */ new Date())
-    .notNull()
+    .notNull(),
+  username: text('username').unique(),
+  displayUsername: text('display_username')
 })
 
 export const session = pgTable('session', {
