@@ -10,12 +10,6 @@
   "assets": {
     "not_found_handling": "single-page-application"
   },
-  "routes": [
-    {
-      "pattern": "youde-admin.javionlog.top",
-      "custom_domain": true
-    }
-  ],
   "env": {
     "dev": {
       "vars": {

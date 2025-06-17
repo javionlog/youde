@@ -26,7 +26,8 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "better-auth:generate": "pnpx @better-auth/cli generate --config ./src/modules/auth/lib/better-auth/index.ts --output ./src/db/schemas/auth.ts",
     "drizzle:generate": "drizzle-kit generate",
-    "drizzle:migrate": "drizzle-kit migrate"
+    "drizzle:migrate:dev": "cross-env NODE_ENV=dev drizzle-kit migrate",
+    "drizzle:migrate:prod": "cross-env NODE_ENV=prod drizzle-kit migrate"
   },
   "devDependencies": {
     "@types/node": "^24.0.1",

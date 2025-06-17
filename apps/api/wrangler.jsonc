@@ -7,12 +7,6 @@
   "observability": {
     "enabled": true
   },
-  "routes": [
-    {
-      "pattern": "youde-api.javionlog.top",
-      "custom_domain": true
-    }
-  ],
   "dev": {
     "local_protocol": "http",
     "upstream_protocol": "https",
