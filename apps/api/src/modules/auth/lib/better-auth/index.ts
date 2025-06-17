@@ -10,8 +10,11 @@ const db = drizzle(sql)
 
 export const auth: ReturnType<typeof betterAuth> = betterAuth({
   basePath: '/auth',
-  database: drizzleAdapter(db, { provider: 'pg' }),
   baseURL: BETTER_AUTH_URL,
   secret: BETTER_AUTH_SECRET,
+  emailAndPassword: {
+    enabled: true
+  },
+  database: drizzleAdapter(db, { provider: 'pg' }),
   plugins: [openAPI(), username()]
 })
