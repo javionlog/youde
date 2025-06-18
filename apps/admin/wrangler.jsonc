@@ -10,16 +10,7 @@
   "assets": {
     "not_found_handling": "single-page-application"
   },
-  "env": {
-    "dev": {
-      "vars": {
-        "API_HOST": ""
-      }
-    },
-    "prod": {
-      "vars": {
-        "API_HOST": ""
-      }
-    }
+  "vars": {
+    "API_HOST": ""
   }
 }

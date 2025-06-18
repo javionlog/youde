@@ -9,4 +9,4 @@ export default {
     }
     return new Response(null, { status: 404 })
   }
-} satisfies ExportedHandler<Env>
+} satisfies ExportedHandler<CloudflareBindings>

@@ -20,9 +20,9 @@
     }
   },
   "scripts": {
-    "dev": "wrangler dev src/index.ts --env dev",
+    "dev": "wrangler dev src/index.ts",
     "build": "tsc -b",
-    "deploy": "pnpm run build && wrangler deploy --env prod",
+    "deploy": "pnpm run build && wrangler deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "better-auth:generate": "pnpx @better-auth/cli generate --config ./src/modules/auth/lib/better-auth/index.ts --output ./src/db/schemas/auth.ts",
     "drizzle:generate": "drizzle-kit generate",
