@@ -1,8 +1,8 @@
 {
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "youde-api",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-06-10",
+  "main": "src/main.ts",
+  "compatibility_date": "2025-06-04",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true

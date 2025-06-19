@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "youde-admin",
   "main": "server/index.ts",
-  "compatibility_date": "2025-06-10",
+  "compatibility_date": "2025-06-04",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true

@@ -20,18 +20,17 @@
     }
   },
   "scripts": {
-    "dev": "wrangler dev src/index.ts",
+    "dev": "wrangler dev src/main.ts",
     "build": "tsc -b",
     "deploy": "pnpm run build && wrangler deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "better-auth:generate": "pnpx @better-auth/cli generate --config ./src/modules/auth/lib/better-auth/index.ts --output ./src/db/schemas/auth.ts",
     "drizzle:generate": "drizzle-kit generate",
     "drizzle:migrate:dev": "cross-env NODE_ENV=dev drizzle-kit migrate",
-    "drizzle:migrate:prod": "cross-env NODE_ENV=prod drizzle-kit migrate"
+    "drizzle:migrate:prd": "cross-env NODE_ENV=prd drizzle-kit migrate"
   },
   "devDependencies": {
     "@types/node": "^24.0.1",
-    "@youde/admin": "workspace:^",
     "@youde/typescript-config": "workspace:^",
     "drizzle-kit": "^0.31.1"
   },

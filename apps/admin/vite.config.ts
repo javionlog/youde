@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite'
 import { cloudflare } from '@cloudflare/vite-plugin'
-import solid from 'vite-plugin-solid'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
   server: {
     host: 'localhost',
     port: 5173
   },
-  plugins: [solid(), cloudflare()]
+  plugins: [tsconfigPaths(), cloudflare()]
 })
