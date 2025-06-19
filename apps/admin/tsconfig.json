@@ -3,7 +3,10 @@
   "include": ["vite.config.ts", "src", "server"],
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["node", "vite/client", "./worker-configuration.d.ts"]
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": ["node", "vite/client", "./worker-configuration.d.ts"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }
