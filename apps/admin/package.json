@@ -27,10 +27,13 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
+    "ahooks": "^3.8.5",
+    "ky": "^1.8.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router": "^7.6.2",
     "tailwindcss": "^4.1.10",
-    "tdesign-react": "^1.12.2"
+    "tdesign-icons-react": "^0.5.0",
+    "tdesign-react": "^1.12.0"
   }
 }

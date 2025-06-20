@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { auth } from './modules/auth/lib/better-auth'
+import { auth } from './modules/auth'
 
 const app = new Hono<{ Bindings: CloudflareBindings }>()
 
@@ -12,5 +12,7 @@ app.all('/auth/*', async c => {
   }
   return response
 })
+
+export type AppType = typeof app
 
 export default app

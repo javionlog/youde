@@ -11,14 +11,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "exports": {
-    "./hc": {
-      "import": {
-        "types": "./dist/hc.d.ts",
-        "default": "./dist/hc.js"
-      }
-    }
-  },
   "scripts": {
     "dev": "wrangler dev src/main.ts",
     "build": "tsc -b",
@@ -30,16 +22,16 @@
     "drizzle:migrate:prd": "cross-env NODE_ENV=prd drizzle-kit migrate"
   },
   "devDependencies": {
-    "@types/node": "^24.0.1",
+    "@types/node": "^24.0.3",
     "@youde/typescript-config": "workspace:^",
     "drizzle-kit": "^0.31.1"
   },
   "dependencies": {
     "@hono/zod-openapi": "^0.19.8",
     "@neondatabase/serverless": "^1.0.1",
-    "@scalar/hono-api-reference": "^0.9.3",
+    "@scalar/hono-api-reference": "^0.9.5",
     "better-auth": "^1.2.9",
     "drizzle-orm": "^0.44.2",
-    "hono": "^4.7.11"
+    "hono": "^4.8.1"
   }
 }

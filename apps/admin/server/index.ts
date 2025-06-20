@@ -5,6 +5,7 @@ export default {
       url.host = env.API_HOST
       url.pathname = url.pathname.replace(/^\/api/u, '')
       const newRequest = new Request(url.toString(), request)
+      console.log('newRequest', newRequest)
       return fetch(newRequest)
     }
     return new Response(null, { status: 404 })
