@@ -20,8 +20,8 @@ const getEnv = () => {
   }
 }
 
-const { DATABASE_URL, BETTER_AUTH_URL, BETTER_AUTH_SECRET, BETTER_AUTH_TRUSTED_ORIGINS } = getEnv()
-const sql = neon(DATABASE_URL)
+const { BETTER_AUTH_URL, BETTER_AUTH_SECRET, BETTER_AUTH_TRUSTED_ORIGINS } = getEnv()
+const sql = neon('postgresql://db_owner:npg_Miq4fhmDu1SE@ep-lingering-sky-aa4ph3ox-pooler.westus3.azure.neon.tech/db?sslmode=require')
 const db = drizzle(sql, { schema })
 
 export const auth: ReturnType<typeof betterAuth> = betterAuth({
