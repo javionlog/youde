@@ -13,7 +13,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'tdesign-react': ['tdesign']
+          'tdesign-react': ['tdesign-react']
         }
       }
     }
