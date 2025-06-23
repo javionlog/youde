@@ -1,1 +1,2 @@
-@import "tailwindcss" source('../../../src');
+@import "tailwindcss";
+@source not "../../../node_modules";
