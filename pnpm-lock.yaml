@@ -77,22 +77,22 @@ importers:
     dependencies:
       '@hono/zod-openapi':
         specifier: ^0.19.8
-        version: 0.19.8(hono@4.8.1)(zod@3.25.67)
+        version: 0.19.8(hono@4.8.2)(zod@3.25.67)
       '@neondatabase/serverless':
         specifier: ^1.0.1
         version: 1.0.1
       '@scalar/hono-api-reference':
         specifier: ^0.9.5
-        version: 0.9.5(hono@4.8.1)
+        version: 0.9.6(hono@4.8.2)
       better-auth:
         specifier: ^1.2.9
-        version: 1.2.9
+        version: 1.2.10
       drizzle-orm:
         specifier: ^0.44.2
-        version: 0.44.2(@cloudflare/workers-types@4.20250610.0)(@neondatabase/serverless@1.0.1)(@types/pg@8.15.4)(kysely@0.28.2)
+        version: 0.44.2(@neondatabase/serverless@1.0.1)(@types/pg@8.15.4)(kysely@0.28.2)
       hono:
         specifier: ^4.8.1
-        version: 4.8.1
+        version: 4.8.2
     devDependencies:
       '@types/node':
         specifier: ^24.0.3
@@ -258,9 +258,6 @@ packages:
     engines: {node: '>=16'}
     cpu: [x64]
     os: [win32]
-
-  '@cloudflare/workers-types@4.20250610.0':
-    resolution: {integrity: sha512-HxnUoey3QxCEfy07pUm7J42jBi9YPHq/hA3fw6JmOqYLHdviHI28OA8lup+2RUaHwDzh6q1DSfrBvvDqde645A==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -1041,12 +1038,12 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@scalar/core@0.3.3':
-    resolution: {integrity: sha512-OedH8YQriBsE7JnCN2ly4p3u7iobjzAoDkxD/o1hiF55m6WRicvtklEdByHlceu9UnJ/znikZ50ymo98uG3aqA==}
+  '@scalar/core@0.3.4':
+    resolution: {integrity: sha512-5MHmi7TbMXBlR2TcrGh7SIxNzGABf5IxiV7R8h4kyaSwlvc+tg8uo/qwDdTK/psql764VieRHaH7gdL9tu+8+w==}
     engines: {node: '>=20'}
 
-  '@scalar/hono-api-reference@0.9.5':
-    resolution: {integrity: sha512-mh8cgrgYURVtyYOGFkmKdu5BNWZW1gKuTL0xbCJF6P/2iH8F33LLZ6+sP9s1qoXRj2lAszGUwVUX+WMs6OL4Gw==}
+  '@scalar/hono-api-reference@0.9.6':
+    resolution: {integrity: sha512-P/dG41l+shL8lv7GcOpygkG6QqWl+lKHmfidBtXA22QMioSR9G1JT4Hyaxj0FOAdoLKCaMqzGk3ouJ438JeUkA==}
     engines: {node: '>=20'}
     peerDependencies:
       hono: ^4.0.0
@@ -1055,8 +1052,8 @@ packages:
     resolution: {integrity: sha512-mr3OvbCyvuzSDgv9gR9D3pJAsl82BRNBp1P8ldgRgKF4Wiswfa7nQeKibpX0kHSGXLgiyvxWJULUFwgdWMXNNA==}
     engines: {node: '>=20'}
 
-  '@scalar/types@0.2.3':
-    resolution: {integrity: sha512-K1/Vp5xaQ8TEGDYwHg88OBuQWJRWrE3ToZ0Z2LJwskcY1Eg+uDiRQXKF4QPngZzu5rrWgRErAq4yte4Y7omqgA==}
+  '@scalar/types@0.2.4':
+    resolution: {integrity: sha512-OpsNJN0r3hVVR8mF1YDO+YioeRmva/7pPravDh3GsWNQOSBOaFzLac8IkRLI+gBMpsIcJq1s+lisqPg+GHNiaA==}
     engines: {node: '>=20'}
 
   '@simplewebauthn/browser@13.1.0':
@@ -1229,8 +1226,8 @@ packages:
     resolution: {integrity: sha512-UOCGPYbl0tv8+006qks/dTgV9ajs97X2p0FAbyS2iyCRrmLSRolDaHdp+v/CLgnzHc3fVB+CwYiUmei7ndFcgA==}
     engines: {node: '>=12.0.0'}
 
-  better-auth@1.2.9:
-    resolution: {integrity: sha512-WLqBXDzuaCQetQctLGC5oTfGmL32zUvxnM4Y+LZkhwseMaZWq5EKI+c/ZATgz2YkFt7726q659PF8CfB9P1VuA==}
+  better-auth@1.2.10:
+    resolution: {integrity: sha512-nEj1RG4DdLUuJiV5CR93ORyPCptGRBwksaPPCkUtGo9ka+UIlTpaiKoTaTqVLLYlqwX4bOj9tJ32oBNdf2G3Kg==}
 
   better-call@1.0.9:
     resolution: {integrity: sha512-Qfm0gjk0XQz0oI7qvTK1hbqTsBY4xV2hsHAxF8LZfUYl3RaECCIifXuVqtPpZJWvlCCMlQSvkvhhyuApGUba6g==}
@@ -1501,8 +1498,8 @@ packages:
   hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
 
-  hono@4.8.1:
-    resolution: {integrity: sha512-ErA2ifywnSmcnB5XDuFqGDfXJ9xuAJR2C/8cZAk6vDaOCzofB8eNlha/wZWIiamREzWk94S9Z7wHsnKQHn7Niw==}
+  hono@4.8.2:
+    resolution: {integrity: sha512-hM+1RIn9PK1I6SiTNS6/y7O1mvg88awYLFEuEtoiMtRyT3SD2iu9pSFgbBXT3b1Ua4IwzvSTLvwO0SEhDxCi4w==}
     engines: {node: '>=16.9.0'}
 
   intersection-observer@0.12.2:
@@ -1707,8 +1704,8 @@ packages:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
     engines: {node: '>=4.0.0'}
 
-  pg-protocol@1.10.0:
-    resolution: {integrity: sha512-IpdytjudNuLv8nhlHs/UrVBhU0e78J0oIS/0AVdTbWxSOkFUVdsHC/NrorO6nXsQNDTT1kzDSOMJubBQviX18Q==}
+  pg-protocol@1.10.2:
+    resolution: {integrity: sha512-Ci7jy8PbaWxfsck2dwZdERcDG2A0MG8JoQILs+uZNjABFuBuItAZCWUNz8sXRDMoui24rJw7WlXqgpMdBSN/vQ==}
 
   pg-types@2.2.0:
     resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
@@ -2268,9 +2265,6 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20250617.0':
     optional: true
 
-  '@cloudflare/workers-types@4.20250610.0':
-    optional: true
-
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
@@ -2512,16 +2506,16 @@ snapshots:
 
   '@hexagon/base64@1.1.28': {}
 
-  '@hono/zod-openapi@0.19.8(hono@4.8.1)(zod@3.25.67)':
+  '@hono/zod-openapi@0.19.8(hono@4.8.2)(zod@3.25.67)':
     dependencies:
       '@asteasolutions/zod-to-openapi': 7.3.3(zod@3.25.67)
-      '@hono/zod-validator': 0.7.0(hono@4.8.1)(zod@3.25.67)
-      hono: 4.8.1
+      '@hono/zod-validator': 0.7.0(hono@4.8.2)(zod@3.25.67)
+      hono: 4.8.2
       zod: 3.25.67
 
-  '@hono/zod-validator@0.7.0(hono@4.8.1)(zod@3.25.67)':
+  '@hono/zod-validator@0.7.0(hono@4.8.2)(zod@3.25.67)':
     dependencies:
-      hono: 4.8.1
+      hono: 4.8.2
       zod: 3.25.67
 
   '@img/sharp-darwin-arm64@0.33.5':
@@ -2750,20 +2744,20 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.44.0':
     optional: true
 
-  '@scalar/core@0.3.3':
+  '@scalar/core@0.3.4':
     dependencies:
-      '@scalar/types': 0.2.3
+      '@scalar/types': 0.2.4
 
-  '@scalar/hono-api-reference@0.9.5(hono@4.8.1)':
+  '@scalar/hono-api-reference@0.9.6(hono@4.8.2)':
     dependencies:
-      '@scalar/core': 0.3.3
-      hono: 4.8.1
+      '@scalar/core': 0.3.4
+      hono: 4.8.2
 
   '@scalar/openapi-types@0.3.3':
     dependencies:
       zod: 3.24.1
 
-  '@scalar/types@0.2.3':
+  '@scalar/types@0.2.4':
     dependencies:
       '@scalar/openapi-types': 0.3.3
       nanoid: 5.1.5
@@ -2886,7 +2880,7 @@ snapshots:
   '@types/pg@8.15.4':
     dependencies:
       '@types/node': 24.0.3
-      pg-protocol: 1.10.0
+      pg-protocol: 1.10.2
       pg-types: 2.2.0
 
   '@types/react-dom@19.1.6(@types/react@19.1.8)':
@@ -2942,7 +2936,7 @@ snapshots:
       pvutils: 1.1.3
       tslib: 2.8.1
 
-  better-auth@1.2.9:
+  better-auth@1.2.10:
     dependencies:
       '@better-auth/utils': 0.2.5
       '@better-fetch/fetch': 1.1.18
@@ -2955,7 +2949,7 @@ snapshots:
       jose: 5.10.0
       kysely: 0.28.2
       nanostores: 0.11.4
-      zod: 3.24.1
+      zod: 3.25.67
 
   better-call@1.0.9:
     dependencies:
@@ -3043,9 +3037,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.44.2(@cloudflare/workers-types@4.20250610.0)(@neondatabase/serverless@1.0.1)(@types/pg@8.15.4)(kysely@0.28.2):
+  drizzle-orm@0.44.2(@neondatabase/serverless@1.0.1)(@types/pg@8.15.4)(kysely@0.28.2):
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250610.0
       '@neondatabase/serverless': 1.0.1
       '@types/pg': 8.15.4
       kysely: 0.28.2
@@ -3185,7 +3178,7 @@ snapshots:
     dependencies:
       react-is: 16.13.1
 
-  hono@4.8.1: {}
+  hono@4.8.2: {}
 
   intersection-observer@0.12.2: {}
 
@@ -3330,7 +3323,7 @@ snapshots:
 
   pg-int8@1.0.1: {}
 
-  pg-protocol@1.10.0: {}
+  pg-protocol@1.10.2: {}
 
   pg-types@2.2.0:
     dependencies:
@@ -3523,7 +3516,7 @@ snapshots:
 
   tdesign-icons-react@0.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
-      '@babel/runtime': 7.27.6
+      '@babel/runtime': 7.26.10
       classnames: 2.5.1
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
