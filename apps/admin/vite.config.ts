@@ -8,14 +8,5 @@ export default defineConfig({
     host: 'localhost',
     port: 5173
   },
-  plugins: [cloudflare(), tsconfigPaths(), tailwindcss()],
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'tdesign-react': ['tdesign-react']
-        }
-      }
-    }
-  }
+  plugins: [cloudflare(), tsconfigPaths(), tailwindcss()]
 })
