@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { Form, Input, Button, MessagePlugin } from 'tdesign-react'
 import type { FormProps } from 'tdesign-react'
-import { DesktopIcon, LockOnIcon } from 'tdesign-icons-react'
 import { signIn } from '@/shared/api/auth'
 
 const { FormItem } = Form
@@ -30,10 +29,10 @@ export default () => {
     <div className='w-xs'>
       <Form form={form} labelWidth={0} onSubmit={onSubmit}>
         <FormItem name='username' rules={[{ required: true }]} initialData={formData.username}>
-          <Input clearable prefixIcon={<DesktopIcon />} placeholder='请输入用户名' />
+          <Input clearable placeholder='请输入用户名' />
         </FormItem>
         <FormItem name='password' rules={[{ required: true }]} initialData={formData.password}>
-          <Input type='password' prefixIcon={<LockOnIcon />} clearable placeholder='请输入密码' />
+          <Input type='password' clearable placeholder='请输入密码' />
         </FormItem>
         <FormItem>
           <Button theme='primary' type='submit' block>
