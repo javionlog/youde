@@ -3,6 +3,9 @@
   "include": ["drizzle.config.ts", "src"],
   "compilerOptions": {
     "outDir": "dist",
-    "types": ["node", "./worker-configuration.d.ts"]
+    "types": ["node", "./worker-configuration.d.ts"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }

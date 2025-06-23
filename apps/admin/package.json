@@ -16,15 +16,12 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.5.1",
     "@tailwindcss/vite": "^4.1.10",
     "@types/node": "^24.0.1",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.2",
-    "@youde/typescript-config": "workspace:^",
-    "vite": "^6.3.5",
-    "vite-tsconfig-paths": "^5.1.4"
+    "@youde/typescript-config": "workspace:^"
   },
   "dependencies": {
     "ahooks": "^3.8.5",
