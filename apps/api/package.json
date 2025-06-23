@@ -12,7 +12,7 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "vite dev",
+    "dev": "vite dev --mode dev",
     "build": "tsc -b && vite build",
     "preview": "pnpm run build && wrangler dev",
     "deploy": "pnpm run build && wrangler deploy",

@@ -13,10 +13,22 @@
     "ip": "localhost",
     "port": 8787
   },
-  "vars": {
-    "BETTER_AUTH_URL": "",
-    "BETTER_AUTH_SECRET": "",
-    "BETTER_AUTH_TRUSTED_ORIGINS": "",
-    "DATABASE_URL": ""
+  "env": {
+    "dev": {
+      "vars": {
+        "BETTER_AUTH_URL": "http://localhost:8787",
+        "BETTER_AUTH_SECRET": "",
+        "BETTER_AUTH_TRUSTED_ORIGINS": "http://localhost:5173,https://localhost:5173,http://localhost:8787,https://localhost:8787",
+        "DATABASE_URL": ""
+      }
+    },
+    "prd": {
+      "vars": {
+        "BETTER_AUTH_URL": "https://youde-api.javionlog.top",
+        "BETTER_AUTH_SECRET": "",
+        "BETTER_AUTH_TRUSTED_ORIGINS": "https://youde-admin.javionlog.top,https://youde-api.javionlog.top",
+        "DATABASE_URL": ""
+      }
+    }
   }
 }

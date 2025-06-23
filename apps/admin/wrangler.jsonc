@@ -12,5 +12,17 @@
   },
   "vars": {
     "API_HOST": ""
+  },
+  "env": {
+    "dev": {
+      "vars": {
+        "API_HOST": "localhost:8787"
+      }
+    },
+    "prd": {
+      "vars": {
+        "API_HOST": "youde-api.javionlog.top"
+      }
+    }
   }
 }
