@@ -5,7 +5,7 @@ node_modules
 .wrangler
 
 # Local env files
-.env*
+.env*.local
 .dev.vars*
 
 # Testing
