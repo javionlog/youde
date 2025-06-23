@@ -50,9 +50,6 @@ importers:
       tailwindcss:
         specifier: ^4.1.10
         version: 4.1.10
-      tdesign-icons-react:
-        specifier: ^0.5.0
-        version: 0.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       tdesign-react:
         specifier: ^1.12.2
         version: 1.12.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
