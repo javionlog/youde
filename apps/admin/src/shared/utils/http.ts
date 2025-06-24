@@ -15,7 +15,6 @@ const http = ky.create({
   hooks: {
     afterResponse: [
       async (_request, _options, response) => {
-        console.log('response', response)
         if (!response.ok) {
           let msg = response.statusText
           try {

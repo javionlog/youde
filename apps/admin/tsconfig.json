@@ -4,7 +4,7 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "types": ["node", "vite/client", "./worker-configuration.d.ts"],
+    "types": ["node", "vite/client", "./worker-configuration.d.ts", "./auto-imports.d.ts"],
     "paths": {
       "@/*": ["./src/*"]
     }

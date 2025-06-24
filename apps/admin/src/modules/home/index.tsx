@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { getSession, type GetSessionResponse } from '@/shared/api/auth'
 import { Button } from 'tdesign-react'
 import { signOut } from '@/shared/api/auth'
