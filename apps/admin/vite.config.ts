@@ -17,5 +17,10 @@ export default defineConfig({
       presets: ['react'],
       dts: 'auto-imports.d.ts'
     })
-  ]
+  ],
+  build: {
+    rollupOptions: {
+      maxParallelFileOps: 1024
+    }
+  }
 })
