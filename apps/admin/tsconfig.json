@@ -1,10 +1,10 @@
 {
   "extends": "@youde/typescript-config/base.json",
-  "include": ["vite.config.ts", "src", "server"],
+  "include": ["vite.config.ts", "src", "types"],
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "types": ["node", "vite/client", "./worker-configuration.d.ts", "./auto-imports.d.ts"],
+    "types": ["node", "vite/client", "./types/auto-imports.d.ts", "./types/env.d.ts"],
     "paths": {
       "@/*": ["./src/*"]
     }

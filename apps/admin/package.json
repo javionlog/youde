@@ -10,10 +10,8 @@
   },
   "scripts": {
     "dev": "vite dev --mode dev",
-    "build": "tsc -b && vite build --mode prd",
-    "preview": "pnpm run build && wrangler dev",
-    "deploy": "pnpm run build && wrangler deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "build": "tsc -b && vite build --mode prod",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.10",

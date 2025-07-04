@@ -21,12 +21,10 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.7.4",
     "cross-env": "^7.0.3",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
-    "vite-tsconfig-paths": "^5.1.4",
-    "wrangler": "^4.20.5"
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }

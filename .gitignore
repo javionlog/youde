@@ -2,11 +2,9 @@
 
 # Dependencies
 node_modules
-.wrangler
 
 # Local env files
 .env*.local
-.dev.vars*
 
 # Testing
 coverage

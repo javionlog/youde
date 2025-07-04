@@ -5,7 +5,7 @@ import { betterAuth } from 'better-auth'
 import { openAPI, username } from 'better-auth/plugins'
 import * as schema from '@/db/schemas/auth'
 
-export const auth = (env: CloudflareBindings) => {
+export const auth = (env: ImportMetaEnv) => {
   const { DATABASE_URL, BETTER_AUTH_URL, BETTER_AUTH_SECRET, BETTER_AUTH_TRUSTED_ORIGINS } = env
   const sql = neon(DATABASE_URL)
   const db = drizzle(sql, { schema })

@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { auth } from './modules/auth'
 
-const app = new Hono<{ Bindings: CloudflareBindings }>()
+const app = new Hono<{ Bindings: ImportMetaEnv }>()
 
 app.all('/auth/*', async c => {
   const response = await auth(c.env).handler(c.req.raw)
