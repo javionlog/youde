@@ -4,7 +4,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 import unimport from 'unimport/unplugin'
 
-const dirname = fileURLToPath(new URL('.', import.meta.url))
+const curDir = fileURLToPath(new URL('.', import.meta.url))
 
 const getFinalEnv = (env: Record<string, string>, mode: string) => {
   const result = {} as ImportMetaEnv
@@ -24,7 +24,7 @@ const getFinalEnv = (env: Record<string, string>, mode: string) => {
 }
 
 export default defineConfig(({ mode }) => {
-  const runtimeEnv = getFinalEnv(loadEnv(mode, dirname, 'VITE_'), mode)
+  const runtimeEnv = getFinalEnv(loadEnv(mode, curDir, 'VITE_'), mode)
   return {
     define: {
       __RUNTIME_ENV__: runtimeEnv

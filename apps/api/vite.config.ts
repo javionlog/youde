@@ -1,8 +1,10 @@
 import { fileURLToPath } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import devServer from '@hono/vite-dev-server'
+import build from '@hono/vite-build/node'
 
-const dirname = fileURLToPath(new URL('.', import.meta.url))
+const curDir = fileURLToPath(new URL('.', import.meta.url))
 
 const getFinalEnv = (env: Record<string, string>, mode: string) => {
   const result = {} as ImportMetaEnv
@@ -22,7 +24,7 @@ const getFinalEnv = (env: Record<string, string>, mode: string) => {
 }
 
 export default defineConfig(({ mode }) => {
-  const runtimeEnv = getFinalEnv(loadEnv(mode, dirname, ''), mode)
+  const runtimeEnv = getFinalEnv(loadEnv(mode, curDir, ['BETTER_AUTH', 'DATABASE_']), mode)
   return {
     define: {
       __RUNTIME_ENV__: runtimeEnv
@@ -31,6 +33,14 @@ export default defineConfig(({ mode }) => {
       host: 'localhost',
       port: 8787
     },
-    plugins: [tsconfigPaths()]
+    plugins: [
+      tsconfigPaths(),
+      devServer({
+        entry: './src/main.ts'
+      }),
+      build({
+        entry: './src/main.ts'
+      })
+    ]
   }
 })

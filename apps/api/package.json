@@ -21,6 +21,8 @@
     "drizzle:migrate:prod": "cross-env NODE_ENV=prod drizzle-kit migrate"
   },
   "devDependencies": {
+    "@hono/vite-build": "^1.6.2",
+    "@hono/vite-dev-server": "^0.20.0",
     "@types/node": "^24.0.3",
     "@youde/typescript-config": "workspace:^",
     "drizzle-kit": "^0.31.1"
