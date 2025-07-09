@@ -25,13 +25,90 @@ export default defineConfig(({ mode }) => {
       tsconfigPaths(),
       tailwindcss(),
       unimport.vite({
-        presets: ['react'],
+        presets: [
+          {
+            from: 'react',
+            imports: [
+              'StrictMode',
+              'useContext',
+              'useCallback',
+              'useEffect',
+              'useMemo',
+              'useReducer',
+              'useRef',
+              'useState'
+            ]
+          },
+          {
+            from: 'react-router',
+            imports: [
+              'RouterProvider',
+              'Outlet',
+              'NavLink',
+              'createBrowserRouter',
+              'useHref',
+              'useInRouterContext',
+              'useLocation',
+              'useNavigate',
+              'useNavigationType',
+              'useOutlet',
+              'useOutletContext',
+              'useParams',
+              'useResolvedPath',
+              'useRoutes'
+            ]
+          },
+          {
+            package: 'tdesign-react',
+            ignore: [/^[a-z]*$/]
+          }
+        ],
         dts: 'types/auto-imports.d.ts'
       })
     ],
     build: {
       rollupOptions: {
-        maxParallelFileOps: 100
+        output: {
+          advancedChunks: {
+            groups: [
+              {
+                name: 'vendor',
+                test: /node_modules/,
+                priority: 1
+              },
+              {
+                name: 'react',
+                test: /node_modules\/react/,
+                priority: 2
+              },
+              {
+                name: 'react-dom',
+                test: /node_modules\/react-dom/,
+                priority: 2
+              },
+              {
+                name: 'react-router',
+                test: /node_modules\/react-router/,
+                priority: 2
+              },
+              {
+                name: 'ahooks',
+                test: /node_modules\/ahooks/,
+                priority: 2
+              },
+              {
+                name: 'tdesign-react',
+                test: /node_modules\/tdesign-react/,
+                priority: 2
+              },
+              {
+                name: 'ky',
+                test: /node_modules\/ky/,
+                priority: 2
+              }
+            ]
+          }
+        }
       }
     }
   }

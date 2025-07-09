@@ -1,5 +1,4 @@
 import ky from 'ky'
-import { MessagePlugin } from 'tdesign-react'
 
 type ResponseResult = {
   code: string

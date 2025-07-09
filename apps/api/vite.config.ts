@@ -14,6 +14,20 @@ export default defineConfig(({ mode }) => {
       host: VITE_SERVER_HOST_NAME,
       port: Number(VITE_SERVER_HOST_PORT)
     },
+    build: {
+      rollupOptions: {
+        output: {
+          advancedChunks: {
+            groups: [
+              {
+                name: 'vendor',
+                test: /node_modules/
+              }
+            ]
+          }
+        }
+      }
+    },
     plugins: [
       tsconfigPaths(),
       devServer({

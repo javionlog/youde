@@ -1,6 +1,6 @@
 {
   "extends": "@youde/typescript-config/base.json",
-  "include": ["vite.config.ts", "src", "types"],
+  "include": ["node_modules/tdesign-react/es/index.d.ts", "vite.config.ts", "src", "types"],
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],

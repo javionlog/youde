@@ -1,7 +1,5 @@
-import { useNavigate } from 'react-router'
-import { Form, Input, Button, MessagePlugin } from 'tdesign-react'
-import type { FormProps } from 'tdesign-react'
 import { signIn } from '@/shared/api/auth'
+import type { FormProps } from 'tdesign-react'
 
 const { FormItem } = Form
 
