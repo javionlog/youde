@@ -6,32 +6,20 @@ import unimport from 'unimport/unplugin'
 
 const curDir = fileURLToPath(new URL('.', import.meta.url))
 
-const getFinalEnv = (env: Record<string, string>, mode: string) => {
-  const result = {} as ImportMetaEnv
-  result.MODE = mode
-  result.DEV = mode === 'dev'
-  result.PROD = mode === 'prod'
-  for (const [key, value] of Object.entries(env)) {
-    if (typeof value === 'string' && ['true', 'false'].includes(value)) {
-      result[key] = value === 'true'
-    } else if (typeof value === 'string' && !Number.isNaN(Number(value))) {
-      result[key] = Number(value)
-    } else {
-      result[key] = value
-    }
-  }
-  return result
-}
-
 export default defineConfig(({ mode }) => {
-  const runtimeEnv = getFinalEnv(loadEnv(mode, curDir, 'VITE_'), mode)
+  const env = loadEnv(mode, curDir, 'VITE_')
+  const { VITE_API_HOST_NAME, VITE_API_HOST_PORT } = env
   return {
-    define: {
-      __RUNTIME_ENV__: runtimeEnv
-    },
     server: {
       host: 'localhost',
-      port: 5173
+      port: 5173,
+      proxy: {
+        '/api': {
+          target: `http://${VITE_API_HOST_NAME}:${VITE_API_HOST_PORT}`,
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, '')
+        }
+      }
     },
     plugins: [
       tsconfigPaths(),

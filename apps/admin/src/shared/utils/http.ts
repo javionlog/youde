@@ -8,7 +8,7 @@ type ResponseResult = {
 
 const http = ky.create({
   prefixUrl: '/api',
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     'content-type': 'application/json'
   },

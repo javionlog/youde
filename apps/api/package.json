@@ -28,6 +28,7 @@
     "drizzle-kit": "^0.31.1"
   },
   "dependencies": {
+    "@hono/node-server": "^1.15.0",
     "@hono/zod-openapi": "^0.19.8",
     "@neondatabase/serverless": "^1.0.1",
     "@scalar/hono-api-reference": "^0.9.5",
