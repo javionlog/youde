@@ -10,17 +10,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, curDir, 'VITE_')
   const { VITE_API_HOST_NAME, VITE_API_HOST_PORT } = env
   return {
-    server: {
-      host: 'localhost',
-      port: 5173,
-      proxy: {
-        '/api': {
-          target: `http://${VITE_API_HOST_NAME}:${VITE_API_HOST_PORT}`,
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, '')
-        }
-      }
-    },
     plugins: [
       tsconfigPaths(),
       tailwindcss(),
@@ -66,6 +55,17 @@ export default defineConfig(({ mode }) => {
         dts: 'types/auto-imports.d.ts'
       })
     ],
+    server: {
+      host: 'localhost',
+      port: 5173,
+      proxy: {
+        '/api': {
+          target: `http://${VITE_API_HOST_NAME}:${VITE_API_HOST_PORT}`,
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, '')
+        }
+      }
+    },
     build: {
       rollupOptions: {
         output: {
@@ -82,18 +82,13 @@ export default defineConfig(({ mode }) => {
                 priority: 2
               },
               {
-                name: 'react-dom',
-                test: /node_modules\/react-dom/,
-                priority: 2
-              },
-              {
-                name: 'react-router',
-                test: /node_modules\/react-router/,
-                priority: 2
-              },
-              {
                 name: 'ahooks',
                 test: /node_modules\/ahooks/,
+                priority: 2
+              },
+              {
+                name: 'ky',
+                test: /node_modules\/ky/,
                 priority: 2
               },
               {
@@ -102,9 +97,14 @@ export default defineConfig(({ mode }) => {
                 priority: 2
               },
               {
-                name: 'ky',
-                test: /node_modules\/ky/,
-                priority: 2
+                name: 'react-dom',
+                test: /node_modules\/react-dom/,
+                priority: 3
+              },
+              {
+                name: 'react-router',
+                test: /node_modules\/react-router/,
+                priority: 3
               }
             ]
           }

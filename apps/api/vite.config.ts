@@ -10,6 +10,15 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, curDir)
   const { VITE_SERVER_HOST_NAME, VITE_SERVER_HOST_PORT } = env
   return {
+    plugins: [
+      tsconfigPaths(),
+      devServer({
+        entry: './src/main.ts'
+      }),
+      build({
+        entry: './src/main.ts'
+      })
+    ],
     server: {
       host: VITE_SERVER_HOST_NAME,
       port: Number(VITE_SERVER_HOST_PORT)
@@ -27,15 +36,6 @@ export default defineConfig(({ mode }) => {
           }
         }
       }
-    },
-    plugins: [
-      tsconfigPaths(),
-      devServer({
-        entry: './src/main.ts'
-      }),
-      build({
-        entry: './src/main.ts'
-      })
-    ]
+    }
   }
 })
