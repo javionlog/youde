@@ -1,3 +1,4 @@
+import { OpenAPIHono } from '@hono/zod-openapi'
 import { neon } from '@neondatabase/serverless'
 import { drizzle } from 'drizzle-orm/neon-http'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
@@ -12,6 +13,7 @@ const {
   VITE_BETTER_AUTH_TRUSTED_ORIGINS
 } = import.meta.env
 
+const app = new OpenAPIHono()
 const sql = neon(VITE_DATABASE_URL)
 const db = drizzle(sql, { schema })
 
@@ -28,3 +30,13 @@ export const auth = betterAuth({
   },
   plugins: [openAPI(), username()]
 })
+
+app.all('/auth/*', async c => {
+  const response = await auth.handler(c.req.raw)
+  if (response.status === 404) {
+    return c.text('404 Not Found', 404)
+  }
+  return response
+})
+
+export default app

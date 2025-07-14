@@ -1,18 +1,27 @@
-import { Hono } from 'hono'
-import { auth } from './modules/auth'
-import { serve, type HttpBindings } from '@hono/node-server'
+import { OpenAPIHono } from '@hono/zod-openapi'
+import { serve } from '@hono/node-server'
+import { serveStatic } from '@hono/node-server/serve-static'
+import { Scalar } from '@scalar/hono-api-reference'
+import auth from './modules/auth'
+import article from './modules/article'
+import openapi from './modules/openapi'
 
 const { VITE_SERVER_HOST_PORT, MODE } = import.meta.env
 
-const app = new Hono<{ Bindings: HttpBindings }>()
+const app = new OpenAPIHono()
 
-app.all('/auth/*', async c => {
-  const response = await auth.handler(c.req.raw)
-  if (response.status === 404) {
-    return c.text('404 Not Found', 404)
-  }
-  return response
-})
+app.use('/public/*', serveStatic({ root: '/' }))
+
+app.route('/', auth)
+app.route('/', article)
+app.route('/', openapi)
+app.get(
+  '/doc',
+  Scalar({
+    url: '/openapi',
+    cdn: '/public/scalar/standalone.js'
+  })
+)
 
 if (MODE === 'prod') {
   serve({
