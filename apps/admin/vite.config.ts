@@ -60,9 +60,12 @@ export default defineConfig(({ mode }) => {
       port: 5173,
       proxy: {
         '/api': {
-          target: `http://${VITE_API_HOST_NAME}:${VITE_API_HOST_PORT}`,
+          target: `http://${VITE_API_HOST_NAME}:${Number(VITE_API_HOST_PORT)}`,
           changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, '')
+          rewrite: path => {
+            console.log('pppp', VITE_API_HOST_NAME, VITE_API_HOST_PORT)
+            return path.replace(/^\/api/, '')
+          }
         }
       }
     },

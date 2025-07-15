@@ -1,4 +1,5 @@
-import { signIn } from '@/shared/api/auth'
+import type { PostAuthSignInUsernameData } from '@/shared/api'
+import { postAuthSignInUsername } from '@/shared/api'
 import type { FormProps } from 'tdesign-react'
 
 const { FormItem } = Form
@@ -6,7 +7,7 @@ const { FormItem } = Form
 const initialData = {
   username: 'admin2',
   password: '12345678'
-}
+} satisfies PostAuthSignInUsernameData['body']
 
 export default () => {
   const navigate = useNavigate()
@@ -15,7 +16,7 @@ export default () => {
   const onSubmit: FormProps['onSubmit'] = e => {
     if (e.validateResult === true) {
       const params = form.getFieldsValue(true) as typeof initialData
-      signIn(params).then(() => {
+      postAuthSignInUsername({ body: params }).then(() => {
         MessagePlugin.info('登录成功')
         navigate('/home')
       })

@@ -11,9 +11,11 @@
   "scripts": {
     "dev": "vite dev --mode dev",
     "build": "tsc -b && vite build --mode prod",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "openapi-ts": "openapi-ts"
   },
   "devDependencies": {
+    "@hey-api/openapi-ts": "^0.78.3",
     "@tailwindcss/vite": "^4.1.10",
     "@types/node": "^24.0.3",
     "@types/react": "^19.1.8",

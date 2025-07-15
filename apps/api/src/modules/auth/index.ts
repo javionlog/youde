@@ -17,7 +17,7 @@ const app = new OpenAPIHono()
 const sql = neon(VITE_DATABASE_URL)
 const db = drizzle(sql, { schema })
 
-export const auth = betterAuth({
+export const authInstance = betterAuth({
   basePath: '/auth',
   baseURL: VITE_BETTER_AUTH_URL,
   secret: VITE_BETTER_AUTH_SECRET,
@@ -32,7 +32,7 @@ export const auth = betterAuth({
 })
 
 app.all('/auth/*', async c => {
-  const response = await auth.handler(c.req.raw)
+  const response = await authInstance.handler(c.req.raw)
   if (response.status === 404) {
     return c.text('404 Not Found', 404)
   }

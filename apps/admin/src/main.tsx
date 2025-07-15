@@ -1,7 +1,10 @@
 import { createRoot } from 'react-dom/client'
 import { router } from './shared/router'
+import { setApiConfig } from './shared/config/api'
 import 'tdesign-react/es/style/index.css'
 import './shared/styles/index.css'
+
+setApiConfig()
 
 const root = document.getElementById('root')!
 createRoot(root).render(

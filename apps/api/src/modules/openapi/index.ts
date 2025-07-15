@@ -1,6 +1,6 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
 import mainApp from '@/main'
-import { auth } from '@/modules/auth'
+import { authInstance } from '@/modules/auth'
 
 const app = new OpenAPIHono()
 
@@ -12,7 +12,12 @@ app.get('/openapi', async c => {
       version: '1.0.0'
     }
   })
-  const authDoc = await auth.api.generateOpenAPISchema()
+  const authDoc = await authInstance.api.generateOpenAPISchema()
+  const authDocPaths = Object.fromEntries(
+    Object.entries(authDoc.paths).map(([k, v]) => {
+      return [`/auth${k}`, v]
+    })
+  )
   return c.json({
     ...commonDoc,
     components: {
@@ -24,7 +29,7 @@ app.get('/openapi', async c => {
     },
     paths: {
       ...commonDoc.paths,
-      ...authDoc.paths
+      ...authDocPaths
     }
   })
 })
