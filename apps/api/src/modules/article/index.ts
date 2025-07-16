@@ -1,4 +1,4 @@
-import { z, createRoute, OpenAPIHono } from '@hono/zod-openapi'
+import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
 
 const app = new OpenAPIHono()
 
@@ -48,7 +48,7 @@ const route = createRoute({
   }
 })
 
-app.openapi(route, async c => {
+app.openapi(route, async (c) => {
   const { id } = c.req.valid('param')
   return c.json({ id, title: 'Best news', createdAt: '2025-01-11' }, 200)
 })

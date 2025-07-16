@@ -1,8 +1,8 @@
 import { fileURLToPath } from 'node:url'
-import { defineConfig, loadEnv } from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 import unimport from 'unimport/unplugin'
+import { defineConfig, loadEnv } from 'vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 const curDir = fileURLToPath(new URL('.', import.meta.url))
 
@@ -62,7 +62,7 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: `http://${VITE_API_HOST_NAME}:${Number(VITE_API_HOST_PORT)}`,
           changeOrigin: true,
-          rewrite: path => {
+          rewrite: (path) => {
             console.log('pppp', VITE_API_HOST_NAME, VITE_API_HOST_PORT)
             return path.replace(/^\/api/, '')
           }

@@ -1,12 +1,12 @@
 import type { GetAuthGetSessionResponse } from '@/shared/api'
-import { postAuthSignOut, getAuthGetSession } from '@/shared/api'
+import { getAuthGetSession, postAuthSignOut } from '@/shared/api'
 
 export default () => {
   const navigate = useNavigate()
 
   const [session, setSession] = useState<GetAuthGetSessionResponse | null | undefined>(null)
   useEffect(() => {
-    getAuthGetSession().then(res => {
+    getAuthGetSession().then((res) => {
       setSession(res.data)
     })
   }, [])

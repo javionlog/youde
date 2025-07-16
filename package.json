@@ -14,15 +14,25 @@
     "node": ">=20"
   },
   "scripts": {
+    "prepare": "husky",
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "turbo run format",
-    "check-types": "turbo run check-types"
+    "check": "biome check --write --no-errors-on-unmatched"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,json,jsonc,css}": [
+      "biome check --write --no-errors-on-unmatched"
+    ]
   },
   "devDependencies": {
+    "@biomejs/biome": "2.1.1",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/types": "^19.8.1",
     "cross-env": "^7.0.3",
     "dotenv": "^17.0.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3",
     "vite": "npm:rolldown-vite@latest",

@@ -1,9 +1,9 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { neon } from '@neondatabase/serverless'
-import { drizzle } from 'drizzle-orm/neon-http'
-import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { betterAuth } from 'better-auth'
+import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { openAPI, username } from 'better-auth/plugins'
+import { drizzle } from 'drizzle-orm/neon-http'
 import * as schema from '@/db/schemas/auth'
 
 const {
@@ -31,7 +31,7 @@ export const authInstance = betterAuth({
   plugins: [openAPI(), username()]
 })
 
-app.all('/auth/*', async c => {
+app.all('/auth/*', async (c) => {
   const response = await authInstance.handler(c.req.raw)
   if (response.status === 404) {
     return c.text('404 Not Found', 404)

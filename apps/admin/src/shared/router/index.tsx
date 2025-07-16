@@ -1,6 +1,6 @@
-import { Layout } from '@/shared/layouts'
 import Home from '@/modules/home'
 import SignIn from '@/modules/sign-in'
+import { Layout } from '@/shared/layouts'
 
 export const router = createBrowserRouter([
   {

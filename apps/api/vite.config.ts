@@ -1,8 +1,8 @@
 import { fileURLToPath } from 'node:url'
+import build from '@hono/vite-build/node'
+import devServer from '@hono/vite-dev-server'
 import { defineConfig, loadEnv } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import devServer from '@hono/vite-dev-server'
-import build from '@hono/vite-build/node'
 
 const curDir = fileURLToPath(new URL('.', import.meta.url))
 

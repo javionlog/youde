@@ -4,7 +4,7 @@ import { authInstance } from '@/modules/auth'
 
 const app = new OpenAPIHono()
 
-app.get('/openapi', async c => {
+app.get('/openapi', async (c) => {
   const commonDoc = mainApp.getOpenAPI31Document({
     openapi: '3.1.0',
     info: {
