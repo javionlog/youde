@@ -17,11 +17,11 @@
     "prepare": "husky",
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "check": "biome check --write --no-errors-on-unmatched"
+    "check": "biome check --write"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx,json,jsonc,css}": [
-      "biome check --write --no-errors-on-unmatched"
+    "*.{js,ts,jsx,tsx,json,jsonc,css,html}": [
+      "biome check --write"
     ]
   },
   "devDependencies": {

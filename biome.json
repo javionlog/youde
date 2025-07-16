@@ -1,12 +1,20 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.1.1/schema.json",
   "vcs": {
-    "enabled": false,
+    "enabled": true,
     "clientKind": "git",
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": true,
+    "includes": [
+      "*.{js,ts,jsx,tsx,json,jsonc,css,html}",
+      "apps/**/*.{js,ts,jsx,tsx,json,jsonc,css,html}",
+      "packages/**/*.{js,ts,jsx,tsx,json,jsonc,css,html}",
+      "!apps/admin/public",
+      "!apps/api/public",
+      "!apps/admin/src/shared/api"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -17,7 +25,13 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "suspicious": {
+        "noExplicitAny": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
+      }
     }
   },
   "javascript": {
