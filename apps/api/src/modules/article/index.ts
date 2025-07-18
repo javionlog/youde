@@ -1,56 +1,26 @@
-import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
+import { Elysia, t } from 'elysia'
 
-const app = new OpenAPIHono()
-
-const ParamsSchema = z.object({
-  id: z
-    .string()
-    .min(1)
-    .openapi({
-      param: {
-        name: 'id',
-        in: 'path'
-      },
-      example: '123'
-    })
-})
-
-const ArticleSchema = z
-  .object({
-    id: z.string().openapi({
-      example: '123'
-    }),
-    title: z.string().openapi({
-      example: 'Hello world'
-    }),
-    createdAt: z.string().openapi({
-      example: '2025-02-22'
-    })
-  })
-  .openapi('Article')
-
-const route = createRoute({
-  method: 'get',
-  path: '/article/{id}',
-  tags: ['Article'],
-  request: {
-    params: ParamsSchema
+const app = new Elysia().get(
+  '/aticle',
+  async ({ query }) => {
+    const { id } = query
+    return {
+      id,
+      title: 'Hello',
+      content: 'This is a good article.'
+    }
   },
-  responses: {
-    200: {
-      content: {
-        'application/json': {
-          schema: ArticleSchema
-        }
-      },
-      description: 'Get Article'
+  {
+    tags: ['Article'],
+    query: t.Object({ id: t.String({ minLength: 1 }) }),
+    response: {
+      200: t.Object({
+        id: t.String(),
+        title: t.String(),
+        content: t.String()
+      })
     }
   }
-})
-
-app.openapi(route, async (c) => {
-  const { id } = c.req.valid('param')
-  return c.json({ id, title: 'Best news', createdAt: '2025-01-11' }, 200)
-})
+)
 
 export default app
