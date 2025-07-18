@@ -13,7 +13,8 @@
       "packages/**/*.{js,ts,jsx,tsx,json,jsonc,css,html}",
       "!apps/admin/public",
       "!apps/api/public",
-      "!apps/admin/src/shared/api"
+      "!apps/admin/src/shared/api",
+      "!apps/admin/types/auto-imports.d.ts"
     ]
   },
   "formatter": {

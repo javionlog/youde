@@ -63,7 +63,6 @@ export default defineConfig(({ mode }) => {
           target: `http://${VITE_API_HOST_NAME}:${Number(VITE_API_HOST_PORT)}`,
           changeOrigin: true,
           rewrite: (path) => {
-            console.log('pppp', VITE_API_HOST_NAME, VITE_API_HOST_PORT)
             return path.replace(/^\/api/, '')
           }
         }

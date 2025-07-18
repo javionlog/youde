@@ -9,5 +9,5 @@ export type App = typeof app
 
 export default {
   ...app,
-  port: 8787
+  port: Number(process.env.SERVER_HOST_PORT)
 }

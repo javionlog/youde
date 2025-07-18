@@ -11,8 +11,8 @@ import {
   postAuthSignUpEmailResponseTransformer
 } from './transformers.gen'
 import type {
-  GetArticleByIdData,
-  GetArticleByIdResponses,
+  GetAticleData,
+  GetAticleResponses,
   GetAuthDeleteUserCallbackData,
   GetAuthDeleteUserCallbackErrors,
   GetAuthDeleteUserCallbackResponses,
@@ -119,11 +119,11 @@ export type Options<
   meta?: Record<string, unknown>
 }
 
-export const getArticleById = <ThrowOnError extends boolean = false>(
-  options: Options<GetArticleByIdData, ThrowOnError>
+export const getAticle = <ThrowOnError extends boolean = false>(
+  options: Options<GetAticleData, ThrowOnError>
 ) => {
-  return (options.client ?? _heyApiClient).get<GetArticleByIdResponses, unknown, ThrowOnError>({
-    url: '/article/{id}',
+  return (options.client ?? _heyApiClient).get<GetAticleResponses, unknown, ThrowOnError>({
+    url: '/aticle',
     ...options
   })
 }

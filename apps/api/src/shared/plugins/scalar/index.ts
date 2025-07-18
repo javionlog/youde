@@ -1,6 +1,8 @@
 import { Elysia } from 'elysia'
 import { authInstance } from '@/modules/auth'
 
+const { SERVER_HOST_NAME, SERVER_HOST_PORT } = process.env
+
 const html = (content: object) => `<!doctype html>
 <html>
   <head>
@@ -34,42 +36,79 @@ const html = (content: object) => `<!doctype html>
   </body>
 </html>`
 
-const app = new Elysia().get(
-  '/doc',
-  async () => {
-    const mainSpec = await fetch('http://localhost:8787/scalar/json').then((r) => r.json())
-    const authSpec = await authInstance.api.generateOpenAPISchema()
-    const authPaths = Object.fromEntries(
-      Object.entries(authSpec.paths).map(([k, v]) => {
-        return [`/auth${k}`, v]
-      })
-    )
-    const spec = {
-      ...mainSpec,
-      components: {
-        ...mainSpec.components,
-        schemas: {
-          ...mainSpec.components?.schemas,
-          ...authSpec.components.schemas
+const app = new Elysia()
+  .get(
+    '/openapi',
+    async () => {
+      const mainSpec = await fetch(
+        `http://${SERVER_HOST_NAME}:${SERVER_HOST_PORT}/scalar/json`
+      ).then((r) => r.json())
+      const authSpec = await authInstance.api.generateOpenAPISchema()
+      const authPaths = Object.fromEntries(
+        Object.entries(authSpec.paths).map(([k, v]) => {
+          return [`/auth${k}`, v]
+        })
+      )
+      const spec = {
+        ...mainSpec,
+        components: {
+          ...mainSpec.components,
+          schemas: {
+            ...mainSpec.components?.schemas,
+            ...authSpec.components.schemas
+          }
+        },
+        paths: {
+          ...mainSpec.paths,
+          ...authPaths
         }
-      },
-      paths: {
-        ...mainSpec.paths,
-        ...authPaths
+      }
+      return spec
+    },
+    {
+      detail: {
+        hide: true
       }
     }
-    const res = new Response(html(spec), {
-      headers: {
-        'content-type': 'text/html; charset=utf8'
+  )
+  .get(
+    '/doc',
+    async () => {
+      const mainSpec = await fetch(
+        `http://${SERVER_HOST_NAME}:${SERVER_HOST_PORT}/scalar/json`
+      ).then((r) => r.json())
+      const authSpec = await authInstance.api.generateOpenAPISchema()
+      const authPaths = Object.fromEntries(
+        Object.entries(authSpec.paths).map(([k, v]) => {
+          return [`/auth${k}`, v]
+        })
+      )
+      const spec = {
+        ...mainSpec,
+        components: {
+          ...mainSpec.components,
+          schemas: {
+            ...mainSpec.components?.schemas,
+            ...authSpec.components.schemas
+          }
+        },
+        paths: {
+          ...mainSpec.paths,
+          ...authPaths
+        }
       }
-    })
-    return res
-  },
-  {
-    detail: {
-      hide: true
+      const res = new Response(html(spec), {
+        headers: {
+          'content-type': 'text/html; charset=utf8'
+        }
+      })
+      return res
+    },
+    {
+      detail: {
+        hide: true
+      }
     }
-  }
-)
+  )
 
 export default app
