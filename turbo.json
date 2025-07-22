@@ -2,14 +2,25 @@
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
   "tasks": {
-    "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["build/**", "dist/**"]
-    },
-    "dev": {
+    "start:dev": {
+      "dependsOn": ["^start:dev"],
       "cache": false,
       "persistent": true
+    },
+    "start:prod": {
+      "dependsOn": ["^start:prod"],
+      "cache": false,
+      "persistent": true
+    },
+    "build:dev": {
+      "dependsOn": ["^build:dev"],
+      "inputs": ["$TURBO_DEFAULT$", ".env.dev*"],
+      "outputs": ["dist/**"]
+    },
+    "build:prod": {
+      "dependsOn": ["^build:prod"],
+      "inputs": ["$TURBO_DEFAULT$", ".env.prod*"],
+      "outputs": ["dist/**"]
     }
   }
 }

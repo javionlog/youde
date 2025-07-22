@@ -15,8 +15,10 @@
   },
   "scripts": {
     "prepare": "husky",
-    "build": "turbo run build",
-    "dev": "turbo run dev",
+    "start:dev": "turbo run start:dev",
+    "start:prod": "turbo run start:prod",
+    "build:dev": "turbo run build:dev",
+    "build:prod": "turbo run build:prod",
     "check": "biome check --write"
   },
   "lint-staged": {
@@ -29,11 +31,9 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@commitlint/types": "^19.8.1",
-    "cross-env": "^7.0.3",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "turbo": "^2.5.4",
-    "typescript": "^5.8.3",
     "vite": "npm:rolldown-vite@latest",
     "vite-tsconfig-paths": "^5.1.4"
   }
