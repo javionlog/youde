@@ -1,6 +1,6 @@
 import { defineConfig } from 'drizzle-kit'
 
-const { DATABASE_URL } = process.env as ImportMetaEnv
+const { DATABASE_URL } = process.env
 
 export default defineConfig({
   out: './src/db/migrations',

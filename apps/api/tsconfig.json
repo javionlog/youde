@@ -1,9 +1,9 @@
 {
   "extends": "@youde/typescript-config/base.json",
-  "include": ["vite.config.ts", "drizzle.config.ts", "src"],
+  "include": ["bun.build.ts", "drizzle.config.ts", "src"],
   "compilerOptions": {
     "outDir": "dist",
-    "types": ["node", "vite/client", "./types/env.d.ts"],
+    "types": ["bun", "./types/env.d.ts"],
     "paths": {
       "@/*": ["./src/*"]
     }

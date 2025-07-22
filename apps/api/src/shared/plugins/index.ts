@@ -19,4 +19,5 @@ app
     })
   )
   .use(openapi)
+
 export default app
