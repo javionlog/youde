@@ -20,9 +20,11 @@
     "preview:prod": "bun --env-file=.env.prod --env-file=.env.prod.local dist/main.js",
     "db-init:dev": "bun --env-file=.env.dev --env-file=.env.dev.local src/db/init/index.ts",
     "db-init:prod": "bun --env-file=.env.prod --env-file=.env.prod.local src/db/init/index.ts",
-    "drizzle:migrate:dev": "bun --env-file=.env.dev --env-file=.env.dev.local drizzle-kit migrate",
-    "drizzle:migrate:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit migrate",
-    "drizzle:generate": "drizzle-kit generate",
+    "drizzle-migrate:dev": "bun --env-file=.env.dev --env-file=.env.dev.local drizzle-kit migrate",
+    "drizzle-migrate:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit migrate",
+    "drizzle-generate": "drizzle-kit generate",
+    "drizzle-studio:dev": "bun --env-file=.env.dev --env-file=.env.dev.local drizzle-kit studio",
+    "drizzle-studio:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit studio",
     "better-auth:generate": "pnpx @better-auth/cli generate --config ./src/modules/auth/index.ts --output ./src/db/schemas/auth.ts"
   },
   "devDependencies": {

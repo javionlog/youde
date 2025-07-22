@@ -1,6 +1,6 @@
 {
   "extends": "@youde/typescript-config/base.json",
-  "include": ["vite.config.ts", "openapi-ts.config.ts", "src", "types"],
+  "include": ["vite.config.ts", "openapi-ts.config.ts", "src"],
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
