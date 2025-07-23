@@ -1,11 +1,11 @@
 import type { FormProps } from 'tdesign-react'
-import type { PostAuthSignInUsernameData } from '@/shared/api'
-import { postAuthSignInUsername } from '@/shared/api'
+import type { PostAuthSignInUsernameData } from '@/modules/shared/api'
+import { postAuthSignInUsername } from '@/modules/shared/api'
 
 const { FormItem } = Form
 
 const initialData = {
-  username: 'admin2',
+  username: 'admin',
   password: '12345678'
 } satisfies PostAuthSignInUsernameData['body']
 

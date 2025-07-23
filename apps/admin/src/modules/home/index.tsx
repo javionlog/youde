@@ -1,5 +1,5 @@
-import type { GetAuthGetSessionResponse } from '@/shared/api'
-import { getAuthGetSession, postAuthSignOut } from '@/shared/api'
+import type { GetAuthGetSessionResponse } from '@/modules/shared/api'
+import { getAuthGetSession, postAuthSignOut } from '@/modules/shared/api'
 
 export default () => {
   const navigate = useNavigate()

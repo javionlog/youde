@@ -1,11 +1,9 @@
 import { staticPlugin } from '@elysiajs/static'
 import { swagger } from '@elysiajs/swagger'
-import { Elysia } from 'elysia'
+import { baseController } from '../controller'
 import openapi from './openapi'
 
-const app = new Elysia()
-
-app
+const app = baseController
   .use(
     staticPlugin({
       assets: 'public',

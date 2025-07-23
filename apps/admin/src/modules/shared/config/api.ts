@@ -1,4 +1,4 @@
-import { client } from '@/shared/api/client.gen'
+import { client } from '@/modules/shared/api/client.gen'
 
 type ResponseResult = {
   code: string

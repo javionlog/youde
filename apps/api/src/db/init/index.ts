@@ -1,3 +1,4 @@
+import { username } from 'better-auth/plugins'
 import { sql } from 'drizzle-orm'
 import { db } from '@/db'
 
@@ -29,6 +30,7 @@ const init = async () => {
     },
     body: JSON.stringify({
       name: 'admin',
+      username: 'admin',
       email: 'admin@example.com',
       password: '12345678'
     })

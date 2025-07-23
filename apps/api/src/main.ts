@@ -1,11 +1,9 @@
 import { Elysia } from 'elysia'
-import article from './modules/article'
-import auth from './modules/auth'
-import plugins from './shared/plugins'
+import { globalController } from './global/controller'
 
 const { SERVER_HOST_PORT } = process.env
 
-const app = new Elysia().use(plugins).use(article).use(auth)
+const app = new Elysia().use(globalController)
 
 export type App = typeof app
 

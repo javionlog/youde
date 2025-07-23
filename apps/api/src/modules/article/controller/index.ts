@@ -1,7 +1,8 @@
-import { Elysia, t } from 'elysia'
+import { t } from 'elysia'
+import { guardController } from '@/modules/shared/controller'
 
-const app = new Elysia().get(
-  '/aticle',
+const app = guardController.get(
+  '/article',
   async ({ query }) => {
     const { id } = query
     return {

@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia'
-import { authInstance } from '@/modules/auth'
+import { authInstance } from '@/modules/auth/service'
 
 const { SERVER_HOST_NAME, SERVER_HOST_PORT } = process.env
 
@@ -36,7 +36,7 @@ const html = (content: object) => `<!doctype html>
   </body>
 </html>`
 
-const app = new Elysia()
+const app = new Elysia({ name: 'shared.plugin.openapi' })
   .get(
     '/openapi',
     async () => {
@@ -46,6 +46,12 @@ const app = new Elysia()
       const authSpec = await authInstance.api.generateOpenAPISchema()
       const authPaths = Object.fromEntries(
         Object.entries(authSpec.paths).map(([k, v]) => {
+          if (v.get) {
+            v.get.tags = ['Auth']
+          }
+          if (v.post) {
+            v.post.tags = ['Auth']
+          }
           return [`/auth${k}`, v]
         })
       )
@@ -80,6 +86,12 @@ const app = new Elysia()
       const authSpec = await authInstance.api.generateOpenAPISchema()
       const authPaths = Object.fromEntries(
         Object.entries(authSpec.paths).map(([k, v]) => {
+          if (v.get) {
+            v.get.tags = ['Auth']
+          }
+          if (v.post) {
+            v.post.tags = ['Auth']
+          }
           return [`/auth${k}`, v]
         })
       )

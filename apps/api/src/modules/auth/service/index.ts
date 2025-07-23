@@ -1,12 +1,9 @@
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { openAPI, username } from 'better-auth/plugins'
-import { Elysia } from 'elysia'
 import { db } from '@/db'
 
 const { BETTER_AUTH_URL, BETTER_AUTH_SECRET, BETTER_AUTH_TRUSTED_ORIGINS } = process.env
-
-const app = new Elysia()
 
 export const authInstance = betterAuth({
   basePath: '/auth',
@@ -21,7 +18,3 @@ export const authInstance = betterAuth({
   },
   plugins: [openAPI(), username()]
 })
-
-app.mount(authInstance.handler)
-
-export default app
