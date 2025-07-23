@@ -1,6 +1,6 @@
-import { username } from 'better-auth/plugins'
 import { sql } from 'drizzle-orm'
 import { db } from '@/db'
+import { authInstance } from '@/modules/auth/service'
 
 const { SERVER_HOST_NAME, SERVER_HOST_PORT } = process.env
 
@@ -23,18 +23,14 @@ const reset = async () => {
 }
 
 const init = async () => {
-  await fetch(`http://${SERVER_HOST_NAME}:${SERVER_HOST_PORT}/auth/sign-up/email`, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
+  await authInstance.api.signUpEmail({
+    body: {
       name: 'admin',
       username: 'admin',
       email: 'admin@example.com',
       password: '12345678'
-    })
-  }).then((r) => r.json())
+    }
+  })
 }
 
 console.log('db init start')
