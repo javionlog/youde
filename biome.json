@@ -13,7 +13,7 @@
       "packages/**/*.{js,ts,jsx,tsx,json,jsonc,css,html}",
       "!apps/admin/public",
       "!apps/api/public",
-      "!apps/admin/src/shared/api",
+      "!apps/admin/src/modules/shared/api",
       "!apps/admin/types/auto-imports.d.ts"
     ]
   },
@@ -27,6 +27,9 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "correctness": {
+        "noUnusedVariables": "error"
+      },
       "suspicious": {
         "noExplicitAny": "off"
       },

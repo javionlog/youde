@@ -2,8 +2,6 @@ import { sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { authInstance } from '@/modules/auth/service'
 
-const { SERVER_HOST_NAME, SERVER_HOST_PORT } = process.env
-
 const reset = async () => {
   const tableSchema = db._.schema
   if (!tableSchema) {
