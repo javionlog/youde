@@ -31,7 +31,8 @@
         "noUnusedVariables": "error"
       },
       "suspicious": {
-        "noExplicitAny": "off"
+        "noExplicitAny": "off",
+        "noConsole": "error"
       },
       "style": {
         "noNonNullAssertion": "off"

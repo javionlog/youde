@@ -1,4 +1,3 @@
-console.log('build start')
 await Bun.build({
   entrypoints: ['./src/main.ts'],
   outdir: './dist',
@@ -6,4 +5,3 @@ await Bun.build({
   target: 'bun',
   splitting: true
 })
-console.log('build end')

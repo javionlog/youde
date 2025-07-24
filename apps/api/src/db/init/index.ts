@@ -31,7 +31,5 @@ const init = async () => {
   })
 }
 
-console.log('db init start')
 await reset()
 await init()
-console.log('db init end')
