@@ -22,23 +22,33 @@
     "db-init:prod": "bun --env-file=.env.prod --env-file=.env.prod.local src/db/init/index.ts",
     "drizzle-migrate:dev": "bun --env-file=.env.dev --env-file=.env.dev.local drizzle-kit migrate",
     "drizzle-migrate:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit migrate",
-    "drizzle-generate": "drizzle-kit generate",
     "drizzle-studio:dev": "bun --env-file=.env.dev --env-file=.env.dev.local drizzle-kit studio",
     "drizzle-studio:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit studio",
-    "better-auth:generate": "pnpx @better-auth/cli generate --config ./src/modules/auth/index.ts --output ./src/db/schemas/auth.ts"
+    "drizzle-gen:dev": "bun --env-file=.env.dev --env-file=.env.dev.local drizzle-kit generate",
+    "drizzle-gen:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit generate",
+    "better-auth-gen:dev": "bun --env-file=.env.dev --env-file=.env.dev.local cli generate --config ./src/modules/auth/service/index.ts --output ./src/db/schemas/auth.ts",
+    "better-auth-gen:prod": "bun --env-file=.env.prod --env-file=.env.prod.local cli generate --config ./src/modules/auth/service/index.ts --output ./src/db/schemas/auth.ts",
+    "check": "tsc && biome check --write",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,json,jsonc,css,html}": [
+      "tsc && biome check --write"
+    ]
   },
   "devDependencies": {
-    "@types/bun": "^1.2.18",
-    "@youde/typescript-config": "workspace:^",
+    "@better-auth/cli": "^1.3.3",
+    "@types/bun": "^1.2.19",
     "drizzle-kit": "^0.31.4"
   },
   "dependencies": {
     "@elysiajs/static": "^1.3.0",
     "@elysiajs/swagger": "^1.3.1",
     "@neondatabase/serverless": "^1.0.1",
-    "better-auth": "^1.2.12",
+    "better-auth": "^1.3.3",
     "drizzle-orm": "^0.44.3",
     "drizzle-typebox": "^0.3.3",
-    "elysia": "^1.3.5"
+    "elysia": "^1.3.5",
+    "zod": "^4.0.8"
   }
 }

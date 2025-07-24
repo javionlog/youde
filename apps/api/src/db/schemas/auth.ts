@@ -1,4 +1,4 @@
-import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { boolean, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -56,4 +56,50 @@ export const verification = pgTable('verification', {
   expiresAt: timestamp('expires_at').notNull(),
   createdAt: timestamp('created_at').$defaultFn(() => /* @__PURE__ */ new Date()),
   updatedAt: timestamp('updated_at').$defaultFn(() => /* @__PURE__ */ new Date())
+})
+
+export const role = pgTable('role', {
+  id: text('id').primaryKey(),
+  createdAt: timestamp('created_at').$defaultFn(() => new Date()),
+  updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
+  createdBy: text('created_by'),
+  updatedBy: text('updated_by'),
+  name: text('name').unique(),
+  enabled: boolean('enabled'),
+  sort: integer('sort'),
+  remark: text('remark')
+})
+
+export const resource = pgTable('resource', {
+  id: text('id').primaryKey(),
+  createdAt: timestamp('created_at').$defaultFn(() => new Date()),
+  updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
+  createdBy: text('created_by'),
+  updatedBy: text('updated_by'),
+  name: text('name').unique(),
+  enabled: boolean('enabled'),
+  sort: integer('sort'),
+  remark: text('remark'),
+  parentId: text('parent_id'),
+  type: text('type'),
+  path: text('path'),
+  activePath: text('active_path'),
+  component: text('component'),
+  icon: text('icon'),
+  isLink: boolean('is_link'),
+  isCache: boolean('is_cache'),
+  isAffix: boolean('is_affix'),
+  isShow: boolean('is_show')
+})
+
+export const userRoleRelation = pgTable('user_role_relation', {
+  id: text('id').primaryKey(),
+  userId: text('user_id'),
+  roleId: text('role_id')
+})
+
+export const roleResourceRelation = pgTable('role_resource_relation', {
+  id: text('id').primaryKey(),
+  roleId: text('role_id'),
+  resourceId: text('resource_id')
 })

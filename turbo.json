@@ -21,6 +21,12 @@
       "dependsOn": ["^build:prod"],
       "inputs": ["$TURBO_DEFAULT$", ".env.prod*"],
       "outputs": ["dist/**"]
+    },
+    "check": {
+      "dependsOn": ["^check"]
+    },
+    "lint-staged": {
+      "dependsOn": ["^lint-staged"]
     }
   }
 }

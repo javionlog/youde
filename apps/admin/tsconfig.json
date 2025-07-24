@@ -1,5 +1,5 @@
 {
-  "extends": "@youde/typescript-config/base.json",
+  "extends": "../../tsconfig.json",
   "include": ["vite.config.ts", "openapi-ts.config.ts", "src"],
   "compilerOptions": {
     "jsx": "react-jsx",

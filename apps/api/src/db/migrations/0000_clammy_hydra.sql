@@ -14,6 +14,48 @@ CREATE TABLE "account" (
 	"updated_at" timestamp NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "resource" (
+	"id" text PRIMARY KEY NOT NULL,
+	"created_at" timestamp,
+	"updated_at" timestamp,
+	"created_by" text,
+	"updated_by" text,
+	"name" text,
+	"enabled" boolean,
+	"sort" integer,
+	"remark" text,
+	"parent_id" text,
+	"type" text,
+	"path" text,
+	"active_path" text,
+	"component" text,
+	"icon" text,
+	"is_link" boolean,
+	"is_cache" boolean,
+	"is_affix" boolean,
+	"is_show" boolean,
+	CONSTRAINT "resource_name_unique" UNIQUE("name")
+);
+--> statement-breakpoint
+CREATE TABLE "role" (
+	"id" text PRIMARY KEY NOT NULL,
+	"created_at" timestamp,
+	"updated_at" timestamp,
+	"created_by" text,
+	"updated_by" text,
+	"name" text,
+	"enabled" boolean,
+	"sort" integer,
+	"remark" text,
+	CONSTRAINT "role_name_unique" UNIQUE("name")
+);
+--> statement-breakpoint
+CREATE TABLE "role_resource_relation" (
+	"id" text PRIMARY KEY NOT NULL,
+	"role_id" text,
+	"resource_id" text
+);
+--> statement-breakpoint
 CREATE TABLE "session" (
 	"id" text PRIMARY KEY NOT NULL,
 	"expires_at" timestamp NOT NULL,
@@ -38,6 +80,12 @@ CREATE TABLE "user" (
 	"display_username" text,
 	CONSTRAINT "user_email_unique" UNIQUE("email"),
 	CONSTRAINT "user_username_unique" UNIQUE("username")
+);
+--> statement-breakpoint
+CREATE TABLE "user_role_relation" (
+	"id" text PRIMARY KEY NOT NULL,
+	"user_id" text,
+	"role_id" text
 );
 --> statement-breakpoint
 CREATE TABLE "verification" (

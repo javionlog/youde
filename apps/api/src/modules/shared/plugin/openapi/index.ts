@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia'
-import { authInstance } from '@/modules/auth/service'
+import { auth } from '@/modules/auth/service'
 
 const { SERVER_HOST_NAME, SERVER_HOST_PORT } = process.env
 
@@ -43,7 +43,7 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
       const mainSpec = await fetch(
         `http://${SERVER_HOST_NAME}:${SERVER_HOST_PORT}/scalar/json`
       ).then((r) => r.json())
-      const authSpec = await authInstance.api.generateOpenAPISchema()
+      const authSpec = await auth.api.generateOpenAPISchema()
       const authPaths = Object.fromEntries(
         Object.entries(authSpec.paths).map(([k, v]) => {
           if (v.get) {
@@ -83,7 +83,7 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
       const mainSpec = await fetch(
         `http://${SERVER_HOST_NAME}:${SERVER_HOST_PORT}/scalar/json`
       ).then((r) => r.json())
-      const authSpec = await authInstance.api.generateOpenAPISchema()
+      const authSpec = await auth.api.generateOpenAPISchema()
       const authPaths = Object.fromEntries(
         Object.entries(authSpec.paths).map(([k, v]) => {
           if (v.get) {

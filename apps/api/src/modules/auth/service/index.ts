@@ -2,10 +2,11 @@ import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { openAPI, username } from 'better-auth/plugins'
 import { db } from '@/db'
+import { rbac } from '../plugin/rbac'
 
 const { BETTER_AUTH_URL, BETTER_AUTH_SECRET, BETTER_AUTH_TRUSTED_ORIGINS } = process.env
 
-export const authInstance = betterAuth({
+export const auth = betterAuth({
   basePath: '/auth',
   baseURL: BETTER_AUTH_URL,
   secret: BETTER_AUTH_SECRET,
@@ -16,5 +17,5 @@ export const authInstance = betterAuth({
   trustedOrigins() {
     return BETTER_AUTH_TRUSTED_ORIGINS.split(',')
   },
-  plugins: [openAPI(), username()]
+  plugins: [openAPI(), username(), rbac()]
 })

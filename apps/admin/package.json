@@ -15,7 +15,14 @@
     "build:prod": "vite build --mode prod",
     "preview:dev": "vite preview --mode dev",
     "preview:prod": "vite preview --mode prod",
-    "gen-api": "openapi-ts"
+    "gen-api": "openapi-ts",
+    "check": "tsc && biome check --write",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,json,jsonc,css,html}": [
+      "tsc && biome check --write"
+    ]
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.78.3",
@@ -24,7 +31,6 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
-    "@youde/typescript-config": "workspace:^",
     "unimport": "^5.0.1"
   },
   "dependencies": {

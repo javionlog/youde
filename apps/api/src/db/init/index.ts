@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm'
 import { db } from '@/db'
-import { authInstance } from '@/modules/auth/service'
+import { auth } from '@/modules/auth/service'
 
 const reset = async () => {
   const tableSchema = db._.schema
@@ -21,7 +21,7 @@ const reset = async () => {
 }
 
 const init = async () => {
-  await authInstance.api.signUpEmail({
+  await auth.api.signUpEmail({
     body: {
       name: 'admin',
       username: 'admin',

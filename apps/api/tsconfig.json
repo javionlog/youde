@@ -1,5 +1,5 @@
 {
-  "extends": "@youde/typescript-config/base.json",
+  "extends": "../../tsconfig.json",
   "include": ["bun.build.ts", "drizzle.config.ts", "src"],
   "compilerOptions": {
     "outDir": "dist",
