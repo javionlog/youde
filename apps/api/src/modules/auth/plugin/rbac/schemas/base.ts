@@ -1,9 +1,9 @@
-import { z } from 'better-auth'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
+import * as z from 'zod'
 
 export const pageSpec = z.object({
-  offset: z.number().optional(),
-  limit: z.number().optional()
+  page: z.number().optional(),
+  pageSize: z.number().optional()
 })
 
 export const baseFields = {
