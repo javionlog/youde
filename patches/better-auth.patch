@@ -1,0 +1,13 @@
+diff --git a/dist/plugins/open-api/index.mjs b/dist/plugins/open-api/index.mjs
+index 8d65eb4693e8e5ab7ad99aaf2fb7e0afb8c2103f..52db35afe3ea040f4cad2310bf758222aac5d197 100644
+--- a/dist/plugins/open-api/index.mjs
++++ b/dist/plugins/open-api/index.mjs
+@@ -43,6 +43,8 @@ function getTypeFromZodType(zodType) {
+     return "object";
+   } else if (zodType instanceof ZodArray) {
+     return "array";
++  } else if (zodType instanceof ZodOptional) {
++    return getTypeFromZodType(zodType.unwrap());
+   }
+   return "string";
+ }

@@ -1,4 +1,10 @@
+import { z } from 'better-auth'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
+
+export const pageSpec = z.object({
+  offset: z.number().optional(),
+  limit: z.number().optional()
+})
 
 export const baseFields = {
   createdAt: {
