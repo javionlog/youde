@@ -1,37 +1,30 @@
-import type { AuthContext, Where } from 'better-auth'
-import { APIError, createAuthEndpoint } from 'better-auth/api'
+import type { Where } from 'better-auth'
+import { createAuthEndpoint } from 'better-auth/api'
 import { toZodSchema } from 'better-auth/db'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
-import * as z from 'zod'
+import { z } from 'zod'
 import { handleDbError } from '../error-handle'
 import { pageSpec } from '../schemas/base'
 import { roleSchema } from '../schemas/role'
-import { isEmpty } from '../utils'
+import { getSession } from '../services/base'
+import { getRoleById } from '../services/role'
+import { getOpenAPISchema, isEmpty } from '../utils'
 
 const roleSpec = toZodSchema({ fields: roleSchema.role.fields, isClientSide: false })
 const roleClientSpec = toZodSchema({ fields: roleSchema.role.fields, isClientSide: true })
 
 const roleFindSpec = z.object({
   ...pageSpec.shape,
-  name: z.string().nullish()
+  name: z.string().nullish(),
+  sortBy: z
+    .object({
+      field: roleSpec.keyof().default('updatedAt'),
+      direction: z.enum(['asc', 'desc']).default('desc')
+    })
+    .optional()
 })
 
 type RoleSpec = z.infer<typeof roleSpec>
-
-const getRoleById = async (ctx: AuthContext, id: string) => {
-  const { adapter } = ctx
-  const row = await adapter.findOne<RoleSpec>({
-    model: 'role',
-    where: [{ field: 'id', value: id }]
-  })
-  if (!row) {
-    throw new APIError('BAD_REQUEST', {
-      code: 'CAN_NOT_FIND_DATA',
-      message: 'Can not find data'
-    })
-  }
-  return row
-}
 
 export const roleEndpoints = {
   createRole: createAuthEndpoint(
@@ -59,10 +52,19 @@ export const roleEndpoints = {
         }
       }
     },
-    async ({ body, json, context }) => {
+    async (ctx) => {
+      const { body, json, context } = ctx
       const { adapter } = context
+      const session = await getSession(ctx)
       try {
-        const result = await adapter.create<RoleSpec>({ model: 'role', data: body })
+        const result = await adapter.create<RoleSpec>({
+          model: 'role',
+          data: {
+            ...body,
+            createdBy: session?.user.username,
+            updatedBy: session?.user.username
+          }
+        })
         return json(result)
       } catch (err) {
         handleDbError(err)
@@ -97,19 +99,26 @@ export const roleEndpoints = {
         }
       }
     },
-    async ({ body, json, context }) => {
+    async (ctx) => {
+      const { body, json, context } = ctx
       const { id } = body
       const { adapter } = context
+      const session = await getSession(ctx)
       await getRoleById(context, id)
-      const result = await adapter.update<RoleSpec>({
-        model: 'role',
-        where: [{ field: 'id', value: id }],
-        update: {
-          ...body,
-          updatedAt: new Date()
-        }
-      })
-      return json(result)
+      try {
+        const result = await adapter.update<RoleSpec>({
+          model: 'role',
+          where: [{ field: 'id', value: id }],
+          update: {
+            ...body,
+            updatedAt: new Date(),
+            updatedBy: session?.user.name
+          }
+        })
+        return json(result)
+      } catch (err) {
+        handleDbError(err)
+      }
     }
   ),
   deleteRole: createAuthEndpoint(
@@ -128,8 +137,8 @@ export const roleEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'string',
-                    description: 'The role id that was deleted'
+                    type: 'object',
+                    description: 'Empty object'
                   }
                 }
               }
@@ -138,7 +147,8 @@ export const roleEndpoints = {
         }
       }
     },
-    async ({ body, json, context }) => {
+    async (ctx) => {
+      const { body, json, context } = ctx
       const { adapter } = context
       const { id } = body
       await getRoleById(context, id)
@@ -146,7 +156,44 @@ export const roleEndpoints = {
         model: 'role',
         where: [{ field: 'id', value: id }]
       })
-      return json({ id })
+      return json({})
+    }
+  ),
+  batchDeleteRoles: createAuthEndpoint(
+    '/role/batch-delete',
+    {
+      method: 'POST',
+      body: z.object({
+        ids: z.array(z.string())
+      }),
+      metadata: {
+        openapi: {
+          description: 'Batch delete roles',
+          responses: {
+            '200': {
+              description: 'Success',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    description: 'Empty object'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    async (ctx) => {
+      const { body, json, context } = ctx
+      const { adapter } = context
+      const { ids } = body
+      await adapter.delete({
+        model: 'role',
+        where: [{ field: 'id', value: ids, operator: 'in' }]
+      })
+      return json({})
     }
   ),
   getRole: createAuthEndpoint(
@@ -176,7 +223,8 @@ export const roleEndpoints = {
         }
       }
     },
-    async ({ query, json, context }) => {
+    async (ctx) => {
+      const { query, json, context } = ctx
       const { id } = query
       const row = await getRoleById(context, id)
       return json(row)
@@ -190,6 +238,13 @@ export const roleEndpoints = {
       metadata: {
         openapi: {
           description: 'Find roles',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: getOpenAPISchema(roleFindSpec)
+              }
+            }
+          },
           responses: {
             '200': {
               description: 'Success',
@@ -209,8 +264,10 @@ export const roleEndpoints = {
         }
       }
     },
-    async ({ body, json, context: { adapter } }) => {
-      const { name, page, pageSize } = body
+    async (ctx) => {
+      const { body, json, context } = ctx
+      const { adapter } = context
+      const { name, sortBy = { field: 'updatedAt', direction: 'desc' }, page, pageSize } = body
       let offset: number | undefined
       let limit: number | undefined
       if (!isEmpty(page) && !isEmpty(pageSize)) {
@@ -229,7 +286,8 @@ export const roleEndpoints = {
         model: 'role',
         where,
         offset,
-        limit
+        limit,
+        sortBy
       })
       const total = await adapter.count({
         model: 'role',

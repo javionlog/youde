@@ -4,10 +4,14 @@ export const roleResourceRelationSchema = {
   roleResourceRelation: {
     fields: {
       roleId: {
-        type: 'string'
+        type: 'string',
+        required: true,
+        input: true
       },
       resourceId: {
-        type: 'string'
+        type: 'string',
+        required: true,
+        input: true
       }
     }
   }

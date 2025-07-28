@@ -64,9 +64,8 @@ export const role = pgTable('role', {
   updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
   createdBy: text('created_by'),
   updatedBy: text('updated_by'),
-  name: text('name').unique(),
+  name: text('name').notNull().unique(),
   enabled: boolean('enabled'),
-  sort: integer('sort'),
   remark: text('remark')
 })
 
@@ -76,12 +75,12 @@ export const resource = pgTable('resource', {
   updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
   createdBy: text('created_by'),
   updatedBy: text('updated_by'),
-  name: text('name').unique(),
+  name: text('name').notNull().unique(),
   enabled: boolean('enabled'),
-  sort: integer('sort'),
   remark: text('remark'),
+  sort: integer('sort'),
   parentId: text('parent_id'),
-  type: text('type'),
+  type: text('type').notNull(),
   path: text('path'),
   activePath: text('active_path'),
   component: text('component'),
@@ -94,12 +93,12 @@ export const resource = pgTable('resource', {
 
 export const userRoleRelation = pgTable('user_role_relation', {
   id: text('id').primaryKey(),
-  userId: text('user_id'),
-  roleId: text('role_id')
+  userId: text('user_id').notNull(),
+  roleId: text('role_id').notNull()
 })
 
 export const roleResourceRelation = pgTable('role_resource_relation', {
   id: text('id').primaryKey(),
-  roleId: text('role_id'),
-  resourceId: text('resource_id')
+  roleId: text('role_id').notNull(),
+  resourceId: text('resource_id').notNull()
 })

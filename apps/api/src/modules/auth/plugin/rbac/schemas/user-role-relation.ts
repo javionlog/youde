@@ -4,10 +4,14 @@ export const userRoleRelationSchema = {
   userRoleRelation: {
     fields: {
       userId: {
-        type: 'string'
+        type: 'string',
+        required: true,
+        input: true
       },
       roleId: {
-        type: 'string'
+        type: 'string',
+        required: true,
+        input: true
       }
     }
   }
