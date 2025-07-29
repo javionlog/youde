@@ -3,17 +3,17 @@ import { createAuthEndpoint } from 'better-auth/api'
 import { toZodSchema } from 'better-auth/db'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
-import { handleDbError } from '../error-handle'
+import { throwDbError } from '../error-handle'
 import { pageSpec } from '../schemas/base'
 import { roleSchema } from '../schemas/role'
 import { getSession } from '../services/base'
-import { getRoleById } from '../services/role'
+import { getOneRole } from '../services/role'
 import { getOpenAPISchema, isEmpty } from '../utils'
 
 const roleSpec = toZodSchema({ fields: roleSchema.role.fields, isClientSide: false })
 const roleClientSpec = toZodSchema({ fields: roleSchema.role.fields, isClientSide: true })
 
-const roleFindSpec = z.object({
+const roleListSpec = z.object({
   ...pageSpec.shape,
   name: z.string().nullish(),
   sortBy: z
@@ -67,7 +67,7 @@ export const roleEndpoints = {
         })
         return json(result)
       } catch (err) {
-        handleDbError(err)
+        throwDbError(err)
       }
     }
   ),
@@ -104,7 +104,7 @@ export const roleEndpoints = {
       const { id } = body
       const { adapter } = context
       const session = await getSession(ctx)
-      await getRoleById(context, id)
+      await getOneRole(context, id)
       try {
         const result = await adapter.update<RoleSpec>({
           model: 'role',
@@ -117,7 +117,7 @@ export const roleEndpoints = {
         })
         return json(result)
       } catch (err) {
-        handleDbError(err)
+        throwDbError(err)
       }
     }
   ),
@@ -151,7 +151,7 @@ export const roleEndpoints = {
       const { body, json, context } = ctx
       const { adapter } = context
       const { id } = body
-      await getRoleById(context, id)
+      await getOneRole(context, id)
       await adapter.delete({
         model: 'role',
         where: [{ field: 'id', value: id }]
@@ -159,8 +159,8 @@ export const roleEndpoints = {
       return json({})
     }
   ),
-  batchDeleteRoles: createAuthEndpoint(
-    '/role/batch-delete',
+  deleteManyRoles: createAuthEndpoint(
+    '/role/delete-many',
     {
       method: 'POST',
       body: z.object({
@@ -168,7 +168,7 @@ export const roleEndpoints = {
       }),
       metadata: {
         openapi: {
-          description: 'Batch delete roles',
+          description: 'Delete many roles',
           responses: {
             '200': {
               description: 'Success',
@@ -189,7 +189,7 @@ export const roleEndpoints = {
       const { body, json, context } = ctx
       const { adapter } = context
       const { ids } = body
-      await adapter.delete({
+      await adapter.deleteMany({
         model: 'role',
         where: [{ field: 'id', value: ids, operator: 'in' }]
       })
@@ -226,7 +226,7 @@ export const roleEndpoints = {
     async ctx => {
       const { query, json, context } = ctx
       const { id } = query
-      const row = await getRoleById(context, id)
+      const row = await getOneRole(context, id)
       return json(row)
     }
   ),
@@ -234,14 +234,14 @@ export const roleEndpoints = {
     '/role/list',
     {
       method: 'POST',
-      body: roleFindSpec,
+      body: roleListSpec,
       metadata: {
         openapi: {
-          description: 'Find roles',
+          description: 'List roles',
           requestBody: {
             content: {
               'application/json': {
-                schema: getOpenAPISchema(roleFindSpec)
+                schema: getOpenAPISchema(roleListSpec)
               }
             }
           },
