@@ -6,7 +6,7 @@ export default () => {
 
   const [session, setSession] = useState<GetAuthGetSessionResponse | null | undefined>(null)
   useEffect(() => {
-    getAuthGetSession().then((res) => {
+    getAuthGetSession().then(res => {
       setSession(res.data)
     })
   }, [])

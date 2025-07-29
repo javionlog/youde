@@ -13,7 +13,7 @@ export default () => {
   const navigate = useNavigate()
   const [formData] = useState(initialData)
   const [form] = Form.useForm()
-  const onSubmit: FormProps['onSubmit'] = (e) => {
+  const onSubmit: FormProps['onSubmit'] = e => {
     if (e.validateResult === true) {
       const params = form.getFieldsValue(true) as typeof initialData
       postAuthSignInUsername({ body: params }).then(() => {

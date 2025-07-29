@@ -18,7 +18,7 @@ export const getSession = async (ctx: EndpointContext) => {
     await Promise.all(
       Object.entries(cookies).map(async ([key]) => await getSignedCookie(key, secret))
     )
-  ).filter((v) => v !== null)
+  ).filter(v => v !== null)
   if (!sessionTokens.length) {
     return null
   }

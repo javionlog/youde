@@ -42,7 +42,7 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
     async () => {
       const mainSpec = await fetch(
         `http://${SERVER_HOST_NAME}:${SERVER_HOST_PORT}/scalar/json`
-      ).then((r) => r.json())
+      ).then(r => r.json())
       const authSpec = await auth.api.generateOpenAPISchema()
       const authPaths = Object.fromEntries(
         Object.entries(authSpec.paths).map(([k, v]) => {
@@ -82,7 +82,7 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
     async () => {
       const mainSpec = await fetch(
         `http://${SERVER_HOST_NAME}:${SERVER_HOST_PORT}/scalar/json`
-      ).then((r) => r.json())
+      ).then(r => r.json())
       const authSpec = await auth.api.generateOpenAPISchema()
       const authPaths = Object.fromEntries(
         Object.entries(authSpec.paths).map(([k, v]) => {

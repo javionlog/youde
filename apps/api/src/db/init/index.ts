@@ -7,12 +7,12 @@ const reset = async () => {
   if (!tableSchema) {
     return
   }
-  const queries = Object.values(tableSchema).map((table) => {
+  const queries = Object.values(tableSchema).map(table => {
     return sql.raw(`TRUNCATE TABLE public.${table.dbName} CASCADE;`)
   })
 
   await Promise.all(
-    queries.map(async (query) => {
+    queries.map(async query => {
       if (query) {
         return await db.execute(query)
       }

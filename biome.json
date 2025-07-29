@@ -44,7 +44,8 @@
       "quoteStyle": "single",
       "semicolons": "asNeeded",
       "trailingCommas": "none",
-      "jsxQuoteStyle": "single"
+      "jsxQuoteStyle": "single",
+      "arrowParentheses": "asNeeded"
     }
   },
   "assist": {

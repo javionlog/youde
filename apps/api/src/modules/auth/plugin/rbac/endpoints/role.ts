@@ -52,7 +52,7 @@ export const roleEndpoints = {
         }
       }
     },
-    async (ctx) => {
+    async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
       const session = await getSession(ctx)
@@ -99,7 +99,7 @@ export const roleEndpoints = {
         }
       }
     },
-    async (ctx) => {
+    async ctx => {
       const { body, json, context } = ctx
       const { id } = body
       const { adapter } = context
@@ -147,7 +147,7 @@ export const roleEndpoints = {
         }
       }
     },
-    async (ctx) => {
+    async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
       const { id } = body
@@ -185,7 +185,7 @@ export const roleEndpoints = {
         }
       }
     },
-    async (ctx) => {
+    async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
       const { ids } = body
@@ -223,7 +223,7 @@ export const roleEndpoints = {
         }
       }
     },
-    async (ctx) => {
+    async ctx => {
       const { query, json, context } = ctx
       const { id } = query
       const row = await getRoleById(context, id)
@@ -264,7 +264,7 @@ export const roleEndpoints = {
         }
       }
     },
-    async (ctx) => {
+    async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
       const { name, sortBy = { field: 'updatedAt', direction: 'desc' }, page, pageSize } = body

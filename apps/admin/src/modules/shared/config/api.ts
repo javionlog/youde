@@ -10,11 +10,11 @@ export const setApiConfig = () => {
     baseUrl: '/api'
   })
 
-  client.interceptors.request.use((req) => {
+  client.interceptors.request.use(req => {
     return req
   })
 
-  client.interceptors.response.use(async (res) => {
+  client.interceptors.response.use(async res => {
     if (!res.ok) {
       let msg = res.statusText
       try {

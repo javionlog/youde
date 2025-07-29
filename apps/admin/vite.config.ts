@@ -62,7 +62,7 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: `http://${VITE_API_HOST_NAME}:${Number(VITE_API_HOST_PORT)}`,
           changeOrigin: true,
-          rewrite: (path) => {
+          rewrite: path => {
             return path.replace(/^\/api/, '')
           }
         }

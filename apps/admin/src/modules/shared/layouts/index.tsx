@@ -21,7 +21,7 @@ export const Layout = () => {
   return (
     <div>
       <Space>
-        {menus.map((menu) => {
+        {menus.map(menu => {
           return (
             <NavLink key={menu.path} to={menu.path}>
               {menu.text}
