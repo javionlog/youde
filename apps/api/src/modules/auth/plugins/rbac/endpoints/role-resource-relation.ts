@@ -3,22 +3,22 @@ import { toZodSchema } from 'better-auth/db'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
 import type { z } from 'zod'
 import { throwDataDuplicationError, throwDataNotFoundError, throwDbError } from '../error-handle'
-import { userRoleRelationSchema } from '../schemas/user-role-relation'
-import { getOneUserRole } from '../services/user-role-relation'
+import { roleResourceRelationSchema } from '../schemas/role-resource-relation'
+import { getOneRoleResource } from '../services/role-resource-relation'
 
-const userRoleRelationSpec = toZodSchema({
-  fields: userRoleRelationSchema.userRoleRelation.fields,
+const roleResourceRelationSpec = toZodSchema({
+  fields: roleResourceRelationSchema.roleResourceRelation.fields,
   isClientSide: false
 })
 
-type UserRoleRelationSpec = z.infer<typeof userRoleRelationSpec>
+type RoleResourceRelationSpec = z.infer<typeof roleResourceRelationSpec>
 
-export const userRoleRelationEndpoints = {
-  createUserRoleRelation: createAuthEndpoint(
-    '/user-role-relation/create',
+export const roleResourceRelationEndpoints = {
+  createRoleResourceRelation: createAuthEndpoint(
+    '/role-resource-relation/create',
     {
       method: 'POST',
-      body: userRoleRelationSpec,
+      body: roleResourceRelationSpec,
       metadata: {
         openapi: {
           description: 'Create a user role relation',
@@ -41,12 +41,8 @@ export const userRoleRelationEndpoints = {
     },
     async ctx => {
       const { body, json, context } = ctx
-      const { adapter, internalAdapter } = context
-      const { userId, roleId } = body
-      const userRow = await internalAdapter.findUserById(userId)
-      if (!userRow) {
-        throwDataNotFoundError('User not found')
-      }
+      const { adapter } = context
+      const { roleId, resourceId } = body
       const roleRow = await adapter.findOne({
         model: 'role',
         where: [{ field: 'id', value: roleId }]
@@ -54,23 +50,30 @@ export const userRoleRelationEndpoints = {
       if (!roleRow) {
         throwDataNotFoundError('Role not found')
       }
+      const resourceRow = await adapter.findOne({
+        model: 'resource',
+        where: [{ field: 'id', value: resourceId }]
+      })
+      if (!resourceRow) {
+        throwDataNotFoundError('Resource not found')
+      }
 
-      const row = await adapter.findOne<UserRoleRelationSpec>({
-        model: 'userRoleRelation',
+      const row = await adapter.findOne<RoleResourceRelationSpec>({
+        model: 'roleResourceRelation',
         where: [
-          { field: 'userId', value: userId },
           {
             field: 'roleId',
             value: roleId
-          }
+          },
+          { field: 'resourceId', value: resourceId }
         ]
       })
       if (row) {
         throwDataDuplicationError()
       }
       try {
-        const result = await adapter.create<UserRoleRelationSpec>({
-          model: 'userRoleRelation',
+        const result = await adapter.create<RoleResourceRelationSpec>({
+          model: 'roleResourceRelation',
           data: body
         })
         return json(result)
@@ -79,14 +82,14 @@ export const userRoleRelationEndpoints = {
       }
     }
   ),
-  deleteUserRoleRelation: createAuthEndpoint(
-    '/user-role-relation/delete',
+  deleteRoleResourceRelation: createAuthEndpoint(
+    '/role-resource-relation/delete',
     {
       method: 'POST',
-      body: userRoleRelationSpec,
+      body: roleResourceRelationSpec,
       metadata: {
         openapi: {
-          description: 'Delete a user role relation',
+          description: 'Delete a role resource relation',
           responses: {
             '200': {
               description: 'Success',
@@ -106,16 +109,16 @@ export const userRoleRelationEndpoints = {
     async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
-      const { userId, roleId } = body
-      await getOneUserRole(context, body)
+      const { roleId, resourceId } = body
+      await getOneRoleResource(context, body)
       await adapter.deleteMany({
-        model: 'userRoleRelation',
+        model: 'roleResourceRelation',
         where: [
-          { field: 'userId', value: userId },
           {
             field: 'roleId',
             value: roleId
-          }
+          },
+          { field: 'resourceId', value: resourceId }
         ]
       })
       return json({})

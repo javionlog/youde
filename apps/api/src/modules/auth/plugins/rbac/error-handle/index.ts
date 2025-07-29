@@ -20,3 +20,10 @@ export const throwDataNotFoundError = (message?: string) => {
     message: message ?? 'Data not found'
   })
 }
+
+export const throwDataIsReferencedError = (message?: string) => {
+  throw new APIError('INTERNAL_SERVER_ERROR', {
+    code: 'DATA_IS_REFERENCED',
+    message: message ?? 'Data is referenced'
+  })
+}

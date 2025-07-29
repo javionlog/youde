@@ -1,5 +1,8 @@
 import type { BetterAuthPlugin } from 'better-auth/plugins'
+import { relationEndpoints } from './endpoints/relation'
+import { resourceEndpoints } from './endpoints/resource'
 import { roleEndpoints } from './endpoints/role'
+import { roleResourceRelationEndpoints } from './endpoints/role-resource-relation'
 import { userRoleRelationEndpoints } from './endpoints/user-role-relation'
 import { resourceSchema } from './schemas/resource'
 import { roleSchema } from './schemas/role'
@@ -17,7 +20,10 @@ export const rbac = () => {
     },
     endpoints: {
       ...roleEndpoints,
-      ...userRoleRelationEndpoints
+      ...resourceEndpoints,
+      ...userRoleRelationEndpoints,
+      ...roleResourceRelationEndpoints,
+      ...relationEndpoints
     }
   } satisfies BetterAuthPlugin
 }
