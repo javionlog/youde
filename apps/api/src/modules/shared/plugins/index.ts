@@ -1,6 +1,6 @@
 import { staticPlugin } from '@elysiajs/static'
 import { swagger } from '@elysiajs/swagger'
-import { baseController } from '../controller'
+import { baseController } from '../controllers'
 import openapi from './openapi'
 
 const app = baseController

@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm'
 import { db } from '@/db'
-import { auth } from '@/modules/auth/service'
+import { auth } from '@/modules/auth/services'
 
 const reset = async () => {
   const tableSchema = db._.schema

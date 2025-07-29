@@ -2,7 +2,7 @@ import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { openAPI, username } from 'better-auth/plugins'
 import { db } from '@/db'
-import { rbac } from '../plugin/rbac'
+import { rbac } from '../plugins/rbac'
 
 const { BETTER_AUTH_URL, BETTER_AUTH_SECRET, BETTER_AUTH_TRUSTED_ORIGINS } = process.env
 

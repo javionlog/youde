@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia'
-import { globalController } from './global/controller'
+import { globalController } from './global/controllers'
 
 const { SERVER_HOST_PORT } = process.env
 

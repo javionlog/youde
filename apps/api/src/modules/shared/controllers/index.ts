@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia'
 import { SKIP_AUTH_ROUTES } from '@/global/config'
-import { auth } from '@/modules/auth/service'
+import { auth } from '@/modules/auth/services'
 
 export const baseController = new Elysia({ name: 'shared.baseController' })
 

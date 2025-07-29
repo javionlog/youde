@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia'
-import { auth } from '@/modules/auth/service'
+import { auth } from '@/modules/auth/services'
 
 const { SERVER_HOST_NAME, SERVER_HOST_PORT } = process.env
 
