@@ -1,21 +1,29 @@
+import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
-import { toZodSchema } from 'better-auth/db'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
-import type { z } from 'zod'
-import { throwDataDuplicationError, throwDataNotFoundError, throwDbError } from '../error-handle'
+import { z } from 'zod'
+import { basePath } from '../config'
+import { throwDataDuplicationError, throwDataNotFoundError, throwDbError } from '../errors'
+import { pageSpec } from '../schemas/base'
 import { userRoleRelationSchema } from '../schemas/user-role-relation'
 import { getOneUserRole } from '../services/user-role-relation'
+import { getOpenAPISchema, getZodSchema, isEmpty } from '../utils'
 
-const userRoleRelationSpec = toZodSchema({
+const userRoleRelationSpec = getZodSchema({
   fields: userRoleRelationSchema.userRoleRelation.fields,
   isClientSide: false
+})
+
+const userRoleRelationListSpec = z.object({
+  ...pageSpec.shape,
+  ...userRoleRelationSpec.partial().shape
 })
 
 type UserRoleRelationSpec = z.infer<typeof userRoleRelationSpec>
 
 export const userRoleRelationEndpoints = {
   createUserRoleRelation: createAuthEndpoint(
-    '/user-role-relation/create',
+    `${basePath}/user-role-relation/create`,
     {
       method: 'POST',
       body: userRoleRelationSpec,
@@ -29,7 +37,6 @@ export const userRoleRelationEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'object',
-                    description: 'The user role relation that was created',
                     $ref: '#/components/schemas/UserRoleRelation'
                   }
                 }
@@ -80,7 +87,7 @@ export const userRoleRelationEndpoints = {
     }
   ),
   deleteUserRoleRelation: createAuthEndpoint(
-    '/user-role-relation/delete',
+    `${basePath}/user-role-relation/delete`,
     {
       method: 'POST',
       body: userRoleRelationSpec,
@@ -93,8 +100,7 @@ export const userRoleRelationEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
-                    description: 'Empty object'
+                    type: 'object'
                   }
                 }
               }
@@ -119,6 +125,78 @@ export const userRoleRelationEndpoints = {
         ]
       })
       return json({})
+    }
+  ),
+  listUserRoleRelations: createAuthEndpoint(
+    `${basePath}/user-role-relation/list`,
+    {
+      method: 'POST',
+      body: userRoleRelationListSpec,
+      metadata: {
+        openapi: {
+          description: 'List role resource relations',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: getOpenAPISchema(userRoleRelationListSpec)
+              }
+            }
+          },
+          responses: {
+            '200': {
+              description: 'Success',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/UserRoleRelation'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    async ctx => {
+      const { body, json, context } = ctx
+      const { adapter } = context
+      const { roleId, userId, page, pageSize } = body
+      let offset: number | undefined
+      let limit: number | undefined
+      if (!isEmpty(page) && !isEmpty(pageSize)) {
+        offset = (page - 1) * pageSize
+        limit = pageSize
+      }
+      const where: Where[] = []
+      if (!isEmpty(roleId)) {
+        where.push({
+          field: 'roleId',
+          value: roleId
+        })
+      }
+      if (!isEmpty(userId)) {
+        where.push({
+          field: 'userId',
+          value: userId
+        })
+      }
+      const records = await adapter.findMany<UserRoleRelationSpec>({
+        model: 'userRoleRelation',
+        where,
+        offset,
+        limit
+      })
+      const total = await adapter.count({
+        model: 'userRoleRelation',
+        where
+      })
+      return json({
+        records,
+        total
+      })
     }
   )
 } satisfies BetterAuthPlugin['endpoints']

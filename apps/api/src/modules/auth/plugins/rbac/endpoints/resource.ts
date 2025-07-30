@@ -1,18 +1,28 @@
 import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
-import { toZodSchema } from 'better-auth/db'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
-import { throwDataIsReferencedError, throwDbError } from '../error-handle'
+import { basePath } from '../config'
+import { throwDataIsReferencedError, throwDbError } from '../errors'
 import { pageSpec } from '../schemas/base'
 import { resourceSchema } from '../schemas/resource'
 import { roleResourceRelationSchema } from '../schemas/role-resource-relation'
 import { getSession } from '../services/base'
 import { getOneResource } from '../services/resource'
-import { getOpenAPISchema, isEmpty } from '../utils'
+import {
+  assignIdToZodObject,
+  getIdZodObject,
+  getOpenAPISchema,
+  getZodSchema,
+  isEmpty
+} from '../utils'
 
-const resourceSpec = toZodSchema({ fields: resourceSchema.resource.fields, isClientSide: false })
-const resourceClientSpec = toZodSchema({
+const resourceSpec = getZodSchema({
+  fields: resourceSchema.resource.fields,
+  isClientSide: false
+})
+
+const resourceClientSpec = getZodSchema({
   fields: resourceSchema.resource.fields,
   isClientSide: true
 })
@@ -28,7 +38,7 @@ const resourceListSpec = z.object({
     .optional()
 })
 
-const roleResourceRelationSpec = toZodSchema({
+const roleResourceRelationSpec = getZodSchema({
   fields: roleResourceRelationSchema.roleResourceRelation.fields,
   isClientSide: false
 })
@@ -38,13 +48,20 @@ type RoleResourceRelationSpec = z.infer<typeof roleResourceRelationSpec>
 
 export const resourceEndpoints = {
   createResource: createAuthEndpoint(
-    '/resource/create',
+    `${basePath}/resource/create`,
     {
       method: 'POST',
       body: resourceClientSpec,
       metadata: {
         openapi: {
           description: 'Create a resource',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: getOpenAPISchema(resourceClientSpec)
+              }
+            }
+          },
           responses: {
             '200': {
               description: 'Success',
@@ -52,7 +69,6 @@ export const resourceEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'object',
-                    description: 'The resource that was created',
                     $ref: '#/components/schemas/Resource'
                   }
                 }
@@ -82,16 +98,20 @@ export const resourceEndpoints = {
     }
   ),
   updateResource: createAuthEndpoint(
-    '/resource/update',
+    `${basePath}/resource/update`,
     {
       method: 'POST',
-      body: z.object({
-        ...resourceClientSpec.shape,
-        id: z.string()
-      }),
+      body: assignIdToZodObject(resourceClientSpec),
       metadata: {
         openapi: {
           description: 'Update a resource',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: getOpenAPISchema(assignIdToZodObject(resourceClientSpec))
+              }
+            }
+          },
           responses: {
             '200': {
               description: 'Success',
@@ -99,7 +119,6 @@ export const resourceEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'object',
-                    description: 'The resource that was updated',
                     $ref: '#/components/schemas/Resource'
                   }
                 }
@@ -132,12 +151,10 @@ export const resourceEndpoints = {
     }
   ),
   deleteResource: createAuthEndpoint(
-    '/resource/delete',
+    `${basePath}/resource/delete`,
     {
       method: 'POST',
-      body: z.object({
-        id: z.string()
-      }),
+      body: getIdZodObject(),
       metadata: {
         openapi: {
           description: 'Delete a resource',
@@ -147,8 +164,7 @@ export const resourceEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
-                    description: 'Empty object'
+                    type: 'object'
                   }
                 }
               }
@@ -177,7 +193,7 @@ export const resourceEndpoints = {
     }
   ),
   deleteManyResources: createAuthEndpoint(
-    '/resource/delete-many',
+    `${basePath}/resource/delete-many`,
     {
       method: 'POST',
       body: z.object({
@@ -192,8 +208,7 @@ export const resourceEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
-                    description: 'Empty object'
+                    type: 'object'
                   }
                 }
               }
@@ -206,20 +221,29 @@ export const resourceEndpoints = {
       const { body, json, context } = ctx
       const { adapter } = context
       const { ids } = body
+      const canDeleteIds = []
+      for (const id of ids) {
+        await getOneResource(context, id)
+        const roleResourceRelationRows = await adapter.findOne<RoleResourceRelationSpec>({
+          model: 'roleResourceRelation',
+          where: [{ field: 'resourceId', value: id }]
+        })
+        if (!roleResourceRelationRows) {
+          canDeleteIds.push(id)
+        }
+      }
       await adapter.deleteMany({
         model: 'resource',
-        where: [{ field: 'id', value: ids, operator: 'in' }]
+        where: [{ field: 'id', value: canDeleteIds, operator: 'in' }]
       })
       return json({})
     }
   ),
   getResource: createAuthEndpoint(
-    '/resource/get',
+    `${basePath}/resource/get`,
     {
       method: 'GET',
-      query: z.object({
-        id: z.string()
-      }),
+      query: getIdZodObject(),
       metadata: {
         openapi: {
           description: 'Get a resource',
@@ -230,7 +254,6 @@ export const resourceEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'object',
-                    description: 'The resource that was found',
                     $ref: '#/components/schemas/Resource'
                   }
                 }
@@ -248,7 +271,7 @@ export const resourceEndpoints = {
     }
   ),
   listResources: createAuthEndpoint(
-    '/resource/list',
+    `${basePath}/resource/list`,
     {
       method: 'POST',
       body: resourceListSpec,
@@ -269,7 +292,6 @@ export const resourceEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'array',
-                    description: 'Resources that match conditions',
                     items: {
                       $ref: '#/components/schemas/Resource'
                     }

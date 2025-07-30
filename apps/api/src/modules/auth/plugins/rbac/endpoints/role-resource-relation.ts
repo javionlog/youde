@@ -1,21 +1,29 @@
+import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
-import { toZodSchema } from 'better-auth/db'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
-import type { z } from 'zod'
-import { throwDataDuplicationError, throwDataNotFoundError, throwDbError } from '../error-handle'
+import { z } from 'zod'
+import { basePath } from '../config'
+import { throwDataDuplicationError, throwDataNotFoundError, throwDbError } from '../errors'
+import { pageSpec } from '../schemas/base'
 import { roleResourceRelationSchema } from '../schemas/role-resource-relation'
 import { getOneRoleResource } from '../services/role-resource-relation'
+import { getOpenAPISchema, getZodSchema, isEmpty } from '../utils'
 
-const roleResourceRelationSpec = toZodSchema({
+const roleResourceRelationSpec = getZodSchema({
   fields: roleResourceRelationSchema.roleResourceRelation.fields,
   isClientSide: false
+})
+
+const roleResourceRelationListSpec = z.object({
+  ...pageSpec.shape,
+  ...roleResourceRelationSpec.partial().shape
 })
 
 type RoleResourceRelationSpec = z.infer<typeof roleResourceRelationSpec>
 
 export const roleResourceRelationEndpoints = {
   createRoleResourceRelation: createAuthEndpoint(
-    '/role-resource-relation/create',
+    `${basePath}/role-resource-relation/create`,
     {
       method: 'POST',
       body: roleResourceRelationSpec,
@@ -29,7 +37,6 @@ export const roleResourceRelationEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'object',
-                    description: 'The user role relation that was created',
                     $ref: '#/components/schemas/UserRoleRelation'
                   }
                 }
@@ -83,7 +90,7 @@ export const roleResourceRelationEndpoints = {
     }
   ),
   deleteRoleResourceRelation: createAuthEndpoint(
-    '/role-resource-relation/delete',
+    `${basePath}/role-resource-relation/delete`,
     {
       method: 'POST',
       body: roleResourceRelationSpec,
@@ -96,8 +103,7 @@ export const roleResourceRelationEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
-                    description: 'Empty object'
+                    type: 'object'
                   }
                 }
               }
@@ -122,6 +128,78 @@ export const roleResourceRelationEndpoints = {
         ]
       })
       return json({})
+    }
+  ),
+  listRoleResourceRelations: createAuthEndpoint(
+    `${basePath}/role-resource-relation/list`,
+    {
+      method: 'POST',
+      body: roleResourceRelationListSpec,
+      metadata: {
+        openapi: {
+          description: 'List role resource relations',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: getOpenAPISchema(roleResourceRelationListSpec)
+              }
+            }
+          },
+          responses: {
+            '200': {
+              description: 'Success',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/RoleResourceRelation'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    async ctx => {
+      const { body, json, context } = ctx
+      const { adapter } = context
+      const { roleId, resourceId, page, pageSize } = body
+      let offset: number | undefined
+      let limit: number | undefined
+      if (!isEmpty(page) && !isEmpty(pageSize)) {
+        offset = (page - 1) * pageSize
+        limit = pageSize
+      }
+      const where: Where[] = []
+      if (!isEmpty(roleId)) {
+        where.push({
+          field: 'roleId',
+          value: roleId
+        })
+      }
+      if (!isEmpty(resourceId)) {
+        where.push({
+          field: 'resourceId',
+          value: resourceId
+        })
+      }
+      const records = await adapter.findMany<RoleResourceRelationSpec>({
+        model: 'roleResourceRelation',
+        where,
+        offset,
+        limit
+      })
+      const total = await adapter.count({
+        model: 'roleResourceRelation',
+        where
+      })
+      return json({
+        records,
+        total
+      })
     }
   )
 } satisfies BetterAuthPlugin['endpoints']

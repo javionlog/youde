@@ -1,10 +1,10 @@
 import type { AuthContext } from 'better-auth'
-import { toZodSchema } from 'better-auth/db'
 import type { z } from 'zod'
-import { throwDataNotFoundError } from '../error-handle'
+import { throwDataNotFoundError } from '../errors'
 import { userRoleRelationSchema } from '../schemas/user-role-relation'
+import { getZodSchema } from '../utils'
 
-const userRoleRelationSpec = toZodSchema({
+const userRoleRelationSpec = getZodSchema({
   fields: userRoleRelationSchema.userRoleRelation.fields,
   isClientSide: false
 })

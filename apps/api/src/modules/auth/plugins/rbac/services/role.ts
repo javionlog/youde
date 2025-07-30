@@ -1,10 +1,10 @@
 import type { AuthContext } from 'better-auth'
-import { toZodSchema } from 'better-auth/db'
 import type { z } from 'zod'
-import { throwDataNotFoundError } from '../error-handle'
+import { throwDataNotFoundError } from '../errors'
 import { roleSchema } from '../schemas/role'
+import { getZodSchema } from '../utils'
 
-const roleSpec = toZodSchema({ fields: roleSchema.role.fields, isClientSide: false })
+const roleSpec = getZodSchema({ fields: roleSchema.role.fields, isClientSide: false })
 type RoleSpec = z.infer<typeof roleSpec>
 
 export const getOneRole = async (ctx: AuthContext, id: string) => {

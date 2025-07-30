@@ -55,13 +55,26 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
           return [`/auth${k}`, v]
         })
       )
+      const authSchemas = authSpec.components.schemas as any
       const spec = {
         ...mainSpec,
         components: {
           ...mainSpec.components,
           schemas: {
             ...mainSpec.components?.schemas,
-            ...authSpec.components.schemas
+            ...authSchemas,
+            ResourceNode: {
+              ...authSchemas.Resource,
+              properties: {
+                ...authSchemas.Resource?.properties,
+                children: {
+                  type: 'array',
+                  items: {
+                    $ref: '#/components/schemas/ResourceNode'
+                  }
+                }
+              }
+            }
           }
         },
         paths: {
@@ -95,13 +108,26 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
           return [`/auth${k}`, v]
         })
       )
+      const authSchemas = authSpec.components.schemas as any
       const spec = {
         ...mainSpec,
         components: {
           ...mainSpec.components,
           schemas: {
             ...mainSpec.components?.schemas,
-            ...authSpec.components.schemas
+            ...authSchemas,
+            ResourceNode: {
+              ...authSchemas.Resource,
+              properties: {
+                ...authSchemas.Resource?.properties,
+                children: {
+                  type: 'array',
+                  items: {
+                    $ref: '#/components/schemas/ResourceNode'
+                  }
+                }
+              }
+            }
           }
         },
         paths: {

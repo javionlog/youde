@@ -1,4 +1,4 @@
-import type { BetterAuthPlugin } from 'better-auth/plugins'
+import type { ExtendAuthPluginSchema } from '../types'
 import { baseFields } from './base'
 
 export const resourceSchema = {
@@ -18,7 +18,8 @@ export const resourceSchema = {
       type: {
         type: 'string',
         required: true,
-        input: true
+        input: true,
+        enum: ['Menu', 'Page', 'Element']
       },
       path: {
         type: 'string',
@@ -62,4 +63,4 @@ export const resourceSchema = {
       }
     }
   }
-} satisfies BetterAuthPlugin['schema']
+} satisfies ExtendAuthPluginSchema

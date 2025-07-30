@@ -1,4 +1,4 @@
-import type { BetterAuthPlugin } from 'better-auth/plugins'
+import type { ExtendAuthPluginSchema } from '../types'
 import { baseFields } from './base'
 
 export const roleSchema = {
@@ -7,4 +7,4 @@ export const roleSchema = {
       ...baseFields
     }
   }
-} satisfies BetterAuthPlugin['schema']
+} satisfies ExtendAuthPluginSchema

@@ -1,5 +1,5 @@
-import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
+import type { ExtendAuthPluginSchema } from '../types'
 
 export const pageSpec = z.object({
   page: z.number().optional(),
@@ -45,4 +45,4 @@ export const baseFields = {
     required: false,
     input: true
   }
-} satisfies NonNullable<BetterAuthPlugin['schema']>[number]['fields']
+} satisfies ExtendAuthPluginSchema[number]['fields']

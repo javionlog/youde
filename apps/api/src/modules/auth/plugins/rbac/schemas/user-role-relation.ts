@@ -1,4 +1,4 @@
-import type { BetterAuthPlugin } from 'better-auth/plugins'
+import type { ExtendAuthPluginSchema } from '../types'
 
 export const userRoleRelationSchema = {
   userRoleRelation: {
@@ -15,4 +15,4 @@ export const userRoleRelationSchema = {
       }
     }
   }
-} satisfies BetterAuthPlugin['schema']
+} satisfies ExtendAuthPluginSchema

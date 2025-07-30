@@ -1,25 +1,31 @@
 import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
-import { toZodSchema } from 'better-auth/db'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
-import { throwDataIsReferencedError, throwDbError } from '../error-handle'
+import { basePath } from '../config'
+import { throwDataIsReferencedError, throwDbError } from '../errors'
 import { pageSpec } from '../schemas/base'
 import { roleSchema } from '../schemas/role'
 import { userRoleRelationSchema } from '../schemas/user-role-relation'
 import { getSession } from '../services/base'
 import { getOneRole } from '../services/role'
-import { getOpenAPISchema, isEmpty } from '../utils'
+import {
+  assignIdToZodObject,
+  getIdZodObject,
+  getOpenAPISchema,
+  getZodSchema,
+  isEmpty
+} from '../utils'
 
-const userRoleRelationSpec = toZodSchema({
+const userRoleRelationSpec = getZodSchema({
   fields: userRoleRelationSchema.userRoleRelation.fields,
   isClientSide: false
 })
 
 type UserRoleRelationSpec = z.infer<typeof userRoleRelationSpec>
 
-const roleSpec = toZodSchema({ fields: roleSchema.role.fields, isClientSide: false })
-const roleClientSpec = toZodSchema({ fields: roleSchema.role.fields, isClientSide: true })
+const roleSpec = getZodSchema({ fields: roleSchema.role.fields, isClientSide: false })
+const roleClientSpec = getZodSchema({ fields: roleSchema.role.fields, isClientSide: true })
 
 const roleListSpec = z.object({
   ...pageSpec.shape,
@@ -36,7 +42,7 @@ type RoleSpec = z.infer<typeof roleSpec>
 
 export const roleEndpoints = {
   createRole: createAuthEndpoint(
-    '/role/create',
+    `${basePath}/role/create`,
     {
       method: 'POST',
       body: roleClientSpec,
@@ -50,7 +56,6 @@ export const roleEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'object',
-                    description: 'The role that was created',
                     $ref: '#/components/schemas/Role'
                   }
                 }
@@ -80,13 +85,10 @@ export const roleEndpoints = {
     }
   ),
   updateRole: createAuthEndpoint(
-    '/role/update',
+    `${basePath}/role/update`,
     {
       method: 'POST',
-      body: z.object({
-        ...roleClientSpec.shape,
-        id: z.string()
-      }),
+      body: assignIdToZodObject(roleClientSpec),
       metadata: {
         openapi: {
           description: 'Update a role',
@@ -97,7 +99,6 @@ export const roleEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'object',
-                    description: 'The role that was updated',
                     $ref: '#/components/schemas/Role'
                   }
                 }
@@ -130,12 +131,10 @@ export const roleEndpoints = {
     }
   ),
   deleteRole: createAuthEndpoint(
-    '/role/delete',
+    `${basePath}/role/delete`,
     {
       method: 'POST',
-      body: z.object({
-        id: z.string()
-      }),
+      body: getIdZodObject(),
       metadata: {
         openapi: {
           description: 'Delete a role',
@@ -145,8 +144,7 @@ export const roleEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
-                    description: 'Empty object'
+                    type: 'object'
                   }
                 }
               }
@@ -175,7 +173,7 @@ export const roleEndpoints = {
     }
   ),
   deleteManyRoles: createAuthEndpoint(
-    '/role/delete-many',
+    `${basePath}/role/delete-many`,
     {
       method: 'POST',
       body: z.object({
@@ -190,8 +188,7 @@ export const roleEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
-                    description: 'Empty object'
+                    type: 'object'
                   }
                 }
               }
@@ -204,20 +201,28 @@ export const roleEndpoints = {
       const { body, json, context } = ctx
       const { adapter } = context
       const { ids } = body
+      const canDeleteIds = []
+      for (const id of ids) {
+        const userRoleRelationRows = await adapter.findOne<UserRoleRelationSpec>({
+          model: 'userRoleRelation',
+          where: [{ field: 'roleId', value: id }]
+        })
+        if (!userRoleRelationRows) {
+          canDeleteIds.push(id)
+        }
+      }
       await adapter.deleteMany({
         model: 'role',
-        where: [{ field: 'id', value: ids, operator: 'in' }]
+        where: [{ field: 'id', value: canDeleteIds, operator: 'in' }]
       })
       return json({})
     }
   ),
   getRole: createAuthEndpoint(
-    '/role/get',
+    `${basePath}/role/get`,
     {
       method: 'GET',
-      query: z.object({
-        id: z.string()
-      }),
+      query: getIdZodObject(),
       metadata: {
         openapi: {
           description: 'Get a role',
@@ -228,7 +233,6 @@ export const roleEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'object',
-                    description: 'The role that was found',
                     $ref: '#/components/schemas/Role'
                   }
                 }
@@ -246,7 +250,7 @@ export const roleEndpoints = {
     }
   ),
   listRoles: createAuthEndpoint(
-    '/role/list',
+    `${basePath}/role/list`,
     {
       method: 'POST',
       body: roleListSpec,
@@ -267,7 +271,6 @@ export const roleEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'array',
-                    description: 'Roles that match conditions',
                     items: {
                       $ref: '#/components/schemas/Role'
                     }
