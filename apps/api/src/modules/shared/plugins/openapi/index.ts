@@ -47,10 +47,14 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
       const authPaths = Object.fromEntries(
         Object.entries(authSpec.paths).map(([k, v]) => {
           if (v.get) {
-            v.get.tags = ['Auth']
+            if (v.get.tags?.includes('Default')) {
+              v.get.tags = ['Auth']
+            }
           }
           if (v.post) {
-            v.post.tags = ['Auth']
+            if (v.post.tags?.includes('Default')) {
+              v.post.tags = ['Auth']
+            }
           }
           return [`/auth${k}`, v]
         })
@@ -100,10 +104,14 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
       const authPaths = Object.fromEntries(
         Object.entries(authSpec.paths).map(([k, v]) => {
           if (v.get) {
-            v.get.tags = ['Auth']
+            if (v.get.tags?.includes('Default')) {
+              v.get.tags = ['Auth']
+            }
           }
           if (v.post) {
-            v.post.tags = ['Auth']
+            if (v.post.tags?.includes('Default')) {
+              v.post.tags = ['Auth']
+            }
           }
           return [`/auth${k}`, v]
         })
