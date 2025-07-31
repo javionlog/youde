@@ -4,9 +4,9 @@ import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
 import { basePath } from '../config'
 import { throwDataDuplicationError, throwDataNotFoundError, throwDbError } from '../errors'
-import { pageSpec } from '../schemas/base'
 import { roleResourceRelationSchema } from '../schemas/role-resource-relation'
 import { getOneRoleResource } from '../services/role-resource-relation'
+import { pageSpec } from '../specs'
 import { getOpenAPISchema, getZodSchema, isEmpty } from '../utils'
 
 const roleResourceRelationSpec = getZodSchema({

@@ -93,9 +93,87 @@ import type {
   PostAuthSignInUsernameErrors,
   PostAuthIsUsernameAvailableData,
   PostAuthIsUsernameAvailableErrors,
-  PostAuthRoleCreateData,
-  PostAuthRoleCreateResponses,
-  PostAuthRoleCreateErrors,
+  PostAuthRbacRoleCreateData,
+  PostAuthRbacRoleCreateResponses,
+  PostAuthRbacRoleCreateErrors,
+  PostAuthRbacRoleUpdateData,
+  PostAuthRbacRoleUpdateResponses,
+  PostAuthRbacRoleUpdateErrors,
+  PostAuthRbacRoleDeleteData,
+  PostAuthRbacRoleDeleteResponses,
+  PostAuthRbacRoleDeleteErrors,
+  PostAuthRbacRoleDeleteManyData,
+  PostAuthRbacRoleDeleteManyResponses,
+  PostAuthRbacRoleDeleteManyErrors,
+  GetAuthRbacRoleGetData,
+  GetAuthRbacRoleGetResponses,
+  GetAuthRbacRoleGetErrors,
+  PostAuthRbacRoleListData,
+  PostAuthRbacRoleListResponses,
+  PostAuthRbacRoleListErrors,
+  PostAuthRbacResourceCreateData,
+  PostAuthRbacResourceCreateResponses,
+  PostAuthRbacResourceCreateErrors,
+  PostAuthRbacResourceUpdateData,
+  PostAuthRbacResourceUpdateResponses,
+  PostAuthRbacResourceUpdateErrors,
+  PostAuthRbacResourceDeleteData,
+  PostAuthRbacResourceDeleteResponses,
+  PostAuthRbacResourceDeleteErrors,
+  PostAuthRbacResourceDeleteManyData,
+  PostAuthRbacResourceDeleteManyResponses,
+  PostAuthRbacResourceDeleteManyErrors,
+  GetAuthRbacResourceGetData,
+  GetAuthRbacResourceGetResponses,
+  GetAuthRbacResourceGetErrors,
+  PostAuthRbacResourceListData,
+  PostAuthRbacResourceListResponses,
+  PostAuthRbacResourceListErrors,
+  PostAuthRbacUserRoleRelationCreateData,
+  PostAuthRbacUserRoleRelationCreateResponses,
+  PostAuthRbacUserRoleRelationCreateErrors,
+  PostAuthRbacUserRoleRelationDeleteData,
+  PostAuthRbacUserRoleRelationDeleteResponses,
+  PostAuthRbacUserRoleRelationDeleteErrors,
+  PostAuthRbacUserRoleRelationListData,
+  PostAuthRbacUserRoleRelationListResponses,
+  PostAuthRbacUserRoleRelationListErrors,
+  PostAuthRbacRoleResourceRelationCreateData,
+  PostAuthRbacRoleResourceRelationCreateResponses,
+  PostAuthRbacRoleResourceRelationCreateErrors,
+  PostAuthRbacRoleResourceRelationDeleteData,
+  PostAuthRbacRoleResourceRelationDeleteResponses,
+  PostAuthRbacRoleResourceRelationDeleteErrors,
+  PostAuthRbacRoleResourceRelationListData,
+  PostAuthRbacRoleResourceRelationListResponses,
+  PostAuthRbacRoleResourceRelationListErrors,
+  PostAuthRbacListUsersData,
+  PostAuthRbacListUsersResponses,
+  PostAuthRbacListUsersErrors,
+  PostAuthRbacListUserRolesData,
+  PostAuthRbacListUserRolesResponses,
+  PostAuthRbacListUserRolesErrors,
+  PostAuthRbacListUserResourcesData,
+  PostAuthRbacListUserResourcesResponses,
+  PostAuthRbacListUserResourcesErrors,
+  PostAuthRbacListUserResourceTreeData,
+  PostAuthRbacListUserResourceTreeResponses,
+  PostAuthRbacListUserResourceTreeErrors,
+  PostAuthRbacListRoleUsersData,
+  PostAuthRbacListRoleUsersResponses,
+  PostAuthRbacListRoleUsersErrors,
+  PostAuthRbacListRoleResourcesData,
+  PostAuthRbacListRoleResourcesResponses,
+  PostAuthRbacListRoleResourcesErrors,
+  PostAuthRbacListRoleResourceTreeData,
+  PostAuthRbacListRoleResourceTreeResponses,
+  PostAuthRbacListRoleResourceTreeErrors,
+  PostAuthRbacListResourceRolesData,
+  PostAuthRbacListResourceRolesResponses,
+  PostAuthRbacListResourceRolesErrors,
+  PostAuthRbacListResourceUsersData,
+  PostAuthRbacListResourceUsersResponses,
+  PostAuthRbacListResourceUsersErrors,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 import {
@@ -105,6 +183,8 @@ import {
   getAuthListAccountsResponseTransformer,
   postAuthRefreshTokenResponseTransformer,
   postAuthGetAccessTokenResponseTransformer,
+  postAuthRbacListUserResourceTreeResponseTransformer,
+  postAuthRbacListRoleResourceTreeResponseTransformer,
 } from "./transformers.gen";
 
 export type Options<
@@ -718,19 +798,567 @@ export const postAuthIsUsernameAvailable = <
 /**
  * Create a role
  */
-export const postAuthRoleCreate = <ThrowOnError extends boolean = false>(
-  options: Options<PostAuthRoleCreateData, ThrowOnError>,
+export const postAuthRbacRoleCreate = <ThrowOnError extends boolean = false>(
+  options: Options<PostAuthRbacRoleCreateData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).post<
-    PostAuthRoleCreateResponses,
-    PostAuthRoleCreateErrors,
+    PostAuthRbacRoleCreateResponses,
+    PostAuthRbacRoleCreateErrors,
     ThrowOnError
   >({
-    url: "/auth/role/create",
+    url: "/auth/rbac/role/create",
     ...options,
     headers: {
       "Content-Type": "application/json",
       ...options.headers,
+    },
+  });
+};
+
+/**
+ * Update a role
+ */
+export const postAuthRbacRoleUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<PostAuthRbacRoleUpdateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacRoleUpdateResponses,
+    PostAuthRbacRoleUpdateErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/role/update",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete a role
+ */
+export const postAuthRbacRoleDelete = <ThrowOnError extends boolean = false>(
+  options: Options<PostAuthRbacRoleDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacRoleDeleteResponses,
+    PostAuthRbacRoleDeleteErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/role/delete",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete many roles
+ */
+export const postAuthRbacRoleDeleteMany = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostAuthRbacRoleDeleteManyData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacRoleDeleteManyResponses,
+    PostAuthRbacRoleDeleteManyErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/role/delete-many",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Get a role
+ */
+export const getAuthRbacRoleGet = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAuthRbacRoleGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetAuthRbacRoleGetResponses,
+    GetAuthRbacRoleGetErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/role/get",
+    ...options,
+  });
+};
+
+/**
+ * List roles
+ */
+export const postAuthRbacRoleList = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAuthRbacRoleListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacRoleListResponses,
+    PostAuthRbacRoleListErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/role/list",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Create a resource
+ */
+export const postAuthRbacResourceCreate = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacResourceCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacResourceCreateResponses,
+    PostAuthRbacResourceCreateErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource/create",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Update a resource
+ */
+export const postAuthRbacResourceUpdate = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacResourceUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacResourceUpdateResponses,
+    PostAuthRbacResourceUpdateErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource/update",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete a resource
+ */
+export const postAuthRbacResourceDelete = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostAuthRbacResourceDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacResourceDeleteResponses,
+    PostAuthRbacResourceDeleteErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource/delete",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete many resources
+ */
+export const postAuthRbacResourceDeleteMany = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostAuthRbacResourceDeleteManyData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacResourceDeleteManyResponses,
+    PostAuthRbacResourceDeleteManyErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource/delete-many",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Get a resource
+ */
+export const getAuthRbacResourceGet = <ThrowOnError extends boolean = false>(
+  options?: Options<GetAuthRbacResourceGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetAuthRbacResourceGetResponses,
+    GetAuthRbacResourceGetErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource/get",
+    ...options,
+  });
+};
+
+/**
+ * List resources
+ */
+export const postAuthRbacResourceList = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAuthRbacResourceListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacResourceListResponses,
+    PostAuthRbacResourceListErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource/list",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Create a user role relation
+ */
+export const postAuthRbacUserRoleRelationCreate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostAuthRbacUserRoleRelationCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacUserRoleRelationCreateResponses,
+    PostAuthRbacUserRoleRelationCreateErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/user-role-relation/create",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete a user role relation
+ */
+export const postAuthRbacUserRoleRelationDelete = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostAuthRbacUserRoleRelationDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacUserRoleRelationDeleteResponses,
+    PostAuthRbacUserRoleRelationDeleteErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/user-role-relation/delete",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List role resource relations
+ */
+export const postAuthRbacUserRoleRelationList = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacUserRoleRelationListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacUserRoleRelationListResponses,
+    PostAuthRbacUserRoleRelationListErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/user-role-relation/list",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Create a user role relation
+ */
+export const postAuthRbacRoleResourceRelationCreate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostAuthRbacRoleResourceRelationCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacRoleResourceRelationCreateResponses,
+    PostAuthRbacRoleResourceRelationCreateErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/role-resource-relation/create",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete a role resource relation
+ */
+export const postAuthRbacRoleResourceRelationDelete = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostAuthRbacRoleResourceRelationDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacRoleResourceRelationDeleteResponses,
+    PostAuthRbacRoleResourceRelationDeleteErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/role-resource-relation/delete",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List role resource relations
+ */
+export const postAuthRbacRoleResourceRelationList = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacRoleResourceRelationListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacRoleResourceRelationListResponses,
+    PostAuthRbacRoleResourceRelationListErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/role-resource-relation/list",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List users
+ */
+export const postAuthRbacListUsers = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAuthRbacListUsersData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacListUsersResponses,
+    PostAuthRbacListUsersErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/list-users",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List user roles
+ */
+export const postAuthRbacListUserRoles = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAuthRbacListUserRolesData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacListUserRolesResponses,
+    PostAuthRbacListUserRolesErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/list-user-roles",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List user resources
+ */
+export const postAuthRbacListUserResources = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacListUserResourcesData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacListUserResourcesResponses,
+    PostAuthRbacListUserResourcesErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/list-user-resources",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List user resource tree
+ */
+export const postAuthRbacListUserResourceTree = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostAuthRbacListUserResourceTreeData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacListUserResourceTreeResponses,
+    PostAuthRbacListUserResourceTreeErrors,
+    ThrowOnError
+  >({
+    responseTransformer: postAuthRbacListUserResourceTreeResponseTransformer,
+    url: "/auth/rbac/list-user-resource-tree",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List role users
+ */
+export const postAuthRbacListRoleUsers = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAuthRbacListRoleUsersData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacListRoleUsersResponses,
+    PostAuthRbacListRoleUsersErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/list-role-users",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List role resources
+ */
+export const postAuthRbacListRoleResources = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacListRoleResourcesData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacListRoleResourcesResponses,
+    PostAuthRbacListRoleResourcesErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/list-role-resources",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List role resource tree
+ */
+export const postAuthRbacListRoleResourceTree = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacListRoleResourceTreeData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacListRoleResourceTreeResponses,
+    PostAuthRbacListRoleResourceTreeErrors,
+    ThrowOnError
+  >({
+    responseTransformer: postAuthRbacListRoleResourceTreeResponseTransformer,
+    url: "/auth/rbac/list-role-resource-tree",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List resource roles
+ */
+export const postAuthRbacListResourceRoles = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacListResourceRolesData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacListResourceRolesResponses,
+    PostAuthRbacListResourceRolesErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/list-resource-roles",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List resource users
+ */
+export const postAuthRbacListResourceUsers = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacListResourceUsersData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacListResourceUsersResponses,
+    PostAuthRbacListResourceUsersErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/list-resource-users",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
     },
   });
 };

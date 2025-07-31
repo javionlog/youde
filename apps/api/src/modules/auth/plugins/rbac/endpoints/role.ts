@@ -4,18 +4,12 @@ import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
 import { basePath } from '../config'
 import { throwDataIsReferencedError, throwDbError } from '../errors'
-import { pageSpec } from '../schemas/base'
 import { roleSchema } from '../schemas/role'
 import { userRoleRelationSchema } from '../schemas/user-role-relation'
 import { getSession } from '../services/base'
 import { getOneRole } from '../services/role'
-import {
-  assignIdToZodObject,
-  getIdZodObject,
-  getOpenAPISchema,
-  getZodSchema,
-  isEmpty
-} from '../utils'
+import { idSpec, pageSpec, sortBySpec } from '../specs'
+import { getOpenAPISchema, getZodSchema, isEmpty } from '../utils'
 
 const userRoleRelationSpec = getZodSchema({
   fields: userRoleRelationSchema.userRoleRelation.fields,
@@ -29,13 +23,8 @@ const roleClientSpec = getZodSchema({ fields: roleSchema.role.fields, isClientSi
 
 const roleListSpec = z.object({
   ...pageSpec.shape,
-  name: z.string().nullish(),
-  sortBy: z
-    .object({
-      field: roleSpec.keyof().default('updatedAt'),
-      direction: z.enum(['asc', 'desc']).default('desc')
-    })
-    .optional()
+  ...sortBySpec.shape,
+  name: z.string().nullish()
 })
 
 type RoleSpec = z.infer<typeof roleSpec>
@@ -88,7 +77,10 @@ export const roleEndpoints = {
     `${basePath}/role/update`,
     {
       method: 'POST',
-      body: assignIdToZodObject(roleClientSpec),
+      body: z.object({
+        ...roleClientSpec.shape,
+        ...idSpec.shape
+      }),
       metadata: {
         openapi: {
           description: 'Update a role',
@@ -134,7 +126,7 @@ export const roleEndpoints = {
     `${basePath}/role/delete`,
     {
       method: 'POST',
-      body: getIdZodObject(),
+      body: idSpec,
       metadata: {
         openapi: {
           description: 'Delete a role',
@@ -222,7 +214,7 @@ export const roleEndpoints = {
     `${basePath}/role/get`,
     {
       method: 'GET',
-      query: getIdZodObject(),
+      query: idSpec,
       metadata: {
         openapi: {
           description: 'Get a role',
@@ -285,7 +277,7 @@ export const roleEndpoints = {
     async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
-      const { name, sortBy = { field: 'updatedAt', direction: 'desc' }, page, pageSize } = body
+      const { name, sortBy, page, pageSize } = body
       let offset: number | undefined
       let limit: number | undefined
       if (!isEmpty(page) && !isEmpty(pageSize)) {

@@ -4,18 +4,12 @@ import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
 import { basePath } from '../config'
 import { throwDataIsReferencedError, throwDbError } from '../errors'
-import { pageSpec } from '../schemas/base'
 import { resourceSchema } from '../schemas/resource'
 import { roleResourceRelationSchema } from '../schemas/role-resource-relation'
 import { getSession } from '../services/base'
 import { getOneResource } from '../services/resource'
-import {
-  assignIdToZodObject,
-  getIdZodObject,
-  getOpenAPISchema,
-  getZodSchema,
-  isEmpty
-} from '../utils'
+import { idSpec, pageSpec, sortBySpec } from '../specs'
+import { getOpenAPISchema, getZodSchema, isEmpty } from '../utils'
 
 const resourceSpec = getZodSchema({
   fields: resourceSchema.resource.fields,
@@ -29,13 +23,8 @@ const resourceClientSpec = getZodSchema({
 
 const resourceListSpec = z.object({
   ...pageSpec.shape,
-  name: z.string().nullish(),
-  sortBy: z
-    .object({
-      field: resourceSpec.keyof().default('updatedAt'),
-      direction: z.enum(['asc', 'desc']).default('desc')
-    })
-    .optional()
+  ...sortBySpec.shape,
+  name: z.string().nullish()
 })
 
 const roleResourceRelationSpec = getZodSchema({
@@ -101,14 +90,22 @@ export const resourceEndpoints = {
     `${basePath}/resource/update`,
     {
       method: 'POST',
-      body: assignIdToZodObject(resourceClientSpec),
+      body: z.object({
+        ...resourceClientSpec.shape,
+        ...idSpec.shape
+      }),
       metadata: {
         openapi: {
           description: 'Update a resource',
           requestBody: {
             content: {
               'application/json': {
-                schema: getOpenAPISchema(assignIdToZodObject(resourceClientSpec))
+                schema: getOpenAPISchema(
+                  z.object({
+                    ...resourceClientSpec.shape,
+                    ...idSpec.shape
+                  })
+                )
               }
             }
           },
@@ -154,7 +151,7 @@ export const resourceEndpoints = {
     `${basePath}/resource/delete`,
     {
       method: 'POST',
-      body: getIdZodObject(),
+      body: idSpec,
       metadata: {
         openapi: {
           description: 'Delete a resource',
@@ -243,7 +240,7 @@ export const resourceEndpoints = {
     `${basePath}/resource/get`,
     {
       method: 'GET',
-      query: getIdZodObject(),
+      query: idSpec,
       metadata: {
         openapi: {
           description: 'Get a resource',
@@ -306,7 +303,7 @@ export const resourceEndpoints = {
     async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
-      const { name, sortBy = { field: 'updatedAt', direction: 'desc' }, page, pageSize } = body
+      const { name, sortBy, page, pageSize } = body
       let offset: number | undefined
       let limit: number | undefined
       if (!isEmpty(page) && !isEmpty(pageSize)) {

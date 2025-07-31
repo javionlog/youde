@@ -54,9 +54,8 @@ export type Role = {
   readonly updatedAt?: string;
   readonly createdBy?: string;
   readonly updatedBy?: string;
-  name?: string;
+  name: string;
   enabled?: boolean;
-  sort?: number;
   remark?: string;
 };
 
@@ -66,12 +65,12 @@ export type Resource = {
   readonly updatedAt?: string;
   readonly createdBy?: string;
   readonly updatedBy?: string;
-  name?: string;
+  name: string;
   enabled?: boolean;
-  sort?: number;
   remark?: string;
+  sort?: number;
   parentId?: string;
-  type?: string;
+  type: "Menu" | "Page" | "Element";
   path?: string;
   activePath?: string;
   component?: string;
@@ -84,14 +83,37 @@ export type Resource = {
 
 export type UserRoleRelation = {
   id?: string;
-  userId?: string;
-  roleId?: string;
+  userId: string;
+  roleId: string;
 };
 
 export type RoleResourceRelation = {
   id?: string;
-  roleId?: string;
-  resourceId?: string;
+  roleId: string;
+  resourceId: string;
+};
+
+export type ResourceNode = {
+  id?: string;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
+  readonly createdBy?: string;
+  readonly updatedBy?: string;
+  name: string;
+  enabled?: boolean;
+  remark?: string;
+  sort?: number;
+  parentId?: string;
+  type: "Menu" | "Page" | "Element";
+  path?: string;
+  activePath?: string;
+  component?: string;
+  icon?: string;
+  isLink?: boolean;
+  isCache?: boolean;
+  isAffix?: boolean;
+  isShow?: boolean;
+  children?: Array<ResourceNode>;
 };
 
 export type GetArticleData = {
@@ -119,10 +141,12 @@ export type SocialSignInData = {
     newUserCallbackURL?: string;
     errorCallbackURL?: string;
     provider: string;
-    disableRedirect?: string;
-    idToken?: string;
-    scopes?: string;
-    requestSignUp?: string;
+    disableRedirect?: boolean;
+    idToken?: {
+      [key: string]: unknown;
+    };
+    scopes?: Array<unknown>;
+    requestSignUp?: boolean;
     loginHint?: string;
   };
   path?: never;
@@ -915,7 +939,7 @@ export type PostAuthChangePasswordData = {
      * The current password is required
      */
     currentPassword: string;
-    revokeOtherSessions?: string;
+    revokeOtherSessions?: boolean;
   };
   path?: never;
   query?: never;
@@ -1552,9 +1576,11 @@ export type PostAuthLinkSocialData = {
   body: {
     callbackURL?: string;
     provider: string;
-    idToken?: string;
-    requestSignUp?: string;
-    scopes?: string;
+    idToken?: {
+      [key: string]: unknown;
+    };
+    requestSignUp?: boolean;
+    scopes?: Array<unknown>;
     errorCallbackURL?: string;
   };
   path?: never;
@@ -2173,7 +2199,7 @@ export type PostAuthSignInUsernameData = {
      * The password of the user
      */
     password: string;
-    rememberMe?: string;
+    rememberMe?: boolean;
     callbackURL?: string;
   };
   path?: never;
@@ -2293,19 +2319,18 @@ export type PostAuthIsUsernameAvailableErrors = {
 export type PostAuthIsUsernameAvailableError =
   PostAuthIsUsernameAvailableErrors[keyof PostAuthIsUsernameAvailableErrors];
 
-export type PostAuthRoleCreateData = {
+export type PostAuthRbacRoleCreateData = {
   body: {
     name: string;
-    enabled?: string;
-    sort?: string;
+    enabled?: boolean;
     remark?: string;
   };
   path?: never;
   query?: never;
-  url: "/auth/role/create";
+  url: "/auth/rbac/role/create";
 };
 
-export type PostAuthRoleCreateErrors = {
+export type PostAuthRbacRoleCreateErrors = {
   /**
    * Bad Request. Usually due to missing parameters, or invalid parameters.
    */
@@ -2344,18 +2369,1717 @@ export type PostAuthRoleCreateErrors = {
   };
 };
 
-export type PostAuthRoleCreateError =
-  PostAuthRoleCreateErrors[keyof PostAuthRoleCreateErrors];
+export type PostAuthRbacRoleCreateError =
+  PostAuthRbacRoleCreateErrors[keyof PostAuthRbacRoleCreateErrors];
 
-export type PostAuthRoleCreateResponses = {
+export type PostAuthRbacRoleCreateResponses = {
   /**
    * Success
    */
   200: Role;
 };
 
-export type PostAuthRoleCreateResponse =
-  PostAuthRoleCreateResponses[keyof PostAuthRoleCreateResponses];
+export type PostAuthRbacRoleCreateResponse =
+  PostAuthRbacRoleCreateResponses[keyof PostAuthRbacRoleCreateResponses];
+
+export type PostAuthRbacRoleUpdateData = {
+  body: {
+    name: string;
+    enabled?: boolean;
+    remark?: string;
+    id: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/role/update";
+};
+
+export type PostAuthRbacRoleUpdateErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacRoleUpdateError =
+  PostAuthRbacRoleUpdateErrors[keyof PostAuthRbacRoleUpdateErrors];
+
+export type PostAuthRbacRoleUpdateResponses = {
+  /**
+   * Success
+   */
+  200: Role;
+};
+
+export type PostAuthRbacRoleUpdateResponse =
+  PostAuthRbacRoleUpdateResponses[keyof PostAuthRbacRoleUpdateResponses];
+
+export type PostAuthRbacRoleDeleteData = {
+  body: {
+    id: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/role/delete";
+};
+
+export type PostAuthRbacRoleDeleteErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacRoleDeleteError =
+  PostAuthRbacRoleDeleteErrors[keyof PostAuthRbacRoleDeleteErrors];
+
+export type PostAuthRbacRoleDeleteResponses = {
+  /**
+   * Success
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type PostAuthRbacRoleDeleteResponse =
+  PostAuthRbacRoleDeleteResponses[keyof PostAuthRbacRoleDeleteResponses];
+
+export type PostAuthRbacRoleDeleteManyData = {
+  body: {
+    ids: Array<unknown>;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/role/delete-many";
+};
+
+export type PostAuthRbacRoleDeleteManyErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacRoleDeleteManyError =
+  PostAuthRbacRoleDeleteManyErrors[keyof PostAuthRbacRoleDeleteManyErrors];
+
+export type PostAuthRbacRoleDeleteManyResponses = {
+  /**
+   * Success
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type PostAuthRbacRoleDeleteManyResponse =
+  PostAuthRbacRoleDeleteManyResponses[keyof PostAuthRbacRoleDeleteManyResponses];
+
+export type GetAuthRbacRoleGetData = {
+  body?: never;
+  path?: never;
+  query?: {
+    id?: string;
+  };
+  url: "/auth/rbac/role/get";
+};
+
+export type GetAuthRbacRoleGetErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type GetAuthRbacRoleGetError =
+  GetAuthRbacRoleGetErrors[keyof GetAuthRbacRoleGetErrors];
+
+export type GetAuthRbacRoleGetResponses = {
+  /**
+   * Success
+   */
+  200: Role;
+};
+
+export type GetAuthRbacRoleGetResponse =
+  GetAuthRbacRoleGetResponses[keyof GetAuthRbacRoleGetResponses];
+
+export type PostAuthRbacRoleListData = {
+  body?: {
+    page?: number;
+    pageSize?: number;
+    sortBy?: {
+      field: string;
+      direction: "asc" | "desc";
+    };
+    name?: unknown;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/role/list";
+};
+
+export type PostAuthRbacRoleListErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacRoleListError =
+  PostAuthRbacRoleListErrors[keyof PostAuthRbacRoleListErrors];
+
+export type PostAuthRbacRoleListResponses = {
+  /**
+   * Success
+   */
+  200: Array<Role>;
+};
+
+export type PostAuthRbacRoleListResponse =
+  PostAuthRbacRoleListResponses[keyof PostAuthRbacRoleListResponses];
+
+export type PostAuthRbacResourceCreateData = {
+  body?: {
+    name: string;
+    enabled?: boolean;
+    remark?: string;
+    sort?: number;
+    parentId?: string;
+    type: "Menu" | "Page" | "Element";
+    path?: string;
+    activePath?: string;
+    component?: string;
+    icon?: string;
+    isLink?: boolean;
+    isCache?: boolean;
+    isAffix?: boolean;
+    isShow?: boolean;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/resource/create";
+};
+
+export type PostAuthRbacResourceCreateErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacResourceCreateError =
+  PostAuthRbacResourceCreateErrors[keyof PostAuthRbacResourceCreateErrors];
+
+export type PostAuthRbacResourceCreateResponses = {
+  /**
+   * Success
+   */
+  200: Resource;
+};
+
+export type PostAuthRbacResourceCreateResponse =
+  PostAuthRbacResourceCreateResponses[keyof PostAuthRbacResourceCreateResponses];
+
+export type PostAuthRbacResourceUpdateData = {
+  body?: {
+    name: string;
+    enabled?: boolean;
+    remark?: string;
+    sort?: number;
+    parentId?: string;
+    type: "Menu" | "Page" | "Element";
+    path?: string;
+    activePath?: string;
+    component?: string;
+    icon?: string;
+    isLink?: boolean;
+    isCache?: boolean;
+    isAffix?: boolean;
+    isShow?: boolean;
+    id: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/resource/update";
+};
+
+export type PostAuthRbacResourceUpdateErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacResourceUpdateError =
+  PostAuthRbacResourceUpdateErrors[keyof PostAuthRbacResourceUpdateErrors];
+
+export type PostAuthRbacResourceUpdateResponses = {
+  /**
+   * Success
+   */
+  200: Resource;
+};
+
+export type PostAuthRbacResourceUpdateResponse =
+  PostAuthRbacResourceUpdateResponses[keyof PostAuthRbacResourceUpdateResponses];
+
+export type PostAuthRbacResourceDeleteData = {
+  body: {
+    id: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/resource/delete";
+};
+
+export type PostAuthRbacResourceDeleteErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacResourceDeleteError =
+  PostAuthRbacResourceDeleteErrors[keyof PostAuthRbacResourceDeleteErrors];
+
+export type PostAuthRbacResourceDeleteResponses = {
+  /**
+   * Success
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type PostAuthRbacResourceDeleteResponse =
+  PostAuthRbacResourceDeleteResponses[keyof PostAuthRbacResourceDeleteResponses];
+
+export type PostAuthRbacResourceDeleteManyData = {
+  body: {
+    ids: Array<unknown>;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/resource/delete-many";
+};
+
+export type PostAuthRbacResourceDeleteManyErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacResourceDeleteManyError =
+  PostAuthRbacResourceDeleteManyErrors[keyof PostAuthRbacResourceDeleteManyErrors];
+
+export type PostAuthRbacResourceDeleteManyResponses = {
+  /**
+   * Success
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type PostAuthRbacResourceDeleteManyResponse =
+  PostAuthRbacResourceDeleteManyResponses[keyof PostAuthRbacResourceDeleteManyResponses];
+
+export type GetAuthRbacResourceGetData = {
+  body?: never;
+  path?: never;
+  query?: {
+    id?: string;
+  };
+  url: "/auth/rbac/resource/get";
+};
+
+export type GetAuthRbacResourceGetErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type GetAuthRbacResourceGetError =
+  GetAuthRbacResourceGetErrors[keyof GetAuthRbacResourceGetErrors];
+
+export type GetAuthRbacResourceGetResponses = {
+  /**
+   * Success
+   */
+  200: Resource;
+};
+
+export type GetAuthRbacResourceGetResponse =
+  GetAuthRbacResourceGetResponses[keyof GetAuthRbacResourceGetResponses];
+
+export type PostAuthRbacResourceListData = {
+  body?: {
+    page?: number;
+    pageSize?: number;
+    sortBy?: {
+      field: string;
+      direction: "asc" | "desc";
+    };
+    name?: unknown;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/resource/list";
+};
+
+export type PostAuthRbacResourceListErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacResourceListError =
+  PostAuthRbacResourceListErrors[keyof PostAuthRbacResourceListErrors];
+
+export type PostAuthRbacResourceListResponses = {
+  /**
+   * Success
+   */
+  200: Array<Resource>;
+};
+
+export type PostAuthRbacResourceListResponse =
+  PostAuthRbacResourceListResponses[keyof PostAuthRbacResourceListResponses];
+
+export type PostAuthRbacUserRoleRelationCreateData = {
+  body: {
+    userId: string;
+    roleId: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/user-role-relation/create";
+};
+
+export type PostAuthRbacUserRoleRelationCreateErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacUserRoleRelationCreateError =
+  PostAuthRbacUserRoleRelationCreateErrors[keyof PostAuthRbacUserRoleRelationCreateErrors];
+
+export type PostAuthRbacUserRoleRelationCreateResponses = {
+  /**
+   * Success
+   */
+  200: UserRoleRelation;
+};
+
+export type PostAuthRbacUserRoleRelationCreateResponse =
+  PostAuthRbacUserRoleRelationCreateResponses[keyof PostAuthRbacUserRoleRelationCreateResponses];
+
+export type PostAuthRbacUserRoleRelationDeleteData = {
+  body: {
+    userId: string;
+    roleId: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/user-role-relation/delete";
+};
+
+export type PostAuthRbacUserRoleRelationDeleteErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacUserRoleRelationDeleteError =
+  PostAuthRbacUserRoleRelationDeleteErrors[keyof PostAuthRbacUserRoleRelationDeleteErrors];
+
+export type PostAuthRbacUserRoleRelationDeleteResponses = {
+  /**
+   * Success
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type PostAuthRbacUserRoleRelationDeleteResponse =
+  PostAuthRbacUserRoleRelationDeleteResponses[keyof PostAuthRbacUserRoleRelationDeleteResponses];
+
+export type PostAuthRbacUserRoleRelationListData = {
+  body?: {
+    page?: number;
+    pageSize?: number;
+    userId?: string;
+    roleId?: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/user-role-relation/list";
+};
+
+export type PostAuthRbacUserRoleRelationListErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacUserRoleRelationListError =
+  PostAuthRbacUserRoleRelationListErrors[keyof PostAuthRbacUserRoleRelationListErrors];
+
+export type PostAuthRbacUserRoleRelationListResponses = {
+  /**
+   * Success
+   */
+  200: Array<UserRoleRelation>;
+};
+
+export type PostAuthRbacUserRoleRelationListResponse =
+  PostAuthRbacUserRoleRelationListResponses[keyof PostAuthRbacUserRoleRelationListResponses];
+
+export type PostAuthRbacRoleResourceRelationCreateData = {
+  body: {
+    roleId: string;
+    resourceId: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/role-resource-relation/create";
+};
+
+export type PostAuthRbacRoleResourceRelationCreateErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacRoleResourceRelationCreateError =
+  PostAuthRbacRoleResourceRelationCreateErrors[keyof PostAuthRbacRoleResourceRelationCreateErrors];
+
+export type PostAuthRbacRoleResourceRelationCreateResponses = {
+  /**
+   * Success
+   */
+  200: UserRoleRelation;
+};
+
+export type PostAuthRbacRoleResourceRelationCreateResponse =
+  PostAuthRbacRoleResourceRelationCreateResponses[keyof PostAuthRbacRoleResourceRelationCreateResponses];
+
+export type PostAuthRbacRoleResourceRelationDeleteData = {
+  body: {
+    roleId: string;
+    resourceId: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/role-resource-relation/delete";
+};
+
+export type PostAuthRbacRoleResourceRelationDeleteErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacRoleResourceRelationDeleteError =
+  PostAuthRbacRoleResourceRelationDeleteErrors[keyof PostAuthRbacRoleResourceRelationDeleteErrors];
+
+export type PostAuthRbacRoleResourceRelationDeleteResponses = {
+  /**
+   * Success
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type PostAuthRbacRoleResourceRelationDeleteResponse =
+  PostAuthRbacRoleResourceRelationDeleteResponses[keyof PostAuthRbacRoleResourceRelationDeleteResponses];
+
+export type PostAuthRbacRoleResourceRelationListData = {
+  body?: {
+    page?: number;
+    pageSize?: number;
+    roleId?: string;
+    resourceId?: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/role-resource-relation/list";
+};
+
+export type PostAuthRbacRoleResourceRelationListErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacRoleResourceRelationListError =
+  PostAuthRbacRoleResourceRelationListErrors[keyof PostAuthRbacRoleResourceRelationListErrors];
+
+export type PostAuthRbacRoleResourceRelationListResponses = {
+  /**
+   * Success
+   */
+  200: Array<RoleResourceRelation>;
+};
+
+export type PostAuthRbacRoleResourceRelationListResponse =
+  PostAuthRbacRoleResourceRelationListResponses[keyof PostAuthRbacRoleResourceRelationListResponses];
+
+export type PostAuthRbacListUsersData = {
+  body?: {
+    username?: unknown;
+    sortBy?: {
+      field: string;
+      direction: "asc" | "desc";
+    };
+    page?: number;
+    pageSize?: number;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/list-users";
+};
+
+export type PostAuthRbacListUsersErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacListUsersError =
+  PostAuthRbacListUsersErrors[keyof PostAuthRbacListUsersErrors];
+
+export type PostAuthRbacListUsersResponses = {
+  /**
+   * Success
+   */
+  200: Array<User>;
+};
+
+export type PostAuthRbacListUsersResponse =
+  PostAuthRbacListUsersResponses[keyof PostAuthRbacListUsersResponses];
+
+export type PostAuthRbacListUserRolesData = {
+  body?: {
+    userId: string;
+    roleName?: unknown;
+    sortBy?: {
+      field: string;
+      direction: "asc" | "desc";
+    };
+    page?: number;
+    pageSize?: number;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/list-user-roles";
+};
+
+export type PostAuthRbacListUserRolesErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacListUserRolesError =
+  PostAuthRbacListUserRolesErrors[keyof PostAuthRbacListUserRolesErrors];
+
+export type PostAuthRbacListUserRolesResponses = {
+  /**
+   * Success
+   */
+  200: Array<Role>;
+};
+
+export type PostAuthRbacListUserRolesResponse =
+  PostAuthRbacListUserRolesResponses[keyof PostAuthRbacListUserRolesResponses];
+
+export type PostAuthRbacListUserResourcesData = {
+  body?: {
+    userId: string;
+    resourceName?: unknown;
+    resourceType?: "Menu" | "Page" | "Element";
+    sortBy?: {
+      field: string;
+      direction: "asc" | "desc";
+    };
+    page?: number;
+    pageSize?: number;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/list-user-resources";
+};
+
+export type PostAuthRbacListUserResourcesErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacListUserResourcesError =
+  PostAuthRbacListUserResourcesErrors[keyof PostAuthRbacListUserResourcesErrors];
+
+export type PostAuthRbacListUserResourcesResponses = {
+  /**
+   * Success
+   */
+  200: Array<Resource>;
+};
+
+export type PostAuthRbacListUserResourcesResponse =
+  PostAuthRbacListUserResourcesResponses[keyof PostAuthRbacListUserResourcesResponses];
+
+export type PostAuthRbacListUserResourceTreeData = {
+  body: {
+    userId: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/list-user-resource-tree";
+};
+
+export type PostAuthRbacListUserResourceTreeErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacListUserResourceTreeError =
+  PostAuthRbacListUserResourceTreeErrors[keyof PostAuthRbacListUserResourceTreeErrors];
+
+export type PostAuthRbacListUserResourceTreeResponses = {
+  /**
+   * Success
+   */
+  200: Array<ResourceNode>;
+};
+
+export type PostAuthRbacListUserResourceTreeResponse =
+  PostAuthRbacListUserResourceTreeResponses[keyof PostAuthRbacListUserResourceTreeResponses];
+
+export type PostAuthRbacListRoleUsersData = {
+  body?: {
+    roleId: string;
+    username?: unknown;
+    sortBy?: {
+      field: string;
+      direction: "asc" | "desc";
+    };
+    page?: number;
+    pageSize?: number;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/list-role-users";
+};
+
+export type PostAuthRbacListRoleUsersErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacListRoleUsersError =
+  PostAuthRbacListRoleUsersErrors[keyof PostAuthRbacListRoleUsersErrors];
+
+export type PostAuthRbacListRoleUsersResponses = {
+  /**
+   * Success
+   */
+  200: Array<User>;
+};
+
+export type PostAuthRbacListRoleUsersResponse =
+  PostAuthRbacListRoleUsersResponses[keyof PostAuthRbacListRoleUsersResponses];
+
+export type PostAuthRbacListRoleResourcesData = {
+  body?: {
+    roleId: string;
+    resourceName?: unknown;
+    sortBy?: {
+      field: string;
+      direction: "asc" | "desc";
+    };
+    page?: number;
+    pageSize?: number;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/list-role-resources";
+};
+
+export type PostAuthRbacListRoleResourcesErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacListRoleResourcesError =
+  PostAuthRbacListRoleResourcesErrors[keyof PostAuthRbacListRoleResourcesErrors];
+
+export type PostAuthRbacListRoleResourcesResponses = {
+  /**
+   * Success
+   */
+  200: Array<Resource>;
+};
+
+export type PostAuthRbacListRoleResourcesResponse =
+  PostAuthRbacListRoleResourcesResponses[keyof PostAuthRbacListRoleResourcesResponses];
+
+export type PostAuthRbacListRoleResourceTreeData = {
+  body?: {
+    roleId: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/list-role-resource-tree";
+};
+
+export type PostAuthRbacListRoleResourceTreeErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacListRoleResourceTreeError =
+  PostAuthRbacListRoleResourceTreeErrors[keyof PostAuthRbacListRoleResourceTreeErrors];
+
+export type PostAuthRbacListRoleResourceTreeResponses = {
+  /**
+   * Success
+   */
+  200: Array<ResourceNode>;
+};
+
+export type PostAuthRbacListRoleResourceTreeResponse =
+  PostAuthRbacListRoleResourceTreeResponses[keyof PostAuthRbacListRoleResourceTreeResponses];
+
+export type PostAuthRbacListResourceRolesData = {
+  body?: {
+    resourceId: string;
+    roleName?: unknown;
+    sortBy?: {
+      field: string;
+      direction: "asc" | "desc";
+    };
+    page?: number;
+    pageSize?: number;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/list-resource-roles";
+};
+
+export type PostAuthRbacListResourceRolesErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacListResourceRolesError =
+  PostAuthRbacListResourceRolesErrors[keyof PostAuthRbacListResourceRolesErrors];
+
+export type PostAuthRbacListResourceRolesResponses = {
+  /**
+   * Success
+   */
+  200: Array<Role>;
+};
+
+export type PostAuthRbacListResourceRolesResponse =
+  PostAuthRbacListResourceRolesResponses[keyof PostAuthRbacListResourceRolesResponses];
+
+export type PostAuthRbacListResourceUsersData = {
+  body?: {
+    resourceId: string;
+    username?: unknown;
+    sortBy?: {
+      field: string;
+      direction: "asc" | "desc";
+    };
+    page?: number;
+    pageSize?: number;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/list-resource-users";
+};
+
+export type PostAuthRbacListResourceUsersErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacListResourceUsersError =
+  PostAuthRbacListResourceUsersErrors[keyof PostAuthRbacListResourceUsersErrors];
+
+export type PostAuthRbacListResourceUsersResponses = {
+  /**
+   * Success
+   */
+  200: Array<User>;
+};
+
+export type PostAuthRbacListResourceUsersResponse =
+  PostAuthRbacListResourceUsersResponses[keyof PostAuthRbacListResourceUsersResponses];
 
 export type ClientOptions = {
   baseUrl: "http://localhost:3000" | (string & {});

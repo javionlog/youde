@@ -7,6 +7,8 @@ import type {
   GetAuthListAccountsResponse,
   PostAuthRefreshTokenResponse,
   PostAuthGetAccessTokenResponse,
+  PostAuthRbacListUserResourceTreeResponse,
+  PostAuthRbacListRoleResourceTreeResponse,
 } from "./types.gen";
 
 export const postAuthSignUpEmailResponseTransformer = async (
@@ -69,5 +71,32 @@ export const postAuthGetAccessTokenResponseTransformer = async (
   if (data.refreshTokenExpiresAt) {
     data.refreshTokenExpiresAt = new Date(data.refreshTokenExpiresAt);
   }
+  return data;
+};
+
+const resourceNodeSchemaResponseTransformer = (data: any) => {
+  if (data.children) {
+    data.children = data.children.map((item: any) => {
+      return resourceNodeSchemaResponseTransformer(item);
+    });
+  }
+  return data;
+};
+
+export const postAuthRbacListUserResourceTreeResponseTransformer = async (
+  data: any,
+): Promise<PostAuthRbacListUserResourceTreeResponse> => {
+  data = data.map((item: any) => {
+    return resourceNodeSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postAuthRbacListRoleResourceTreeResponseTransformer = async (
+  data: any,
+): Promise<PostAuthRbacListRoleResourceTreeResponse> => {
+  data = data.map((item: any) => {
+    return resourceNodeSchemaResponseTransformer(item);
+  });
   return data;
 };

@@ -3,11 +3,11 @@ import { createAuthEndpoint } from 'better-auth/api'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
 import { basePath } from '../config'
-import { pageSpec } from '../schemas/base'
 import { resourceSchema } from '../schemas/resource'
 import { roleSchema } from '../schemas/role'
 import { roleResourceRelationSchema } from '../schemas/role-resource-relation'
 import { userRoleRelationSchema } from '../schemas/user-role-relation'
+import { pageSpec, sortBySpec } from '../specs'
 import { buildTree, getOpenAPISchema, getZodSchema, isEmpty } from '../utils'
 
 const roleSpec = getZodSchema({ fields: roleSchema.role.fields, isClientSide: false })
@@ -19,29 +19,17 @@ const userRoleRelationSpec = getZodSchema({
   isClientSide: false
 })
 
-const userRoleRelationListSpec = z.object({
-  ...pageSpec.shape,
-  ...userRoleRelationSpec.shape,
-  roleName: z.string().nullish(),
-  username: z.string().nullish()
-})
-
 const roleResourceRelationSpec = getZodSchema({
   fields: roleResourceRelationSchema.roleResourceRelation.fields,
   isClientSide: false
 })
 
-const roleResourceRelationListSpec = z.object({
+const relationListSpec = z.object({
   ...pageSpec.shape,
+  ...userRoleRelationSpec.shape,
   ...roleResourceRelationSpec.shape,
+  ...sortBySpec.shape,
   roleName: z.string().nullish(),
-  resourceName: z.string().nullish()
-})
-
-const userResourceRelationListSpec = z.object({
-  ...pageSpec.shape,
-  ...userRoleRelationSpec.pick({ userId: true }).shape,
-  ...roleResourceRelationSpec.pick({ resourceId: true }).shape,
   username: z.string().nullish(),
   resourceName: z.string().nullish(),
   resourceType: z.enum(['Menu', 'Page', 'Element']).nullish()
@@ -54,11 +42,90 @@ type UserRoleRelationSpec = z.infer<typeof userRoleRelationSpec>
 type RoleResourceRelationSpec = z.infer<typeof roleResourceRelationSpec>
 
 export const relationEndpoints = {
+  listUsers: createAuthEndpoint(
+    `${basePath}/list-users`,
+    {
+      method: 'POST',
+      body: z.object({
+        ...relationListSpec.pick({ username: true, sortBy: true }).shape,
+        ...pageSpec.shape
+      }),
+      metadata: {
+        openapi: {
+          description: 'List users',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: getOpenAPISchema(
+                  z.object({
+                    ...relationListSpec.pick({ username: true, sortBy: true }).shape,
+                    ...pageSpec.shape
+                  })
+                )
+              }
+            }
+          },
+          responses: {
+            '200': {
+              description: 'Success',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/User'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    async ctx => {
+      const { body, json, context } = ctx
+      const { adapter } = context
+      const { username, sortBy, page, pageSize } = body
+      let offset: number | undefined
+      let limit: number | undefined
+      if (!isEmpty(page) && !isEmpty(pageSize)) {
+        offset = (page - 1) * pageSize
+        limit = pageSize
+      }
+      const where: Where[] = []
+      if (!isEmpty(username)) {
+        where.push({
+          field: 'username',
+          value: username,
+          operator: 'contains'
+        })
+      }
+      const records = await adapter.findMany<UserSpec>({
+        model: 'user',
+        where,
+        offset,
+        limit,
+        sortBy
+      })
+      const total = await adapter.count({
+        model: 'user',
+        where
+      })
+      return json({
+        records,
+        total
+      })
+    }
+  ),
   listUserRoles: createAuthEndpoint(
     `${basePath}/list-user-roles`,
     {
       method: 'POST',
-      body: userRoleRelationListSpec.omit({ roleId: true, username: true }),
+      body: z.object({
+        ...relationListSpec.pick({ userId: true, roleName: true, sortBy: true }).shape,
+        ...pageSpec.shape
+      }),
       metadata: {
         openapi: {
           description: 'List user roles',
@@ -66,7 +133,10 @@ export const relationEndpoints = {
             content: {
               'application/json': {
                 schema: getOpenAPISchema(
-                  userRoleRelationListSpec.omit({ roleId: true, username: true })
+                  z.object({
+                    ...relationListSpec.pick({ userId: true, roleName: true, sortBy: true }).shape,
+                    ...pageSpec.shape
+                  })
                 )
               }
             }
@@ -92,7 +162,7 @@ export const relationEndpoints = {
     async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
-      const { userId, roleName, page, pageSize } = body
+      const { userId, roleName, sortBy, page, pageSize } = body
       const userRoleRelationRows = await adapter.findMany<UserRoleRelationSpec>({
         model: 'userRoleRelation',
         where: [{ field: 'userId', value: userId }]
@@ -117,7 +187,8 @@ export const relationEndpoints = {
         model: 'role',
         where,
         offset,
-        limit
+        limit,
+        sortBy
       })
       const total = await adapter.count({
         model: 'role',
@@ -133,7 +204,15 @@ export const relationEndpoints = {
     `${basePath}/list-user-resources`,
     {
       method: 'POST',
-      body: userResourceRelationListSpec.omit({ resourceId: true, username: true }),
+      body: z.object({
+        ...relationListSpec.pick({
+          userId: true,
+          resourceName: true,
+          resourceType: true,
+          sortBy: true
+        }).shape,
+        ...pageSpec.shape
+      }),
       metadata: {
         openapi: {
           description: 'List user resources',
@@ -141,7 +220,15 @@ export const relationEndpoints = {
             content: {
               'application/json': {
                 schema: getOpenAPISchema(
-                  userResourceRelationListSpec.omit({ resourceId: true, username: true })
+                  z.object({
+                    ...relationListSpec.pick({
+                      userId: true,
+                      resourceName: true,
+                      resourceType: true,
+                      sortBy: true
+                    }).shape,
+                    ...pageSpec.shape
+                  })
                 )
               }
             }
@@ -167,7 +254,7 @@ export const relationEndpoints = {
     async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
-      const { userId, resourceName, resourceType, page, pageSize } = body
+      const { userId, resourceName, resourceType, sortBy, page, pageSize } = body
       const userRoleRelationRows = await adapter.findMany<UserRoleRelationSpec>({
         model: 'userRoleRelation',
         where: [{ field: 'userId', value: userId }]
@@ -202,7 +289,8 @@ export const relationEndpoints = {
         model: 'resource',
         where,
         offset,
-        limit
+        limit,
+        sortBy
       })
       const total = await adapter.count({
         model: 'resource',
@@ -218,17 +306,10 @@ export const relationEndpoints = {
     `${basePath}/list-user-resource-tree`,
     {
       method: 'POST',
-      body: userResourceRelationListSpec.pick({ userId: true }),
+      body: relationListSpec.pick({ userId: true }),
       metadata: {
         openapi: {
           description: 'List user resource tree',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: getOpenAPISchema(userResourceRelationListSpec.pick({ userId: true }))
-              }
-            }
-          },
           responses: {
             '200': {
               description: 'Success',
@@ -278,7 +359,10 @@ export const relationEndpoints = {
     `${basePath}/list-role-users`,
     {
       method: 'POST',
-      body: userRoleRelationListSpec.omit({ userId: true, roleName: true }),
+      body: z.object({
+        ...relationListSpec.pick({ roleId: true, username: true, sortBy: true }).shape,
+        ...pageSpec.shape
+      }),
       metadata: {
         openapi: {
           description: 'List role users',
@@ -286,7 +370,10 @@ export const relationEndpoints = {
             content: {
               'application/json': {
                 schema: getOpenAPISchema(
-                  userRoleRelationListSpec.omit({ userId: true, roleName: true })
+                  z.object({
+                    ...relationListSpec.pick({ roleId: true, username: true, sortBy: true }).shape,
+                    ...pageSpec.shape
+                  })
                 )
               }
             }
@@ -312,7 +399,7 @@ export const relationEndpoints = {
     async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
-      const { roleId, username, page, pageSize } = body
+      const { roleId, username, sortBy, page, pageSize } = body
       const userRoleRelationRows = await adapter.findMany<UserRoleRelationSpec>({
         model: 'userRoleRelation',
         where: [{ field: 'roleId', value: roleId }]
@@ -337,7 +424,8 @@ export const relationEndpoints = {
         model: 'user',
         where,
         offset,
-        limit
+        limit,
+        sortBy
       })
       const total = await adapter.count({
         model: 'user',
@@ -353,7 +441,10 @@ export const relationEndpoints = {
     `${basePath}/list-role-resources`,
     {
       method: 'POST',
-      body: roleResourceRelationListSpec.omit({ resourceId: true, roleName: true }),
+      body: z.object({
+        ...relationListSpec.pick({ roleId: true, resourceName: true, sortBy: true }).shape,
+        ...pageSpec.shape
+      }),
       metadata: {
         openapi: {
           description: 'List role resources',
@@ -361,7 +452,11 @@ export const relationEndpoints = {
             content: {
               'application/json': {
                 schema: getOpenAPISchema(
-                  roleResourceRelationListSpec.omit({ resourceId: true, roleName: true })
+                  z.object({
+                    ...relationListSpec.pick({ roleId: true, resourceName: true, sortBy: true })
+                      .shape,
+                    ...pageSpec.shape
+                  })
                 )
               }
             }
@@ -387,7 +482,7 @@ export const relationEndpoints = {
     async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
-      const { roleId, resourceName, page, pageSize } = body
+      const { roleId, resourceName, sortBy, page, pageSize } = body
       const roleResourceRelationRows = await adapter.findMany<RoleResourceRelationSpec>({
         model: 'roleResourceRelation',
         where: [{ field: 'roleId', value: roleId }]
@@ -412,7 +507,8 @@ export const relationEndpoints = {
         model: 'resource',
         where,
         offset,
-        limit
+        limit,
+        sortBy
       })
       const total = await adapter.count({
         model: 'resource',
@@ -428,14 +524,14 @@ export const relationEndpoints = {
     `${basePath}/list-role-resource-tree`,
     {
       method: 'POST',
-      body: roleResourceRelationListSpec.pick({ roleId: true }),
+      body: relationListSpec.pick({ roleId: true }),
       metadata: {
         openapi: {
           description: 'List role resource tree',
           requestBody: {
             content: {
               'application/json': {
-                schema: getOpenAPISchema(roleResourceRelationListSpec.pick({ roleId: true }))
+                schema: getOpenAPISchema(relationListSpec.pick({ roleId: true }))
               }
             }
           },
@@ -484,7 +580,10 @@ export const relationEndpoints = {
     `${basePath}/list-resource-roles`,
     {
       method: 'POST',
-      body: roleResourceRelationListSpec.omit({ roleId: true, resourceName: true }),
+      body: z.object({
+        ...relationListSpec.pick({ resourceId: true, roleName: true, sortBy: true }).shape,
+        ...pageSpec.shape
+      }),
       metadata: {
         openapi: {
           description: 'List resource roles',
@@ -492,7 +591,11 @@ export const relationEndpoints = {
             content: {
               'application/json': {
                 schema: getOpenAPISchema(
-                  roleResourceRelationListSpec.omit({ roleId: true, resourceName: true })
+                  z.object({
+                    ...relationListSpec.pick({ resourceId: true, roleName: true, sortBy: true })
+                      .shape,
+                    ...pageSpec.shape
+                  })
                 )
               }
             }
@@ -518,7 +621,7 @@ export const relationEndpoints = {
     async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
-      const { resourceId, roleName, page, pageSize } = body
+      const { resourceId, roleName, sortBy, page, pageSize } = body
       const roleResourceRelationRows = await adapter.findMany<RoleResourceRelationSpec>({
         model: 'roleResourceRelation',
         where: [{ field: 'resourceId', value: resourceId }]
@@ -540,10 +643,100 @@ export const relationEndpoints = {
         })
       }
       const records = await adapter.findMany<ResourceSpec>({
-        model: 'resource',
+        model: 'role',
         where,
         offset,
-        limit
+        limit,
+        sortBy
+      })
+      const total = await adapter.count({
+        model: 'role',
+        where
+      })
+      return json({
+        records,
+        total
+      })
+    }
+  ),
+  listResourceUsers: createAuthEndpoint(
+    `${basePath}/list-resource-users`,
+    {
+      method: 'POST',
+      body: z.object({
+        ...relationListSpec.pick({ resourceId: true, username: true, sortBy: true }).shape,
+        ...pageSpec.shape
+      }),
+      metadata: {
+        openapi: {
+          description: 'List resource users',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: getOpenAPISchema(
+                  z.object({
+                    ...relationListSpec.pick({ resourceId: true, username: true, sortBy: true })
+                      .shape,
+                    ...pageSpec.shape
+                  })
+                )
+              }
+            }
+          },
+          responses: {
+            '200': {
+              description: 'Success',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/User'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    async ctx => {
+      const { body, json, context } = ctx
+      const { adapter } = context
+      const { resourceId, username, sortBy, page, pageSize } = body
+      const roleResourceRelationRows = await adapter.findMany<RoleResourceRelationSpec>({
+        model: 'roleResourceRelation',
+        where: [{ field: 'resourceId', value: resourceId }]
+      })
+      const userRoleRelationRows = await adapter.findMany<UserRoleRelationSpec>({
+        model: 'userRoleRelation',
+        where: [
+          { field: 'roleId', value: roleResourceRelationRows.map(o => o.roleId), operator: 'in' }
+        ]
+      })
+      let offset: number | undefined
+      let limit: number | undefined
+      if (!isEmpty(page) && !isEmpty(pageSize)) {
+        offset = (page - 1) * pageSize
+        limit = pageSize
+      }
+      const where: Where[] = [
+        { field: 'id', value: userRoleRelationRows.map(row => row.userId), operator: 'in' }
+      ]
+      if (!isEmpty(username)) {
+        where.push({
+          field: 'username',
+          value: username,
+          operator: 'contains'
+        })
+      }
+      const records = await adapter.findMany<UserSpec>({
+        model: 'user',
+        where,
+        offset,
+        limit,
+        sortBy
       })
       const total = await adapter.count({
         model: 'user',
@@ -553,6 +746,45 @@ export const relationEndpoints = {
         records,
         total
       })
+    }
+  ),
+  listResourceTree: createAuthEndpoint(
+    `${basePath}/list-resource-tree`,
+    {
+      method: 'POST',
+      metadata: {
+        openapi: {
+          description: 'List resource tree',
+          responses: {
+            '200': {
+              description: 'Success',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ResourceNode'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    async ctx => {
+      const { json, context } = ctx
+      const { adapter } = context
+      const records = await adapter.findMany<ResourceSpec>({
+        model: 'resource',
+        sortBy: {
+          field: 'sort',
+          direction: 'asc'
+        }
+      })
+      const tree = buildTree(records)
+      return json(tree)
     }
   )
 } satisfies BetterAuthPlugin['endpoints']

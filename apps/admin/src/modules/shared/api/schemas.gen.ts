@@ -170,16 +170,12 @@ export const RoleSchema = {
     },
     enabled: {
       type: "boolean",
-      default: false,
-    },
-    sort: {
-      type: "number",
-      default: 0,
     },
     remark: {
       type: "string",
     },
   },
+  required: ["name"],
 } as const;
 
 export const ResourceSchema = {
@@ -211,20 +207,19 @@ export const ResourceSchema = {
     },
     enabled: {
       type: "boolean",
-      default: false,
-    },
-    sort: {
-      type: "number",
-      default: 0,
     },
     remark: {
       type: "string",
+    },
+    sort: {
+      type: "number",
     },
     parentId: {
       type: "string",
     },
     type: {
       type: "string",
+      enum: ["Menu", "Page", "Element"],
     },
     path: {
       type: "string",
@@ -240,21 +235,18 @@ export const ResourceSchema = {
     },
     isLink: {
       type: "boolean",
-      default: false,
     },
     isCache: {
       type: "boolean",
-      default: false,
     },
     isAffix: {
       type: "boolean",
-      default: false,
     },
     isShow: {
       type: "boolean",
-      default: false,
     },
   },
+  required: ["name", "type"],
 } as const;
 
 export const UserRoleRelationSchema = {
@@ -270,6 +262,7 @@ export const UserRoleRelationSchema = {
       type: "string",
     },
   },
+  required: ["userId", "roleId"],
 } as const;
 
 export const RoleResourceRelationSchema = {
@@ -285,4 +278,82 @@ export const RoleResourceRelationSchema = {
       type: "string",
     },
   },
+  required: ["roleId", "resourceId"],
+} as const;
+
+export const ResourceNodeSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+    },
+    createdAt: {
+      type: "string",
+      default: "Generated at runtime",
+      readOnly: true,
+    },
+    updatedAt: {
+      type: "string",
+      default: "Generated at runtime",
+      readOnly: true,
+    },
+    createdBy: {
+      type: "string",
+      readOnly: true,
+    },
+    updatedBy: {
+      type: "string",
+      readOnly: true,
+    },
+    name: {
+      type: "string",
+    },
+    enabled: {
+      type: "boolean",
+    },
+    remark: {
+      type: "string",
+    },
+    sort: {
+      type: "number",
+    },
+    parentId: {
+      type: "string",
+    },
+    type: {
+      type: "string",
+      enum: ["Menu", "Page", "Element"],
+    },
+    path: {
+      type: "string",
+    },
+    activePath: {
+      type: "string",
+    },
+    component: {
+      type: "string",
+    },
+    icon: {
+      type: "string",
+    },
+    isLink: {
+      type: "boolean",
+    },
+    isCache: {
+      type: "boolean",
+    },
+    isAffix: {
+      type: "boolean",
+    },
+    isShow: {
+      type: "boolean",
+    },
+    children: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ResourceNode",
+      },
+    },
+  },
+  required: ["name", "type"],
 } as const;

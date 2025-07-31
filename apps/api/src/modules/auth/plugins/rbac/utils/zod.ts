@@ -4,8 +4,7 @@ import {
   OpenApiGeneratorV31
 } from '@asteasolutions/zod-to-openapi'
 import type { FieldAttribute } from 'better-auth/db'
-import type { ZodObject, ZodType } from 'zod'
-import { z } from 'zod'
+import { type ZodType, z } from 'zod'
 
 extendZodWithOpenApi(z)
 export const getOpenAPISchema = (schema: ZodType) => {
@@ -116,17 +115,4 @@ export function getZodSchema<
     }>,
     z.core.$strip
   >
-}
-
-export const assignIdToZodObject = (zodType: ZodObject) => {
-  return z.object({
-    id: z.string(),
-    ...zodType.shape
-  })
-}
-
-export const getIdZodObject = () => {
-  return z.object({
-    id: z.string()
-  })
 }

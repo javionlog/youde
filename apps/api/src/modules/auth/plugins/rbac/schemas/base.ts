@@ -1,10 +1,4 @@
-import { z } from 'zod'
 import type { ExtendAuthPluginSchema } from '../types'
-
-export const pageSpec = z.object({
-  page: z.number().optional(),
-  pageSize: z.number().optional()
-})
 
 export const baseFields = {
   createdAt: {
