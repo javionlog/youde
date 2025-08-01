@@ -34,7 +34,7 @@ jobs:
           bun-version: latest
 
       - name: Install pnpm
-        run: npm run -g pnpm
+        run: npm install -g pnpm
 
       - name: Install dependencies
         run: pnpm i
