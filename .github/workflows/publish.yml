@@ -1,4 +1,4 @@
-name: Publish Docker Image
+name: Publish
 on:
   push:
     branches: ['main']
@@ -8,6 +8,10 @@ on:
 
   pull_request:
     branches: ['main']
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build:
@@ -43,7 +47,8 @@ jobs:
         run: npm run build:prod
 
       - name: Build admin
-        run: |
-          docker build . --tag ghcr.io/javionlog/youde-admin:latest
-          docker push ghcr.io/javionlog/youde-admin:latest
-        working-directory: apps/admin
+        uses: docker/build-push-action@v6
+        with:
+          context: ./apps/admin
+          push: true
+          tags: ghcr.io/${{ github.repository }}-admin:latest
