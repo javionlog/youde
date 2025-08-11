@@ -59,3 +59,12 @@ jobs:
           context: ./apps/api
           push: true
           tags: ghcr.io/${{ github.repository }}-api:latest
+
+      - name: Execute remote SSH commands using password
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script_path: scripts/run.sh
