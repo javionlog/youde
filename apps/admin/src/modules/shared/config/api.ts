@@ -19,20 +19,15 @@ export const setApiConfig = () => {
       let msg = res.statusText
       const contentType = res.headers.get('content-type')
       if (contentType?.includes('application/json')) {
-        try {
-          const result = (await res.json()) as ResponseResult
-          if (result.message) {
-            msg = result.message
-          }
-        } finally {
-          MessagePlugin.error(msg)
+        const result = (await res.json()) as ResponseResult
+        if (result.message) {
+          msg = result.message
         }
-      } else {
-        console.log('res', res)
-        console.log('msg', msg)
         MessagePlugin.error(msg)
+      } else {
+        const text = await res.text()
+        MessagePlugin.error(text)
       }
-      // throw new Error(msg)
     }
     return res
   })
