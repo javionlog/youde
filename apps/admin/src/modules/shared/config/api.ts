@@ -17,12 +17,17 @@ export const setApiConfig = () => {
   client.interceptors.response.use(async res => {
     if (!res.ok) {
       let msg = res.statusText
-      try {
-        const result = (await res.json()) as ResponseResult
-        if (result.message) {
-          msg = result.message
+      const contentType = res.headers.get('content-type')
+      if (contentType?.includes('application/json')) {
+        try {
+          const result = (await res.json()) as ResponseResult
+          if (result.message) {
+            msg = result.message
+          }
+        } finally {
+          MessagePlugin.error(msg)
         }
-      } finally {
+      } else {
         MessagePlugin.error(msg)
       }
       throw new Error(msg)
