@@ -1,3 +1,7 @@
+import { cp, rm } from 'node:fs/promises'
+
+await rm('./dist', { recursive: true, force: true })
+
 await Bun.build({
   entrypoints: ['./src/main.ts'],
   outdir: './dist',
@@ -5,3 +9,5 @@ await Bun.build({
   target: 'bun',
   splitting: true
 })
+
+await cp('./public', './dist/public', { recursive: true })

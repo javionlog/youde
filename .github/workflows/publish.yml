@@ -46,9 +46,16 @@ jobs:
       - name: Build apps
         run: npm run build:prod
 
-      - name: Build admin
+      - name: Push admin image
         uses: docker/build-push-action@v6
         with:
           context: ./apps/admin
           push: true
           tags: ghcr.io/${{ github.repository }}-admin:latest
+
+      - name: Push api image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./apps/api
+          push: true
+          tags: ghcr.io/${{ github.repository }}-api:latest
