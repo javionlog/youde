@@ -4,7 +4,7 @@ import { db } from '@/db'
 import { rbac } from '../plugins/rbac'
 import { drizzleAdapter } from './drizzle-adapter'
 
-const { BETTER_AUTH_URL, BETTER_AUTH_SECRET, BETTER_AUTH_TRUSTED_ORIGINS } = process.env
+const { BETTER_AUTH_URL, BETTER_AUTH_SECRET } = process.env
 
 export const auth = betterAuth({
   basePath: '/auth',
@@ -15,7 +15,7 @@ export const auth = betterAuth({
   },
   database: drizzleAdapter(db, { provider: 'pg' }),
   trustedOrigins() {
-    return BETTER_AUTH_TRUSTED_ORIGINS.split(',')
+    return ['*']
   },
   plugins: [openAPI(), username(), rbac()]
 })
