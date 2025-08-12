@@ -31,6 +31,7 @@ export default () => {
   return (
     <>
       <div>
+        <div>姓名: {session?.user.name}</div>
         <div>用户名: {session?.user.username}</div>
         <div>用户邮箱: {session?.user.email}</div>
         <Button onClick={handleSignout}>登出</Button>
