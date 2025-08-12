@@ -1,0 +1,27 @@
+services:
+  admin:
+    image: ghcr.io/javionlog/youde-admin:latest
+    container_name: admin
+    ports:
+      - "80:80"
+    volumes:
+      - /opt/1panel/docker/compose/youde/nginx.conf
+    networks:
+      - bridge
+    depends_on:
+      - api
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  api:
+    image: ghcr.io/javionlog/youde-api:latest
+    container_name: api
+    ports:
+      - "3000:3000"
+    networks:
+      - bridge
+    env_file:
+      - 1panel.env
+
+networks:
+  bridge:
+    driver: bridge

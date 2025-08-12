@@ -1,4 +1,4 @@
-name: Publish
+name: CI prod
 on:
   push:
     branches: ['main']
@@ -51,14 +51,14 @@ jobs:
         with:
           context: ./apps/admin
           push: true
-          tags: ghcr.io/${{ github.repository }}-admin:latest
+          tags: ghcr.io/${{ github.repository }}-admin-prod:latest
 
       - name: Push api image
         uses: docker/build-push-action@v6
         with:
           context: ./apps/api
           push: true
-          tags: ghcr.io/${{ github.repository }}-api:latest
+          tags: ghcr.io/${{ github.repository }}-api-prod:latest
 
       - name: Execute remote SSH commands using password
         uses: appleboy/ssh-action@v1
@@ -67,4 +67,4 @@ jobs:
           port: ${{ secrets.PORT }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          script_path: scripts/run.sh
+          script_path: scripts/deploy-prod.sh

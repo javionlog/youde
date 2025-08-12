@@ -24,9 +24,11 @@ export const setApiConfig = () => {
           msg = result.message
         }
         MessagePlugin.error(msg)
+        throw new Error(msg)
       } else {
         const text = await res.text()
         MessagePlugin.error(text)
+        throw new Error(text)
       }
     }
     return res

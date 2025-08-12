@@ -1,8 +1,8 @@
 import { createRoot } from 'react-dom/client'
-import { setApiConfig } from './modules/shared/config/api'
+import { setApiConfig } from './global/config/api'
 import { router } from './modules/shared/router'
 import 'tdesign-react/es/style/index.css'
-import './modules/shared/styles/index.css'
+import './global/styles/index.css'
 
 setApiConfig()
 
