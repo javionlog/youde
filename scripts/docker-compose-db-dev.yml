@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:alpine
+    container_name: postgres-dev
+    ports:
+      - 5432:5432
+    volumes:
+      - /apps/db-dev/data:/var/lib/postgresql/data
+      - /apps/db-dev/log:/var/log/postgresql
+    networks:
+      - bridge
+    env_file:
+      - 1panel.env
+
+networks:
+  bridge:
+    driver: bridge

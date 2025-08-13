@@ -11,12 +11,12 @@ services:
     depends_on:
       - api
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - host.docker.internal:host-gateway
   api:
     image: ghcr.io/javionlog/youde-api-prod:latest
     container_name: api-prod
     ports:
-      - "3001:3000"
+      - 3001:3000
     networks:
       - bridge
     env_file:
