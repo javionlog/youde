@@ -3,7 +3,9 @@ networks:
     external: true
 volumes:
   db-data-dev:
+    external: true
   db-log-dev:
+    external: true
 services:
   admin:
     image: ghcr.io/javionlog/youde-admin-dev:latest
