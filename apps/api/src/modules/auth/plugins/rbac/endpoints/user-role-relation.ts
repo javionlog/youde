@@ -1,25 +1,15 @@
 import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
-import { z } from 'zod'
 import { basePath } from '../config'
 import { throwDataDuplicationError, throwDataNotFoundError, throwDbError } from '../errors'
-import { userRoleRelationSchema } from '../schemas/user-role-relation'
-import { getOneUserRole } from '../services/user-role-relation'
-import { pageSpec } from '../specs'
-import { getOpenAPISchema, getZodSchema, isEmpty } from '../utils'
-
-const userRoleRelationSpec = getZodSchema({
-  fields: userRoleRelationSchema.userRoleRelation.fields,
-  isClientSide: false
-})
-
-const userRoleRelationListSpec = z.object({
-  ...pageSpec.shape,
-  ...userRoleRelationSpec.partial().shape
-})
-
-type UserRoleRelationSpec = z.infer<typeof userRoleRelationSpec>
+import type { UserRoleRelationSpec } from '../services/user-role-relation'
+import {
+  getOneUserRole,
+  userRoleRelationListSpec,
+  userRoleRelationSpec
+} from '../services/user-role-relation'
+import { getOpenAPISchema, isEmpty } from '../utils'
 
 export const userRoleRelationEndpoints = {
   createUserRoleRelation: createAuthEndpoint(

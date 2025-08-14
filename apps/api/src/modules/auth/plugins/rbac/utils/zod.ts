@@ -23,17 +23,21 @@ type FieldAttributeToSchema<
   ? GetInput<isClientSide, Field, GetRequired<Field, GetType<Field>>>
   : Record<string, never>
 
-type GetType<F extends FieldAttribute> = F extends {
-  type: 'string'
-}
-  ? z.ZodString
-  : F extends { type: 'number' }
-    ? z.ZodNumber
-    : F extends { type: 'boolean' }
-      ? z.ZodBoolean
-      : F extends { type: 'date' }
-        ? z.ZodDate
-        : z.ZodAny
+type GetType<F extends FieldAttribute> = F extends { type: 'string'; enum: string[] }
+  ? z.ZodEnum<{
+      [k in F['enum'][number]]: F['enum'][number]
+    }>
+  : F extends {
+        type: 'string'
+      }
+    ? z.ZodString
+    : F extends { type: 'number' }
+      ? z.ZodNumber
+      : F extends { type: 'boolean' }
+        ? z.ZodBoolean
+        : F extends { type: 'date' }
+          ? z.ZodDate
+          : z.ZodAny
 
 type GetRequired<F extends FieldAttribute, Schema extends z.core.SomeType> = F extends {
   required: true

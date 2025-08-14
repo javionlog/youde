@@ -22,21 +22,5 @@ export const baseFields = {
     type: 'string',
     required: false,
     input: false
-  },
-  name: {
-    type: 'string',
-    required: true,
-    input: true,
-    unique: true
-  },
-  enabled: {
-    type: 'boolean',
-    required: false,
-    input: true
-  },
-  remark: {
-    type: 'string',
-    required: false,
-    input: true
   }
 } satisfies ExtendAuthPluginSchema[number]['fields']

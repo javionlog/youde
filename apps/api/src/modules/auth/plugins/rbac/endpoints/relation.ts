@@ -1,45 +1,16 @@
-import type { User, Where } from 'better-auth'
+import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
 import { basePath } from '../config'
-import { resourceSchema } from '../schemas/resource'
-import { roleSchema } from '../schemas/role'
-import { roleResourceRelationSchema } from '../schemas/role-resource-relation'
-import { userRoleRelationSchema } from '../schemas/user-role-relation'
-import { pageSpec, sortBySpec } from '../specs'
-import { buildTree, getOpenAPISchema, getZodSchema, isEmpty } from '../utils'
-
-const roleSpec = getZodSchema({ fields: roleSchema.role.fields, isClientSide: false })
-
-const resourceSpec = getZodSchema({ fields: resourceSchema.resource.fields, isClientSide: false })
-
-const userRoleRelationSpec = getZodSchema({
-  fields: userRoleRelationSchema.userRoleRelation.fields,
-  isClientSide: false
-})
-
-const roleResourceRelationSpec = getZodSchema({
-  fields: roleResourceRelationSchema.roleResourceRelation.fields,
-  isClientSide: false
-})
-
-const relationListSpec = z.object({
-  ...pageSpec.shape,
-  ...userRoleRelationSpec.shape,
-  ...roleResourceRelationSpec.shape,
-  ...sortBySpec.shape,
-  roleName: z.string().nullish(),
-  username: z.string().nullish(),
-  resourceName: z.string().nullish(),
-  resourceType: z.enum(['Menu', 'Page', 'Element']).nullish()
-})
-
-type UserSpec = User & { username?: string }
-type RoleSpec = z.infer<typeof roleSpec>
-type ResourceSpec = z.infer<typeof resourceSpec>
-type UserRoleRelationSpec = z.infer<typeof userRoleRelationSpec>
-type RoleResourceRelationSpec = z.infer<typeof roleResourceRelationSpec>
+import { relationListSpec } from '../services/relation'
+import type { ResourceSpec } from '../services/resource'
+import type { RoleSpec } from '../services/role'
+import type { RoleResourceRelationSpec } from '../services/role-resource-relation'
+import type { UserSpec } from '../services/user'
+import type { UserRoleRelationSpec } from '../services/user-role-relation'
+import { pageSpec } from '../specs'
+import { buildTree, getOpenAPISchema, isEmpty } from '../utils'
 
 export const relationEndpoints = {
   listUsers: createAuthEndpoint(

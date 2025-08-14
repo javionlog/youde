@@ -1,11 +1,27 @@
 import type { AuthContext } from 'better-auth'
-import type { z } from 'zod'
+import { z } from 'zod'
 import { throwDataNotFoundError } from '../errors'
 import { resourceSchema } from '../schemas/resource'
+import { pageSpec, sortBySpec } from '../specs'
 import { getZodSchema } from '../utils'
 
-const resourceSpec = getZodSchema({ fields: resourceSchema.resource.fields, isClientSide: false })
-type ResourceSpec = z.infer<typeof resourceSpec>
+export const resourceSpec = getZodSchema({
+  fields: resourceSchema.resource.fields,
+  isClientSide: false
+})
+
+export const resourceClientSpec = getZodSchema({
+  fields: resourceSchema.resource.fields,
+  isClientSide: true
+})
+
+export const resourceListSpec = z.object({
+  ...pageSpec.shape,
+  ...sortBySpec.shape,
+  name: z.string().nullish()
+})
+
+export type ResourceSpec = z.infer<typeof resourceSpec> & { id: string }
 
 export const getOneResource = async (ctx: AuthContext, id: string) => {
   const { adapter } = ctx

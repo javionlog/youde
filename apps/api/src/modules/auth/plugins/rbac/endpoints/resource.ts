@@ -4,36 +4,12 @@ import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
 import { basePath } from '../config'
 import { throwDataIsReferencedError, throwDbError } from '../errors'
-import { resourceSchema } from '../schemas/resource'
-import { roleResourceRelationSchema } from '../schemas/role-resource-relation'
 import { getSession } from '../services/base'
-import { getOneResource } from '../services/resource'
-import { idSpec, pageSpec, sortBySpec } from '../specs'
-import { getOpenAPISchema, getZodSchema, isEmpty } from '../utils'
-
-const resourceSpec = getZodSchema({
-  fields: resourceSchema.resource.fields,
-  isClientSide: false
-})
-
-const resourceClientSpec = getZodSchema({
-  fields: resourceSchema.resource.fields,
-  isClientSide: true
-})
-
-const resourceListSpec = z.object({
-  ...pageSpec.shape,
-  ...sortBySpec.shape,
-  name: z.string().nullish()
-})
-
-const roleResourceRelationSpec = getZodSchema({
-  fields: roleResourceRelationSchema.roleResourceRelation.fields,
-  isClientSide: false
-})
-
-type ResourceSpec = z.infer<typeof resourceSpec>
-type RoleResourceRelationSpec = z.infer<typeof roleResourceRelationSpec>
+import type { ResourceSpec } from '../services/resource'
+import { getOneResource, resourceClientSpec, resourceListSpec } from '../services/resource'
+import type { RoleResourceRelationSpec } from '../services/role-resource-relation'
+import { idSpec } from '../specs'
+import { getOpenAPISchema, isEmpty } from '../utils'
 
 export const resourceEndpoints = {
   createResource: createAuthEndpoint(

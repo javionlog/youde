@@ -2,6 +2,8 @@ import { sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { auth } from '@/modules/auth/services'
 
+const { api } = auth
+
 const reset = async () => {
   const tableSchema = db._.schema
   if (!tableSchema) {
@@ -21,14 +23,81 @@ const reset = async () => {
 }
 
 const init = async () => {
-  await auth.api.signUpEmail({
+  const userRes = (await api.signUpEmail({
     body: {
       name: 'admin',
       username: 'admin',
       email: 'admin@example.com',
       password: '12345678'
     }
-  })
+  }))!
+  const roleRes = (await api.createRole({
+    body: {
+      name: 'Super Admin',
+      enabled: true
+    }
+  }))!
+  const resourceRes1 = (await api.createResource({
+    body: {
+      name: 'Auth Management',
+      type: 'Menu',
+      enabled: true
+    }
+  }))!
+  const resourceRes2 = (await api.createResource({
+    body: {
+      parentId: resourceRes1?.id,
+      name: 'User Management',
+      type: 'Page',
+      path: 'user-management',
+      sort: 1,
+      enabled: true,
+      isCache: true,
+      isShow: true
+    }
+  }))!
+  const resourceRes3 = (await api.createResource({
+    body: {
+      parentId: resourceRes1?.id,
+      name: 'Role Management',
+      type: 'Page',
+      path: 'role-management',
+      sort: 2,
+      enabled: true,
+      isCache: true,
+      isShow: true
+    }
+  }))!
+  const resourceRes4 = (await api.createResource({
+    body: {
+      parentId: resourceRes1?.id,
+      name: 'Resource Management',
+      type: 'Page',
+      path: 'resource-management',
+      sort: 3,
+      enabled: true,
+      isCache: true,
+      isShow: true
+    }
+  }))!
+  const resourceIds = [resourceRes1.id, resourceRes2.id, resourceRes3.id, resourceRes4.id]
+  const roleIds = [roleRes.id]
+  for (const id of resourceIds) {
+    await api.createRoleResourceRelation({
+      body: {
+        roleId: roleRes?.id!,
+        resourceId: id
+      }
+    })
+  }
+  for (const id of roleIds) {
+    await api.createUserRoleRelation({
+      body: {
+        userId: userRes.user.id,
+        roleId: id
+      }
+    })
+  }
 }
 
 await reset()

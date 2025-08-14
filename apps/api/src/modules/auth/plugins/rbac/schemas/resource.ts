@@ -5,6 +5,22 @@ export const resourceSchema = {
   resource: {
     fields: {
       ...baseFields,
+      name: {
+        type: 'string',
+        required: true,
+        input: true,
+        unique: true
+      },
+      enabled: {
+        type: 'boolean',
+        required: false,
+        input: true
+      },
+      remark: {
+        type: 'string',
+        required: false,
+        input: true
+      },
       sort: {
         type: 'number',
         required: false,
@@ -19,7 +35,7 @@ export const resourceSchema = {
         type: 'string',
         required: true,
         input: true,
-        enum: ['Menu', 'Page', 'Element']
+        enum: ['Menu', 'Page', 'Element'] as const
       },
       path: {
         type: 'string',
