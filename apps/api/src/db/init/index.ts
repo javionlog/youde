@@ -41,7 +41,8 @@ const init = async () => {
     body: {
       name: 'Auth Management',
       type: 'Menu',
-      enabled: true
+      enabled: true,
+      sort: 0
     }
   }))!
   const resourceRes2 = (await api.createResource({
@@ -49,7 +50,7 @@ const init = async () => {
       parentId: resourceRes1?.id,
       name: 'User Management',
       type: 'Page',
-      path: 'user-management',
+      path: 'auth/user',
       sort: 1,
       enabled: true,
       isCache: true,
@@ -61,7 +62,7 @@ const init = async () => {
       parentId: resourceRes1?.id,
       name: 'Role Management',
       type: 'Page',
-      path: 'role-management',
+      path: 'auth/role',
       sort: 2,
       enabled: true,
       isCache: true,
@@ -73,7 +74,7 @@ const init = async () => {
       parentId: resourceRes1?.id,
       name: 'Resource Management',
       type: 'Page',
-      path: 'resource-management',
+      path: 'auth/resource',
       sort: 3,
       enabled: true,
       isCache: true,

@@ -1,42 +1,27 @@
-import type {
-  GetAuthGetSessionResponse,
-  PostAuthRbacListUserResourceTreeResponse
-} from '@/modules/shared/api'
-import {
-  getAuthGetSession,
-  postAuthRbacListUserResourceTree,
-  postAuthSignOut
-} from '@/modules/shared/api'
-import { SideBar } from '@/modules/shared/layouts/side-bar'
+import { postAuthSignOut } from '@/global/api'
+import { useResourceStore, useUserStore } from '@/global/stores'
 
 export default () => {
   const navigate = useNavigate()
-
-  const [session, setSession] = useState<GetAuthGetSessionResponse | null | undefined>(null)
-  const [menus, setMenus] = useState<PostAuthRbacListUserResourceTreeResponse>([])
-  useEffect(() => {
-    getAuthGetSession().then(res => {
-      setSession(res.data)
-      postAuthRbacListUserResourceTree({ body: { userId: res.data?.user.id! } }).then(res => {
-        setMenus(res.data ?? [])
-      })
-    })
-  }, [])
+  const { setUser } = useUserStore()
+  const { setResourceTree } = useResourceStore()
+  const user = useUserStore(state => state.user)
 
   const handleSignout = () => {
     postAuthSignOut().then(() => {
+      setUser(null)
+      setResourceTree([])
       navigate('/sign-in')
     })
   }
   return (
     <>
       <div>
-        <div>姓名: {session?.user.name}</div>
-        <div>用户名: {session?.user.username}</div>
-        <div>用户邮箱: {session?.user.email}</div>
+        <div>姓名: {user?.name}</div>
+        <div>用户名: {user?.username}</div>
+        <div>用户邮箱: {user?.email}</div>
         <Button onClick={handleSignout}>登出</Button>
       </div>
-      <SideBar menus={menus} />
     </>
   )
 }

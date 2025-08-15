@@ -105,6 +105,8 @@ declare global {
   const Upload: typeof import('tdesign-react')['Upload']
   const Watermark: typeof import('tdesign-react')['Watermark']
   const createBrowserRouter: typeof import('react-router')['createBrowserRouter']
+  const lazy: typeof import('react')['lazy']
+  const memo: typeof import('react')['memo']
   const useCallback: typeof import('react')['useCallback']
   const useContext: typeof import('react')['useContext']
   const useEffect: typeof import('react')['useEffect']

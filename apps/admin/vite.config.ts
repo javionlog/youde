@@ -18,6 +18,8 @@ export default defineConfig(({ mode }) => {
           {
             from: 'react',
             imports: [
+              'lazy',
+              'memo',
               'StrictMode',
               'useContext',
               'useCallback',

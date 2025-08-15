@@ -2,7 +2,7 @@ import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
-import { basePath } from '../config'
+import { basePath, systemOperator } from '../config'
 import { throwDataIsReferencedError, throwDbError } from '../errors'
 import { getSession } from '../services/base'
 import type { ResourceSpec } from '../services/resource'
@@ -52,8 +52,8 @@ export const resourceEndpoints = {
           model: 'resource',
           data: {
             ...body,
-            createdBy: session?.user.username,
-            updatedBy: session?.user.username
+            createdBy: session?.user.username ?? systemOperator,
+            updatedBy: session?.user.username ?? systemOperator
           }
         })
         return json(result)
@@ -114,7 +114,7 @@ export const resourceEndpoints = {
           update: {
             ...body,
             updatedAt: new Date(),
-            updatedBy: session?.user.username
+            updatedBy: session?.user.username ?? systemOperator
           }
         })
         return json(result)
