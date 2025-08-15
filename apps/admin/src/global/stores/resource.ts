@@ -3,6 +3,7 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 
 import type { ResourceNode } from '@/global/api'
 import { postAuthRbacListUserResourceTree } from '@/global/api'
+import { STORAGE_PREFIX } from '@/global/constants'
 import { flattenTree } from '@/global/utils'
 import { useUserStore } from './user'
 
@@ -60,6 +61,6 @@ export const useResourceStore = create(
         }
       }
     },
-    { name: 'resource', storage: createJSONStorage(() => localStorage) }
+    { name: `${STORAGE_PREFIX}resource`, storage: createJSONStorage(() => localStorage) }
   )
 )

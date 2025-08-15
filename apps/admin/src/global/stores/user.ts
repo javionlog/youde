@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import type { User } from '@/global/api'
+import { STORAGE_PREFIX } from '@/global/constants'
 
 interface State {
   user: User | null
@@ -17,6 +18,6 @@ export const useUserStore = create(
         }
       }
     },
-    { name: 'auth', storage: createJSONStorage(() => localStorage) }
+    { name: `${STORAGE_PREFIX}user`, storage: createJSONStorage(() => localStorage) }
   )
 )
