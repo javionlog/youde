@@ -1,4 +1,4 @@
-import { layoutMenus } from '@/global/router/static'
+import { LAYOUT_MENUS } from '@/global/router/static'
 import { useResourceStore } from '@/global/stores'
 import { SideBar } from './side-bar'
 
@@ -6,7 +6,7 @@ export const Layout = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const resourceTree = useResourceStore(state => state.resourceTree)
-  const menus = [...layoutMenus, ...resourceTree]
+  const menus = [...LAYOUT_MENUS, ...resourceTree]
 
   useEffect(() => {
     if (location.pathname === '/') {
@@ -17,7 +17,9 @@ export const Layout = () => {
   return (
     <div>
       <SideBar menus={menus} />
-      <Outlet />
+      <Suspense fallback={<div>Loading</div>}>
+        <Outlet />
+      </Suspense>
     </div>
   )
 }

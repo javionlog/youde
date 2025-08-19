@@ -13,16 +13,18 @@ const MenuNode = (props: { menu: ResourceNode }) => {
 }
 
 const renderMenuItems = (menus: ResourceNode[]) => {
-  return menus.map(item => {
-    if (item.type === 'Menu' && item.children?.length) {
-      return (
-        <SubMenu key={item.id} title={item.name} value={item.id}>
-          {renderMenuItems(item.children)}
-        </SubMenu>
-      )
-    }
-    return <MenuNode key={item.id} menu={item} />
-  })
+  return menus
+    .filter(o => o.isShow)
+    .map(item => {
+      if (item.type === 'Menu' && item.children?.length) {
+        return (
+          <SubMenu key={item.id} title={item.name} value={item.id}>
+            {renderMenuItems(item.children)}
+          </SubMenu>
+        )
+      }
+      return <MenuNode key={item.id} menu={item} />
+    })
 }
 
 interface MenuProps {

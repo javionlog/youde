@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => {
               'lazy',
               'memo',
               'StrictMode',
+              'Suspense',
               'useContext',
               'useCallback',
               'useEffect',

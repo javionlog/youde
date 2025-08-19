@@ -84,6 +84,7 @@ declare global {
   const Steps: typeof import('tdesign-react')['Steps']
   const StickyTool: typeof import('tdesign-react')['StickyTool']
   const StrictMode: typeof import('react')['StrictMode']
+  const Suspense: typeof import('react')['Suspense']
   const Swiper: typeof import('tdesign-react')['Swiper']
   const Switch: typeof import('tdesign-react')['Switch']
   const Table: typeof import('tdesign-react')['Table']

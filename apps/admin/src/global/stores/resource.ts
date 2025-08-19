@@ -44,6 +44,9 @@ export const useResourceStore = create(
             .filter(o => o.type === 'Element')
         },
         fetchResourceTree: async () => {
+          if (get().isInited) {
+            return
+          }
           const user = useUserStore.getState().user
           if (!user) {
             return

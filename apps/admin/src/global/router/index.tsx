@@ -1,12 +1,12 @@
 import { Layout } from '@/global/layouts'
 import { genDynamicRoutes } from './dynamic'
-import { layoutRoutes, noLayoutRoutes } from './static'
+import { LAYOUT_ROUTES, NO_LAYOUT_ROUTES } from './static'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     Component: Layout,
-    children: [...layoutRoutes, ...genDynamicRoutes()]
+    children: [...LAYOUT_ROUTES, ...genDynamicRoutes()]
   },
-  ...noLayoutRoutes
+  ...NO_LAYOUT_ROUTES
 ])

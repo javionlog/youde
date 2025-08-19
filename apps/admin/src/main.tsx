@@ -7,8 +7,13 @@ import './global/styles/index.css'
 setApiConfig()
 
 const root = document.getElementById('root')!
-createRoot(root).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>
-)
+
+const App = () => {
+  return (
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>
+  )
+}
+
+createRoot(root).render(<App />)
