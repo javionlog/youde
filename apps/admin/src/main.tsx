@@ -1,19 +1,11 @@
 import { createRoot } from 'react-dom/client'
+import App from './app'
 import { setApiConfig } from './global/config/api'
-import { router } from './global/router'
 import 'tdesign-react/es/style/index.css'
 import './global/styles/index.css'
 
 setApiConfig()
 
 const root = document.getElementById('root')!
-
-const App = () => {
-  return (
-    <StrictMode>
-      <RouterProvider router={router} />
-    </StrictMode>
-  )
-}
 
 createRoot(root).render(<App />)

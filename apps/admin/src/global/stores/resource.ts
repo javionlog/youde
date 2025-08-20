@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
+import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware'
 
 import type { ResourceNode } from '@/global/api'
 import { postAuthRbacListUserResourceTree } from '@/global/api'
@@ -8,7 +8,6 @@ import { flattenTree } from '@/global/utils'
 import { useUserStore } from './user'
 
 interface State {
-  isInited: boolean
   resourceTree: ResourceNode[]
   getResources: () => ResourceNode[]
   getMenuResources: () => ResourceNode[]
@@ -19,10 +18,9 @@ interface State {
 }
 
 export const useResourceStore = create(
-  persist<State>(
-    (set, get) => {
+  persist(
+    subscribeWithSelector<State>((set, get) => {
       return {
-        isInited: false,
         resourceTree: [],
         getResources: () => {
           const resourceTree = get().resourceTree
@@ -44,9 +42,6 @@ export const useResourceStore = create(
             .filter(o => o.type === 'Element')
         },
         fetchResourceTree: async () => {
-          if (get().isInited) {
-            return
-          }
           const user = useUserStore.getState().user
           if (!user) {
             return
@@ -57,13 +52,12 @@ export const useResourceStore = create(
             }
           }).then(r => r.data)
           set({ resourceTree })
-          set({ isInited: true })
         },
         setResourceTree: resourceTree => {
           set({ resourceTree })
         }
       }
-    },
+    }),
     { name: `${STORAGE_PREFIX}resource`, storage: createJSONStorage(() => localStorage) }
   )
 )

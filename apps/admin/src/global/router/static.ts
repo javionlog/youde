@@ -31,7 +31,7 @@ export const LAYOUT_ROUTES = LAYOUT_MENUS.map(item => {
   if (item.id === 'not-found') {
     return {
       path: item.path,
-      Component: lazy(() => import('../../global/error/not-found.tsx'))
+      Component: lazy(() => import('../components/not-found.tsx'))
     }
   }
   return {
