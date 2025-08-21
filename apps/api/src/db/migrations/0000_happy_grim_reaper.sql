@@ -20,12 +20,12 @@ CREATE TABLE "resource" (
 	"updated_at" timestamp,
 	"created_by" text,
 	"updated_by" text,
-	"name" text,
+	"name" text NOT NULL,
 	"enabled" boolean,
-	"sort" integer,
 	"remark" text,
+	"sort" integer,
 	"parent_id" text,
-	"type" text,
+	"type" text NOT NULL,
 	"path" text,
 	"active_path" text,
 	"component" text,
@@ -43,17 +43,16 @@ CREATE TABLE "role" (
 	"updated_at" timestamp,
 	"created_by" text,
 	"updated_by" text,
-	"name" text,
+	"name" text NOT NULL,
 	"enabled" boolean,
-	"sort" integer,
 	"remark" text,
 	CONSTRAINT "role_name_unique" UNIQUE("name")
 );
 --> statement-breakpoint
 CREATE TABLE "role_resource_relation" (
 	"id" text PRIMARY KEY NOT NULL,
-	"role_id" text,
-	"resource_id" text
+	"role_id" text NOT NULL,
+	"resource_id" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "session" (
@@ -84,8 +83,8 @@ CREATE TABLE "user" (
 --> statement-breakpoint
 CREATE TABLE "user_role_relation" (
 	"id" text PRIMARY KEY NOT NULL,
-	"user_id" text,
-	"role_id" text
+	"user_id" text NOT NULL,
+	"role_id" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "verification" (

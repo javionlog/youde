@@ -42,6 +42,7 @@ const init = async () => {
       name: 'Auth Management',
       type: 'Menu',
       enabled: true,
+      isShow: true,
       sort: 0
     }
   }))!

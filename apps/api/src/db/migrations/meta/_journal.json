@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1753345680514,
-      "tag": "0000_clammy_hydra",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1753692248078,
-      "tag": "0001_round_mach_iv",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1753694893944,
-      "tag": "0002_long_barracuda",
+      "when": 1755779368174,
+      "tag": "0000_happy_grim_reaper",
       "breakpoints": true
     }
   ]
