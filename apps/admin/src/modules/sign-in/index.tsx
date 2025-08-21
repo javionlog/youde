@@ -23,7 +23,10 @@ export default () => {
       setUser(resData.user!)
       await fetchResourceTree()
       MessagePlugin.info('登录成功')
-      navigate('/home')
+      const searchParams = new URLSearchParams(window.location.search)
+      const redirectPath = searchParams.get('redirect') ?? '/home'
+      navigate(redirectPath)
+      location.reload()
     }
   }
 

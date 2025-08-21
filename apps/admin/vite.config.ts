@@ -35,6 +35,7 @@ export default defineConfig(({ mode }) => {
           {
             from: 'react-router',
             imports: [
+              'Navigate',
               'RouterProvider',
               'Outlet',
               'NavLink',

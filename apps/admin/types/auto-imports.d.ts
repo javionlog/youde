@@ -57,6 +57,7 @@ declare global {
   const Message: typeof import('tdesign-react')['Message']
   const MessagePlugin: typeof import('tdesign-react')['MessagePlugin']
   const NavLink: typeof import('react-router')['NavLink']
+  const Navigate: typeof import('react-router')['Navigate']
   const Notification: typeof import('tdesign-react')['Notification']
   const NotificationPlugin: typeof import('tdesign-react')['NotificationPlugin']
   const Outlet: typeof import('react-router')['Outlet']

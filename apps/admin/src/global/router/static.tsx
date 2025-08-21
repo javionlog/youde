@@ -15,6 +15,13 @@ export const LAYOUT_MENUS = [
     type: 'Page',
     path: '*',
     isShow: false
+  },
+  {
+    id: 'layout-root',
+    name: 'Layout Root',
+    type: 'Page',
+    path: '/',
+    isShow: false
   }
 ] as const satisfies ResourceNode[]
 
@@ -30,11 +37,20 @@ export const NO_LAYOUT_MENUS = [
 export const LAYOUT_ROUTES = LAYOUT_MENUS.map(item => {
   if (item.id === 'not-found') {
     return {
+      id: item.id,
       path: item.path,
       Component: lazy(() => import('../components/not-found.tsx'))
     }
   }
+  if (item.id === 'layout-root') {
+    return {
+      id: item.id,
+      path: item.path,
+      element: <Navigate to='/home' replace />
+    }
+  }
   return {
+    id: item.id,
     path: item.path,
     Component: lazy(() => import(`../../modules/${item.path}/index.tsx`))
   }
@@ -42,6 +58,7 @@ export const LAYOUT_ROUTES = LAYOUT_MENUS.map(item => {
 
 export const NO_LAYOUT_ROUTES = NO_LAYOUT_MENUS.map(item => {
   return {
+    id: item.id,
     path: item.path,
     Component: lazy(() => import(`../../modules/${item.path}/index.tsx`))
   }

@@ -6,7 +6,8 @@ export const genDynamicRoutes = () => {
   const pageResources = useResourceStore.getState().getPageResources()
 
   const routes = pageResources.map(item => {
-    const componentUrl = `../../modules/${item.component ?? `${item.path}/index.tsx`}`
+    const finalPath = item.component ?? item.path
+    const componentUrl = `../../modules/${finalPath}/index.tsx`
 
     return {
       id: item.id!,
