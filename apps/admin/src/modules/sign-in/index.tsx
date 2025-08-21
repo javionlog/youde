@@ -11,7 +11,6 @@ const initialData = {
 } satisfies PostAuthSignInUsernameData['body']
 
 export default () => {
-  const navigate = useNavigate()
   const [formData] = useState(initialData)
   const [form] = Form.useForm()
   const { setUser } = useUserStore()
@@ -22,11 +21,11 @@ export default () => {
       const resData = await postAuthSignInUsername({ body: params }).then(r => r.data!)
       setUser(resData.user!)
       await fetchResourceTree()
+      const { origin } = new URL(window.location.toString())
       MessagePlugin.info('登录成功')
       const searchParams = new URLSearchParams(window.location.search)
       const redirectPath = searchParams.get('redirect') ?? '/home'
-      navigate(redirectPath)
-      location.reload()
+      location.href = `${origin}${redirectPath}`
     }
   }
 

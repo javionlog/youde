@@ -13,7 +13,7 @@ interface State {
   getMenuResources: () => ResourceNode[]
   getPageResources: () => ResourceNode[]
   getElementResources: () => ResourceNode[]
-  fetchResourceTree: () => void
+  fetchResourceTree: () => Promise<void>
   setResourceTree: (resourceTree: ResourceNode[]) => void
 }
 
