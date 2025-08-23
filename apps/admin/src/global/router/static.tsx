@@ -1,7 +1,7 @@
 import type { RouteObject } from 'react-router'
 import type { ResourceNode } from '@/global/api'
 
-export const LAYOUT_MENUS = [
+export const layoutMenus = [
   {
     id: 'home',
     name: 'Home',
@@ -25,7 +25,7 @@ export const LAYOUT_MENUS = [
   }
 ] as const satisfies ResourceNode[]
 
-export const NO_LAYOUT_MENUS = [
+export const noLayoutMenus = [
   {
     id: 'sign-in',
     name: 'Sign in',
@@ -34,7 +34,7 @@ export const NO_LAYOUT_MENUS = [
   }
 ] as const satisfies ResourceNode[]
 
-export const LAYOUT_ROUTES = LAYOUT_MENUS.map(item => {
+export const layoutRoutes = layoutMenus.map(item => {
   if (item.id === 'not-found') {
     return {
       id: item.id,
@@ -56,10 +56,19 @@ export const LAYOUT_ROUTES = LAYOUT_MENUS.map(item => {
   }
 }) satisfies RouteObject[]
 
-export const NO_LAYOUT_ROUTES = NO_LAYOUT_MENUS.map(item => {
+export const noLayoutRoutes = noLayoutMenus.map(item => {
   return {
     id: item.id,
     path: item.path,
     Component: lazy(() => import(`../../modules/${item.path}/index.tsx`))
   }
 }) satisfies RouteObject[]
+
+export const defaultRoutes = [
+  {
+    path: '/',
+    Component: Layout,
+    children: layoutRoutes
+  },
+  ...noLayoutRoutes
+]

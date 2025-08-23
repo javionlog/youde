@@ -1,9 +1,11 @@
-import { router } from './global/router'
+import AppRouter from './global/components/app-router'
 
 export default () => {
   return (
     <StrictMode>
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
     </StrictMode>
   )
 }

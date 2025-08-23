@@ -8,6 +8,7 @@ import { flattenTree } from '@/global/utils'
 import { useUserStore } from './user'
 
 interface State {
+  resourceInited: boolean
   resourceTree: ResourceNode[]
   getResources: () => ResourceNode[]
   getMenuResources: () => ResourceNode[]
@@ -15,12 +16,14 @@ interface State {
   getElementResources: () => ResourceNode[]
   fetchResourceTree: () => Promise<void>
   setResourceTree: (resourceTree: ResourceNode[]) => void
+  setResourceInited: (resourceInited: boolean) => void
 }
 
 export const useResourceStore = create(
   persist(
     subscribeWithSelector<State>((set, get) => {
       return {
+        resourceInited: false,
         resourceTree: [],
         getResources: () => {
           const resourceTree = get().resourceTree
@@ -42,6 +45,9 @@ export const useResourceStore = create(
             .filter(o => o.type === 'Element')
         },
         fetchResourceTree: async () => {
+          if (get().resourceInited) {
+            return
+          }
           const user = useUserStore.getState().user
           if (!user) {
             return
@@ -51,10 +57,13 @@ export const useResourceStore = create(
               userId: user.id!
             }
           }).then(r => r.data)
-          set({ resourceTree })
+          set({ resourceTree, resourceInited: true })
         },
         setResourceTree: resourceTree => {
           set({ resourceTree })
+        },
+        setResourceInited: resourceInited => {
+          set({ resourceInited })
         }
       }
     }),

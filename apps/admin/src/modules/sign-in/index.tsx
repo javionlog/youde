@@ -1,7 +1,7 @@
 import type { FormProps } from 'tdesign-react'
 import type { PostAuthSignInUsernameData } from '@/global/api'
 import { postAuthSignInUsername } from '@/global/api'
-import { useResourceStore, useUserStore } from '@/global/stores'
+import { useUserStore } from '@/global/stores'
 
 const { FormItem } = Form
 
@@ -12,20 +12,18 @@ const initialData = {
 
 export default () => {
   const [formData] = useState(initialData)
+  const navigate = useNavigate()
   const [form] = Form.useForm()
   const { setUser } = useUserStore()
-  const { fetchResourceTree } = useResourceStore()
   const onSubmit: FormProps['onSubmit'] = async e => {
     if (e.validateResult === true) {
       const params = form.getFieldsValue(true) as typeof initialData
       const resData = await postAuthSignInUsername({ body: params }).then(r => r.data!)
       setUser(resData.user!)
-      await fetchResourceTree()
-      const { origin } = new URL(window.location.toString())
       MessagePlugin.info('登录成功')
       const searchParams = new URLSearchParams(window.location.search)
       const redirectPath = searchParams.get('redirect') ?? '/home'
-      location.href = `${origin}${redirectPath}`
+      navigate(redirectPath)
     }
   }
 

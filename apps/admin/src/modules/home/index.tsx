@@ -4,14 +4,16 @@ import { useResourceStore, useUserStore } from '@/global/stores'
 export default () => {
   const navigate = useNavigate()
   const { setUser } = useUserStore()
-  const { setResourceTree } = useResourceStore()
+  const { setResourceTree, setResourceInited } = useResourceStore()
   const user = useUserStore(state => state.user)
 
   const handleSignout = () => {
     postAuthSignOut().then(() => {
+      navigate('/sign-in')
+      // TODO: router no redirect
       setUser(null)
       setResourceTree([])
-      navigate('/sign-in')
+      setResourceInited(false)
     })
   }
   return (
