@@ -6,7 +6,12 @@ import { basePath, systemOperator } from '../config'
 import { throwDataIsReferencedError, throwDbError } from '../errors'
 import { getSession } from '../services/base'
 import type { ResourceSpec } from '../services/resource'
-import { getOneResource, resourceClientSpec, resourceListSpec } from '../services/resource'
+import {
+  checkResource,
+  getOneResource,
+  resourceClientSpec,
+  resourceListSpec
+} from '../services/resource'
 import type { RoleResourceRelationSpec } from '../services/role-resource-relation'
 import { idSpec } from '../specs'
 import { getOpenAPISchema, isEmpty } from '../utils'
@@ -45,6 +50,7 @@ export const resourceEndpoints = {
     },
     async ctx => {
       const { body, json, context } = ctx
+      await checkResource(context, body)
       const { adapter } = context
       const session = await getSession(ctx)
       try {
@@ -103,6 +109,7 @@ export const resourceEndpoints = {
     },
     async ctx => {
       const { body, json, context } = ctx
+      await checkResource(context, body)
       const { id } = body
       const { adapter } = context
       const session = await getSession(ctx)

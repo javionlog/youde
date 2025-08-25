@@ -1,4 +1,4 @@
-import { guardController } from '@/modules/shared/controllers'
+import { guardController } from '@/global/controllers'
 import { auth } from '../services'
 
 const app = guardController.mount(auth.handler)

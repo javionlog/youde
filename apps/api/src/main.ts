@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia'
-import { globalController } from './global/controllers'
+import { globalController } from './global/controllers/global'
 
 const app = new Elysia().use(globalController)
 

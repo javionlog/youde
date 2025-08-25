@@ -1,5 +1,5 @@
 import { t } from 'elysia'
-import { guardController } from '@/modules/shared/controllers'
+import { guardController } from '@/global/controllers'
 
 const app = guardController.get(
   '/article',
