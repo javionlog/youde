@@ -1,6 +1,7 @@
 import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
+import { getOpenAPISchema, isEmpty } from '@/global/utils'
 import { basePath } from '../config'
 import { throwDataDuplicationError, throwDataNotFoundError, throwDbError } from '../errors'
 import type { RoleResourceRelationSpec } from '../services/role-resource-relation'
@@ -9,7 +10,6 @@ import {
   roleResourceRelationListSpec,
   roleResourceRelationSpec
 } from '../services/role-resource-relation'
-import { getOpenAPISchema, isEmpty } from '../utils'
 
 export const roleResourceRelationEndpoints = {
   createRoleResourceRelation: createAuthEndpoint(

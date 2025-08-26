@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
-import unimport from 'unimport/unplugin'
+import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -13,8 +13,8 @@ export default defineConfig(({ mode }) => {
     plugins: [
       tsconfigPaths(),
       tailwindcss(),
-      unimport.vite({
-        presets: [
+      AutoImport({
+        imports: [
           {
             from: 'react',
             imports: [
@@ -53,12 +53,15 @@ export default defineConfig(({ mode }) => {
               'useResolvedPath',
               'useRoutes'
             ]
-          },
+          }
+        ],
+        packagePresets: [
           {
             package: 'tdesign-react',
             ignore: [/^[a-z]*$/]
           }
         ],
+        dirs: ['./src/global/utils/index.ts'],
         dts: 'types/auto-imports.d.ts'
       })
     ],
@@ -96,8 +99,8 @@ export default defineConfig(({ mode }) => {
                 priority: 2
               },
               {
-                name: 'ky',
-                test: /node_modules\/ky/,
+                name: 'es-toolkit',
+                test: /node_modules\/es-toolkit/,
                 priority: 2
               },
               {

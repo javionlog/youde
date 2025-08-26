@@ -1,6 +1,7 @@
 import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
+import { getOpenAPISchema, isEmpty } from '@/global/utils'
 import { basePath } from '../config'
 import { throwDataDuplicationError, throwDataNotFoundError, throwDbError } from '../errors'
 import type { UserRoleRelationSpec } from '../services/user-role-relation'
@@ -9,7 +10,6 @@ import {
   userRoleRelationListSpec,
   userRoleRelationSpec
 } from '../services/user-role-relation'
-import { getOpenAPISchema, isEmpty } from '../utils'
 
 export const userRoleRelationEndpoints = {
   createUserRoleRelation: createAuthEndpoint(

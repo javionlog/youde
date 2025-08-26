@@ -2,6 +2,7 @@ import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
+import { getOpenAPISchema, isEmpty } from '@/global/utils'
 import { basePath, systemOperator } from '../config'
 import { throwDataIsReferencedError, throwDbError } from '../errors'
 import { getSession } from '../services/base'
@@ -14,7 +15,6 @@ import {
 } from '../services/resource'
 import type { RoleResourceRelationSpec } from '../services/role-resource-relation'
 import { idSpec } from '../specs'
-import { getOpenAPISchema, isEmpty } from '../utils'
 
 export const resourceEndpoints = {
   createResource: createAuthEndpoint(

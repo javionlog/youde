@@ -1,10 +1,10 @@
 import type { AuthContext } from 'better-auth'
 import { APIError } from 'better-auth/api'
 import { z } from 'zod'
+import { getZodSchema } from '@/global/utils'
 import { throwDataNotFoundError } from '../errors'
 import { resourceSchema } from '../schemas/resource'
 import { pageSpec, sortBySpec } from '../specs'
-import { getZodSchema } from '../utils'
 
 export const resourceSpec = getZodSchema({
   fields: resourceSchema.resource.fields,

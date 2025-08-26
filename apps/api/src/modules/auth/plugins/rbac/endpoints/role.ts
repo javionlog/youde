@@ -2,6 +2,7 @@ import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
+import { getOpenAPISchema, isEmpty } from '@/global/utils'
 import { basePath, systemOperator } from '../config'
 import { throwDataIsReferencedError, throwDbError } from '../errors'
 import { getSession } from '../services/base'
@@ -9,7 +10,6 @@ import type { RoleSpec } from '../services/role'
 import { getOneRole, roleClientSpec, roleListSpec } from '../services/role'
 import type { UserRoleRelationSpec } from '../services/user-role-relation'
 import { idSpec } from '../specs'
-import { getOpenAPISchema, isEmpty } from '../utils'
 
 export const roleEndpoints = {
   createRole: createAuthEndpoint(

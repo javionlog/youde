@@ -1,6 +1,6 @@
 import type { AuthContext } from 'better-auth'
 import type { createAuthEndpoint } from 'better-auth/api'
-import { parseCookies } from '../utils'
+import { parseCookies } from '@/global/utils'
 
 type EndpointContext = Parameters<Parameters<typeof createAuthEndpoint>[2]>[0] & {
   context: AuthContext

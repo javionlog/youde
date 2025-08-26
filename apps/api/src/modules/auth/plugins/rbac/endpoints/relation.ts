@@ -2,6 +2,7 @@ import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
+import { buildTree, getOpenAPISchema, isEmpty } from '@/global/utils'
 import { basePath } from '../config'
 import { relationListSpec } from '../services/relation'
 import type { ResourceSpec } from '../services/resource'
@@ -10,7 +11,6 @@ import type { RoleResourceRelationSpec } from '../services/role-resource-relatio
 import type { UserSpec } from '../services/user'
 import type { UserRoleRelationSpec } from '../services/user-role-relation'
 import { pageSpec } from '../specs'
-import { buildTree, getOpenAPISchema, isEmpty } from '../utils'
 
 export const relationEndpoints = {
   listUsers: createAuthEndpoint(

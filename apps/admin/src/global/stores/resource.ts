@@ -4,7 +4,6 @@ import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middl
 import type { ResourceNode } from '@/global/api'
 import { postAuthRbacListUserResourceTree } from '@/global/api'
 import { STORAGE_PREFIX } from '@/global/constants'
-import { flattenTree } from '@/global/utils'
 import { useUserStore } from './user'
 
 interface State {

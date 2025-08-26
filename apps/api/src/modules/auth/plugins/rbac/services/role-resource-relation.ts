@@ -1,9 +1,9 @@
 import type { AuthContext } from 'better-auth'
 import { z } from 'zod'
+import { getZodSchema } from '@/global/utils'
 import { throwDataNotFoundError } from '../errors'
 import { roleResourceRelationSchema } from '../schemas/role-resource-relation'
 import { pageSpec } from '../specs'
-import { getZodSchema } from '../utils'
 
 export const roleResourceRelationSpec = getZodSchema({
   fields: roleResourceRelationSchema.roleResourceRelation.fields,
