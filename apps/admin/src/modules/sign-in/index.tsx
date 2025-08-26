@@ -1,4 +1,5 @@
-import type { FormProps } from 'tdesign-react'
+import { Desktop1Icon, LockOnIcon } from 'tdesign-icons-react'
+import type { FormProps, FormRules } from 'tdesign-react'
 import type { PostAuthSignInUsernameData } from '@/global/api'
 import { postAuthSignInUsername } from '@/global/api'
 import { useUserStore } from '@/global/stores'
@@ -15,6 +16,12 @@ export default () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const { setUser } = useUserStore()
+
+  const rules = {
+    username: getRequiredRules(),
+    password: getRequiredRules()
+  } satisfies FormRules<PostAuthSignInUsernameData['body']>
+
   const onSubmit: FormProps['onSubmit'] = async e => {
     if (e.validateResult === true) {
       const params = form.getFieldsValue(true) as typeof initialData
@@ -28,20 +35,29 @@ export default () => {
   }
 
   return (
-    <div className='w-xs'>
-      <Form form={form} labelWidth={0} onSubmit={onSubmit}>
-        <FormItem name='username' rules={[{ required: true }]} initialData={formData.username}>
-          <Input clearable placeholder='请输入用户名' />
-        </FormItem>
-        <FormItem name='password' rules={[{ required: true }]} initialData={formData.password}>
-          <Input type='password' clearable placeholder='请输入密码' />
-        </FormItem>
-        <FormItem>
-          <Button theme='primary' type='submit' block>
-            登录
-          </Button>
-        </FormItem>
-      </Form>
+    <div className='grid content-center w-screen h-screen'>
+      <div className='w-full max-w-lg mx-auto p-4'>
+        <div className='border-1 border-gray-500 rounded p-4'>
+          <Form form={form} labelWidth={0} rules={rules} onSubmit={onSubmit}>
+            <FormItem name='username' initialData={formData.username}>
+              <Input prefixIcon={<Desktop1Icon />} placeholder='请输入用户名' clearable />
+            </FormItem>
+            <FormItem name='password' initialData={formData.password}>
+              <Input
+                prefixIcon={<LockOnIcon />}
+                type='password'
+                placeholder='请输入密码'
+                clearable
+              />
+            </FormItem>
+            <FormItem>
+              <Button theme='primary' type='submit' block>
+                登录
+              </Button>
+            </FormItem>
+          </Form>
+        </div>
+      </div>
     </div>
   )
 }

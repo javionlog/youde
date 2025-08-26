@@ -53,6 +53,10 @@ export default defineConfig(({ mode }) => {
               'useResolvedPath',
               'useRoutes'
             ]
+          },
+          {
+            from: 'es-toolkit',
+            imports: ['isNil']
           }
         ],
         packagePresets: [
@@ -106,6 +110,11 @@ export default defineConfig(({ mode }) => {
               {
                 name: 'tdesign-react',
                 test: /node_modules\/tdesign-react/,
+                priority: 2
+              },
+              {
+                name: 'tdesign-icons-react',
+                test: /node_modules\/tdesign-icons-react/,
                 priority: 2
               },
               {
