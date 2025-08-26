@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
+import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware'
 import type { User } from '@/global/api'
 import { STORAGE_PREFIX } from '@/global/constants'
 
@@ -9,15 +9,15 @@ interface State {
 }
 
 export const useUserStore = create(
-  persist<State>(
-    set => {
+  persist(
+    subscribeWithSelector<State>(set => {
       return {
         user: null,
         setUser: user => {
           set({ user })
         }
       }
-    },
+    }),
     { name: `${STORAGE_PREFIX}user`, storage: createJSONStorage(() => localStorage) }
   )
 )

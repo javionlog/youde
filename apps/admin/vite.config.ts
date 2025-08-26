@@ -57,6 +57,10 @@ export default defineConfig(({ mode }) => {
           {
             from: 'es-toolkit',
             imports: ['isNil']
+          },
+          {
+            from: 'react-i18next',
+            imports: ['useTranslation']
           }
         ],
         packagePresets: [

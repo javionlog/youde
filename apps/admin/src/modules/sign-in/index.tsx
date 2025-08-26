@@ -16,6 +16,7 @@ export default () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const { setUser } = useUserStore()
+  const { t } = useTranslation()
 
   const rules = {
     username: getRequiredRules(),
@@ -52,7 +53,7 @@ export default () => {
             </FormItem>
             <FormItem>
               <Button theme='primary' type='submit' block>
-                登录
+                {t('action.signIn', { ns: 'global' })}
               </Button>
             </FormItem>
           </Form>
