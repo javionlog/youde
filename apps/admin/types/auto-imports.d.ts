@@ -70,6 +70,7 @@ declare global {
   const PopupPlugin: typeof import('tdesign-react')['PopupPlugin']
   const PrimaryTable: typeof import('tdesign-react')['PrimaryTable']
   const Progress: typeof import('tdesign-react')['Progress']
+  const QRCode: typeof import('tdesign-react')['QRCode']
   const Radio: typeof import('tdesign-react')['Radio']
   const RadioGroup: typeof import('tdesign-react')['RadioGroup']
   const RangeInput: typeof import('tdesign-react')['RangeInput']
