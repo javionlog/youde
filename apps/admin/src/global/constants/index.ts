@@ -8,7 +8,7 @@ export interface LangItem {
 export const LANG_OPTIONS = [
   {
     label: 'English',
-    value: 'en'
+    value: 'en-us'
   },
   {
     label: '简体中文',

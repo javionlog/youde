@@ -1,0 +1,15 @@
+{
+  "action": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
+  },
+  "label": {
+    "username": "Username",
+    "password": "Password"
+  },
+  "message": {
+    "required": "Required",
+    "usernameRequired": "Please input username",
+    "passwordRequired": "Please input password"
+  }
+}

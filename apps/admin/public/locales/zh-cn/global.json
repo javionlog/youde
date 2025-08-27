@@ -1,5 +1,15 @@
 {
   "action": {
-    "signIn": "登录"
+    "signIn": "登录",
+    "signOut": "登出"
+  },
+  "label": {
+    "username": "用户名",
+    "password": "密码"
+  },
+  "message": {
+    "required": "必填项",
+    "usernameRequired": "请输入用户名",
+    "passwordRequired": "请输入密码"
   }
 }

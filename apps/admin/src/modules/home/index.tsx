@@ -1,4 +1,5 @@
 import { postAuthSignOut } from '@/global/api'
+import LangSelect from '@/global/components/lang-select'
 import { useResourceStore, useUserStore } from '@/global/stores'
 
 export default () => {
@@ -6,6 +7,7 @@ export default () => {
   const { setUser } = useUserStore()
   const { setResourceTree, setResourceInited } = useResourceStore()
   const user = useUserStore(state => state.user)
+  const { t } = useTranslation()
 
   const handleSignout = async () => {
     await postAuthSignOut()
@@ -16,10 +18,9 @@ export default () => {
   }
   return (
     <div>
-      <div>姓名: {user?.name}</div>
-      <div>用户名: {user?.username}</div>
-      <div>用户邮箱: {user?.email}</div>
-      <Button onClick={handleSignout}>登出</Button>
+      <LangSelect />
+      <div>{`${t('label.username')}: ${user?.username}`}</div>
+      <Button onClick={handleSignout}>{t('action.signOut')}</Button>
     </div>
   )
 }
