@@ -9,7 +9,7 @@ export const genDynamicRoutes = () => {
     const componentUrl = `../../modules/${finalPath}/index.tsx`
 
     return {
-      id: item.id!,
+      id: item.id,
       path: item.path!,
       Component: lazy(
         modules[componentUrl] as () => Promise<{

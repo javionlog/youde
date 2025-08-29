@@ -53,7 +53,7 @@ export const useResourceStore = create(
           }
           const resourceTree = await postAuthRbacListUserResourceTree({
             body: {
-              userId: user.id!
+              userId: user.id
             }
           }).then(r => r.data)
           set({ resourceTree, resourceInited: true })

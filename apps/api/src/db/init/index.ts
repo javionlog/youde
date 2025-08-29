@@ -87,7 +87,7 @@ const init = async () => {
   for (const id of resourceIds) {
     await api.createRoleResourceRelation({
       body: {
-        roleId: roleRes?.id!,
+        roleId: roleRes.id,
         resourceId: id
       }
     })

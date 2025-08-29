@@ -55,7 +55,11 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
           return [`/auth${k}`, v]
         })
       )
-      const authSchemas = authSpec.components.schemas as any
+      const authSchemas = Object.fromEntries(
+        Object.entries(authSpec.components.schemas).map(([k, v]: [string, any]) => {
+          return [k, { ...v, required: ['id', ...v.required] }]
+        })
+      ) as any
       const spec = {
         ...mainSpec,
         components: {
@@ -110,7 +114,11 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
           return [`/auth${k}`, v]
         })
       )
-      const authSchemas = authSpec.components.schemas as any
+      const authSchemas = Object.fromEntries(
+        Object.entries(authSpec.components.schemas).map(([k, v]: [string, any]) => {
+          return [k, { ...v, required: ['id', ...v.required] }]
+        })
+      ) as any
       const spec = {
         ...mainSpec,
         components: {
