@@ -1,4 +1,5 @@
 import { client } from '@/global/api/client.gen'
+import { useHttpStore } from '@/global/stores'
 
 type ResponseResult = {
   code: string
@@ -16,6 +17,9 @@ export const setApiConfig = () => {
 
   client.interceptors.response.use(async res => {
     if (!res.ok) {
+      if (res.status === 401) {
+        useHttpStore.setState({ responseStatus: res.status })
+      }
       let msg = res.statusText
       const contentType = res.headers.get('content-type')
       if (contentType?.includes('application/json')) {

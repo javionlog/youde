@@ -16,7 +16,6 @@ export default () => {
   const [formData] = useState(initialData)
   const navigate = useNavigate()
   const [form] = Form.useForm()
-  const { setUser } = useUserStore()
   const { t } = useTranslation()
 
   const rules = {
@@ -28,7 +27,7 @@ export default () => {
     if (e.validateResult === true) {
       const params = form.getFieldsValue(true) as typeof initialData
       const resData = await postAuthSignInUsername({ body: params }).then(r => r.data!)
-      setUser(resData.user!)
+      useUserStore.setState({ user: resData.user })
       const searchParams = new URLSearchParams(window.location.search)
       const redirectPath = searchParams.get('redirect') ?? '/home'
       navigate(redirectPath)
