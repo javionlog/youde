@@ -5,11 +5,15 @@
   },
   "label": {
     "username": "用户名",
-    "password": "密码"
+    "password": "密码",
+    "light": "明亮",
+    "dark": "暗黑",
+    "system": "系统"
   },
   "message": {
     "required": "必填项",
     "usernameRequired": "请输入用户名",
-    "passwordRequired": "请输入密码"
+    "passwordRequired": "请输入密码",
+    "pageNotFound": "找不到页面"
   }
 }

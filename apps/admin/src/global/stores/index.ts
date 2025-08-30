@@ -1,4 +1,5 @@
 export * from './http'
 export * from './locale'
 export * from './resource'
+export * from './theme'
 export * from './user'

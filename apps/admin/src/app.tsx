@@ -1,4 +1,4 @@
-import AppRouter from './global/components/app-router'
+import { AppRouter } from './global/components'
 
 export default () => {
   return (

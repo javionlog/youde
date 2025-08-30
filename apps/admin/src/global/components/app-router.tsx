@@ -5,13 +5,14 @@ import enConfig from 'tdesign-react/es/locale/en_US'
 import zhConfig from 'tdesign-react/es/locale/zh_CN'
 import { Layout } from '@/global/layouts'
 import { defaultRoutes, genDynamicRoutes, layoutRoutes, noLayoutRoutes } from '@/global/router'
-import { useLocaleStore, useResourceStore } from '@/global/stores'
+import { useLocaleStore, useResourceStore, useThemeStore } from '@/global/stores'
 
-export default () => {
+export const AppRouter = () => {
   const [routes, setRoutes] = useState<RouteObject[]>(defaultRoutes)
   const resourceTree = useResourceStore(state => state.resourceTree)
   const element = useRoutes(routes)
   const lang = useLocaleStore.getState().lang
+  const themeMode = useThemeStore(state => state.mode)
 
   const langConfigMap = {
     'zh-cn': zhConfig,
@@ -26,6 +27,7 @@ export default () => {
         setGlobalConfig(langConfigMap[lang])
       }
     )
+
     return setRoutes([
       {
         path: '/',
@@ -36,5 +38,19 @@ export default () => {
     ])
   }, [resourceTree])
 
-  return <ConfigProvider globalConfig={globalConfig}>{element}</ConfigProvider>
+  useEffect(() => {
+    const finalThemeMode =
+      themeMode === 'system'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light'
+        : themeMode
+    document.documentElement.setAttribute('theme-mode', finalThemeMode)
+  }, [themeMode])
+
+  return (
+    <ConfigProvider globalConfig={globalConfig}>
+      <div className='bg-white dark:bg-black min-h-screen'>{element}</div>
+    </ConfigProvider>
+  )
 }

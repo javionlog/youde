@@ -3,7 +3,7 @@ import { LANG_OPTIONS } from '@/global/constants'
 import { i18n } from '@/global/locales'
 import { useLocaleStore } from '@/global/stores'
 
-export default () => {
+export const LangSelect = () => {
   const lang = useLocaleStore(state => state.lang)
   const { setLang } = useLocaleStore()
   const onChange = (val: any) => {

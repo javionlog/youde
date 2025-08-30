@@ -5,11 +5,15 @@
   },
   "label": {
     "username": "Username",
-    "password": "Password"
+    "password": "Password",
+     "light": "Light",
+    "dark": "Dark",
+    "system": "System"
   },
   "message": {
     "required": "Required",
     "usernameRequired": "Please input username",
-    "passwordRequired": "Please input password"
+    "passwordRequired": "Please input password",
+    "pageNotFound": "Page not found"
   }
 }

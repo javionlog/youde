@@ -1,5 +1,5 @@
 import { getAuthGetSession, postAuthSignOut } from '@/global/api'
-import LangSelect from '@/global/components/lang-select'
+import { LangSelect, ThemeToggle } from '@/global/components'
 import { useHttpStore, useResourceStore, useUserStore } from '@/global/stores'
 
 export default () => {
@@ -20,7 +20,10 @@ export default () => {
   }
   return (
     <div>
-      <LangSelect />
+      <div className='flex items-center gap-2'>
+        <LangSelect />
+        <ThemeToggle />
+      </div>
       <div>{`${t('label.username')}: ${user?.username}`}</div>
       <Button onClick={handleSignout}>{t('action.signOut')}</Button>
     </div>

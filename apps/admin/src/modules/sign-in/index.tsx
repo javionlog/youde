@@ -2,7 +2,7 @@ import { Desktop1Icon, LockOnIcon } from 'tdesign-icons-react'
 import type { FormProps, FormRules } from 'tdesign-react'
 import type { PostAuthSignInUsernameData } from '@/global/api'
 import { postAuthSignInUsername } from '@/global/api'
-import LangSelect from '@/global/components/lang-select'
+import { LangSelect, ThemeToggle } from '@/global/components'
 import { useUserStore } from '@/global/stores'
 
 const { FormItem } = Form
@@ -37,7 +37,10 @@ export default () => {
   return (
     <div className='grid content-center w-screen h-screen'>
       <div className='w-full max-w-lg mx-auto p-4'>
-        <LangSelect />
+        <div className='flex items-center gap-2'>
+          <LangSelect />
+          <ThemeToggle />
+        </div>
         <div className='border-1 border-gray-500 rounded p-4 mt-4'>
           <Form form={form} labelWidth={0} rules={rules} onSubmit={onSubmit}>
             <FormItem name='username' initialData={formData.username}>

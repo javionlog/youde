@@ -16,4 +16,8 @@ export const LANG_OPTIONS = [
   }
 ] as const satisfies LangItem[]
 
+export const THEME_MODE = ['light', 'dark', 'system'] as const
+
 export type LangValue = (typeof LANG_OPTIONS)[number]['value']
+
+export type ThemeMode = (typeof THEME_MODE)[number]
