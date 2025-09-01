@@ -2,8 +2,6 @@ import { Desktop1Icon, LockOnIcon } from 'tdesign-icons-react'
 import type { FormProps, FormRules } from 'tdesign-react'
 import type { PostAuthSignInUsernameData } from '@/global/api'
 import { postAuthSignInUsername } from '@/global/api'
-import { LangSelect, ThemeToggle } from '@/global/components'
-import { useUserStore } from '@/global/stores'
 
 const { FormItem } = Form
 
@@ -13,10 +11,15 @@ const initialData = {
 } satisfies PostAuthSignInUsernameData['body']
 
 export default () => {
+  const user = useUserStore(state => state.user)
   const [formData] = useState(initialData)
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const { t } = useTranslation()
+
+  if (user) {
+    return <Navigate to='/' replace />
+  }
 
   const rules = {
     username: getRequiredRules({ form }),
@@ -37,11 +40,11 @@ export default () => {
   return (
     <div className='grid content-center w-screen h-screen'>
       <div className='w-full max-w-lg mx-auto p-4'>
-        <div className='flex items-center gap-2'>
-          <LangSelect />
-          <ThemeToggle />
-        </div>
         <div className='border-1 border-gray-500 rounded p-4 mt-4'>
+          <div className='flex items-center justify-end gap-2 mb-4'>
+            <LangSelect />
+            <ThemeSelect />
+          </div>
           <Form form={form} labelWidth={0} rules={rules} onSubmit={onSubmit}>
             <FormItem name='username' initialData={formData.username}>
               <Input

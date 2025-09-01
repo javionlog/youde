@@ -1,23 +1,9 @@
 export const STORAGE_PREFIX = 'youde-'
 
-export interface LangItem {
-  label: string
-  value: string
-}
+export const THEME_MODES = ['light', 'dark'] as const
 
-export const LANG_OPTIONS = [
-  {
-    label: 'English',
-    value: 'en-us'
-  },
-  {
-    label: '简体中文',
-    value: 'zh-cn'
-  }
-] as const satisfies LangItem[]
+export const LANG_TYPES = ['en-us', 'zh-cn'] as const
 
-export const THEME_MODE = ['light', 'dark', 'system'] as const
+export type LangType = (typeof LANG_TYPES)[number]
 
-export type LangValue = (typeof LANG_OPTIONS)[number]['value']
-
-export type ThemeMode = (typeof THEME_MODE)[number]
+export type ThemeMode = (typeof THEME_MODES)[number]

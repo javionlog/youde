@@ -1,15 +1,13 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware'
-import type { LangValue } from '@/global/constants'
-import { STORAGE_PREFIX } from '@/global/constants'
 
 interface State {
-  lang: LangValue
-  setLang: (lang: LangValue) => void
+  lang: LangType
+  setLang: (lang: LangType) => void
 }
 
 const getCurrentLang = () => {
-  const lang = (navigator.language?.toLowerCase() ?? 'en-us') as LangValue
+  const lang = (navigator.language?.toLowerCase() ?? 'en-us') as LangType
   const langMap = {
     zh: 'zh-cn',
     'zh-cn': 'zh-cn',

@@ -1,6 +1,4 @@
 import type { FormRule, InternalFormInstance } from 'tdesign-react'
-import { i18n } from '@/global/locales'
-import { useLocaleStore } from '@/global/stores'
 
 export const isEmpty = (val: unknown): val is undefined | null | string | unknown[] => {
   return (

@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware'
-import { STORAGE_PREFIX } from '@/global/constants'
 
 interface State {
   responseStatus: number

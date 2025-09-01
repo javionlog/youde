@@ -2,7 +2,6 @@ import i18n from 'i18next'
 import type { HttpBackendOptions } from 'i18next-http-backend'
 import backend from 'i18next-http-backend'
 import { initReactI18next } from 'react-i18next'
-import { useLocaleStore } from '@/global/stores'
 
 i18n
   .use(backend)

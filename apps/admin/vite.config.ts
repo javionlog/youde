@@ -69,7 +69,16 @@ export default defineConfig(({ mode }) => {
             ignore: [/^[a-z]*$/]
           }
         ],
-        dirs: ['./src/global/utils/index.ts'],
+        dirs: [
+          './src/global/utils/index.ts',
+          './src/global/stores/index.ts',
+          './src/global/locales/index.ts',
+          './src/global/constants/index.ts',
+          './src/global/components/index.tsx',
+          './src/global/hooks/index.tsx',
+          './src/global/layouts/index.tsx',
+          './src/global/router/index.tsx'
+        ],
         dts: 'types/auto-imports.d.ts'
       })
     ],

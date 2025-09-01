@@ -1,5 +1,3 @@
-import { useResourceStore } from '@/global/stores'
-
 export const genDynamicRoutes = () => {
   const modules = import.meta.glob('../../modules/**/index.tsx')
   const pageResources = useResourceStore.getState().getPageResources()

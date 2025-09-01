@@ -1,7 +1,5 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware'
-import type { ThemeMode } from '@/global/constants'
-import { STORAGE_PREFIX } from '@/global/constants'
 
 interface State {
   mode: ThemeMode

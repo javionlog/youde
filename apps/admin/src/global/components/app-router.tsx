@@ -3,9 +3,6 @@ import type { GlobalConfigProvider } from 'tdesign-react'
 import { ConfigProvider } from 'tdesign-react'
 import enConfig from 'tdesign-react/es/locale/en_US'
 import zhConfig from 'tdesign-react/es/locale/zh_CN'
-import { Layout } from '@/global/layouts'
-import { defaultRoutes, genDynamicRoutes, layoutRoutes, noLayoutRoutes } from '@/global/router'
-import { useLocaleStore, useResourceStore, useThemeStore } from '@/global/stores'
 
 export const AppRouter = () => {
   const [routes, setRoutes] = useState<RouteObject[]>(defaultRoutes)
@@ -31,7 +28,7 @@ export const AppRouter = () => {
     return setRoutes([
       {
         path: '/',
-        Component: Layout,
+        Component: AppLayout,
         children: [...layoutRoutes, ...genDynamicRoutes()]
       },
       ...noLayoutRoutes
@@ -39,18 +36,14 @@ export const AppRouter = () => {
   }, [resourceTree])
 
   useEffect(() => {
-    const finalThemeMode =
-      themeMode === 'system'
-        ? window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light'
-        : themeMode
-    document.documentElement.setAttribute('theme-mode', finalThemeMode)
+    document.documentElement.setAttribute('theme-mode', themeMode)
   }, [themeMode])
 
   return (
     <ConfigProvider globalConfig={globalConfig}>
-      <div className='bg-white dark:bg-black min-h-screen'>{element}</div>
+      <div className='bg-white dark:bg-black text-black dark:text-white min-h-screen'>
+        {element}
+      </div>
     </ConfigProvider>
   )
 }

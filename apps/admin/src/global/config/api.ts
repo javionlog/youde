@@ -1,5 +1,4 @@
 import { client } from '@/global/api/client.gen'
-import { useHttpStore } from '@/global/stores'
 
 type ResponseResult = {
   code: string
