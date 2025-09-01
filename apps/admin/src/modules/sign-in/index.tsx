@@ -38,9 +38,9 @@ export default () => {
   }
 
   return (
-    <div className='grid content-center w-screen h-screen'>
-      <div className='w-full max-w-lg mx-auto p-4'>
-        <div className='border-1 border-gray-500 rounded p-4 mt-4'>
+    <div className='grid content-center h-full'>
+      <div className='w-full max-w-lg mx-auto p-4 '>
+        <div className='border-1 border-(--td-component-border) rounded p-4 bg-(--td-bg-color-container)'>
           <div className='flex items-center justify-end gap-2 mb-4'>
             <LangSelect />
             <ThemeSelect />

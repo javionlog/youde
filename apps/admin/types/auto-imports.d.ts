@@ -9,7 +9,7 @@ declare global {
   const Affix: typeof import('tdesign-react')['Affix']
   const Alert: typeof import('tdesign-react')['Alert']
   const Anchor: typeof import('tdesign-react')['Anchor']
-  const AppLayout: typeof import('../src/global/layouts/app-layout')['AppLayout']
+  const AppLayout: typeof import('../src/global/layouts/index')['AppLayout']
   const AppRouter: typeof import('../src/global/components/app-router')['AppRouter']
   const AutoComplete: typeof import('tdesign-react')['AutoComplete']
   const Avatar: typeof import('tdesign-react')['Avatar']
