@@ -39,7 +39,7 @@ export const layoutRoutes = layoutMenus.map(item => {
     return {
       id: item.id,
       path: item.path,
-      Component: lazy(() => import('../components/not-found.tsx'))
+      Component: lazy(() => import('../components/not-found/index.tsx'))
     }
   }
   if (item.id === 'layout-root') {

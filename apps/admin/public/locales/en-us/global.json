@@ -4,13 +4,17 @@
     "signOut": "Sign Out"
   },
   "label": {
+    "name": "Name",
     "username": "Username",
+    "userInfo": "User Info.",
+    "email": "E-mail",
     "password": "Password",
-     "light": "Light",
+    "light": "Light",
     "dark": "Dark",
     "system": "System"
   },
   "message": {
+    "welcomeToYoude": "Welcome to Youde!",
     "required": "Required",
     "usernameRequired": "Please input username",
     "passwordRequired": "Please input password",
