@@ -12,8 +12,6 @@ interface State {
   getPageResources: () => ResourceNode[]
   getElementResources: () => ResourceNode[]
   fetchResourceTree: () => Promise<void>
-  setResourceTree: (resourceTree: ResourceNode[]) => void
-  setResourceInited: (resourceInited: boolean) => void
 }
 
 export const useResourceStore = create(
@@ -55,12 +53,6 @@ export const useResourceStore = create(
             }
           }).then(r => r.data)
           set({ resourceTree, resourceInited: true })
-        },
-        setResourceTree: resourceTree => {
-          set({ resourceTree })
-        },
-        setResourceInited: resourceInited => {
-          set({ resourceInited })
         }
       }
     }),

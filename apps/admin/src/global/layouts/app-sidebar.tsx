@@ -1,24 +1,32 @@
 import { createElement } from 'react'
-import { AppIcon, ViewListIcon } from 'tdesign-icons-react'
+import { AppIcon, MenuFoldIcon, MenuUnfoldIcon, ViewListIcon } from 'tdesign-icons-react'
 import type { ResourceNode } from '@/global/api'
+import { useScreen } from '../hooks/use-screen'
 
 const { SubMenu, MenuItem } = Menu
 
-const MenuNode = (props: { menu: ResourceNode }) => {
+interface MenuNodeProps {
+  menu: ResourceNode
+}
+
+const MenuNode = (props: MenuNodeProps) => {
+  const { menu } = props
   const navigate = useNavigate()
   const location = useLocation()
-  const routerPath = `/${props.menu.path}`
-  const icon = props.menu.icon ? createElement(props.menu.icon) : <AppIcon />
-
-  const onClick = () => {
-    if (location.pathname !== routerPath) {
-      navigate(routerPath)
-    }
-  }
+  const routerPath = `/${menu.path}`
+  const icon = menu.icon ? createElement(menu.icon!) : <AppIcon />
 
   return (
-    <MenuItem value={routerPath} onClick={onClick} icon={icon}>
-      {props.menu.name}
+    <MenuItem
+      value={routerPath}
+      onClick={() => {
+        if (location.pathname !== routerPath) {
+          navigate(routerPath)
+        }
+      }}
+      icon={icon}
+    >
+      {menu.name}
     </MenuItem>
   )
 }
@@ -40,28 +48,60 @@ const renderMenuItems = (menus: ResourceNode[]) => {
     })
 }
 
-interface MenuProps {
+interface SidebarProps {
   menus: ResourceNode[]
 }
 
-export const AppSidebar = memo((props: MenuProps) => {
+export const AppSidebar = (props: SidebarProps) => {
+  const { menus } = props
   const location = useLocation()
-  const [collapsed, setCollapsed] = useState(true)
+  const sidebarCollapsed = useAppStore(state => state.sidebarCollapsed)
+  const { isMobile } = useScreen()
+  const [visible, setVisible] = useState(false)
 
-  const onClick = () => {
-    setCollapsed(!collapsed)
-  }
+  useEffect(() => {
+    useAppStore.setState({ sidebarCollapsed: !visible })
+  }, [visible])
 
-  return (
+  return isMobile ? (
+    <>
+      <Drawer
+        visible={visible}
+        header={false}
+        footer={false}
+        closeBtn={false}
+        placement='left'
+        size='50%'
+        onClose={() => setVisible(false)}
+      >
+        <Menu value={location.pathname} collapsed={sidebarCollapsed} className='h-full w-full!'>
+          {renderMenuItems(menus)}
+        </Menu>
+      </Drawer>
+      <Button
+        className='fixed! bottom-4 left-4 z-[2000]!'
+        shape='circle'
+        icon={sidebarCollapsed ? <MenuUnfoldIcon /> : <MenuFoldIcon />}
+        onClick={() => {
+          setVisible(!visible)
+        }}
+      />
+    </>
+  ) : (
     <Menu
       value={location.pathname}
-      collapsed={collapsed}
+      collapsed={sidebarCollapsed}
       operations={
-        <Button variant='text' shape='square' icon={<ViewListIcon />} onClick={onClick} />
+        <Button
+          variant='text'
+          shape='square'
+          icon={<ViewListIcon />}
+          onClick={() => useAppStore.setState({ sidebarCollapsed: !sidebarCollapsed })}
+        />
       }
-      className='h-full'
+      className='max-sm:hidden! h-full'
     >
-      {renderMenuItems(props.menus)}
+      {renderMenuItems(menus)}
     </Menu>
   )
-})
+}

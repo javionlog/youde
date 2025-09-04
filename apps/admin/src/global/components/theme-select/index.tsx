@@ -3,7 +3,7 @@ import type { DropdownOption } from 'tdesign-react'
 
 export const ThemeSelect = () => {
   const { t } = useTranslation()
-  const themeMode = useThemeStore(state => state.mode)
+  const themeMode = useAppStore(state => state.themeMode)
 
   const iconMap = {
     light: (size?: string) => {
@@ -19,14 +19,14 @@ export const ThemeSelect = () => {
       content: t('label.light'),
       value: 'light',
       active: themeMode === 'light',
-      onClick: () => useThemeStore.setState({ mode: 'light' }),
+      onClick: () => useAppStore.setState({ themeMode: 'light' }),
       prefixIcon: iconMap.light()
     },
     {
       content: t('label.dark'),
       value: 'dark',
       active: themeMode === 'dark',
-      onClick: () => useThemeStore.setState({ mode: 'dark' }),
+      onClick: () => useAppStore.setState({ themeMode: 'dark' }),
       prefixIcon: iconMap.dark()
     }
   ] satisfies DropdownOption[]

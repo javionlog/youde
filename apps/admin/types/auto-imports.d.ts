@@ -50,6 +50,7 @@ declare global {
   const Empty: typeof import('tdesign-react')['Empty']
   const EnhancedTable: typeof import('tdesign-react')['EnhancedTable']
   const Form: typeof import('tdesign-react')['Form']
+  const GbDialog: typeof import('../src/global/components/gb-dialog/index')['GbDialog']
   const Guide: typeof import('tdesign-react')['Guide']
   const HighlightOption: typeof import('tdesign-react')['HighlightOption']
   const Image: typeof import('tdesign-react')['Image']
@@ -89,6 +90,9 @@ declare global {
   const Rate: typeof import('tdesign-react')['Rate']
   const RouterProvider: typeof import('react-router')['RouterProvider']
   const Row: typeof import('tdesign-react')['Row']
+  const SCREEN_SIZE_KEYS: typeof import('../src/global/constants/index')['SCREEN_SIZE_KEYS']
+  const SCREEN_SIZE_MAP: typeof import('../src/global/constants/index')['SCREEN_SIZE_MAP']
+  const SCREEN_SIZE_VALUES: typeof import('../src/global/constants/index')['SCREEN_SIZE_VALUES']
   const STORAGE_PREFIX: typeof import('../src/global/constants/index')['STORAGE_PREFIX']
   const Select: typeof import('tdesign-react')['Select']
   const SelectInput: typeof import('tdesign-react')['SelectInput']
@@ -129,6 +133,7 @@ declare global {
   const createContext: typeof import('react')['createContext']
   const defaultRoutes: typeof import('../src/global/router/static')['defaultRoutes']
   const flattenTree: typeof import('../src/global/utils/tree')['flattenTree']
+  const forwardRef: typeof import('react')['forwardRef']
   const genDynamicRoutes: typeof import('../src/global/router/dynamic')['genDynamicRoutes']
   const getRequiredRules: typeof import('../src/global/utils/check')['getRequiredRules']
   const i18n: typeof import('../src/global/locales/index')['i18n']
@@ -141,6 +146,7 @@ declare global {
   const noLayoutMenus: typeof import('../src/global/router/static')['noLayoutMenus']
   const noLayoutRoutes: typeof import('../src/global/router/static')['noLayoutRoutes']
   const notFound: typeof import('../src/global/components/not-found/index')['default']
+  const useAppStore: typeof import('../src/global/stores/app')['useAppStore']
   const useCallback: typeof import('react')['useCallback']
   const useContext: typeof import('react')['useContext']
   const useEffect: typeof import('react')['useEffect']
@@ -160,14 +166,14 @@ declare global {
   const useResolvedPath: typeof import('react-router')['useResolvedPath']
   const useResourceStore: typeof import('../src/global/stores/resource')['useResourceStore']
   const useRoutes: typeof import('react-router')['useRoutes']
+  const useSize: typeof import('ahooks')['useSize']
   const useState: typeof import('react')['useState']
-  const useThemeStore: typeof import('../src/global/stores/theme')['useThemeStore']
   const useTranslation: typeof import('react-i18next')['useTranslation']
   const useUserStore: typeof import('../src/global/stores/user')['useUserStore']
 }
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { LangType, ThemeMode } from '../src/global/constants/index'
+  export type { LangType, ThemeMode, ScreenSizeKeys, ScreenSizeValues } from '../src/global/constants/index'
   import('../src/global/constants/index')
 }

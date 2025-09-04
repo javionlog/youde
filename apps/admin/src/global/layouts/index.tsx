@@ -34,12 +34,12 @@ export const AppLayout = () => {
   return (
     <>
       {resourceInited ? (
-        <div className='h-full flex'>
+        <div className='flex h-full'>
           <AppSidebar menus={menus} />
           <div className='flex grow-1 flex-col'>
             <AppHeader />
             <Suspense
-              fallback={<div className='h-full grid justify-center items-center'>Loading...</div>}
+              fallback={<div className='grid h-full items-center justify-center'>Loading...</div>}
             >
               <div className='grow-1 p-5'>
                 <div className='h-full bg-(--td-bg-color-container) p-5'>
@@ -50,7 +50,7 @@ export const AppLayout = () => {
           </div>
         </div>
       ) : (
-        <div className='h-full grid justify-center items-center'>Initializing...</div>
+        <div className='grid h-full items-center justify-center'>Initializing...</div>
       )}
     </>
   )

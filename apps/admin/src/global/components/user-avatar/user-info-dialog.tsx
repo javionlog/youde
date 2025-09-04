@@ -9,6 +9,7 @@ interface Item {
 }
 
 export default (props: Props) => {
+  const { visible, onCloseBtnClick } = props
   const { t } = useTranslation()
   const user = useUserStore(state => state.user)
   const list = [
@@ -27,14 +28,13 @@ export default (props: Props) => {
   ] satisfies Item[]
 
   return (
-    <Dialog
-      visible={props.visible}
-      onCloseBtnClick={props.onCloseBtnClick}
+    <GbDialog
+      visible={visible}
+      onCloseBtnClick={onCloseBtnClick}
       header={t('label.userInfo')}
       footer={false}
-      dialogClassName='w-[80%]! md:w-[640px]! lg:w-[960px]! xl:w-[1200px]!'
     >
-      <ul className='grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+      <ul className='grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
         {list.map(item => {
           return (
             <li key={item.label}>
@@ -44,6 +44,6 @@ export default (props: Props) => {
           )
         })}
       </ul>
-    </Dialog>
+    </GbDialog>
   )
 }

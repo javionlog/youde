@@ -3,7 +3,6 @@ import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middl
 
 interface State {
   lang: LangType
-  setLang: (lang: LangType) => void
 }
 
 const getCurrentLang = () => {
@@ -19,12 +18,9 @@ const getCurrentLang = () => {
 
 export const useLocaleStore = create(
   persist(
-    subscribeWithSelector<State>(set => {
+    subscribeWithSelector<State>(() => {
       return {
-        lang: getCurrentLang(),
-        setLang: lang => {
-          set({ lang })
-        }
+        lang: getCurrentLang()
       }
     }),
     { name: `${STORAGE_PREFIX}locale`, storage: createJSONStorage(() => localStorage) }

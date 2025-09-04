@@ -7,7 +7,7 @@ i18n
   .use(backend)
   .use(initReactI18next)
   .init<HttpBackendOptions>({
-    debug: import.meta.env.PROD ? false : true,
+    debug: !import.meta.env.PROD,
     ns: ['global'],
     lng: useLocaleStore.getState().lang,
     supportedLngs: ['en-us', 'zh-cn'],

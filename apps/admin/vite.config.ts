@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => {
             from: 'react',
             imports: [
               'createContext',
+              'forwardRef',
               'lazy',
               'memo',
               'StrictMode',
@@ -63,6 +64,10 @@ export default defineConfig(({ mode }) => {
           {
             from: 'react-i18next',
             imports: ['useTranslation']
+          },
+          {
+            from: 'ahooks',
+            imports: ['useSize']
           }
         ],
         packagePresets: [

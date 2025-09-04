@@ -3,17 +3,13 @@ import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middl
 
 interface State {
   responseStatus: number
-  setResponseStatus: (responseStatus: number) => void
 }
 
 export const useHttpStore = create(
   persist(
-    subscribeWithSelector<State>(set => {
+    subscribeWithSelector<State>(() => {
       return {
-        responseStatus: 0,
-        setResponseStatus: responseStatus => {
-          set({ responseStatus })
-        }
+        responseStatus: 0
       }
     }),
     { name: `${STORAGE_PREFIX}http`, storage: createJSONStorage(() => localStorage) }

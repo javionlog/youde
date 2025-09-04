@@ -38,10 +38,10 @@ export default () => {
   }
 
   return (
-    <div className='grid content-center h-full'>
-      <div className='w-full max-w-lg mx-auto p-4 '>
-        <div className='border-1 border-(--td-component-border) rounded p-4 bg-(--td-bg-color-container)'>
-          <div className='flex items-center justify-end gap-2 mb-4'>
+    <div className='grid h-full content-center'>
+      <div className='mx-auto w-full max-w-lg p-4 '>
+        <div className='rounded border-(--td-component-border) border-1 bg-(--td-bg-color-container) p-4'>
+          <div className='mb-4 flex items-center justify-end gap-2'>
             <LangSelect />
             <ThemeSelect />
           </div>

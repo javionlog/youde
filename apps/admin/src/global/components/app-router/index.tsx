@@ -9,7 +9,7 @@ export const AppRouter = () => {
   const resourceTree = useResourceStore(state => state.resourceTree)
   const element = useRoutes(routes)
   const lang = useLocaleStore.getState().lang
-  const themeMode = useThemeStore(state => state.mode)
+  const themeMode = useAppStore(state => state.themeMode)
 
   const langConfigMap = {
     'zh-cn': zhConfig,
@@ -41,7 +41,7 @@ export const AppRouter = () => {
 
   return (
     <ConfigProvider globalConfig={globalConfig}>
-      <div className='bg-(--td-bg-color-page) text-(--td-text-color-primary) h-dvh'>{element}</div>
+      <div className='h-dvh bg-(--td-bg-color-page) text-(--td-text-color-primary)'>{element}</div>
     </ConfigProvider>
   )
 }

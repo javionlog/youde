@@ -1,4 +1,5 @@
 export * from './app-router'
+export * from './gb-dialog'
 export * from './lang-select'
 export * from './not-found'
 export * from './theme-select'

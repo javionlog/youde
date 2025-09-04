@@ -4,17 +4,13 @@ import type { User } from '@/global/api'
 
 interface State {
   user: User | null
-  setUser: (user: User | null) => void
 }
 
 export const useUserStore = create(
   persist(
-    subscribeWithSelector<State>(set => {
+    subscribeWithSelector<State>(() => {
       return {
-        user: null,
-        setUser: user => {
-          set({ user })
-        }
+        user: null
       }
     }),
     { name: `${STORAGE_PREFIX}user`, storage: createJSONStorage(() => localStorage) }
