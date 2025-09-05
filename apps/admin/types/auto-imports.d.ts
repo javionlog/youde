@@ -174,6 +174,6 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { LangType, ThemeMode, ScreenSizeKeys, ScreenSizeValues } from '../src/global/constants/index'
+  export type { LangType, ThemeMode, ScreenSizeKey } from '../src/global/constants/index'
   import('../src/global/constants/index')
 }

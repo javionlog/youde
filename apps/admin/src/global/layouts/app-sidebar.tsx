@@ -52,18 +52,17 @@ interface SidebarProps {
   menus: ResourceNode[]
 }
 
-export const AppSidebar = (props: SidebarProps) => {
+const MobileMenu = (props: SidebarProps) => {
   const { menus } = props
   const location = useLocation()
   const sidebarCollapsed = useAppStore(state => state.sidebarCollapsed)
-  const { isMobile } = useScreen()
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     useAppStore.setState({ sidebarCollapsed: !visible })
   }, [visible])
 
-  return isMobile ? (
+  return (
     <>
       <Drawer
         visible={visible}
@@ -87,7 +86,15 @@ export const AppSidebar = (props: SidebarProps) => {
         }}
       />
     </>
-  ) : (
+  )
+}
+
+const WideMenu = (props: SidebarProps) => {
+  const { menus } = props
+  const location = useLocation()
+  const sidebarCollapsed = useAppStore(state => state.sidebarCollapsed)
+
+  return (
     <Menu
       value={location.pathname}
       collapsed={sidebarCollapsed}
@@ -104,4 +111,10 @@ export const AppSidebar = (props: SidebarProps) => {
       {renderMenuItems(menus)}
     </Menu>
   )
+}
+
+export const AppSidebar = (props: SidebarProps) => {
+  const { isMobile } = useScreen()
+
+  return isMobile ? <MobileMenu {...props} /> : <WideMenu {...props} />
 }
