@@ -18,6 +18,8 @@
     "required": "Required",
     "usernameRequired": "Please input username",
     "passwordRequired": "Please input password",
-    "pageNotFound": "Page not found"
+    "pageNotFound": "Page not found",
+    "loading": "Loading...",
+    "initializing": "Initializing..."
   }
 }

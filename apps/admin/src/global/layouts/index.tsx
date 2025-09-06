@@ -16,6 +16,7 @@ const NavToSignIn = () => {
 }
 
 export const AppLayout = () => {
+  const { t } = useTranslation()
   const user = useUserStore(state => state.user)
   const resourceTree = useResourceStore(state => state.resourceTree)
   const resourceInited = useResourceStore(state => state.resourceInited)
@@ -36,13 +37,17 @@ export const AppLayout = () => {
       {resourceInited ? (
         <div className='flex h-full'>
           <AppSidebar menus={menus} />
-          <div className='flex grow-1 flex-col'>
+          <div className='grow-1'>
             <AppHeader />
             <Suspense
-              fallback={<div className='grid h-full items-center justify-center'>Loading...</div>}
+              fallback={
+                <div className='grid h-full items-center justify-center'>
+                  {t('message.loading')}
+                </div>
+              }
             >
-              <div className='grow-1 p-5'>
-                <div className='h-full bg-(--td-bg-color-container) p-5'>
+              <div className='p-5' style={{ height: 'calc(100vh - var(--td-comp-size-xxxl))' }}>
+                <div className='h-full overflow-auto rounded-lg bg-(--td-bg-color-container) p-5'>
                   <Outlet />
                 </div>
               </div>
@@ -50,7 +55,7 @@ export const AppLayout = () => {
           </div>
         </div>
       ) : (
-        <div className='grid h-full items-center justify-center'>Initializing...</div>
+        <div className='grid h-full items-center justify-center'>{t('message.initializing')}</div>
       )}
     </>
   )

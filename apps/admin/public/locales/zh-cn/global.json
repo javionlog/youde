@@ -18,6 +18,8 @@
     "required": "必填项",
     "usernameRequired": "请输入用户名",
     "passwordRequired": "请输入密码",
-    "pageNotFound": "找不到页面"
+    "pageNotFound": "找不到页面",
+    "loading": "加载中...",
+    "initializing": "初始化中..."
   }
 }

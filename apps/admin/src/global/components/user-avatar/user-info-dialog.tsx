@@ -28,7 +28,7 @@ export default (props: Props) => {
   ] satisfies Item[]
 
   return (
-    <GbDialog
+    <GlDialog
       visible={visible}
       onCloseBtnClick={onCloseBtnClick}
       header={t('label.userInfo')}
@@ -44,6 +44,6 @@ export default (props: Props) => {
           )
         })}
       </ul>
-    </GbDialog>
+    </GlDialog>
   )
 }

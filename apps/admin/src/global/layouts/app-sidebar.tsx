@@ -1,7 +1,6 @@
 import { createElement } from 'react'
 import { AppIcon, MenuFoldIcon, MenuUnfoldIcon, ViewListIcon } from 'tdesign-icons-react'
 import type { ResourceNode } from '@/global/api'
-import { useScreen } from '../hooks/use-screen'
 
 const { SubMenu, MenuItem } = Menu
 
@@ -70,7 +69,8 @@ const MobileMenu = (props: SidebarProps) => {
         footer={false}
         closeBtn={false}
         placement='left'
-        size='50%'
+        size='256px'
+        className='drawer-nopadding'
         onClose={() => setVisible(false)}
       >
         <Menu value={location.pathname} collapsed={sidebarCollapsed} className='h-full w-full!'>
@@ -80,6 +80,7 @@ const MobileMenu = (props: SidebarProps) => {
       <Button
         className='fixed! bottom-4 left-4 z-[2000]!'
         shape='circle'
+        size='large'
         icon={sidebarCollapsed ? <MenuUnfoldIcon /> : <MenuFoldIcon />}
         onClick={() => {
           setVisible(!visible)
@@ -106,6 +107,7 @@ const WideMenu = (props: SidebarProps) => {
           onClick={() => useAppStore.setState({ sidebarCollapsed: !sidebarCollapsed })}
         />
       }
+      width={'256px'}
       className='max-sm:hidden! h-full'
     >
       {renderMenuItems(menus)}

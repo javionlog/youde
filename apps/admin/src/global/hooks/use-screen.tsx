@@ -1,5 +1,7 @@
-export const useScreen = () => {
-  const { width: screenWidth } = useSize(document.querySelector('html'))!
+type Target = Parameters<typeof useSize>[0]
+
+export const useScreen = (target?: Target) => {
+  const { width: screenWidth } = useSize(target ?? document.querySelector('html'))!
 
   const breakpoint = useMemo(() => {
     for (const [key, val] of Object.entries(SCREEN_SIZE_MAP)) {
