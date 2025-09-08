@@ -46,7 +46,7 @@ export const AppLayout = () => {
                 </div>
               }
             >
-              <div className='p-5' style={{ height: 'calc(100vh - var(--td-comp-size-xxxl))' }}>
+              <div className='p-5' style={{ height: 'calc(100dvh - var(--td-comp-size-xxxl))' }}>
                 <div className='h-full overflow-auto rounded-lg bg-(--td-bg-color-container) p-5'>
                   <Outlet />
                 </div>

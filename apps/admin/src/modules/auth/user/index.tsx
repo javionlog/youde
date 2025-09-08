@@ -1,33 +1,53 @@
+type GlSearchFormProps = Parameters<typeof GlSearchForm>[0]
 export default () => {
-  const list = [
-    { id: 1, name: 'Item 1' },
-    { id: 2, name: 'Item 2' },
-    { id: 3, name: 'Item 3' },
+  const items = [
     {
-      id: 4,
-      name: 'Item 4',
-      column: {
-        xs: { span: 2, offset: 2 },
-        sm: { span: 2, offset: 2 },
-        md: { span: 2, offset: 2 },
-        lg: { span: 2, offset: 2 },
-        xl: { span: 2, offset: 2 },
-        '2xl': { span: 2, offset: 2 }
-      }
+      formItemProps: {
+        name: 'prop1'
+      },
+      component: <Input />
     },
-    { id: 5, name: 'Item 5' },
-    { id: 6, name: 'Item 6' },
-    { id: 7, name: 'Item 7' }
-  ]
+    {
+      formItemProps: {
+        name: 'prop2'
+      },
+      component: <Input />
+    },
+    {
+      formItemProps: {
+        name: 'prop3'
+      },
+      component: <Input />
+    },
+    {
+      formItemProps: {
+        name: 'prop4'
+      },
+      component: <Input />
+    },
+    {
+      formItemProps: {
+        name: 'prop5'
+      },
+      component: <Input />
+    },
+    {
+      formItemProps: {
+        name: 'prop6'
+      },
+      component: <Input />
+    },
+    {
+      formItemProps: {
+        name: 'prop7'
+      },
+      component: <Input />
+    }
+  ] satisfies GlSearchFormProps['items']
+
   return (
     <div>
-      <GlGrid>
-        {list.map(item => (
-          <GlGridItem key={item.id} column={item.column}>
-            {item.name}
-          </GlGridItem>
-        ))}
-      </GlGrid>
+      <GlSearchForm items={items}></GlSearchForm>
     </div>
   )
 }

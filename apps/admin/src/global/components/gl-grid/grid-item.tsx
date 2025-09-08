@@ -1,41 +1,47 @@
 import type { ReactNode } from 'react'
-import { MaxColumnContext } from './context'
+import { GridContext } from './context'
+
+type Column = { span?: number; offset?: number }
 
 interface Props extends StyledProps {
   children?: ReactNode
-  maxColumn?: number
-  index?: number
-  column?: {
-    [key in ScreenSizeKey]: { span: number; offset: number }
-  }
+  column?: Column
+  index: number
 }
 
 export const GlGridItem = (props: Props) => {
-  const {
-    children,
-    column = {
-      xs: { span: 0, offset: 0 },
-      sm: { span: 0, offset: 0 },
-      md: { span: 0, offset: 0 },
-      lg: { span: 0, offset: 0 },
-      xl: { span: 0, offset: 0 },
-      '2xl': { span: 0, offset: 0 }
-    }
-  } = props
-  const { breakpoint } = useScreen()
-  const maxColumn = useContext(MaxColumnContext)
+  const { children, style, className, column, index } = props
 
-  const style = useMemo(() => {
-    const span = column[breakpoint].span
-    const offset = column[breakpoint].offset
+  const { column: maxColumn, gap, collapsed, maxRows } = useContext(GridContext)
+
+  const finalGap = useMemo(() => {
+    if (Array.isArray(gap)) {
+      return `${gap[0]}px ${gap[1]}px`
+    }
+    return `${gap}px`
+  }, [gap])
+
+  const defaultStyle = useMemo(() => {
+    const span = column?.span ?? 1
+    const offset = column?.offset ?? 0
+    const width = span + offset
     const safeSpan = Math.max(1, Math.min(span, maxColumn))
     const safeOffset = Math.max(0, Math.min(offset, maxColumn))
+    const safeWidth = Math.min(width, maxColumn)
+    const itemVisible = index + 1 <= maxRows * maxColumn
+    const finalWidth = safeWidth > 1 ? `span ${safeWidth}` : undefined
+    const finalSpan = safeSpan > 1 ? `span ${safeSpan}` : undefined
+    const finalMarginLeft = `calc(((100% + ${finalGap}px) / ${safeWidth}) * ${safeOffset})`
     return {
-      gridColumn: `span ${safeSpan}`,
-      marginLeft:
-        offset > 0 ? `calc(((100% + 16px) / ${safeSpan + safeOffset}) * ${safeOffset})` : undefined
+      gridColumn: offset > 0 ? finalWidth : finalSpan,
+      marginLeft: offset > 0 && safeOffset < safeWidth ? finalMarginLeft : undefined,
+      display: collapsed && !itemVisible ? 'none' : undefined
     }
-  }, [breakpoint, column, maxColumn])
+  }, [column, maxColumn, collapsed])
 
-  return <div style={style}>{children}</div>
+  return (
+    <div className={className} style={{ ...defaultStyle, ...style }}>
+      {children}
+    </div>
+  )
 }

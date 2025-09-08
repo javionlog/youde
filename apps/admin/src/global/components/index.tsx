@@ -1,6 +1,7 @@
 export * from './app-router'
 export * from './gl-dialog'
 export * from './gl-grid'
+export * from './gl-search-form'
 export * from './gl-table'
 export * from './lang-select'
 export * from './not-found'

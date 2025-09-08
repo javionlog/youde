@@ -53,6 +53,7 @@ declare global {
   const GlDialog: typeof import('../src/global/components/gl-dialog/index')['GlDialog']
   const GlGrid: typeof import('../src/global/components/gl-grid/index')['GlGrid']
   const GlGridItem: typeof import('../src/global/components/gl-grid/index')['GlGridItem']
+  const GlSearchForm: typeof import('../src/global/components/gl-search-form/index')['GlSearchForm']
   const GlTable: typeof import('../src/global/components/gl-table/index')['GlTable']
   const Guide: typeof import('tdesign-react')['Guide']
   const HighlightOption: typeof import('tdesign-react')['HighlightOption']
