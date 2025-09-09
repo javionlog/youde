@@ -1,7 +1,11 @@
 {
   "action": {
     "signIn": "Sign In",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "query": "Query",
+    "reset": "Reset",
+    "expand": "Expand",
+    "collapse": "Collapse"
   },
   "label": {
     "name": "Name",

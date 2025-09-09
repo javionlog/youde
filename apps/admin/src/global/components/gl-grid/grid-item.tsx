@@ -40,7 +40,10 @@ export const GlGridItem = (props: Props) => {
   }, [column, maxColumn, collapsed])
 
   return (
-    <div className={className} style={{ ...defaultStyle, ...style }}>
+    <div
+      className={`gl-grid-item min-w-0 ${className ?? ''}`}
+      style={{ ...defaultStyle, ...style }}
+    >
       {children}
     </div>
   )

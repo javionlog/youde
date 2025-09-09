@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { ChevronDownIcon, ChevronUpIcon } from 'tdesign-icons-react'
 import type { FormItemProps, FormProps } from 'tdesign-react'
 
 type GridProps = Omit<Parameters<typeof GlGrid>[0], 'collapsed'>
@@ -15,10 +16,11 @@ interface Props extends FormProps, GridProps {
 }
 
 export const GlSearchForm = (props: Props) => {
-  const { columns, gap, maxRows = 1, items, ...formProps } = props
+  const { className, style, columns, gap, maxRows = 1, items, ...formProps } = props
 
   const ref = useRef(null)
   const { breakpoint } = useScreen(ref?.current)
+  const { t } = useTranslation()
 
   const finalColumn = useMemo(() => {
     if (columns === undefined) {
@@ -38,47 +40,49 @@ export const GlSearchForm = (props: Props) => {
     return 3
   }, [breakpoint, columns])
 
-  const visibleItems = useMemo(() => {
-    return items.filter((_item, index) => {
-      return index + 1 <= maxRows * finalColumn
-    })
+  const btnVisible = useMemo(() => {
+    return items.length > maxRows * finalColumn
   }, [items, maxRows, finalColumn])
 
   const [collapsed, setCollapsed] = useState(true)
   return (
-    <div ref={ref} className='flex gap-4'>
-      <Form {...formProps} className='grow-1'>
-        <GlGrid
-          columns={columns}
-          gap={gap}
-          collapsed={collapsed}
-          maxRows={maxRows}
-          targetColumn={finalColumn}
-        >
-          {items.map((item, index) => {
-            return (
-              <GlGridItem
-                key={String(item.formItemProps?.name)}
-                index={index}
-                {...item.gridItemProps}
-              >
-                <Form.FormItem {...item.formItemProps}>{item.component}</Form.FormItem>
-              </GlGridItem>
-            )
-          })}
-        </GlGrid>
-      </Form>
-      <Space>
-        <Space direction={visibleItems.length > finalColumn ? 'vertical' : 'horizontal'}>
-          <Button>查询</Button>
-          <Button variant='outline'>重置</Button>
-        </Space>
-        {items.length > maxRows * finalColumn && (
-          <Button variant='text' onClick={() => setCollapsed(!collapsed)}>
-            {collapsed ? '展开' : '收起'}
+    <div className={`gl-search-form ${className ?? ''}`} style={style}>
+      <div ref={ref} className='flex gap-4'>
+        <Form {...formProps} className='grow'>
+          <GlGrid
+            columns={columns}
+            gap={gap}
+            collapsed={collapsed}
+            maxRows={maxRows}
+            targetColumn={finalColumn}
+          >
+            {items.map((item, index) => {
+              return (
+                <GlGridItem
+                  key={String(item.formItemProps?.name)}
+                  index={index}
+                  {...item.gridItemProps}
+                >
+                  <Form.FormItem {...item.formItemProps}>{item.component}</Form.FormItem>
+                </GlGridItem>
+              )
+            })}
+          </GlGrid>
+        </Form>
+        <div className='flex gap-4'>
+          <div className='flex gap-4'>
+            <Button>{t('action.query')}</Button>
+            <Button variant='outline'>{t('action.reset')}</Button>
+          </div>
+        </div>
+      </div>
+      {btnVisible && (
+        <Divider className='mt-2! mb-0!'>
+          <Button variant='text' size='small' onClick={() => setCollapsed(!collapsed)}>
+            {collapsed ? <ChevronDownIcon size='24px' /> : <ChevronUpIcon size='24px' />}
           </Button>
-        )}
-      </Space>
+        </Divider>
+      )}
     </div>
   )
 }

@@ -1,4 +1,5 @@
 type GlSearchFormProps = Parameters<typeof GlSearchForm>[0]
+
 export default () => {
   const items = [
     {
@@ -40,6 +41,42 @@ export default () => {
     {
       formItemProps: {
         name: 'prop7'
+      },
+      component: <Input />
+    },
+    {
+      formItemProps: {
+        name: 'prop8'
+      },
+      component: <Input />
+    },
+    {
+      formItemProps: {
+        name: 'prop9'
+      },
+      component: <Input />
+    },
+    {
+      formItemProps: {
+        name: 'prop10'
+      },
+      component: <Input />
+    },
+    {
+      formItemProps: {
+        name: 'prop11'
+      },
+      component: <Input />
+    },
+    {
+      formItemProps: {
+        name: 'prop12'
+      },
+      component: <Input />
+    },
+    {
+      formItemProps: {
+        name: 'prop13'
       },
       component: <Input />
     }

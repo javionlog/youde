@@ -59,7 +59,7 @@ export const GlGrid = (props: Props) => {
   return (
     <div
       ref={ref}
-      className={className}
+      className={`gl-grid ${className ?? ''}`}
       style={{
         display: 'grid',
         gap: `${finalGap}`,

@@ -1,7 +1,24 @@
 @import "tailwindcss";
 @custom-variant dark (&:where([theme-mode=dark], [theme-mode=dark] *));
 
-.gb-dialog .t-dialog__position {
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--td-scroll-track-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--td-scrollbar-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--td-scrollbar-hover-color);
+}
+
+.gl-dialog .t-dialog__position {
   padding: 0;
 }
 
