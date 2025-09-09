@@ -1,5 +1,5 @@
 import { createElement } from 'react'
-import { AppIcon, MenuFoldIcon, MenuUnfoldIcon, ViewListIcon } from 'tdesign-icons-react'
+import { AppIcon, MenuFoldIcon, MenuUnfoldIcon } from 'tdesign-icons-react'
 import type { ResourceNode } from '@/global/api'
 
 const { SubMenu, MenuItem } = Menu
@@ -73,7 +73,11 @@ const MobileMenu = (props: SidebarProps) => {
         className='drawer-nopadding'
         onClose={() => setVisible(false)}
       >
-        <Menu value={location.pathname} collapsed={sidebarCollapsed} className='h-full w-full!'>
+        <Menu
+          value={location.pathname}
+          collapsed={sidebarCollapsed}
+          className='app-sidebar h-full w-full!'
+        >
           {renderMenuItems(menus)}
         </Menu>
       </Drawer>
@@ -81,7 +85,7 @@ const MobileMenu = (props: SidebarProps) => {
         className='fixed! bottom-4 left-4 z-[2000]!'
         shape='circle'
         size='large'
-        icon={sidebarCollapsed ? <MenuUnfoldIcon /> : <MenuFoldIcon />}
+        icon={sidebarCollapsed ? <MenuFoldIcon /> : <MenuUnfoldIcon />}
         onClick={() => {
           setVisible(!visible)
         }}
@@ -103,12 +107,12 @@ const WideMenu = (props: SidebarProps) => {
         <Button
           variant='text'
           shape='square'
-          icon={<ViewListIcon />}
+          icon={sidebarCollapsed ? <MenuFoldIcon /> : <MenuUnfoldIcon />}
           onClick={() => useAppStore.setState({ sidebarCollapsed: !sidebarCollapsed })}
         />
       }
       width={'256px'}
-      className='max-sm:hidden! h-full'
+      className='app-sidebar max-sm:hidden! h-full'
     >
       {renderMenuItems(menus)}
     </Menu>

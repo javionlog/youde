@@ -35,7 +35,7 @@ export const AppLayout = () => {
   return (
     <>
       {resourceInited ? (
-        <div className='flex h-full overflow-auto'>
+        <div className='app-layout flex h-full overflow-auto'>
           <AppSidebar menus={menus} />
           <div className='grow'>
             <AppHeader />

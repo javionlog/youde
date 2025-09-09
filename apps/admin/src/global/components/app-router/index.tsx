@@ -41,7 +41,9 @@ export const AppRouter = () => {
 
   return (
     <ConfigProvider globalConfig={globalConfig}>
-      <div className='h-dvh bg-(--td-bg-color-page) text-(--td-text-color-primary)'>{element}</div>
+      <div className='app-router h-dvh bg-(--td-bg-color-page) text-(--td-text-color-primary)'>
+        {element}
+      </div>
     </ConfigProvider>
   )
 }
