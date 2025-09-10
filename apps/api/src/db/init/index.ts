@@ -1,3 +1,4 @@
+import { consola } from 'consola'
 import { sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { auth } from '@/modules/auth/services'
@@ -134,5 +135,8 @@ const init = async () => {
   }
 }
 
+consola.info('init db start')
 await reset()
 await init()
+consola.info('init db end')
+process.exit()
