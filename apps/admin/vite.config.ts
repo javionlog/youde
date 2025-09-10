@@ -59,7 +59,7 @@ export default defineConfig(({ mode }) => {
           },
           {
             from: 'es-toolkit',
-            imports: ['isNil']
+            imports: ['isNil', 'camelCase']
           },
           {
             from: 'react-i18next',

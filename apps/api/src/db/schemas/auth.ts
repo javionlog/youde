@@ -102,3 +102,15 @@ export const roleResourceRelation = pgTable('role_resource_relation', {
   roleId: text('role_id').notNull(),
   resourceId: text('resource_id').notNull()
 })
+
+export const resourceLocale = pgTable('resource_locale', {
+  id: text('id').primaryKey(),
+  createdAt: timestamp('created_at').$defaultFn(() => new Date()),
+  updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
+  createdBy: text('created_by'),
+  updatedBy: text('updated_by'),
+  resourceId: text('resource_id').notNull(),
+  field: text('field').notNull(),
+  enUs: text('en_us').notNull(),
+  zhCn: text('zh_cn').notNull()
+})

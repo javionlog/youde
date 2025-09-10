@@ -4,33 +4,29 @@ import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
 import { getOpenAPISchema, isEmpty } from '@/global/utils'
 import { basePath, systemOperator } from '../config'
-import { throwDataIsReferencedError, throwDbError } from '../errors'
+import { throwDbError } from '../errors'
 import { getSession } from '../services/base'
-import type { ResourceSpec } from '../services/resource'
-import {
-  checkResource,
-  getOneResource,
-  resourceClientSpec,
-  resourceListSpec
-} from '../services/resource'
 import type { ResourceLocaleSpec } from '../services/resource-locale'
-import { resourceLocaleClientSpec } from '../services/resource-locale'
-import type { RoleResourceRelationSpec } from '../services/role-resource-relation'
+import {
+  getOneResourceLocale,
+  resourceLocaleClientSpec,
+  resourceLocaleListSpec
+} from '../services/resource-locale'
 import { idSpec } from '../specs'
 
-export const resourceEndpoints = {
-  createResource: createAuthEndpoint(
-    `${basePath}/resource/create`,
+export const resourceLocaleEndpoints = {
+  createResourceLocale: createAuthEndpoint(
+    `${basePath}/resource-locale/create`,
     {
       method: 'POST',
-      body: resourceClientSpec,
+      body: resourceLocaleClientSpec,
       metadata: {
         openapi: {
-          description: 'Create a resource',
+          description: 'Create a resource locale',
           requestBody: {
             content: {
               'application/json': {
-                schema: getOpenAPISchema(resourceClientSpec)
+                schema: getOpenAPISchema(resourceLocaleClientSpec)
               }
             }
           },
@@ -41,7 +37,7 @@ export const resourceEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'object',
-                    $ref: '#/components/schemas/Resource'
+                    $ref: '#/components/schemas/ResourceLocale'
                   }
                 }
               }
@@ -52,12 +48,11 @@ export const resourceEndpoints = {
     },
     async ctx => {
       const { body, json, context } = ctx
-      await checkResource(context, body)
       const { adapter } = context
       const session = await getSession(ctx)
       try {
-        const result = await adapter.create<ResourceSpec>({
-          model: 'resource',
+        const result = await adapter.create<ResourceLocaleSpec>({
+          model: 'resourceLocale',
           data: {
             ...body,
             createdBy: session?.user.username ?? systemOperator,
@@ -70,23 +65,23 @@ export const resourceEndpoints = {
       }
     }
   ),
-  updateResource: createAuthEndpoint(
-    `${basePath}/resource/update`,
+  updateResourceLocale: createAuthEndpoint(
+    `${basePath}/resource-locale/update`,
     {
       method: 'POST',
       body: z.object({
-        ...resourceClientSpec.shape,
+        ...resourceLocaleClientSpec.shape,
         ...idSpec.shape
       }),
       metadata: {
         openapi: {
-          description: 'Update a resource',
+          description: 'Update a resource locale',
           requestBody: {
             content: {
               'application/json': {
                 schema: getOpenAPISchema(
                   z.object({
-                    ...resourceClientSpec.shape,
+                    ...resourceLocaleClientSpec.shape,
                     ...idSpec.shape
                   })
                 )
@@ -100,7 +95,7 @@ export const resourceEndpoints = {
                 'application/json': {
                   schema: {
                     type: 'object',
-                    $ref: '#/components/schemas/Resource'
+                    $ref: '#/components/schemas/ResourceLocale'
                   }
                 }
               }
@@ -111,14 +106,13 @@ export const resourceEndpoints = {
     },
     async ctx => {
       const { body, json, context } = ctx
-      await checkResource(context, body)
       const { id } = body
       const { adapter } = context
       const session = await getSession(ctx)
-      await getOneResource(context, id)
+      await getOneResourceLocale(context, id)
       try {
-        const result = await adapter.update<ResourceSpec>({
-          model: 'resource',
+        const result = await adapter.update<ResourceLocaleSpec>({
+          model: 'resourceLocale',
           where: [{ field: 'id', value: id }],
           update: {
             ...body,
@@ -132,14 +126,14 @@ export const resourceEndpoints = {
       }
     }
   ),
-  deleteResource: createAuthEndpoint(
-    `${basePath}/resource/delete`,
+  deleteResourceLocale: createAuthEndpoint(
+    `${basePath}/resource-locale/delete`,
     {
       method: 'POST',
       body: idSpec,
       metadata: {
         openapi: {
-          description: 'Delete a resource',
+          description: 'Delete a resource locale',
           responses: {
             '200': {
               description: 'Success',
@@ -159,23 +153,16 @@ export const resourceEndpoints = {
       const { body, json, context } = ctx
       const { adapter } = context
       const { id } = body
-      await getOneResource(context, id)
-      const roleResourceRelationRows = await adapter.findOne<RoleResourceRelationSpec>({
-        model: 'roleResourceRelation',
-        where: [{ field: 'resourceId', value: id }]
-      })
-      if (roleResourceRelationRows) {
-        throwDataIsReferencedError('Resource is referenced')
-      }
+      await getOneResourceLocale(context, id)
       await adapter.delete({
-        model: 'resource',
+        model: 'resourceLocale',
         where: [{ field: 'id', value: id }]
       })
       return json({})
     }
   ),
-  deleteManyResources: createAuthEndpoint(
-    `${basePath}/resource/delete-many`,
+  deleteManyResourceLocales: createAuthEndpoint(
+    `${basePath}/resource-locale/delete-many`,
     {
       method: 'POST',
       body: z.object({
@@ -183,7 +170,7 @@ export const resourceEndpoints = {
       }),
       metadata: {
         openapi: {
-          description: 'Delete many resources',
+          description: 'Delete many resource locales',
           responses: {
             '200': {
               description: 'Success',
@@ -203,44 +190,30 @@ export const resourceEndpoints = {
       const { body, json, context } = ctx
       const { adapter } = context
       const { ids } = body
-      const canDeleteIds = []
-      for (const id of ids) {
-        await getOneResource(context, id)
-        const roleResourceRelationRows = await adapter.findOne<RoleResourceRelationSpec>({
-          model: 'roleResourceRelation',
-          where: [{ field: 'resourceId', value: id }]
-        })
-        if (!roleResourceRelationRows) {
-          canDeleteIds.push(id)
-        }
-      }
       await adapter.deleteMany({
-        model: 'resource',
-        where: [{ field: 'id', value: canDeleteIds, operator: 'in' }]
+        model: 'resourceLocale',
+        where: [{ field: 'id', value: ids, operator: 'in' }]
       })
       return json({})
     }
   ),
-  getResource: createAuthEndpoint(
-    `${basePath}/resource/get`,
+  getResourceLocale: createAuthEndpoint(
+    `${basePath}/resource-locale/get`,
     {
       method: 'GET',
       query: idSpec,
       metadata: {
         openapi: {
-          description: 'Get a resource',
+          description: 'Get a resource locale',
           responses: {
             '200': {
               description: 'Success',
               content: {
                 'application/json': {
-                  schema: getOpenAPISchema(
-                    z.object({
-                      ...resourceClientSpec.shape,
-                      ...idSpec.shape,
-                      locales: z.array(resourceLocaleClientSpec)
-                    })
-                  )
+                  schema: {
+                    type: 'object',
+                    $ref: '#/components/schemas/ResourceLocale'
+                  }
                 }
               }
             }
@@ -251,22 +224,22 @@ export const resourceEndpoints = {
     async ctx => {
       const { query, json, context } = ctx
       const { id } = query
-      const row = await getOneResource(context, id)
+      const row = await getOneResourceLocale(context, id)
       return json(row)
     }
   ),
-  listResources: createAuthEndpoint(
-    `${basePath}/resource/list`,
+  listResourceLocales: createAuthEndpoint(
+    `${basePath}/resource-locale/list`,
     {
       method: 'POST',
-      body: resourceListSpec,
+      body: resourceLocaleListSpec,
       metadata: {
         openapi: {
-          description: 'List resources',
+          description: 'List resource locales',
           requestBody: {
             content: {
               'application/json': {
-                schema: getOpenAPISchema(resourceListSpec)
+                schema: getOpenAPISchema(resourceLocaleListSpec)
               }
             }
           },
@@ -275,15 +248,12 @@ export const resourceEndpoints = {
               description: 'Success',
               content: {
                 'application/json': {
-                  schema: getOpenAPISchema(
-                    z.array(
-                      z.object({
-                        ...resourceClientSpec.shape,
-                        ...idSpec.shape,
-                        locales: z.array(resourceLocaleClientSpec)
-                      })
-                    )
-                  )
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ResourceLocale'
+                    }
+                  }
                 }
               }
             }
@@ -294,7 +264,7 @@ export const resourceEndpoints = {
     async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
-      const { name, sortBy, page, pageSize } = body
+      const { field, sortBy, page, pageSize } = body
       let offset: number | undefined
       let limit: number | undefined
       if (!isEmpty(page) && !isEmpty(pageSize)) {
@@ -302,44 +272,22 @@ export const resourceEndpoints = {
         limit = pageSize
       }
       const where: Where[] = []
-      if (!isEmpty(name)) {
+      if (!isEmpty(field)) {
         where.push({
-          field: 'name',
-          value: name,
+          field: 'field',
+          value: field,
           operator: 'contains'
         })
       }
-      const resourceRecords = await adapter.findMany<ResourceSpec>({
-        model: 'resource',
+      const records = await adapter.findMany<ResourceLocaleSpec>({
+        model: 'resourceLocale',
         where,
         offset,
         limit,
         sortBy
       })
-
-      const resourceIds = resourceRecords.map(o => o.id)
-      const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
-        model: 'resourceLocale',
-        where: [
-          {
-            field: 'resourceId',
-            value: resourceIds,
-            operator: 'in'
-          }
-        ]
-      })
-      const records = resourceRecords.map(item => {
-        return {
-          ...item,
-          locales: localeRecords.filter(localeItem => {
-            return item.id === localeItem.resourceId
-          })
-        }
-      }) as (ResourceSpec & {
-        locales: ResourceLocaleSpec[]
-      })[]
       const total = await adapter.count({
-        model: 'resource',
+        model: 'resourceLocale',
         where
       })
       return json({

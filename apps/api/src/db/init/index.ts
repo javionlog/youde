@@ -46,6 +46,14 @@ const init = async () => {
       isShow: true
     }
   }))!
+  await api.createResourceLocale({
+    body: {
+      resourceId: resourceRes1.id,
+      field: 'name',
+      enUs: 'Auth Management',
+      zhCn: '权限管理'
+    }
+  })
   const resourceRes2 = (await api.createResource({
     body: {
       parentId: resourceRes1?.id,
@@ -58,6 +66,14 @@ const init = async () => {
       isShow: true
     }
   }))!
+  await api.createResourceLocale({
+    body: {
+      resourceId: resourceRes2.id,
+      field: 'name',
+      enUs: 'User Management',
+      zhCn: '用户管理'
+    }
+  })
   const resourceRes3 = (await api.createResource({
     body: {
       parentId: resourceRes1?.id,
@@ -70,6 +86,14 @@ const init = async () => {
       isShow: true
     }
   }))!
+  await api.createResourceLocale({
+    body: {
+      resourceId: resourceRes3.id,
+      field: 'name',
+      enUs: 'Role Management',
+      zhCn: '角色管理'
+    }
+  })
   const resourceRes4 = (await api.createResource({
     body: {
       parentId: resourceRes1?.id,
@@ -82,6 +106,14 @@ const init = async () => {
       isShow: true
     }
   }))!
+  await api.createResourceLocale({
+    body: {
+      resourceId: resourceRes4.id,
+      field: 'name',
+      enUs: 'Resource Management',
+      zhCn: '资源管理'
+    }
+  })
   const resourceIds = [resourceRes1.id, resourceRes2.id, resourceRes3.id, resourceRes4.id]
   const roleIds = [roleRes.id]
   for (const id of resourceIds) {

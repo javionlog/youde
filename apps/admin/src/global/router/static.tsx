@@ -7,7 +7,16 @@ export const layoutMenus = [
     name: 'Home',
     type: 'Page',
     path: 'home',
-    isShow: true
+    isShow: true,
+    locales: [
+      {
+        id: 'home',
+        resourceId: 'home',
+        field: 'name',
+        enUs: 'Home',
+        zhCn: '首页'
+      }
+    ]
   },
   {
     id: 'not-found',

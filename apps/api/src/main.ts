@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia'
-import { globalController } from './global/controllers/global'
+import { appController } from './app-controller'
 
-const app = new Elysia().use(globalController)
+const app = new Elysia().use(appController)
 
 export type App = typeof app
 

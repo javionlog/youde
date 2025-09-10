@@ -93,6 +93,18 @@ export type RoleResourceRelation = {
   resourceId: string;
 };
 
+export type ResourceLocale = {
+  id: string;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
+  readonly createdBy?: string;
+  readonly updatedBy?: string;
+  resourceId: string;
+  field: string;
+  enUs: string;
+  zhCn: string;
+};
+
 export type ResourceNode = {
   id: string;
   readonly createdAt?: string;
@@ -113,6 +125,7 @@ export type ResourceNode = {
   isCache?: boolean;
   isAffix?: boolean;
   isShow?: boolean;
+  locales?: Array<ResourceLocale>;
   children?: Array<ResourceNode>;
 };
 
@@ -3030,7 +3043,29 @@ export type GetAuthRbacResourceGetResponses = {
   /**
    * Success
    */
-  200: Resource;
+  200: {
+    name: string;
+    enabled?: boolean;
+    remark?: string;
+    sort?: number;
+    parentId?: string;
+    type: "Menu" | "Page" | "Element";
+    path?: string;
+    activePath?: string;
+    component?: string;
+    icon?: string;
+    isLink?: boolean;
+    isCache?: boolean;
+    isAffix?: boolean;
+    isShow?: boolean;
+    id: string;
+    locales: Array<{
+      resourceId: string;
+      field: string;
+      enUs: string;
+      zhCn: string;
+    }>;
+  };
 };
 
 export type GetAuthRbacResourceGetResponse =
@@ -3097,11 +3132,416 @@ export type PostAuthRbacResourceListResponses = {
   /**
    * Success
    */
-  200: Array<Resource>;
+  200: Array<{
+    name: string;
+    enabled?: boolean;
+    remark?: string;
+    sort?: number;
+    parentId?: string;
+    type: "Menu" | "Page" | "Element";
+    path?: string;
+    activePath?: string;
+    component?: string;
+    icon?: string;
+    isLink?: boolean;
+    isCache?: boolean;
+    isAffix?: boolean;
+    isShow?: boolean;
+    id: string;
+    locales: Array<{
+      resourceId: string;
+      field: string;
+      enUs: string;
+      zhCn: string;
+    }>;
+  }>;
 };
 
 export type PostAuthRbacResourceListResponse =
   PostAuthRbacResourceListResponses[keyof PostAuthRbacResourceListResponses];
+
+export type PostAuthRbacResourceLocaleCreateData = {
+  body?: {
+    resourceId: string;
+    field: string;
+    enUs: string;
+    zhCn: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/resource-locale/create";
+};
+
+export type PostAuthRbacResourceLocaleCreateErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacResourceLocaleCreateError =
+  PostAuthRbacResourceLocaleCreateErrors[keyof PostAuthRbacResourceLocaleCreateErrors];
+
+export type PostAuthRbacResourceLocaleCreateResponses = {
+  /**
+   * Success
+   */
+  200: ResourceLocale;
+};
+
+export type PostAuthRbacResourceLocaleCreateResponse =
+  PostAuthRbacResourceLocaleCreateResponses[keyof PostAuthRbacResourceLocaleCreateResponses];
+
+export type PostAuthRbacResourceLocaleUpdateData = {
+  body?: {
+    resourceId: string;
+    field: string;
+    enUs: string;
+    zhCn: string;
+    id: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/resource-locale/update";
+};
+
+export type PostAuthRbacResourceLocaleUpdateErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacResourceLocaleUpdateError =
+  PostAuthRbacResourceLocaleUpdateErrors[keyof PostAuthRbacResourceLocaleUpdateErrors];
+
+export type PostAuthRbacResourceLocaleUpdateResponses = {
+  /**
+   * Success
+   */
+  200: ResourceLocale;
+};
+
+export type PostAuthRbacResourceLocaleUpdateResponse =
+  PostAuthRbacResourceLocaleUpdateResponses[keyof PostAuthRbacResourceLocaleUpdateResponses];
+
+export type PostAuthRbacResourceLocaleDeleteData = {
+  body: {
+    id: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/resource-locale/delete";
+};
+
+export type PostAuthRbacResourceLocaleDeleteErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacResourceLocaleDeleteError =
+  PostAuthRbacResourceLocaleDeleteErrors[keyof PostAuthRbacResourceLocaleDeleteErrors];
+
+export type PostAuthRbacResourceLocaleDeleteResponses = {
+  /**
+   * Success
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type PostAuthRbacResourceLocaleDeleteResponse =
+  PostAuthRbacResourceLocaleDeleteResponses[keyof PostAuthRbacResourceLocaleDeleteResponses];
+
+export type PostAuthRbacResourceLocaleDeleteManyData = {
+  body: {
+    ids: Array<unknown>;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/resource-locale/delete-many";
+};
+
+export type PostAuthRbacResourceLocaleDeleteManyErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacResourceLocaleDeleteManyError =
+  PostAuthRbacResourceLocaleDeleteManyErrors[keyof PostAuthRbacResourceLocaleDeleteManyErrors];
+
+export type PostAuthRbacResourceLocaleDeleteManyResponses = {
+  /**
+   * Success
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type PostAuthRbacResourceLocaleDeleteManyResponse =
+  PostAuthRbacResourceLocaleDeleteManyResponses[keyof PostAuthRbacResourceLocaleDeleteManyResponses];
+
+export type GetAuthRbacResourceLocaleGetData = {
+  body?: never;
+  path?: never;
+  query?: {
+    id?: string;
+  };
+  url: "/auth/rbac/resource-locale/get";
+};
+
+export type GetAuthRbacResourceLocaleGetErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type GetAuthRbacResourceLocaleGetError =
+  GetAuthRbacResourceLocaleGetErrors[keyof GetAuthRbacResourceLocaleGetErrors];
+
+export type GetAuthRbacResourceLocaleGetResponses = {
+  /**
+   * Success
+   */
+  200: ResourceLocale;
+};
+
+export type GetAuthRbacResourceLocaleGetResponse =
+  GetAuthRbacResourceLocaleGetResponses[keyof GetAuthRbacResourceLocaleGetResponses];
+
+export type PostAuthRbacResourceLocaleListData = {
+  body?: {
+    page?: number;
+    pageSize?: number;
+    sortBy?: {
+      field: string;
+      direction: "asc" | "desc";
+    };
+    field?: unknown;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/resource-locale/list";
+};
+
+export type PostAuthRbacResourceLocaleListErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacResourceLocaleListError =
+  PostAuthRbacResourceLocaleListErrors[keyof PostAuthRbacResourceLocaleListErrors];
+
+export type PostAuthRbacResourceLocaleListResponses = {
+  /**
+   * Success
+   */
+  200: Array<ResourceLocale>;
+};
+
+export type PostAuthRbacResourceLocaleListResponse =
+  PostAuthRbacResourceLocaleListResponses[keyof PostAuthRbacResourceLocaleListResponses];
 
 export type PostAuthRbacUserRoleRelationCreateData = {
   body: {
@@ -3681,7 +4121,29 @@ export type PostAuthRbacListUserResourcesResponses = {
   /**
    * Success
    */
-  200: Array<Resource>;
+  200: {
+    name: string;
+    enabled?: boolean;
+    remark?: string;
+    sort?: number;
+    parentId?: string;
+    type: "Menu" | "Page" | "Element";
+    path?: string;
+    activePath?: string;
+    component?: string;
+    icon?: string;
+    isLink?: boolean;
+    isCache?: boolean;
+    isAffix?: boolean;
+    isShow?: boolean;
+    id: string;
+    locales: Array<{
+      resourceId: string;
+      field: string;
+      enUs: string;
+      zhCn: string;
+    }>;
+  };
 };
 
 export type PostAuthRbacListUserResourcesResponse =
@@ -3878,7 +4340,29 @@ export type PostAuthRbacListRoleResourcesResponses = {
   /**
    * Success
    */
-  200: Array<Resource>;
+  200: {
+    name: string;
+    enabled?: boolean;
+    remark?: string;
+    sort?: number;
+    parentId?: string;
+    type: "Menu" | "Page" | "Element";
+    path?: string;
+    activePath?: string;
+    component?: string;
+    icon?: string;
+    isLink?: boolean;
+    isCache?: boolean;
+    isAffix?: boolean;
+    isShow?: boolean;
+    id: string;
+    locales: Array<{
+      resourceId: string;
+      field: string;
+      enUs: string;
+      zhCn: string;
+    }>;
+  };
 };
 
 export type PostAuthRbacListRoleResourcesResponse =

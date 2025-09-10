@@ -5,6 +5,7 @@ import { getZodSchema } from '@/global/utils'
 import { throwDataNotFoundError } from '../errors'
 import { resourceSchema } from '../schemas/resource'
 import { pageSpec, sortBySpec } from '../specs'
+import type { ResourceLocaleSpec } from './resource-locale'
 
 export const resourceSpec = getZodSchema({
   fields: resourceSchema.resource.fields,
@@ -30,10 +31,20 @@ export const getOneResource = async (ctx: AuthContext, id: string, message?: str
     model: 'resource',
     where: [{ field: 'id', value: id }]
   })
+  const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
+    model: 'resourceLocale',
+    where: [{ field: 'resourceId', value: id }]
+  })
   if (!row) {
     return throwDataNotFoundError(message)
   }
-  return row
+  const result = row as ResourceSpec & {
+    locales: ResourceLocaleSpec[]
+  }
+  if (localeRecords) {
+    result.locales = localeRecords
+  }
+  return result
 }
 
 export const checkResource = async (ctx: AuthContext, body: z.infer<typeof resourceClientSpec>) => {

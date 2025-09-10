@@ -71,6 +71,12 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
               ...authSchemas.Resource,
               properties: {
                 ...authSchemas.Resource?.properties,
+                locales: {
+                  type: 'array',
+                  items: {
+                    $ref: '#/components/schemas/ResourceLocale'
+                  }
+                },
                 children: {
                   type: 'array',
                   items: {
@@ -130,6 +136,12 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
               ...authSchemas.Resource,
               properties: {
                 ...authSchemas.Resource?.properties,
+                locales: {
+                  type: 'array',
+                  items: {
+                    $ref: '#/components/schemas/ResourceLocale'
+                  }
+                },
                 children: {
                   type: 'array',
                   items: {

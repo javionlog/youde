@@ -288,6 +288,46 @@ export const RoleResourceRelationSchema = {
   required: ["id", "roleId", "resourceId"],
 } as const;
 
+export const ResourceLocaleSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+    },
+    createdAt: {
+      type: "string",
+      default: "Generated at runtime",
+      readOnly: true,
+    },
+    updatedAt: {
+      type: "string",
+      default: "Generated at runtime",
+      readOnly: true,
+    },
+    createdBy: {
+      type: "string",
+      readOnly: true,
+    },
+    updatedBy: {
+      type: "string",
+      readOnly: true,
+    },
+    resourceId: {
+      type: "string",
+    },
+    field: {
+      type: "string",
+    },
+    enUs: {
+      type: "string",
+    },
+    zhCn: {
+      type: "string",
+    },
+  },
+  required: ["id", "resourceId", "field", "enUs", "zhCn"],
+} as const;
+
 export const ResourceNodeSchema = {
   type: "object",
   properties: {
@@ -354,6 +394,12 @@ export const ResourceNodeSchema = {
     },
     isShow: {
       type: "boolean",
+    },
+    locales: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ResourceLocale",
+      },
     },
     children: {
       type: "array",

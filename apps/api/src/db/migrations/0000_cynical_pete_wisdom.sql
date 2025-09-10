@@ -37,6 +37,18 @@ CREATE TABLE "resource" (
 	CONSTRAINT "resource_name_unique" UNIQUE("name")
 );
 --> statement-breakpoint
+CREATE TABLE "resource_locale" (
+	"id" text PRIMARY KEY NOT NULL,
+	"created_at" timestamp,
+	"updated_at" timestamp,
+	"created_by" text,
+	"updated_by" text,
+	"resource_id" text NOT NULL,
+	"field" text NOT NULL,
+	"en_us" text NOT NULL,
+	"zh_cn" text NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "role" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" timestamp,

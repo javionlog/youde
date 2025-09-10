@@ -129,6 +129,24 @@ import type {
   PostAuthRbacResourceListData,
   PostAuthRbacResourceListResponses,
   PostAuthRbacResourceListErrors,
+  PostAuthRbacResourceLocaleCreateData,
+  PostAuthRbacResourceLocaleCreateResponses,
+  PostAuthRbacResourceLocaleCreateErrors,
+  PostAuthRbacResourceLocaleUpdateData,
+  PostAuthRbacResourceLocaleUpdateResponses,
+  PostAuthRbacResourceLocaleUpdateErrors,
+  PostAuthRbacResourceLocaleDeleteData,
+  PostAuthRbacResourceLocaleDeleteResponses,
+  PostAuthRbacResourceLocaleDeleteErrors,
+  PostAuthRbacResourceLocaleDeleteManyData,
+  PostAuthRbacResourceLocaleDeleteManyResponses,
+  PostAuthRbacResourceLocaleDeleteManyErrors,
+  GetAuthRbacResourceLocaleGetData,
+  GetAuthRbacResourceLocaleGetResponses,
+  GetAuthRbacResourceLocaleGetErrors,
+  PostAuthRbacResourceLocaleListData,
+  PostAuthRbacResourceLocaleListResponses,
+  PostAuthRbacResourceLocaleListErrors,
   PostAuthRbacUserRoleRelationCreateData,
   PostAuthRbacUserRoleRelationCreateResponses,
   PostAuthRbacUserRoleRelationCreateErrors,
@@ -1033,6 +1051,134 @@ export const postAuthRbacResourceList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: "/auth/rbac/resource/list",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Create a resource locale
+ */
+export const postAuthRbacResourceLocaleCreate = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacResourceLocaleCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacResourceLocaleCreateResponses,
+    PostAuthRbacResourceLocaleCreateErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource-locale/create",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Update a resource locale
+ */
+export const postAuthRbacResourceLocaleUpdate = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacResourceLocaleUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacResourceLocaleUpdateResponses,
+    PostAuthRbacResourceLocaleUpdateErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource-locale/update",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete a resource locale
+ */
+export const postAuthRbacResourceLocaleDelete = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostAuthRbacResourceLocaleDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacResourceLocaleDeleteResponses,
+    PostAuthRbacResourceLocaleDeleteErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource-locale/delete",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete many resource locales
+ */
+export const postAuthRbacResourceLocaleDeleteMany = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostAuthRbacResourceLocaleDeleteManyData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacResourceLocaleDeleteManyResponses,
+    PostAuthRbacResourceLocaleDeleteManyErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource-locale/delete-many",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Get a resource locale
+ */
+export const getAuthRbacResourceLocaleGet = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<GetAuthRbacResourceLocaleGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetAuthRbacResourceLocaleGetResponses,
+    GetAuthRbacResourceLocaleGetErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource-locale/get",
+    ...options,
+  });
+};
+
+/**
+ * List resource locales
+ */
+export const postAuthRbacResourceLocaleList = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacResourceLocaleListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacResourceLocaleListResponses,
+    PostAuthRbacResourceLocaleListErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/resource-locale/list",
     ...options,
     headers: {
       "Content-Type": "application/json",

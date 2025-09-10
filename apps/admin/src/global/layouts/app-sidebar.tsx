@@ -1,3 +1,4 @@
+import { camelCase } from 'es-toolkit'
 import { createElement } from 'react'
 import { AppIcon, MenuFoldIcon, MenuUnfoldIcon } from 'tdesign-icons-react'
 import type { ResourceNode } from '@/global/api'
@@ -12,9 +13,12 @@ const MenuNode = (props: MenuNodeProps) => {
   const { menu } = props
   const navigate = useNavigate()
   const location = useLocation()
+  const lang = camelCase(useLocaleStore(state => state.lang))
   const routerPath = `/${menu.path}`
   const icon = menu.icon ? createElement(menu.icon!) : <AppIcon />
 
+  const menuLocale = menu.locales?.find(o => o.field === 'name')
+  const menuName = menuLocale?.[lang as 'enUs'] ?? menu.name
   return (
     <MenuItem
       value={routerPath}
@@ -25,26 +29,33 @@ const MenuNode = (props: MenuNodeProps) => {
       }}
       icon={icon}
     >
-      {menu.name}
+      {menuName}
     </MenuItem>
   )
 }
 
-const renderMenuItems = (menus: ResourceNode[]) => {
-  return menus
-    .filter(o => o.isShow)
-    .map(item => {
-      if (item.type === 'Menu' && item.children?.length) {
-        const icon = item.icon ? createElement(item.icon) : <AppIcon />
-
-        return (
-          <SubMenu key={item.id} title={item.name} value={item.id} icon={icon}>
-            {renderMenuItems(item.children)}
-          </SubMenu>
-        )
-      }
-      return <MenuNode key={item.id} menu={item} />
-    })
+const MenuItems = (props: { menus: ResourceNode[] }) => {
+  const { menus } = props
+  const lang = camelCase(useLocaleStore(state => state.lang))
+  return (
+    <>
+      {menus
+        .filter(o => o.isShow)
+        .map(item => {
+          if (item.children?.length) {
+            const icon = item.icon ? createElement(item.icon) : <AppIcon />
+            const menuLocale = item.locales?.find(o => o.field === 'name')
+            const menuName = menuLocale?.[lang as 'enUs'] ?? item.name
+            return (
+              <SubMenu key={item.id} title={menuName} value={item.id} icon={icon}>
+                <MenuItems menus={item.children} />
+              </SubMenu>
+            )
+          }
+          return <MenuNode key={item.id} menu={item} />
+        })}
+    </>
+  )
 }
 
 interface SidebarProps {
@@ -78,7 +89,7 @@ const MobileMenu = (props: SidebarProps) => {
           collapsed={sidebarCollapsed}
           className='app-sidebar h-full w-full!'
         >
-          {renderMenuItems(menus)}
+          <MenuItems menus={menus} />
         </Menu>
       </Drawer>
       <Button
@@ -114,7 +125,7 @@ const WideMenu = (props: SidebarProps) => {
       width={'256px'}
       className='app-sidebar max-sm:hidden! h-full'
     >
-      {renderMenuItems(menus)}
+      <MenuItems menus={menus} />
     </Menu>
   )
 }

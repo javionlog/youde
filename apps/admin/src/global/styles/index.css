@@ -25,3 +25,7 @@
 .drawer-nopadding .t-drawer__body {
   padding: 0;
 }
+
+.t-submenu.t-is-opened .t-menu__sub {
+  max-height: unset !important;
+}

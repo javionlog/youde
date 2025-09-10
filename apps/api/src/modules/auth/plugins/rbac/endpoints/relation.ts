@@ -6,11 +6,14 @@ import { buildTree, getOpenAPISchema, isEmpty } from '@/global/utils'
 import { basePath } from '../config'
 import { relationListSpec } from '../services/relation'
 import type { ResourceSpec } from '../services/resource'
+import { resourceClientSpec } from '../services/resource'
+import type { ResourceLocaleSpec } from '../services/resource-locale'
+import { resourceLocaleClientSpec } from '../services/resource-locale'
 import type { RoleSpec } from '../services/role'
 import type { RoleResourceRelationSpec } from '../services/role-resource-relation'
 import type { UserSpec } from '../services/user'
 import type { UserRoleRelationSpec } from '../services/user-role-relation'
-import { pageSpec } from '../specs'
+import { idSpec, pageSpec } from '../specs'
 
 export const relationEndpoints = {
   listUsers: createAuthEndpoint(
@@ -209,12 +212,13 @@ export const relationEndpoints = {
               description: 'Success',
               content: {
                 'application/json': {
-                  schema: {
-                    type: 'array',
-                    items: {
-                      $ref: '#/components/schemas/Resource'
-                    }
-                  }
+                  schema: getOpenAPISchema(
+                    z.object({
+                      ...resourceClientSpec.shape,
+                      ...idSpec.shape,
+                      locales: z.array(resourceLocaleClientSpec)
+                    })
+                  )
                 }
               }
             }
@@ -256,13 +260,34 @@ export const relationEndpoints = {
           value: resourceType
         })
       }
-      const records = await adapter.findMany<ResourceSpec>({
+      const resourceRecords = await adapter.findMany<ResourceSpec>({
         model: 'resource',
         where,
         offset,
         limit,
         sortBy
       })
+      const resourceIds = resourceRecords.map(o => o.id)
+      const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
+        model: 'resourceLocale',
+        where: [
+          {
+            field: 'resourceId',
+            value: resourceIds,
+            operator: 'in'
+          }
+        ]
+      })
+      const records = resourceRecords.map(item => {
+        return {
+          ...item,
+          locales: localeRecords.filter(localeItem => {
+            return item.id === localeItem.resourceId
+          })
+        }
+      }) as (ResourceSpec & {
+        locales: ResourceLocaleSpec[]
+      })[]
       const total = await adapter.count({
         model: 'resource',
         where
@@ -314,7 +339,7 @@ export const relationEndpoints = {
       const where: Where[] = [
         { field: 'id', value: roleResourceRelationRows.map(row => row.resourceId), operator: 'in' }
       ]
-      const records = await adapter.findMany<ResourceSpec>({
+      const resourceRecords = await adapter.findMany<ResourceSpec>({
         model: 'resource',
         where,
         sortBy: {
@@ -322,6 +347,27 @@ export const relationEndpoints = {
           direction: 'asc'
         }
       })
+      const resourceIds = resourceRecords.map(o => o.id)
+      const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
+        model: 'resourceLocale',
+        where: [
+          {
+            field: 'resourceId',
+            value: resourceIds,
+            operator: 'in'
+          }
+        ]
+      })
+      const records = resourceRecords.map(item => {
+        return {
+          ...item,
+          locales: localeRecords.filter(localeItem => {
+            return item.id === localeItem.resourceId
+          })
+        }
+      }) as (ResourceSpec & {
+        locales: ResourceLocaleSpec[]
+      })[]
       const tree = buildTree(records)
       return json(tree)
     }
@@ -437,12 +483,13 @@ export const relationEndpoints = {
               description: 'Success',
               content: {
                 'application/json': {
-                  schema: {
-                    type: 'array',
-                    items: {
-                      $ref: '#/components/schemas/Resource'
-                    }
-                  }
+                  schema: getOpenAPISchema(
+                    z.object({
+                      ...resourceClientSpec.shape,
+                      ...idSpec.shape,
+                      locales: z.array(resourceLocaleClientSpec)
+                    })
+                  )
                 }
               }
             }
@@ -474,13 +521,34 @@ export const relationEndpoints = {
           operator: 'contains'
         })
       }
-      const records = await adapter.findMany<ResourceSpec>({
+      const resourceRecords = await adapter.findMany<ResourceSpec>({
         model: 'resource',
         where,
         offset,
         limit,
         sortBy
       })
+      const resourceIds = resourceRecords.map(o => o.id)
+      const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
+        model: 'resourceLocale',
+        where: [
+          {
+            field: 'resourceId',
+            value: resourceIds,
+            operator: 'in'
+          }
+        ]
+      })
+      const records = resourceRecords.map(item => {
+        return {
+          ...item,
+          locales: localeRecords.filter(localeItem => {
+            return item.id === localeItem.resourceId
+          })
+        }
+      }) as (ResourceSpec & {
+        locales: ResourceLocaleSpec[]
+      })[]
       const total = await adapter.count({
         model: 'resource',
         where
@@ -535,7 +603,7 @@ export const relationEndpoints = {
       const where: Where[] = [
         { field: 'id', value: roleResourceRelationRows.map(row => row.resourceId), operator: 'in' }
       ]
-      const records = await adapter.findMany<ResourceSpec>({
+      const resourceRecords = await adapter.findMany<ResourceSpec>({
         model: 'resource',
         where,
         sortBy: {
@@ -543,6 +611,27 @@ export const relationEndpoints = {
           direction: 'asc'
         }
       })
+      const resourceIds = resourceRecords.map(o => o.id)
+      const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
+        model: 'resourceLocale',
+        where: [
+          {
+            field: 'resourceId',
+            value: resourceIds,
+            operator: 'in'
+          }
+        ]
+      })
+      const records = resourceRecords.map(item => {
+        return {
+          ...item,
+          locales: localeRecords.filter(localeItem => {
+            return item.id === localeItem.resourceId
+          })
+        }
+      }) as (ResourceSpec & {
+        locales: ResourceLocaleSpec[]
+      })[]
       const tree = buildTree(records)
       return json(tree)
     }
@@ -747,13 +836,34 @@ export const relationEndpoints = {
     async ctx => {
       const { json, context } = ctx
       const { adapter } = context
-      const records = await adapter.findMany<ResourceSpec>({
+      const resourceRecords = await adapter.findMany<ResourceSpec>({
         model: 'resource',
         sortBy: {
           field: 'sort',
           direction: 'asc'
         }
       })
+      const resourceIds = resourceRecords.map(o => o.id)
+      const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
+        model: 'resourceLocale',
+        where: [
+          {
+            field: 'resourceId',
+            value: resourceIds,
+            operator: 'in'
+          }
+        ]
+      })
+      const records = resourceRecords.map(item => {
+        return {
+          ...item,
+          locales: localeRecords.filter(localeItem => {
+            return item.id === localeItem.resourceId
+          })
+        }
+      }) as (ResourceSpec & {
+        locales: ResourceLocaleSpec[]
+      })[]
       const tree = buildTree(records)
       return json(tree)
     }

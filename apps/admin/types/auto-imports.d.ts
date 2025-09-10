@@ -132,6 +132,7 @@ declare global {
   const UserAvatar: typeof import('../src/global/components/user-avatar/index')['UserAvatar']
   const Watermark: typeof import('tdesign-react')['Watermark']
   const buildTree: typeof import('../src/global/utils/tree')['buildTree']
+  const camelCase: typeof import('es-toolkit')['camelCase']
   const createBrowserRouter: typeof import('react-router')['createBrowserRouter']
   const createContext: typeof import('react')['createContext']
   const defaultRoutes: typeof import('../src/global/router/static')['defaultRoutes']

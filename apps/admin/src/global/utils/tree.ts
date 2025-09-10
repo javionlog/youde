@@ -6,7 +6,7 @@ export const flattenTree = <T extends Record<string | number, unknown>, C extend
   props?: { children?: C; isDepthFirst?: boolean }
 ) => {
   const { children = 'children', isDepthFirst = true } = props ?? {}
-  const stack = tree.slice()
+  const stack = JSON.parse(JSON.stringify(tree)) as T[]
   const result: T[] = []
   while (stack.length > 0) {
     const topItem = stack.shift()
@@ -21,6 +21,9 @@ export const flattenTree = <T extends Record<string | number, unknown>, C extend
         }
       }
     }
+  }
+  for (const item of result) {
+    Reflect.deleteProperty(item, children)
   }
   return result
 }
