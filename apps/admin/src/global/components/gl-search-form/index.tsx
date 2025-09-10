@@ -1,22 +1,34 @@
 import type { ReactNode } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from 'tdesign-icons-react'
-import type { FormItemProps, FormProps } from 'tdesign-react'
+import type { ButtonProps, FormItemProps, FormProps } from 'tdesign-react'
 
 type GridProps = Omit<Parameters<typeof GlGrid>[0], 'collapsed'>
 type GridItemProps = Parameters<typeof GlGridItem>[0]
 
 type Item = {
-  formItemProps?: FormItemProps
-  gridItemProps?: GridItemProps
+  formItem?: FormItemProps
+  gridItem?: GridItemProps
   component?: ReactNode
 }
 
-interface Props extends FormProps, GridProps {
+interface Props extends StyledProps, FormProps, GridProps {
   items: Item[]
+  searchBtn?: ButtonProps
+  resetBtn?: ButtonProps
 }
 
 export const GlSearchForm = (props: Props) => {
-  const { className, style, columns, gap, maxRows = 1, items, ...formProps } = props
+  const {
+    className,
+    style,
+    columns,
+    gap,
+    maxRows = 1,
+    items,
+    searchBtn,
+    resetBtn,
+    ...formProps
+  } = props
 
   const ref = useRef(null)
   const { breakpoint } = useScreen(ref?.current)
@@ -40,7 +52,7 @@ export const GlSearchForm = (props: Props) => {
     return 3
   }, [breakpoint, columns])
 
-  const btnVisible = useMemo(() => {
+  const collpaseBtnVisible = useMemo(() => {
     return items.length > maxRows * finalColumn
   }, [items, maxRows, finalColumn])
 
@@ -58,12 +70,8 @@ export const GlSearchForm = (props: Props) => {
           >
             {items.map((item, index) => {
               return (
-                <GlGridItem
-                  key={String(item.formItemProps?.name)}
-                  index={index}
-                  {...item.gridItemProps}
-                >
-                  <Form.FormItem {...item.formItemProps}>{item.component}</Form.FormItem>
+                <GlGridItem key={String(item.formItem?.name)} index={index} {...item.gridItem}>
+                  <Form.FormItem {...item.formItem}>{item.component}</Form.FormItem>
                 </GlGridItem>
               )
             })}
@@ -71,12 +79,14 @@ export const GlSearchForm = (props: Props) => {
         </Form>
         <div className='flex gap-4'>
           <div className='flex gap-4'>
-            <Button>{t('action.query')}</Button>
-            <Button variant='outline'>{t('action.reset')}</Button>
+            <Button {...searchBtn}>{t('action.query')}</Button>
+            <Button variant='outline' {...resetBtn}>
+              {t('action.reset')}
+            </Button>
           </div>
         </div>
       </div>
-      {btnVisible && (
+      {collpaseBtnVisible && (
         <Divider className='mt-2! mb-0!'>
           <Button variant='text' size='small' onClick={() => setCollapsed(!collapsed)}>
             {collapsed ? <ChevronDownIcon size='24px' /> : <ChevronUpIcon size='24px' />}

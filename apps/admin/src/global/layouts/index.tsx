@@ -37,7 +37,7 @@ export const AppLayout = () => {
       {resourceInited ? (
         <div className='app-layout flex h-full overflow-auto'>
           <AppSidebar menus={menus} />
-          <div className='grow'>
+          <div className='min-w-0 grow'>
             <AppHeader />
             <Suspense
               fallback={

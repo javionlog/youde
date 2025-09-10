@@ -45,9 +45,17 @@ export const relationEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'array',
-                    items: {
-                      $ref: '#/components/schemas/User'
+                    type: 'object',
+                    properties: {
+                      records: {
+                        type: 'array',
+                        items: {
+                          $ref: '#/components/schemas/User'
+                        }
+                      },
+                      total: {
+                        type: 'number'
+                      }
                     }
                   }
                 }

@@ -3984,7 +3984,10 @@ export type PostAuthRbacListUsersResponses = {
   /**
    * Success
    */
-  200: Array<User>;
+  200: {
+    records?: Array<User>;
+    total?: number;
+  };
 };
 
 export type PostAuthRbacListUsersResponse =

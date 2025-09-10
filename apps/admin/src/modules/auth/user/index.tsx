@@ -1,90 +1,81 @@
-type GlSearchFormProps = Parameters<typeof GlSearchForm>[0]
+import type { TableProps } from 'tdesign-react'
+import type { User } from '@/global/api'
+import { postAuthRbacListUsers } from '@/global/api'
+
+type SearchFormProps = Parameters<typeof GlSearchForm>[0]
 
 export default () => {
-  const items = [
+  const searchForm = {
+    items: Array.from({ length: 13 }).map((_value, index) => {
+      return {
+        formItem: {
+          name: `prop${index}`,
+          label: `属性${index}`
+        },
+        component: <Input />
+      }
+    })
+  } satisfies SearchFormProps
+
+  const columns = [
     {
-      formItemProps: {
-        name: 'prop1'
-      },
-      component: <Input />
+      colKey: 'id',
+      title: 'ID',
+      minWidth: 150
     },
     {
-      formItemProps: {
-        name: 'prop2'
-      },
-      component: <Input />
+      colKey: 'name',
+      title: '姓名',
+      minWidth: 150
     },
     {
-      formItemProps: {
-        name: 'prop3'
-      },
-      component: <Input />
+      colKey: 'username',
+      title: '用户名',
+      minWidth: 150
     },
     {
-      formItemProps: {
-        name: 'prop4'
-      },
-      component: <Input />
+      colKey: 'displayUsername',
+      title: '显示名',
+      minWidth: 150
     },
     {
-      formItemProps: {
-        name: 'prop5'
-      },
-      component: <Input />
+      colKey: 'email',
+      title: '邮箱',
+      minWidth: 150
     },
     {
-      formItemProps: {
-        name: 'prop6'
-      },
-      component: <Input />
+      colKey: 'emailVerified',
+      title: '邮箱是否已验证',
+      minWidth: 150
     },
     {
-      formItemProps: {
-        name: 'prop7'
-      },
-      component: <Input />
+      colKey: 'createdAt',
+      title: '创建时间',
+      minWidth: 150
     },
     {
-      formItemProps: {
-        name: 'prop8'
-      },
-      component: <Input />
-    },
-    {
-      formItemProps: {
-        name: 'prop9'
-      },
-      component: <Input />
-    },
-    {
-      formItemProps: {
-        name: 'prop10'
-      },
-      component: <Input />
-    },
-    {
-      formItemProps: {
-        name: 'prop11'
-      },
-      component: <Input />
-    },
-    {
-      formItemProps: {
-        name: 'prop12'
-      },
-      component: <Input />
-    },
-    {
-      formItemProps: {
-        name: 'prop13'
-      },
-      component: <Input />
+      colKey: 'updatedAt',
+      title: '更新时间',
+      minWidth: 150
     }
-  ] satisfies GlSearchFormProps['items']
+  ] satisfies TableProps['columns']
+  const [data, setData] = useState<User[]>([])
+  const [total, setTotal] = useState(0)
+
+  useEffect(() => {
+    postAuthRbacListUsers({ body: {} }).then(res => {
+      setData(res.data?.records!)
+      setTotal(res.data?.total!)
+    })
+  }, [])
 
   return (
-    <div>
-      <GlSearchForm items={items}></GlSearchForm>
-    </div>
+    <GlTable
+      rowKey='id'
+      searchForm={searchForm}
+      columns={columns}
+      data={data}
+      pagination={{ total }}
+    />
   )
 }
