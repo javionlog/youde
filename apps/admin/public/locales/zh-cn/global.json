@@ -15,7 +15,9 @@
     "password": "密码",
     "light": "明亮",
     "dark": "暗黑",
-    "system": "系统"
+    "system": "系统",
+    "yes": "是",
+    "no": "否"
   },
   "message": {
     "welcomeToYoude": "欢迎来到“有的”！",

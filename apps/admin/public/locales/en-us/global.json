@@ -15,7 +15,9 @@
     "password": "Password",
     "light": "Light",
     "dark": "Dark",
-    "system": "System"
+    "system": "System",
+    "yes": "Yes",
+    "no": "No"
   },
   "message": {
     "welcomeToYoude": "Welcome to Youde!",

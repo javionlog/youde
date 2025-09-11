@@ -62,6 +62,10 @@ export default defineConfig(({ mode }) => {
             imports: ['isNil', 'camelCase']
           },
           {
+            from: 'date-fns',
+            imports: [['format', 'formatDate']]
+          },
+          {
             from: 'react-i18next',
             imports: ['useTranslation']
           },
@@ -125,6 +129,11 @@ export default defineConfig(({ mode }) => {
               {
                 name: 'es-toolkit',
                 test: /node_modules\/es-toolkit/,
+                priority: 2
+              },
+              {
+                name: 'date-fns',
+                test: /node_modules\/date-fns/,
                 priority: 2
               },
               {

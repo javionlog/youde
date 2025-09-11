@@ -13,11 +13,11 @@ type Item = {
 
 interface Props extends StyledProps, FormProps, GridProps {
   items: Item[]
-  searchBtn?: ButtonProps
+  queryBtn?: ButtonProps
   resetBtn?: ButtonProps
 }
 
-export const GlSearchForm = (props: Props) => {
+export const GlSearch = (props: Props) => {
   const {
     className,
     style,
@@ -25,7 +25,7 @@ export const GlSearchForm = (props: Props) => {
     gap,
     maxRows = 1,
     items,
-    searchBtn,
+    queryBtn,
     resetBtn,
     ...formProps
   } = props
@@ -57,8 +57,9 @@ export const GlSearchForm = (props: Props) => {
   }, [items, maxRows, finalColumn])
 
   const [collapsed, setCollapsed] = useState(true)
+
   return (
-    <div className={`gl-search-form ${className ?? ''}`} style={style}>
+    <div className={`gl-search ${className ?? ''}`} style={style}>
       <div ref={ref} className='flex gap-4'>
         <Form {...formProps} className='grow'>
           <GlGrid
@@ -79,8 +80,10 @@ export const GlSearchForm = (props: Props) => {
         </Form>
         <div className='flex gap-4'>
           <div className='flex gap-4'>
-            <Button {...searchBtn}>{t('action.query')}</Button>
-            <Button variant='outline' {...resetBtn}>
+            <Button type='submit' {...queryBtn}>
+              {t('action.query')}
+            </Button>
+            <Button type='reset' variant='outline' {...resetBtn}>
               {t('action.reset')}
             </Button>
           </div>

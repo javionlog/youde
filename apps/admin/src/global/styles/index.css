@@ -29,3 +29,11 @@
 .t-submenu.t-is-opened .t-menu__sub {
   max-height: unset !important;
 }
+
+.t-table--layout-auto th {
+  max-width: 200px;
+}
+
+.t-table--layout-auto td {
+  max-width: 300px;
+}

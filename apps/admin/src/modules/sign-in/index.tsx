@@ -26,8 +26,8 @@ export default () => {
     password: getRequiredRules({ form })
   } satisfies FormRules<PostAuthSignInUsernameData['body']>
 
-  const onSubmit: FormProps['onSubmit'] = async e => {
-    if (e.validateResult === true) {
+  const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
+    if (validateResult === true) {
       const params = form.getFieldsValue(true) as typeof initialData
       const resData = await postAuthSignInUsername({ body: params }).then(r => r.data!)
       useUserStore.setState({ user: resData.user })
@@ -45,15 +45,15 @@ export default () => {
             <LangSelect />
             <ThemeSelect />
           </div>
-          <Form form={form} labelWidth={0} rules={rules} onSubmit={onSubmit}>
-            <FormItem name='username' initialData={formData.username}>
+          <Form form={form} labelWidth={0} rules={rules} initialData={formData} onSubmit={onSubmit}>
+            <FormItem name='username'>
               <Input
                 prefixIcon={<Desktop1Icon />}
                 placeholder={t('message.usernameRequired')}
                 clearable
               />
             </FormItem>
-            <FormItem name='password' initialData={formData.password}>
+            <FormItem name='password'>
               <Input
                 prefixIcon={<LockOnIcon />}
                 type='password'
