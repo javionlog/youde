@@ -138,9 +138,17 @@ export const userRoleRelationEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'array',
-                    items: {
-                      $ref: '#/components/schemas/UserRoleRelation'
+                    type: 'object',
+                    properties: {
+                      records: {
+                        type: 'array',
+                        items: {
+                          $ref: '#/components/schemas/UserRoleRelation'
+                        }
+                      },
+                      total: {
+                        type: 'number'
+                      }
                     }
                   }
                 }

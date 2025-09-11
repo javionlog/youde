@@ -249,9 +249,17 @@ export const resourceLocaleEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'array',
-                    items: {
-                      $ref: '#/components/schemas/ResourceLocale'
+                    type: 'object',
+                    properties: {
+                      records: {
+                        type: 'array',
+                        items: {
+                          $ref: '#/components/schemas/ResourceLocale'
+                        }
+                      },
+                      total: {
+                        type: 'number'
+                      }
                     }
                   }
                 }

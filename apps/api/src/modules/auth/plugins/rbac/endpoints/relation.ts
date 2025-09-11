@@ -129,9 +129,17 @@ export const relationEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'array',
-                    items: {
-                      $ref: '#/components/schemas/Role'
+                    type: 'object',
+                    properties: {
+                      records: {
+                        type: 'array',
+                        items: {
+                          $ref: '#/components/schemas/Role'
+                        }
+                      },
+                      total: {
+                        type: 'number'
+                      }
                     }
                   }
                 }
@@ -222,9 +230,14 @@ export const relationEndpoints = {
                 'application/json': {
                   schema: getOpenAPISchema(
                     z.object({
-                      ...resourceClientSpec.shape,
-                      ...idSpec.shape,
-                      locales: z.array(resourceLocaleClientSpec)
+                      records: z.array(
+                        z.object({
+                          ...resourceClientSpec.shape,
+                          ...idSpec.shape,
+                          locales: z.array(resourceLocaleClientSpec)
+                        })
+                      ),
+                      total: z.number()
                     })
                   )
                 }
@@ -409,9 +422,17 @@ export const relationEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'array',
-                    items: {
-                      $ref: '#/components/schemas/User'
+                    type: 'object',
+                    properties: {
+                      records: {
+                        type: 'array',
+                        items: {
+                          $ref: '#/components/schemas/User'
+                        }
+                      },
+                      total: {
+                        type: 'number'
+                      }
                     }
                   }
                 }
@@ -493,9 +514,14 @@ export const relationEndpoints = {
                 'application/json': {
                   schema: getOpenAPISchema(
                     z.object({
-                      ...resourceClientSpec.shape,
-                      ...idSpec.shape,
-                      locales: z.array(resourceLocaleClientSpec)
+                      records: z.array(
+                        z.object({
+                          ...resourceClientSpec.shape,
+                          ...idSpec.shape,
+                          locales: z.array(resourceLocaleClientSpec)
+                        })
+                      ),
+                      total: z.number()
                     })
                   )
                 }
@@ -674,9 +700,17 @@ export const relationEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'array',
-                    items: {
-                      $ref: '#/components/schemas/Role'
+                    type: 'object',
+                    properties: {
+                      records: {
+                        type: 'array',
+                        items: {
+                          $ref: '#/components/schemas/Role'
+                        }
+                      },
+                      total: {
+                        type: 'number'
+                      }
                     }
                   }
                 }
@@ -757,9 +791,17 @@ export const relationEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'array',
-                    items: {
-                      $ref: '#/components/schemas/User'
+                    type: 'object',
+                    properties: {
+                      records: {
+                        type: 'array',
+                        items: {
+                          $ref: '#/components/schemas/User'
+                        }
+                      },
+                      total: {
+                        type: 'number'
+                      }
                     }
                   }
                 }

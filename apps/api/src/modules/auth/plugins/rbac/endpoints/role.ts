@@ -244,9 +244,17 @@ export const roleEndpoints = {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'array',
-                    items: {
-                      $ref: '#/components/schemas/Role'
+                    type: 'object',
+                    properties: {
+                      records: {
+                        type: 'array',
+                        items: {
+                          $ref: '#/components/schemas/Role'
+                        }
+                      },
+                      total: {
+                        type: 'number'
+                      }
                     }
                   }
                 }

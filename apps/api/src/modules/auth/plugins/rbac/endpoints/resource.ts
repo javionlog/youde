@@ -276,13 +276,16 @@ export const resourceEndpoints = {
               content: {
                 'application/json': {
                   schema: getOpenAPISchema(
-                    z.array(
-                      z.object({
-                        ...resourceClientSpec.shape,
-                        ...idSpec.shape,
-                        locales: z.array(resourceLocaleClientSpec)
-                      })
-                    )
+                    z.object({
+                      records: z.array(
+                        z.object({
+                          ...resourceClientSpec.shape,
+                          ...idSpec.shape,
+                          locales: z.array(resourceLocaleClientSpec)
+                        })
+                      ),
+                      total: z.number()
+                    })
                   )
                 }
               }

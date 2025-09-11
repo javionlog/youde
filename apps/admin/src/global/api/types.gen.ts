@@ -2707,7 +2707,10 @@ export type PostAuthRbacRoleListResponses = {
   /**
    * Success
    */
-  200: Array<Role>;
+  200: {
+    records?: Array<Role>;
+    total?: number;
+  };
 };
 
 export type PostAuthRbacRoleListResponse =
@@ -3132,29 +3135,32 @@ export type PostAuthRbacResourceListResponses = {
   /**
    * Success
    */
-  200: Array<{
-    name: string;
-    enabled?: boolean;
-    remark?: string;
-    sort?: number;
-    parentId?: string;
-    type: "Menu" | "Page" | "Element";
-    path?: string;
-    activePath?: string;
-    component?: string;
-    icon?: string;
-    isLink?: boolean;
-    isCache?: boolean;
-    isAffix?: boolean;
-    isShow?: boolean;
-    id: string;
-    locales: Array<{
-      resourceId: string;
-      field: string;
-      enUs: string;
-      zhCn: string;
+  200: {
+    records: Array<{
+      name: string;
+      enabled?: boolean;
+      remark?: string;
+      sort?: number;
+      parentId?: string;
+      type: "Menu" | "Page" | "Element";
+      path?: string;
+      activePath?: string;
+      component?: string;
+      icon?: string;
+      isLink?: boolean;
+      isCache?: boolean;
+      isAffix?: boolean;
+      isShow?: boolean;
+      id: string;
+      locales: Array<{
+        resourceId: string;
+        field: string;
+        enUs: string;
+        zhCn: string;
+      }>;
     }>;
-  }>;
+    total: number;
+  };
 };
 
 export type PostAuthRbacResourceListResponse =
@@ -3537,7 +3543,10 @@ export type PostAuthRbacResourceLocaleListResponses = {
   /**
    * Success
    */
-  200: Array<ResourceLocale>;
+  200: {
+    records?: Array<ResourceLocale>;
+    total?: number;
+  };
 };
 
 export type PostAuthRbacResourceLocaleListResponse =
@@ -3727,7 +3736,10 @@ export type PostAuthRbacUserRoleRelationListResponses = {
   /**
    * Success
    */
-  200: Array<UserRoleRelation>;
+  200: {
+    records?: Array<UserRoleRelation>;
+    total?: number;
+  };
 };
 
 export type PostAuthRbacUserRoleRelationListResponse =
@@ -3917,7 +3929,10 @@ export type PostAuthRbacRoleResourceRelationListResponses = {
   /**
    * Success
    */
-  200: Array<RoleResourceRelation>;
+  200: {
+    records?: Array<RoleResourceRelation>;
+    total?: number;
+  };
 };
 
 export type PostAuthRbacRoleResourceRelationListResponse =
@@ -4055,7 +4070,10 @@ export type PostAuthRbacListUserRolesResponses = {
   /**
    * Success
    */
-  200: Array<Role>;
+  200: {
+    records?: Array<Role>;
+    total?: number;
+  };
 };
 
 export type PostAuthRbacListUserRolesResponse =
@@ -4125,27 +4143,30 @@ export type PostAuthRbacListUserResourcesResponses = {
    * Success
    */
   200: {
-    name: string;
-    enabled?: boolean;
-    remark?: string;
-    sort?: number;
-    parentId?: string;
-    type: "Menu" | "Page" | "Element";
-    path?: string;
-    activePath?: string;
-    component?: string;
-    icon?: string;
-    isLink?: boolean;
-    isCache?: boolean;
-    isAffix?: boolean;
-    isShow?: boolean;
-    id: string;
-    locales: Array<{
-      resourceId: string;
-      field: string;
-      enUs: string;
-      zhCn: string;
+    records: Array<{
+      name: string;
+      enabled?: boolean;
+      remark?: string;
+      sort?: number;
+      parentId?: string;
+      type: "Menu" | "Page" | "Element";
+      path?: string;
+      activePath?: string;
+      component?: string;
+      icon?: string;
+      isLink?: boolean;
+      isCache?: boolean;
+      isAffix?: boolean;
+      isShow?: boolean;
+      id: string;
+      locales: Array<{
+        resourceId: string;
+        field: string;
+        enUs: string;
+        zhCn: string;
+      }>;
     }>;
+    total: number;
   };
 };
 
@@ -4275,7 +4296,10 @@ export type PostAuthRbacListRoleUsersResponses = {
   /**
    * Success
    */
-  200: Array<User>;
+  200: {
+    records?: Array<User>;
+    total?: number;
+  };
 };
 
 export type PostAuthRbacListRoleUsersResponse =
@@ -4344,27 +4368,30 @@ export type PostAuthRbacListRoleResourcesResponses = {
    * Success
    */
   200: {
-    name: string;
-    enabled?: boolean;
-    remark?: string;
-    sort?: number;
-    parentId?: string;
-    type: "Menu" | "Page" | "Element";
-    path?: string;
-    activePath?: string;
-    component?: string;
-    icon?: string;
-    isLink?: boolean;
-    isCache?: boolean;
-    isAffix?: boolean;
-    isShow?: boolean;
-    id: string;
-    locales: Array<{
-      resourceId: string;
-      field: string;
-      enUs: string;
-      zhCn: string;
+    records: Array<{
+      name: string;
+      enabled?: boolean;
+      remark?: string;
+      sort?: number;
+      parentId?: string;
+      type: "Menu" | "Page" | "Element";
+      path?: string;
+      activePath?: string;
+      component?: string;
+      icon?: string;
+      isLink?: boolean;
+      isCache?: boolean;
+      isAffix?: boolean;
+      isShow?: boolean;
+      id: string;
+      locales: Array<{
+        resourceId: string;
+        field: string;
+        enUs: string;
+        zhCn: string;
+      }>;
     }>;
+    total: number;
   };
 };
 
@@ -4494,7 +4521,10 @@ export type PostAuthRbacListResourceRolesResponses = {
   /**
    * Success
    */
-  200: Array<Role>;
+  200: {
+    records?: Array<Role>;
+    total?: number;
+  };
 };
 
 export type PostAuthRbacListResourceRolesResponse =
@@ -4562,7 +4592,10 @@ export type PostAuthRbacListResourceUsersResponses = {
   /**
    * Success
    */
-  200: Array<User>;
+  200: {
+    records?: Array<User>;
+    total?: number;
+  };
 };
 
 export type PostAuthRbacListResourceUsersResponse =
