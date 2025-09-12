@@ -35,9 +35,9 @@ export const AppLayout = () => {
   return (
     <>
       {resourceInited ? (
-        <div className='app-layout flex h-full overflow-auto'>
+        <div className='app-layout flex'>
           <AppSidebar menus={menus} />
-          <div className='min-w-0 grow'>
+          <div className='flex h-dvh min-w-0 grow flex-col overflow-auto'>
             <AppHeader />
             <Suspense
               fallback={
@@ -46,10 +46,8 @@ export const AppLayout = () => {
                 </div>
               }
             >
-              <div className='p-5' style={{ height: 'calc(100dvh - var(--td-comp-size-xxxl))' }}>
-                <div className='h-full overflow-auto rounded-lg bg-(--td-bg-color-container) p-5'>
-                  <Outlet />
-                </div>
+              <div className='m-5 grow rounded-lg bg-(--td-bg-color-container) p-5'>
+                <Outlet />
               </div>
             </Suspense>
           </div>

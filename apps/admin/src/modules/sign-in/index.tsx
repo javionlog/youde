@@ -11,15 +11,10 @@ const initialData = {
 } satisfies PostAuthSignInUsernameData['body']
 
 export default () => {
-  const user = useUserStore(state => state.user)
   const [formData] = useState(initialData)
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const { t } = useTranslation()
-
-  if (user) {
-    return <Navigate to='/' replace />
-  }
 
   const rules = {
     username: getRequiredRules({ form }),

@@ -21,13 +21,19 @@ export const GlTable = (props: Props) => {
   const [tableLoading, setTableLoading] = useState(false)
   const [total, setTotal] = useState(0)
   const [current, setCurrent] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+  const [pageSize, setPageSize] = useState(15)
+  const tableRef = useRef<HTMLDivElement>(null)
+
+  const { height } = useAutoHeight(tableRef.current, {
+    afterTarget: tableRef.current?.querySelector('.t-table__pagination-wrap'),
+    afterHeight: 40
+  })
 
   useEffect(() => {
     if (fetch) {
       form.submit()
     }
-  }, [])
+  }, [current, pageSize])
 
   const tableColumns = (columns as TalbeColumns)?.map(item => {
     return {
@@ -92,12 +98,10 @@ export const GlTable = (props: Props) => {
 
   const onCurrentChange: PaginationProps['onCurrentChange'] = current => {
     setCurrent(current)
-    form.submit()
   }
 
   const onPageSizeChange: PaginationProps['onPageSizeChange'] = pageSize => {
     setPageSize(pageSize)
-    form.submit()
   }
   const defaultClassName = 'gl-table flex flex-col gap-5'
   return (
@@ -112,17 +116,21 @@ export const GlTable = (props: Props) => {
           {...search}
         />
       )}
-      <Table
-        data={tableProps.data ?? tableData}
-        bordered={tableProps.bordered ?? true}
-        tableLayout={tableProps.tableLayout ?? 'auto'}
-        loading={tableProps.loading ?? tableLoading}
-        columns={tableColumns}
-        pagination={
-          fetch ? { total, current, pageSize, onCurrentChange, onPageSizeChange } : pagination
-        }
-        {...tableProps}
-      />
+
+      <div ref={tableRef}>
+        <Table
+          data={tableProps.data ?? tableData}
+          bordered={tableProps.bordered ?? true}
+          tableLayout={tableProps.tableLayout ?? 'auto'}
+          loading={tableProps.loading ?? tableLoading}
+          height={tableProps.height ?? height}
+          columns={tableColumns}
+          pagination={
+            fetch ? { total, current, pageSize, onCurrentChange, onPageSizeChange } : pagination
+          }
+          {...tableProps}
+        />
+      </div>
     </div>
   )
 }

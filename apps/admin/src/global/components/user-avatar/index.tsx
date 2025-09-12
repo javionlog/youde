@@ -6,6 +6,7 @@ import UserInfoDialog from './user-info-dialog'
 export const UserAvatar = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { pathname, search } = useLocation()
   const user = useUserStore(state => state.user)
   const [visible, setVisible] = useState(false)
 
@@ -23,7 +24,8 @@ export const UserAvatar = () => {
       value: '2',
       onClick: async () => {
         await postAuthSignOut()
-        navigate('/sign-in')
+        const to = `/sign-in?redirect=${pathname}${search}`
+        navigate(to)
         useUserStore.setState({ user: null })
         useResourceStore.setState({ resourceTree: [], resourceInited: false })
         useHttpStore.setState({ responseStatus: 0 })
