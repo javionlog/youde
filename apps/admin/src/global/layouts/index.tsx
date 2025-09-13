@@ -46,14 +46,14 @@ export const AppLayout = () => {
                 </div>
               }
             >
-              <div className='m-5 grow rounded-lg bg-(--td-bg-color-container) p-5'>
+              <div className='mt-5 grow rounded-lg bg-(--td-bg-color-container) p-5 sm:m-5'>
                 <Outlet />
               </div>
             </Suspense>
           </div>
         </div>
       ) : (
-        <div className='grid h-full items-center justify-center'>{t('message.initializing')}</div>
+        <div className='grid h-dvh items-center justify-center'>{t('message.initializing')}</div>
       )}
     </>
   )

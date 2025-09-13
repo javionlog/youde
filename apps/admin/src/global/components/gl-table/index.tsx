@@ -55,12 +55,12 @@ export const GlTable = (props: Props) => {
     } satisfies TalbeColumns[number] & TableExtendColumn
   })
 
-  const queryBtn = {
+  const searchBtn = {
     onClick: () => {
       form.submit()
     },
-    ...search?.queryBtn
-  } satisfies SearchProps['queryBtn']
+    ...search?.searchBtn
+  } satisfies SearchProps['searchBtn']
 
   const resetBtn = {
     onClick: () => {
@@ -111,7 +111,7 @@ export const GlTable = (props: Props) => {
           form={form}
           onSubmit={onSubmit}
           onReset={onReset}
-          queryBtn={queryBtn}
+          searchBtn={searchBtn}
           resetBtn={resetBtn}
           {...search}
         />
@@ -123,7 +123,7 @@ export const GlTable = (props: Props) => {
           bordered={tableProps.bordered ?? true}
           tableLayout={tableProps.tableLayout ?? 'auto'}
           loading={tableProps.loading ?? tableLoading}
-          height={tableProps.height ?? height}
+          maxHeight={tableProps.maxHeight ?? height}
           columns={tableColumns}
           pagination={
             fetch ? { total, current, pageSize, onCurrentChange, onPageSizeChange } : pagination

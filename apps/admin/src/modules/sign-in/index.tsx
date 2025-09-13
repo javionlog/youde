@@ -33,7 +33,7 @@ export default () => {
   }
 
   return (
-    <div className='grid h-full content-center'>
+    <div className='grid h-dvh content-center'>
       <div className='mx-auto w-full max-w-lg p-4 '>
         <div className='rounded border-(--td-component-border) border-1 bg-(--td-bg-color-container) p-4'>
           <div className='mb-4 flex items-center justify-end gap-2'>

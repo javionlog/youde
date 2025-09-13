@@ -28,12 +28,12 @@
     "db-gen:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit generate",
     "auth-gen:dev": "bun --env-file=.env.dev --env-file=.env.dev.local cli generate --config ./src/modules/auth/services/index.ts --output ./src/db/schemas/auth.ts",
     "auth-gen:prod": "bun --env-file=.env.prod --env-file=.env.prod.local cli generate --config ./src/modules/auth/services/index.ts --output ./src/db/schemas/auth.ts",
-    "check": "tsc && biome check --write",
+    "check": "tsc && biome check --write --unsafe",
     "lint-staged": "lint-staged"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx,json,jsonc,css,html}": [
-      "tsc && biome check --write"
+      "tsc && biome check --write --unsafe"
     ]
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { ChevronDownIcon, ChevronUpIcon } from 'tdesign-icons-react'
+import { ChevronDownIcon, ChevronUpIcon, RollbackIcon, SearchIcon } from 'tdesign-icons-react'
 import type { ButtonProps, FormItemProps, FormProps } from 'tdesign-react'
 
 type GridProps = Omit<Parameters<typeof GlGrid>[0], 'collapsed'>
@@ -13,7 +13,7 @@ type Item = {
 
 interface Props extends StyledProps, FormProps, GridProps {
   items: Item[]
-  queryBtn?: ButtonProps
+  searchBtn?: ButtonProps
   resetBtn?: ButtonProps
 }
 
@@ -25,7 +25,7 @@ export const GlSearch = (props: Props) => {
     gap,
     maxRows = 1,
     items,
-    queryBtn,
+    searchBtn,
     resetBtn,
     ...formProps
   } = props
@@ -80,12 +80,32 @@ export const GlSearch = (props: Props) => {
         </Form>
         <div className='flex gap-4'>
           <div className='flex gap-4'>
-            <Button type='submit' {...queryBtn}>
-              {t('action.query')}
-            </Button>
-            <Button type='reset' variant='outline' {...resetBtn}>
-              {t('action.reset')}
-            </Button>
+            {finalColumn > 1 ? (
+              <>
+                <Button type='submit' {...searchBtn}>
+                  {t('action.search')}
+                </Button>{' '}
+                <Button type='reset' variant='outline' {...resetBtn}>
+                  {t('action.reset')}
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  type='submit'
+                  shape='square'
+                  icon={<SearchIcon size='20px' />}
+                  {...searchBtn}
+                />{' '}
+                <Button
+                  type='reset'
+                  variant='outline'
+                  shape='square'
+                  icon={<RollbackIcon size='20px' />}
+                  {...resetBtn}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

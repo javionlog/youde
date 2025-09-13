@@ -16,12 +16,12 @@
     "preview:dev": "vite preview --mode dev",
     "preview:prod": "vite preview --mode prod",
     "api-gen": "openapi-ts",
-    "check": "tsc && biome check --write",
+    "check": "tsc && biome check --write --unsafe",
     "lint-staged": "lint-staged"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx,json,jsonc,css,html}": [
-      "tsc && biome check --write"
+      "tsc && biome check --write --unsafe"
     ]
   },
   "devDependencies": {
