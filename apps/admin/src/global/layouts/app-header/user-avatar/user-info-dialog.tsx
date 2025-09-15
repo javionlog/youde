@@ -12,7 +12,7 @@ export default (props: Props) => {
   const { visible, onCloseBtnClick } = props
   const { t } = useTranslation()
   const user = useUserStore(state => state.user)
-  const list = [
+  const items = [
     {
       label: t('label.name'),
       content: user?.name!
@@ -34,16 +34,7 @@ export default (props: Props) => {
       header={t('label.userInfo')}
       footer={false}
     >
-      <ul className='grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
-        {list.map(item => {
-          return (
-            <li key={item.label}>
-              <div className='text-(--td-text-color-placeholder)'>{item.label}</div>
-              <div>{item.content}</div>
-            </li>
-          )
-        })}
-      </ul>
+      <GlDescriptions items={items} />
     </GlDialog>
   )
 }

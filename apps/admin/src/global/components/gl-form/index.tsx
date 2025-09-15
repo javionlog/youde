@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import type { FormItemProps, FormProps } from 'tdesign-react'
 
-type GridProps = Omit<Parameters<typeof GlGrid>[0], 'collapsed'>
+type GridProps = Parameters<typeof GlGrid>[0]
 type GridItemProps = Parameters<typeof GlGridItem>[0]
 
 type Item = {
@@ -15,7 +15,7 @@ interface Props extends StyledProps, FormProps, GridProps {
 }
 
 export const GlForm = (props: Props) => {
-  const { className, style, columns, gap, maxRows = 100, items, ...formProps } = props
+  const { className, style, columns, gap, collapsed = false, maxRows, items, ...formProps } = props
 
   const ref = useRef(null)
   const { breakpoint } = useScreen(ref?.current)
@@ -40,8 +40,14 @@ export const GlForm = (props: Props) => {
 
   return (
     <div ref={ref} className={`gl-form ${className ?? ''}`} style={style}>
-      <Form {...formProps} className='grow'>
-        <GlGrid columns={columns} gap={gap} maxRows={maxRows} targetColumn={finalColumn}>
+      <Form {...formProps}>
+        <GlGrid
+          columns={columns}
+          gap={gap}
+          collapsed={collapsed}
+          maxRows={maxRows}
+          targetColumn={finalColumn}
+        >
           {items.map((item, index) => {
             return (
               <GlGridItem key={String(item.formItem?.name)} index={index} {...item.gridItem}>

@@ -11,14 +11,20 @@
   "label": {
     "name": "Name",
     "username": "Username",
+    "displayUsername": "Display Username",
     "userInfo": "User Info.",
     "email": "E-mail",
+    "emailVerified": "E-mail Verified",
     "password": "Password",
     "light": "Light",
     "dark": "Dark",
     "system": "System",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "createdBy": "Created By",
+    "updatedBy": "Updated By"
   },
   "message": {
     "welcomeToYoude": "Welcome to Youde!",

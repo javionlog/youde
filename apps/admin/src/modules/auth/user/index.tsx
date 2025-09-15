@@ -23,33 +23,33 @@ export default () => {
     },
     {
       colKey: 'name',
-      title: '姓名'
+      title: t('label.name')
     },
     {
       colKey: 'username',
-      title: '用户名'
+      title: t('label.username')
     },
     {
       colKey: 'displayUsername',
-      title: '显示名'
+      title: t('label.displayUsername')
     },
     {
       colKey: 'email',
-      title: '邮箱'
+      title: t('label.email')
     },
     {
       colKey: 'emailVerified',
-      title: '邮箱是否已验证',
+      title: t('label.emailVerified'),
       cellRenderType: 'boolean'
     },
     {
       colKey: 'createdAt',
-      title: '创建时间',
+      title: t('label.createdAt'),
       cellRenderType: 'datetime'
     },
     {
       colKey: 'updatedAt',
-      title: '更新时间',
+      title: t('label.updatedAt'),
       cellRenderType: 'datetime'
     }
   ] satisfies TalbeColumns

@@ -11,14 +11,20 @@
   "label": {
     "name": "姓名",
     "username": "用户名",
+    "displayUsername": "显示的用户名",
     "userInfo": "用户信息",
     "email": "邮箱",
+    "emailVerified": "邮箱是否已经验证",
     "password": "密码",
     "light": "明亮",
     "dark": "暗黑",
     "system": "系统",
     "yes": "是",
-    "no": "否"
+    "no": "否",
+    "createdAt": "创建时间",
+    "updatedAt": "更新时间",
+    "createdBy": "创建人",
+    "updatedBy": "更新人"
   },
   "message": {
     "welcomeToYoude": "欢迎来到“有的”！",
