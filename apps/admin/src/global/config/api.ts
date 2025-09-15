@@ -16,7 +16,7 @@ export const setApiConfig = () => {
 
   client.interceptors.response.use(async res => {
     if (!res.ok) {
-      if (res.status === 401) {
+      if (res.status === 401 && !res.url.includes('auth/sign-in/username')) {
         useHttpStore.setState({ responseStatus: res.status })
       }
       let msg = res.statusText

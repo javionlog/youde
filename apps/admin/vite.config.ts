@@ -71,7 +71,7 @@ export default defineConfig(({ mode }) => {
           },
           {
             from: 'ahooks',
-            imports: ['useSize']
+            imports: ['useSize', 'useGetState']
           }
         ],
         packagePresets: [

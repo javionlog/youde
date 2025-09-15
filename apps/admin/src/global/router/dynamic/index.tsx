@@ -1,10 +1,10 @@
 export const genDynamicRoutes = () => {
-  const modules = import.meta.glob('../../modules/**/index.tsx')
+  const modules = import.meta.glob('../../../modules/**/index.tsx')
   const pageResources = useResourceStore.getState().getPageResources()
 
   const routes = pageResources.map(item => {
     const finalPath = item.component ?? item.path
-    const componentUrl = `../../modules/${finalPath}/index.tsx`
+    const componentUrl = `../../../modules/${finalPath}/index.tsx`
 
     return {
       id: item.id,

@@ -48,7 +48,7 @@ export const layoutRoutes = layoutMenus.map(item => {
     return {
       id: item.id,
       path: item.path,
-      Component: lazy(() => import('../components/not-found/index.tsx'))
+      Component: lazy(() => import('./not-found.tsx'))
     }
   }
   if (item.id === 'layout-root') {
@@ -61,7 +61,7 @@ export const layoutRoutes = layoutMenus.map(item => {
   return {
     id: item.id,
     path: item.path,
-    Component: lazy(() => import(`../../modules/${item.path}/index.tsx`))
+    Component: lazy(() => import(`../../../modules/${item.path}/index.tsx`))
   }
 }) satisfies RouteObject[]
 
@@ -69,7 +69,7 @@ export const noLayoutRoutes = noLayoutMenus.map(item => {
   return {
     id: item.id,
     path: item.path,
-    Component: lazy(() => import(`../../modules/${item.path}/index.tsx`))
+    Component: lazy(() => import(`../../../modules/${item.path}/index.tsx`))
   }
 }) satisfies RouteObject[]
 

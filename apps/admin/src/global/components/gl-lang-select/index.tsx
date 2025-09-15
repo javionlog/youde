@@ -1,7 +1,7 @@
 import { TranslateIcon } from 'tdesign-icons-react'
 import type { DropdownOption } from 'tdesign-react'
 
-export const LangSelect = () => {
+export const GlLangSelect = () => {
   const lang = useLocaleStore(state => state.lang)
 
   const enLang = 'en-us'

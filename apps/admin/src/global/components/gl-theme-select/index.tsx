@@ -1,7 +1,7 @@
 import { MoonIcon, SunnyIcon } from 'tdesign-icons-react'
 import type { DropdownOption } from 'tdesign-react'
 
-export const ThemeSelect = () => {
+export const GlThemeSelect = () => {
   const { t } = useTranslation()
   const themeMode = useAppStore(state => state.themeMode)
 
