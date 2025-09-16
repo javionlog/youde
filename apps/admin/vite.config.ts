@@ -85,6 +85,7 @@ export default defineConfig(({ mode }) => {
           './src/global/stores/index.ts',
           './src/global/locales/index.ts',
           './src/global/constants/index.ts',
+          './src/global/enums/index.ts',
           './src/global/components/index.tsx',
           './src/global/hooks/index.tsx',
           './src/global/layouts/index.tsx',

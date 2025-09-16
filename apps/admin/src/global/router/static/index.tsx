@@ -7,7 +7,7 @@ export const layoutMenus = [
     name: 'Home',
     type: 'Page',
     path: 'home',
-    isShow: true,
+    enabled: true,
     locales: [
       {
         id: 'home',
@@ -23,14 +23,14 @@ export const layoutMenus = [
     name: 'Not Found',
     type: 'Page',
     path: '*',
-    isShow: false
+    enabled: false
   },
   {
     id: 'layout-root',
     name: 'Layout Root',
     type: 'Page',
     path: '/',
-    isShow: false
+    enabled: false
   }
 ] as const satisfies ResourceNode[]
 

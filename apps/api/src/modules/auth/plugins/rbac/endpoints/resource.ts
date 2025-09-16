@@ -9,6 +9,7 @@ import { getSession } from '../services/base'
 import type { ResourceSpec } from '../services/resource'
 import {
   checkResource,
+  getChildrenResource,
   getOneResource,
   resourceClientSpec,
   resourceListSpec
@@ -160,6 +161,7 @@ export const resourceEndpoints = {
       const { adapter } = context
       const { id } = body
       await getOneResource(context, id)
+      await getChildrenResource(context, id)
       const roleResourceRelationRows = await adapter.findOne<RoleResourceRelationSpec>({
         model: 'roleResourceRelation',
         where: [{ field: 'resourceId', value: id }]
@@ -206,6 +208,7 @@ export const resourceEndpoints = {
       const canDeleteIds = []
       for (const id of ids) {
         await getOneResource(context, id)
+        await getChildrenResource(context, id)
         const roleResourceRelationRows = await adapter.findOne<RoleResourceRelationSpec>({
           model: 'roleResourceRelation',
           where: [{ field: 'resourceId', value: id }]

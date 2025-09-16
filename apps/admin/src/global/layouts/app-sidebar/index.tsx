@@ -40,7 +40,7 @@ const MenuItems = (props: { menus: ResourceNode[] }) => {
   return (
     <>
       {menus
-        .filter(o => o.isShow)
+        .filter(o => o.enabled)
         .map(item => {
           if (item.children?.length) {
             const icon = item.icon ? createElement(item.icon) : <AppIcon />

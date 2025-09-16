@@ -15,7 +15,16 @@ interface Props extends StyledProps, FormProps, GridProps {
 }
 
 export const GlForm = (props: Props) => {
-  const { className, style, columns, gap, collapsed = false, maxRows, items, ...formProps } = props
+  const {
+    className,
+    style,
+    columns,
+    gap = 20,
+    collapsed = false,
+    maxRows,
+    items,
+    ...formProps
+  } = props
 
   const ref = useRef(null)
   const { breakpoint } = useScreen(ref?.current)
@@ -51,7 +60,12 @@ export const GlForm = (props: Props) => {
           {items.map((item, index) => {
             return (
               <GlGridItem key={String(item.formItem?.name)} index={index} {...item.gridItem}>
-                <Form.FormItem {...item.formItem}>{item.component}</Form.FormItem>
+                <Form.FormItem
+                  {...item.formItem}
+                  label={<GlEllipsis>{item.formItem?.label}</GlEllipsis>}
+                >
+                  {item.component}
+                </Form.FormItem>
               </GlGridItem>
             )
           })}

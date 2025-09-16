@@ -1,15 +1,12 @@
 interface Props {
   visible: boolean
-  onCloseBtnClick?: () => void
+  onClose?: () => void
 }
 
-interface Item {
-  label: string
-  content: string
-}
+type DescriptionsProps = Parameters<typeof GlDescriptions>[0]
 
 export default (props: Props) => {
-  const { visible, onCloseBtnClick } = props
+  const { visible, onClose } = props
   const { t } = useTranslation()
   const user = useUserStore(state => state.user)
   const items = [
@@ -25,15 +22,10 @@ export default (props: Props) => {
       label: t('label.email'),
       content: user?.email!
     }
-  ] satisfies Item[]
+  ] satisfies DescriptionsProps['items']
 
   return (
-    <GlDialog
-      visible={visible}
-      onCloseBtnClick={onCloseBtnClick}
-      header={t('label.userInfo')}
-      footer={false}
-    >
+    <GlDialog visible={visible} onClose={onClose} header={t('label.userInfo')} footer={false}>
       <GlDescriptions items={items} />
     </GlDialog>
   )

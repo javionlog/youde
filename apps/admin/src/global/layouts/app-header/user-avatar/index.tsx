@@ -40,7 +40,7 @@ export const UserAvatar = () => {
         <UserCircleIcon size='24px' />
         <span>{user?.username}</span>
       </Dropdown>
-      <UserInfoDialog visible={visible} onCloseBtnClick={() => setVisible(false)} />
+      <UserInfoDialog visible={visible} onClose={() => setVisible(false)} />
     </>
   )
 }

@@ -47,6 +47,21 @@ export const getOneResource = async (ctx: AuthContext, id: string, message?: str
   return result
 }
 
+export const getChildrenResource = async (ctx: AuthContext, id: string) => {
+  const { adapter } = ctx
+  const row = await adapter.findOne<ResourceSpec>({
+    model: 'resource',
+    where: [{ field: 'parentId', value: id }]
+  })
+  if (row) {
+    throw new APIError('BAD_REQUEST', {
+      code: 'Resource_HAS_CHILDREN',
+      message: 'Resource has children'
+    })
+  }
+  return row
+}
+
 export const checkResource = async (ctx: AuthContext, body: z.infer<typeof resourceClientSpec>) => {
   if (body.type === 'Page') {
     if (body.path === undefined) {

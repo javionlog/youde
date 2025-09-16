@@ -18,10 +18,10 @@ export const GlEllipsis = (props: Props) => {
     setDisabled(isOverflow)
   }
   return (
-    <Tooltip disabled={disabled} {...tooltipProps}>
+    <Tooltip disabled={disabled} content={tooltipProps.content ?? children} {...tooltipProps}>
       <div
         ref={outerRef}
-        className={`overflow-hidden overflow-ellipsis whitespace-nowrap ${className}`}
+        className={`overflow-hidden overflow-ellipsis whitespace-nowrap ${className ?? ''}`}
         style={style}
         onMouseEnter={onMouseEnter}
         onClick={onMouseEnter}

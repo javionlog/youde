@@ -6,7 +6,12 @@
     "search": "Search",
     "reset": "Reset",
     "expand": "Expand",
-    "collapse": "Collapse"
+    "collapse": "Collapse",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete"
   },
   "label": {
     "name": "Name",
@@ -21,6 +26,15 @@
     "system": "System",
     "yes": "Yes",
     "no": "No",
+    "noData": "No Data",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "sort": "Sort",
+    "remark": "Remark",
+    "path": "Path",
+    "activePath": "Active Path",
+    "component": "Component",
+    "icon": "Icon",
     "createdAt": "Created At",
     "updatedAt": "Updated At",
     "createdBy": "Created By",
@@ -33,6 +47,8 @@
     "passwordRequired": "Please input password",
     "pageNotFound": "Page not found",
     "loading": "Loading...",
-    "initializing": "Initializing..."
+    "initializing": "Initializing...",
+    "operateSuccessful": "Operate successful",
+    "confirmDelete": "Are you sure to delete this?"
   }
 }

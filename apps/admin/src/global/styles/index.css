@@ -28,6 +28,19 @@
   padding: 0;
 }
 
+.gl-form .t-form__label > label {
+  display: flex;
+  align-items: center;
+}
+
+.gl-form .t-form__label.t-form__label--right > label {
+  justify-content: flex-end;
+}
+
+.gl-form .t-form__controls-content .t-input-number {
+  width: 100%;
+}
+
 .drawer-nopadding .t-drawer__body {
   padding: 0;
 }

@@ -24,8 +24,8 @@ export default () => {
 
   const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
     if (validateResult === true) {
-      setLoading(true)
       try {
+        setLoading(true)
         const params = form.getFieldsValue(true) as typeof initialData
         const resData = await postAuthSignInUsername({ body: params }).then(r => r.data!)
         useUserStore.setState({ user: resData.user })

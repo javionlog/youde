@@ -27,7 +27,7 @@ export const GlDescriptions = (props: Props) => {
     maxRows,
     items,
     labelAlign = 'top',
-    labelWidth = 100,
+    labelWidth = 80,
     labelEllipsis = true,
     contentEllipsis = true
   } = props
@@ -67,45 +67,17 @@ export const GlDescriptions = (props: Props) => {
           const key = `${index}${Date.now().toString()}`
           return (
             <GlGridItem key={key} index={index} {...item.gridItem}>
-              {labelAlign === 'top' ? (
-                <div className='flex flex-col gap-1'>
-                  <div className='text-(--td-text-color-placeholder)'>
-                    {labelEllipsis ? (
-                      <GlEllipsis content={item.label}>{item.label}</GlEllipsis>
-                    ) : (
-                      item.label
-                    )}
-                  </div>
-                  <div>
-                    {' '}
-                    {contentEllipsis ? (
-                      <GlEllipsis content={item.content}>{item.content}</GlEllipsis>
-                    ) : (
-                      item.content
-                    )}
-                  </div>
+              <div className={`flex ${labelAlign === 'top' ? 'flex-col gap-1' : 'gap-2'}`}>
+                <div
+                  className={`shrink-0 text-(--td-text-color-placeholder) ${labelAlign === 'right' ? 'text-right' : 'text-left'}`}
+                  style={{ width: labelAlign === 'top' ? undefined : itemLabelWidth }}
+                >
+                  {labelEllipsis ? <GlEllipsis>{item.label}</GlEllipsis> : item.label}
                 </div>
-              ) : (
-                <div className='flex gap-3'>
-                  <div
-                    className={`text-(--td-text-color-placeholder) ${labelAlign === 'left' ? 'text-left' : 'text-right'}`}
-                    style={{ width: itemLabelWidth }}
-                  >
-                    {labelEllipsis ? (
-                      <GlEllipsis content={item.label}>{item.label}</GlEllipsis>
-                    ) : (
-                      item.label
-                    )}
-                  </div>
-                  <div className='min-w-0'>
-                    {contentEllipsis ? (
-                      <GlEllipsis content={item.content}>{item.content}</GlEllipsis>
-                    ) : (
-                      item.content
-                    )}
-                  </div>
+                <div className='min-w-0'>
+                  {contentEllipsis ? <GlEllipsis>{item.content}</GlEllipsis> : item.content}
                 </div>
-              )}
+              </div>
             </GlGridItem>
           )
         })}
