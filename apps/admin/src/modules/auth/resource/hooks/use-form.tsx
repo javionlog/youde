@@ -19,9 +19,6 @@ export const useForm = (props: Props) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(false)
   const [form] = Form.useForm()
-  const [initialData] = useState<Partial<PostAuthRbacResourceCreateData['body']>>(
-    mode === 'edit' ? rowData : {}
-  )
   const [confirmLoading, setConfirmLoading] = useState(false)
 
   const rules = {
@@ -62,9 +59,19 @@ export const useForm = (props: Props) => {
       component: (
         <Select
           clearable
+          disabled={mode === 'edit'}
           options={getOptions('RESOURCE_TYPE').filter(o => {
             if (mode === undefined) {
-              return o.value !== 'Element'
+              return o.value === 'Menu' || o.value === 'Page'
+            }
+            if (mode === 'add') {
+              if (rowData?.type === 'Menu') {
+                return o.value === 'Menu' || o.value === 'Page'
+              }
+              if (rowData?.type === 'Page') {
+                return o.value === 'Element'
+              }
+              return false
             }
             return true
           })}
@@ -122,6 +129,13 @@ export const useForm = (props: Props) => {
     },
     {
       formItem: {
+        name: 'isShow',
+        label: t('resource.label.whetherToShow', { ns: 'auth' })
+      },
+      component: <Switch />
+    },
+    {
+      formItem: {
         name: 'isCache',
         label: t('resource.label.whetherToCache', { ns: 'auth' })
       },
@@ -144,8 +158,10 @@ export const useForm = (props: Props) => {
   ] satisfies FormProps['items']
 
   const onOpen = () => {
+    const data = mode === 'edit' ? rowData! : {}
+    form.setFieldsValue(data)
+    form.clearValidate()
     setVisible(true)
-    form.reset()
   }
 
   const onClose = () => {
@@ -188,7 +204,6 @@ export const useForm = (props: Props) => {
     mode,
     visible,
     form,
-    initialData,
     rules,
     items,
     onOpen,

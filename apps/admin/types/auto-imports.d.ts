@@ -51,6 +51,7 @@ declare global {
   const Form: typeof import('tdesign-react')['Form']
   const GlDescriptions: typeof import('../src/global/components/gl-descriptions/index')['GlDescriptions']
   const GlDialog: typeof import('../src/global/components/gl-dialog/index')['GlDialog']
+  const GlDialogPlugin: typeof import('../src/global/components/gl-dialog-plugin/index')['GlDialogPlugin']
   const GlEllipsis: typeof import('../src/global/components/gl-ellipsis/index')['GlEllipsis']
   const GlForm: typeof import('../src/global/components/gl-form/index')['GlForm']
   const GlGrid: typeof import('../src/global/components/gl-grid/index')['GlGrid']
@@ -157,6 +158,7 @@ declare global {
   const useAutoHeight: typeof import('../src/global/hooks/use-auto-height/index')['useAutoHeight']
   const useCallback: typeof import('react')['useCallback']
   const useContext: typeof import('react')['useContext']
+  const useDebounceFn: typeof import('ahooks')['useDebounceFn']
   const useEffect: typeof import('react')['useEffect']
   const useGetState: typeof import('ahooks')['useGetState']
   const useHref: typeof import('react-router')['useHref']
@@ -178,6 +180,7 @@ declare global {
   const useScreen: typeof import('../src/global/hooks/use-screen/index')['useScreen']
   const useSize: typeof import('ahooks')['useSize']
   const useState: typeof import('react')['useState']
+  const useThrottleFn: typeof import('ahooks')['useThrottleFn']
   const useTranslation: typeof import('react-i18next')['useTranslation']
   const useUserStore: typeof import('../src/global/stores/user')['useUserStore']
 }

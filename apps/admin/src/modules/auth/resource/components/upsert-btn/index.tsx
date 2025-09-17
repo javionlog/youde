@@ -1,31 +1,26 @@
 import { AddIcon, EditIcon } from 'tdesign-icons-react'
 import type { ResourceNode } from '@/global/api'
-import { useForm } from '../hooks/use-form'
+import { useForm } from '../../hooks/use-form'
 
 type Props = {
   mode?: 'add' | 'edit'
-  rowData: ResourceNode
+  rowData?: ResourceNode
   refresh: () => void
 }
 
 export const UpsertBtn = (props: Props) => {
-  const {
-    t,
-    mode,
-    visible,
-    form,
-    initialData,
-    rules,
-    items,
-    onOpen,
-    onClose,
-    onConfirm,
-    confirmLoading
-  } = useForm(props)
+  const { t, mode, visible, form, rules, items, onOpen, onClose, onConfirm, confirmLoading } =
+    useForm(props)
 
   return (
     <>
-      {mode === 'edit' ? <EditIcon onClick={onOpen} /> : <AddIcon onClick={onOpen} />}
+      {mode === 'edit' ? (
+        <EditIcon onClick={onOpen} />
+      ) : mode === 'add' ? (
+        <AddIcon onClick={onOpen} />
+      ) : (
+        <Button onClick={onOpen}>{t('action.add')}</Button>
+      )}
       <GlDialog
         header={t(
           mode === 'edit' ? 'resource.action.editResource' : 'resource.action.addResource',
@@ -39,13 +34,7 @@ export const UpsertBtn = (props: Props) => {
         onClose={onClose}
         onConfirm={onConfirm}
       >
-        <GlForm
-          form={form}
-          rules={rules}
-          initialData={initialData}
-          resetType='initial'
-          items={items}
-        />
+        <GlForm form={form} rules={rules} items={items} />
       </GlDialog>
     </>
   )

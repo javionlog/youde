@@ -2,20 +2,22 @@ import type { ReactNode } from 'react'
 import type { FormProps, PaginationProps, TableProps } from 'tdesign-react'
 
 type SearchProps = Parameters<typeof GlSearch>[0]
-type FetchResponse = Promise<{
+type FetchResponseData = {
   data: {
     records: any[]
     total: number
   }
-}>
+}
 interface Props extends StyledProps, TableProps {
   search?: SearchProps
-  fetch?: (...args: any[]) => any
+  params?: Record<PropertyKey, any>
+  fetch?: (...args: any[]) => Promise<any>
   operation?: ReactNode
 }
 
 export const GlTable = (props: Props) => {
-  const { className, style, search, fetch, operation, pagination, columns, ...tableProps } = props
+  const { className, style, search, params, fetch, operation, pagination, columns, ...tableProps } =
+    props
 
   const { t } = useTranslation()
   const [form] = Form.useForm()
@@ -31,9 +33,33 @@ export const GlTable = (props: Props) => {
     afterHeight: 40
   })
 
+  const query = () => {
+    if (fetch) {
+      const finalParams = {
+        ...params,
+        page: getCurrent(),
+        pageSize: getPageSize()
+      }
+      setLoading(true)
+      fetch({ body: finalParams })
+        .then((r: FetchResponseData) => {
+          const { records, total } = r.data
+          setTableData(records)
+          setTotal(total)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
+  }
+
   useEffect(() => {
     if (fetch) {
-      form.submit()
+      if (search) {
+        form.submit()
+      } else {
+        query()
+      }
     }
   }, [])
 
@@ -76,7 +102,8 @@ export const GlTable = (props: Props) => {
 
   const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
     if (validateResult === true) {
-      const params = {
+      const finalParams = {
+        ...params,
         ...form.getFieldsValue(true),
         page: getCurrent(),
         pageSize: getPageSize()
@@ -84,8 +111,8 @@ export const GlTable = (props: Props) => {
       if (fetch) {
         setLoading(true)
         try {
-          const { records, total } = await (fetch({ body: params }) as FetchResponse).then(
-            r => r.data
+          const { records, total } = await fetch({ body: finalParams }).then(
+            (r: FetchResponseData) => r.data
           )
           setTableData(records)
           setTotal(total)
@@ -106,9 +133,15 @@ export const GlTable = (props: Props) => {
 
   const onPageSizeChange: PaginationProps['onPageSizeChange'] = pageSize => {
     setPageSize(pageSize)
-    form.submit()
+    if (search) {
+      form.submit()
+    } else {
+      query()
+    }
   }
+
   const defaultClassName = 'gl-table flex flex-col gap-5'
+
   return (
     <div className={`${defaultClassName} ${className ?? ''}`} style={style}>
       {search && (

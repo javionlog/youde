@@ -165,6 +165,9 @@ import type {
   PostAuthRbacRoleResourceRelationListData,
   PostAuthRbacRoleResourceRelationListResponses,
   PostAuthRbacRoleResourceRelationListErrors,
+  PostAuthRbacGetUserResourceTreeData,
+  PostAuthRbacGetUserResourceTreeResponses,
+  PostAuthRbacGetUserResourceTreeErrors,
   PostAuthRbacListUsersData,
   PostAuthRbacListUsersResponses,
   PostAuthRbacListUsersErrors,
@@ -204,6 +207,7 @@ import {
   getAuthListAccountsResponseTransformer,
   postAuthRefreshTokenResponseTransformer,
   postAuthGetAccessTokenResponseTransformer,
+  postAuthRbacGetUserResourceTreeResponseTransformer,
   postAuthRbacListUserResourceTreeResponseTransformer,
   postAuthRbacListRoleResourceTreeResponseTransformer,
   postAuthRbacListResourceTreeResponseTransformer,
@@ -1316,6 +1320,25 @@ export const postAuthRbacRoleResourceRelationList = <
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+/**
+ * Get user resource tree
+ */
+export const postAuthRbacGetUserResourceTree = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacGetUserResourceTreeData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacGetUserResourceTreeResponses,
+    PostAuthRbacGetUserResourceTreeErrors,
+    ThrowOnError
+  >({
+    responseTransformer: postAuthRbacGetUserResourceTreeResponseTransformer,
+    url: "/auth/rbac/get-user-resource-tree",
+    ...options,
   });
 };
 

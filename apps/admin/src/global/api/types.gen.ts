@@ -2335,7 +2335,7 @@ export type PostAuthIsUsernameAvailableError =
 export type PostAuthRbacRoleCreateData = {
   body: {
     name: string;
-    enabled?: boolean;
+    enabled?: string;
     remark?: string;
   };
   path?: never;
@@ -2398,7 +2398,7 @@ export type PostAuthRbacRoleCreateResponse =
 export type PostAuthRbacRoleUpdateData = {
   body: {
     name: string;
-    enabled?: boolean;
+    enabled?: string;
     remark?: string;
     id: string;
   };
@@ -2719,19 +2719,19 @@ export type PostAuthRbacRoleListResponse =
 export type PostAuthRbacResourceCreateData = {
   body?: {
     name: string;
-    enabled?: boolean;
-    remark?: string;
-    sort?: number;
-    parentId?: string;
+    enabled?: unknown;
+    remark?: unknown;
+    sort?: unknown;
+    parentId?: unknown;
     type: "Menu" | "Page" | "Element";
-    path?: string;
-    activePath?: string;
-    component?: string;
-    icon?: string;
-    isLink?: boolean;
-    isCache?: boolean;
-    isAffix?: boolean;
-    isShow?: boolean;
+    path?: unknown;
+    activePath?: unknown;
+    component?: unknown;
+    icon?: unknown;
+    isLink?: unknown;
+    isCache?: unknown;
+    isAffix?: unknown;
+    isShow?: unknown;
   };
   path?: never;
   query?: never;
@@ -2793,19 +2793,19 @@ export type PostAuthRbacResourceCreateResponse =
 export type PostAuthRbacResourceUpdateData = {
   body?: {
     name: string;
-    enabled?: boolean;
-    remark?: string;
-    sort?: number;
-    parentId?: string;
+    enabled?: unknown;
+    remark?: unknown;
+    sort?: unknown;
+    parentId?: unknown;
     type: "Menu" | "Page" | "Element";
-    path?: string;
-    activePath?: string;
-    component?: string;
-    icon?: string;
-    isLink?: boolean;
-    isCache?: boolean;
-    isAffix?: boolean;
-    isShow?: boolean;
+    path?: unknown;
+    activePath?: unknown;
+    component?: unknown;
+    icon?: unknown;
+    isLink?: unknown;
+    isCache?: unknown;
+    isAffix?: unknown;
+    isShow?: unknown;
     id: string;
   };
   path?: never;
@@ -3048,19 +3048,19 @@ export type GetAuthRbacResourceGetResponses = {
    */
   200: {
     name: string;
-    enabled?: boolean;
-    remark?: string;
-    sort?: number;
-    parentId?: string;
+    enabled?: unknown;
+    remark?: unknown;
+    sort?: unknown;
+    parentId?: unknown;
     type: "Menu" | "Page" | "Element";
-    path?: string;
-    activePath?: string;
-    component?: string;
-    icon?: string;
-    isLink?: boolean;
-    isCache?: boolean;
-    isAffix?: boolean;
-    isShow?: boolean;
+    path?: unknown;
+    activePath?: unknown;
+    component?: unknown;
+    icon?: unknown;
+    isLink?: unknown;
+    isCache?: unknown;
+    isAffix?: unknown;
+    isShow?: unknown;
     id: string;
     locales: Array<{
       resourceId: string;
@@ -3138,19 +3138,19 @@ export type PostAuthRbacResourceListResponses = {
   200: {
     records: Array<{
       name: string;
-      enabled?: boolean;
-      remark?: string;
-      sort?: number;
-      parentId?: string;
+      enabled?: unknown;
+      remark?: unknown;
+      sort?: unknown;
+      parentId?: unknown;
       type: "Menu" | "Page" | "Element";
-      path?: string;
-      activePath?: string;
-      component?: string;
-      icon?: string;
-      isLink?: boolean;
-      isCache?: boolean;
-      isAffix?: boolean;
-      isShow?: boolean;
+      path?: unknown;
+      activePath?: unknown;
+      component?: unknown;
+      icon?: unknown;
+      isLink?: unknown;
+      isCache?: unknown;
+      isAffix?: unknown;
+      isShow?: unknown;
       id: string;
       locales: Array<{
         resourceId: string;
@@ -3938,6 +3938,65 @@ export type PostAuthRbacRoleResourceRelationListResponses = {
 export type PostAuthRbacRoleResourceRelationListResponse =
   PostAuthRbacRoleResourceRelationListResponses[keyof PostAuthRbacRoleResourceRelationListResponses];
 
+export type PostAuthRbacGetUserResourceTreeData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/get-user-resource-tree";
+};
+
+export type PostAuthRbacGetUserResourceTreeErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacGetUserResourceTreeError =
+  PostAuthRbacGetUserResourceTreeErrors[keyof PostAuthRbacGetUserResourceTreeErrors];
+
+export type PostAuthRbacGetUserResourceTreeResponses = {
+  /**
+   * Success
+   */
+  200: Array<ResourceNode>;
+};
+
+export type PostAuthRbacGetUserResourceTreeResponse =
+  PostAuthRbacGetUserResourceTreeResponses[keyof PostAuthRbacGetUserResourceTreeResponses];
+
 export type PostAuthRbacListUsersData = {
   body?: {
     username?: unknown;
@@ -4145,19 +4204,19 @@ export type PostAuthRbacListUserResourcesResponses = {
   200: {
     records: Array<{
       name: string;
-      enabled?: boolean;
-      remark?: string;
-      sort?: number;
-      parentId?: string;
+      enabled?: unknown;
+      remark?: unknown;
+      sort?: unknown;
+      parentId?: unknown;
       type: "Menu" | "Page" | "Element";
-      path?: string;
-      activePath?: string;
-      component?: string;
-      icon?: string;
-      isLink?: boolean;
-      isCache?: boolean;
-      isAffix?: boolean;
-      isShow?: boolean;
+      path?: unknown;
+      activePath?: unknown;
+      component?: unknown;
+      icon?: unknown;
+      isLink?: unknown;
+      isCache?: unknown;
+      isAffix?: unknown;
+      isShow?: unknown;
       id: string;
       locales: Array<{
         resourceId: string;
@@ -4370,19 +4429,19 @@ export type PostAuthRbacListRoleResourcesResponses = {
   200: {
     records: Array<{
       name: string;
-      enabled?: boolean;
-      remark?: string;
-      sort?: number;
-      parentId?: string;
+      enabled?: unknown;
+      remark?: unknown;
+      sort?: unknown;
+      parentId?: unknown;
       type: "Menu" | "Page" | "Element";
-      path?: string;
-      activePath?: string;
-      component?: string;
-      icon?: string;
-      isLink?: boolean;
-      isCache?: boolean;
-      isAffix?: boolean;
-      isShow?: boolean;
+      path?: unknown;
+      activePath?: unknown;
+      component?: unknown;
+      icon?: unknown;
+      isLink?: unknown;
+      isCache?: unknown;
+      isAffix?: unknown;
+      isShow?: unknown;
       id: string;
       locales: Array<{
         resourceId: string;

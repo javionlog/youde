@@ -102,7 +102,7 @@ export function getZodSchema<
       }
       let schema: ZodType = z[field.type]()
       if (field?.required === false) {
-        schema = schema.optional()
+        schema = schema.nullable().optional()
       }
       if (field?.returned === false) {
         return acc

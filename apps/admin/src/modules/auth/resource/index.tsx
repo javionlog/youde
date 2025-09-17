@@ -1,7 +1,8 @@
+import type { TreeProps } from 'tdesign-react'
 import type { ResourceNode } from '@/global/api'
 import { postAuthRbacListResourceTree } from '@/global/api'
-import { AddBtn } from './components/add-btn'
 import { DeleteBtn } from './components/delete-btn'
+import { MoreBtn } from './components/more-btn'
 import { UpsertBtn } from './components/upsert-btn'
 
 export default () => {
@@ -19,25 +20,29 @@ export default () => {
       setLoading(false)
     }
   }
+
+  const getLabel: TreeProps['label'] = node => {
+    type NodeData = typeof node.data & ResourceNode
+    const nodeData = node.data as NodeData
+    const menuLocale = nodeData.locales?.find(o => o.field === 'name')
+    const menuName = menuLocale?.[lang as 'enUs'] ?? nodeData.name
+    return <GlEllipsis>{menuName}</GlEllipsis>
+  }
   useEffect(() => {
     getTree()
   }, [])
+
   return (
     <Loading loading={loading} className='h-full w-full'>
       {data ? (
         <div className='flex flex-col gap-4'>
           <div>
-            <AddBtn refresh={getTree} />
+            <UpsertBtn refresh={getTree} />
           </div>
           <Tree
             data={data}
-            keys={{ label: 'name', value: 'id', children: 'children' }}
-            label={node => {
-              const nodeData = node.data as ResourceNode
-              const menuLocale = nodeData.locales?.find(o => o.field === 'name')
-              const menuName = menuLocale?.[lang as 'enUs'] ?? nodeData.name
-              return menuName
-            }}
+            keys={{ value: 'id', children: 'children' }}
+            label={getLabel}
             operations={node => {
               const nodeData = node.data as ResourceNode
               return (
@@ -47,6 +52,7 @@ export default () => {
                   )}
                   <UpsertBtn rowData={nodeData} refresh={getTree} mode='edit' />
                   <DeleteBtn rowData={nodeData} refresh={getTree} />
+                  <MoreBtn rowData={nodeData} />
                 </Space>
               )
             }}

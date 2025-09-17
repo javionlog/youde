@@ -8,8 +8,8 @@ import { throwDataIsReferencedError, throwDbError } from '../errors'
 import { getSession } from '../services/base'
 import type { ResourceSpec } from '../services/resource'
 import {
+  checkChildrenResource,
   checkResource,
-  getChildrenResource,
   getOneResource,
   resourceClientSpec,
   resourceListSpec
@@ -112,8 +112,9 @@ export const resourceEndpoints = {
     },
     async ctx => {
       const { body, json, context } = ctx
-      await checkResource(context, body)
+      await checkResource(context, body, 'update')
       const { id } = body
+      const { type: _type, ...rest } = body
       const { adapter } = context
       const session = await getSession(ctx)
       await getOneResource(context, id)
@@ -122,7 +123,7 @@ export const resourceEndpoints = {
           model: 'resource',
           where: [{ field: 'id', value: id }],
           update: {
-            ...body,
+            ...rest,
             updatedAt: new Date(),
             updatedBy: session?.user.username ?? systemOperator
           }
@@ -161,7 +162,7 @@ export const resourceEndpoints = {
       const { adapter } = context
       const { id } = body
       await getOneResource(context, id)
-      await getChildrenResource(context, id)
+      await checkChildrenResource(context, id)
       const roleResourceRelationRows = await adapter.findOne<RoleResourceRelationSpec>({
         model: 'roleResourceRelation',
         where: [{ field: 'resourceId', value: id }]
@@ -208,7 +209,7 @@ export const resourceEndpoints = {
       const canDeleteIds = []
       for (const id of ids) {
         await getOneResource(context, id)
-        await getChildrenResource(context, id)
+        await checkChildrenResource(context, id)
         const roleResourceRelationRows = await adapter.findOne<RoleResourceRelationSpec>({
           model: 'roleResourceRelation',
           where: [{ field: 'resourceId', value: id }]

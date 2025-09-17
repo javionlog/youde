@@ -1,7 +1,14 @@
 import type { DialogProps } from 'tdesign-react'
 
 export const GlDialog = (props: DialogProps) => {
-  const { children, className, dialogClassName, placement = 'center', ...rest } = props
+  const {
+    children,
+    className,
+    dialogClassName,
+    placement = 'center',
+    closeOnOverlayClick = false,
+    ...rest
+  } = props
   const defaultClassName = 'gl-dialog'
   const finalClassName = className ? `${defaultClassName} ${className}` : defaultClassName
   const defaultDialogClassName =
@@ -14,6 +21,7 @@ export const GlDialog = (props: DialogProps) => {
       className={finalClassName}
       dialogClassName={fianlDialogClassName}
       placement={placement}
+      closeOnOverlayClick={closeOnOverlayClick}
       {...rest}
     >
       {children}

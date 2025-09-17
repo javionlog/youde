@@ -7,6 +7,7 @@ import type {
   GetAuthListAccountsResponse,
   PostAuthRefreshTokenResponse,
   PostAuthGetAccessTokenResponse,
+  PostAuthRbacGetUserResourceTreeResponse,
   PostAuthRbacListUserResourceTreeResponse,
   PostAuthRbacListRoleResourceTreeResponse,
   PostAuthRbacListResourceTreeResponse,
@@ -81,6 +82,15 @@ const resourceNodeSchemaResponseTransformer = (data: any) => {
       return resourceNodeSchemaResponseTransformer(item);
     });
   }
+  return data;
+};
+
+export const postAuthRbacGetUserResourceTreeResponseTransformer = async (
+  data: any,
+): Promise<PostAuthRbacGetUserResourceTreeResponse> => {
+  data = data.map((item: any) => {
+    return resourceNodeSchemaResponseTransformer(item);
+  });
   return data;
 };
 

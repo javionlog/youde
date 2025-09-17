@@ -47,7 +47,7 @@ export const getOneResource = async (ctx: AuthContext, id: string, message?: str
   return result
 }
 
-export const getChildrenResource = async (ctx: AuthContext, id: string) => {
+export const checkChildrenResource = async (ctx: AuthContext, id: string) => {
   const { adapter } = ctx
   const row = await adapter.findOne<ResourceSpec>({
     model: 'resource',
@@ -62,9 +62,13 @@ export const getChildrenResource = async (ctx: AuthContext, id: string) => {
   return row
 }
 
-export const checkResource = async (ctx: AuthContext, body: z.infer<typeof resourceClientSpec>) => {
+export const checkResource = async (
+  ctx: AuthContext,
+  body: z.infer<typeof resourceClientSpec>,
+  operate: 'create' | 'update' | undefined = 'create'
+) => {
   if (body.type === 'Page') {
-    if (body.path === undefined) {
+    if (body.path === undefined || body.path === null) {
       throw new APIError('BAD_REQUEST', {
         code: 'PAGE_PATH_REQUIRED',
         message: 'Page path required'
@@ -72,18 +76,20 @@ export const checkResource = async (ctx: AuthContext, body: z.infer<typeof resou
     }
   }
   if (body.type === 'Element') {
-    if (body.parentId === undefined) {
-      throw new APIError('BAD_REQUEST', {
-        code: 'ELEMENT_PARENT_ID_REQUIRED',
-        message: 'Element parent ID required'
-      })
-    }
-    const row = await getOneResource(ctx, body.parentId, 'Parent not found')
-    if (row.type !== 'Page') {
-      throw new APIError('BAD_REQUEST', {
-        code: 'ELEMENT_PARENT_MUST_BE_PAGE',
-        message: 'Element parent must be page'
-      })
+    if (operate !== 'update') {
+      if (body.parentId === undefined) {
+        throw new APIError('BAD_REQUEST', {
+          code: 'ELEMENT_PARENT_ID_REQUIRED',
+          message: 'Element parent ID required'
+        })
+      }
+      const row = await getOneResource(ctx, body.parentId, 'Parent not found')
+      if (row.type !== 'Page') {
+        throw new APIError('BAD_REQUEST', {
+          code: 'ELEMENT_PARENT_MUST_BE_PAGE',
+          message: 'Element parent must be page'
+        })
+      }
     }
   }
 }
