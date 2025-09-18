@@ -7,10 +7,10 @@ import type {
   GetAuthListAccountsResponse,
   PostAuthRefreshTokenResponse,
   PostAuthGetAccessTokenResponse,
-  PostAuthRbacGetUserResourceTreeResponse,
   PostAuthRbacListUserResourceTreeResponse,
   PostAuthRbacListRoleResourceTreeResponse,
   PostAuthRbacListResourceTreeResponse,
+  PostAuthRbacGetUserResourceTreeResponse,
 } from "./types.gen";
 
 export const postAuthSignUpEmailResponseTransformer = async (
@@ -85,15 +85,6 @@ const resourceNodeSchemaResponseTransformer = (data: any) => {
   return data;
 };
 
-export const postAuthRbacGetUserResourceTreeResponseTransformer = async (
-  data: any,
-): Promise<PostAuthRbacGetUserResourceTreeResponse> => {
-  data = data.map((item: any) => {
-    return resourceNodeSchemaResponseTransformer(item);
-  });
-  return data;
-};
-
 export const postAuthRbacListUserResourceTreeResponseTransformer = async (
   data: any,
 ): Promise<PostAuthRbacListUserResourceTreeResponse> => {
@@ -115,6 +106,15 @@ export const postAuthRbacListRoleResourceTreeResponseTransformer = async (
 export const postAuthRbacListResourceTreeResponseTransformer = async (
   data: any,
 ): Promise<PostAuthRbacListResourceTreeResponse> => {
+  data = data.map((item: any) => {
+    return resourceNodeSchemaResponseTransformer(item);
+  });
+  return data;
+};
+
+export const postAuthRbacGetUserResourceTreeResponseTransformer = async (
+  data: any,
+): Promise<PostAuthRbacGetUserResourceTreeResponse> => {
   data = data.map((item: any) => {
     return resourceNodeSchemaResponseTransformer(item);
   });

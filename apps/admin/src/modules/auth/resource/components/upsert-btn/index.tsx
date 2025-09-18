@@ -22,12 +22,7 @@ export const UpsertBtn = (props: Props) => {
         <Button onClick={onOpen}>{t('action.add')}</Button>
       )}
       <GlDialog
-        header={t(
-          mode === 'edit' ? 'resource.action.editResource' : 'resource.action.addResource',
-          {
-            ns: 'auth'
-          }
-        )}
+        header={t(mode === 'edit' ? 'action.edit' : 'action.add')}
         visible={visible}
         confirmLoading={confirmLoading}
         cancelBtn={{ content: t('action.cancel'), disabled: confirmLoading }}

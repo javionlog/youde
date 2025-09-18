@@ -38,7 +38,8 @@
     "createdAt": "创建时间",
     "updatedAt": "更新时间",
     "createdBy": "创建人",
-    "updatedBy": "更新人"
+    "updatedBy": "更新人",
+    "operation": "操作"
   },
   "message": {
     "welcomeToYoude": "欢迎来到“有的”！",

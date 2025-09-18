@@ -22,8 +22,8 @@ export const useForm = (props: Props) => {
   const [confirmLoading, setConfirmLoading] = useState(false)
 
   const rules = {
-    name: getRequiredRules({ form }),
-    type: getRequiredRules({ form }),
+    name: getRequiredRules(),
+    type: getRequiredRules(),
     path: [
       {
         validator: (val => {
@@ -158,8 +158,10 @@ export const useForm = (props: Props) => {
   ] satisfies FormProps['items']
 
   const onOpen = () => {
-    const data = mode === 'edit' ? rowData! : {}
-    form.setFieldsValue(data)
+    form.reset()
+    if (mode === 'edit') {
+      form.setFieldsValue(rowData!)
+    }
     form.clearValidate()
     setVisible(true)
   }

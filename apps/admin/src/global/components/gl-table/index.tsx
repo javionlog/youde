@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react'
-import type { FormProps, PaginationProps, TableProps } from 'tdesign-react'
+import type { ReactNode, RefObject } from 'react'
+import { useImperativeHandle } from 'react'
+import type { FormProps, PaginationProps, PrimaryTableRef, TableProps } from 'tdesign-react'
 
 type SearchProps = Parameters<typeof GlSearch>[0]
 type FetchResponseData = {
@@ -8,16 +9,32 @@ type FetchResponseData = {
     total: number
   }
 }
+
+export type GlTableRef = PrimaryTableRef & {
+  fetch: () => void
+}
+
 interface Props extends StyledProps, TableProps {
   search?: SearchProps
   params?: Record<PropertyKey, any>
-  fetch?: (...args: any[]) => Promise<any>
+  api?: (...args: any[]) => Promise<any>
   operation?: ReactNode
+  ref?: RefObject<GlTableRef | null>
 }
 
 export const GlTable = (props: Props) => {
-  const { className, style, search, params, fetch, operation, pagination, columns, ...tableProps } =
-    props
+  const {
+    className,
+    style,
+    search,
+    params,
+    api,
+    operation,
+    pagination,
+    columns,
+    ref,
+    ...tableProps
+  } = props
 
   const { t } = useTranslation()
   const [form] = Form.useForm()
@@ -26,44 +43,50 @@ export const GlTable = (props: Props) => {
   const [total, setTotal] = useState(0)
   const [current, setCurrent, getCurrent] = useGetState(1)
   const [pageSize, setPageSize, getPageSize] = useGetState(10)
-  const tableRef = useRef<HTMLDivElement>(null)
+  const tableWrapRef = useRef<HTMLDivElement>(null)
+  const tableRef = useRef<PrimaryTableRef>(null)
 
-  const { height } = useAutoHeight(tableRef.current, {
-    afterTarget: tableRef.current?.querySelector('.t-table__pagination-wrap'),
+  const { height } = useAutoHeight(tableWrapRef.current, {
+    afterTarget: tableWrapRef.current?.querySelector('.t-table__pagination-wrap'),
     afterHeight: 40
   })
 
-  const query = () => {
-    if (fetch) {
-      const finalParams = {
-        ...params,
-        page: getCurrent(),
-        pageSize: getPageSize()
+  const fetch = () => {
+    if (api) {
+      if (search) {
+        form.submit()
+      } else {
+        const finalParams = {
+          ...params,
+          page: getCurrent(),
+          pageSize: getPageSize()
+        }
+        setLoading(true)
+        api({ body: finalParams })
+          .then((r: FetchResponseData) => {
+            const { records, total } = r.data
+            setTableData(records)
+            setTotal(total)
+          })
+          .finally(() => {
+            setLoading(false)
+          })
       }
-      setLoading(true)
-      fetch({ body: finalParams })
-        .then((r: FetchResponseData) => {
-          const { records, total } = r.data
-          setTableData(records)
-          setTotal(total)
-        })
-        .finally(() => {
-          setLoading(false)
-        })
     }
   }
 
   useEffect(() => {
-    if (fetch) {
-      if (search) {
-        form.submit()
-      } else {
-        query()
-      }
-    }
+    fetch()
   }, [])
 
-  const tableColumns = (columns as TalbeColumns)?.map(item => {
+  useImperativeHandle(ref, () => {
+    return {
+      ...tableRef.current!,
+      fetch
+    }
+  })
+
+  const tableColumns = (columns as GlTalbeColumns)?.map(item => {
     return {
       ellipsis: true,
       cell: ({ row, col }) => {
@@ -80,7 +103,7 @@ export const GlTable = (props: Props) => {
         return row[col.colKey!]
       },
       ...item
-    } satisfies TalbeColumns[number] & TableExtendColumn
+    } satisfies GlTalbeColumns[number] & GlTableExtendColumn
   })
 
   const searchBtn = {
@@ -108,10 +131,10 @@ export const GlTable = (props: Props) => {
         page: getCurrent(),
         pageSize: getPageSize()
       }
-      if (fetch) {
+      if (api) {
         setLoading(true)
         try {
-          const { records, total } = await fetch({ body: finalParams }).then(
+          const { records, total } = await api({ body: finalParams }).then(
             (r: FetchResponseData) => r.data
           )
           setTableData(records)
@@ -129,15 +152,16 @@ export const GlTable = (props: Props) => {
 
   const onCurrentChange: PaginationProps['onCurrentChange'] = current => {
     setCurrent(current)
+    Promise.resolve().then(() => {
+      fetch()
+    })
   }
 
   const onPageSizeChange: PaginationProps['onPageSizeChange'] = pageSize => {
     setPageSize(pageSize)
-    if (search) {
-      form.submit()
-    } else {
-      query()
-    }
+    Promise.resolve().then(() => {
+      fetch()
+    })
   }
 
   const defaultClassName = 'gl-table flex flex-col gap-5'
@@ -155,8 +179,9 @@ export const GlTable = (props: Props) => {
         />
       )}
       {operation}
-      <div ref={tableRef}>
+      <div ref={tableWrapRef}>
         <Table
+          ref={tableRef}
           data={tableProps.data ?? tableData}
           bordered={tableProps.bordered ?? true}
           tableLayout={tableProps.tableLayout ?? 'auto'}
@@ -164,8 +189,15 @@ export const GlTable = (props: Props) => {
           maxHeight={tableProps.maxHeight ?? height}
           columns={tableColumns}
           pagination={
-            fetch
-              ? { total, current, pageSize, onCurrentChange, onPageSizeChange, disabled: loading }
+            api
+              ? {
+                  total,
+                  current,
+                  pageSize,
+                  onCurrentChange,
+                  onPageSizeChange,
+                  disabled: loading
+                }
               : pagination
           }
           {...tableProps}

@@ -38,7 +38,8 @@
     "createdAt": "Created At",
     "updatedAt": "Updated At",
     "createdBy": "Created By",
-    "updatedBy": "Updated By"
+    "updatedBy": "Updated By",
+    "operation": "Operation"
   },
   "message": {
     "welcomeToYoude": "Welcome to Youde!",

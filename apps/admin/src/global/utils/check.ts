@@ -1,4 +1,4 @@
-import type { FormRule, InternalFormInstance } from 'tdesign-react'
+import type { FormRule } from 'tdesign-react'
 
 export const isEmpty = (val: unknown): val is undefined | null | string | unknown[] => {
   return (
@@ -9,16 +9,8 @@ export const isEmpty = (val: unknown): val is undefined | null | string | unknow
   )
 }
 
-export const getRequiredRules = (
-  opt?: Partial<FormRule & { form?: InternalFormInstance }>
-): FormRule[] => {
-  const { trigger = 'change', message = i18n.t('message.required'), form } = opt ?? {}
-  useLocaleStore.subscribe(
-    state => state.lang,
-    () => {
-      form?.validate()
-    }
-  )
+export const getRequiredRules = (opt?: Partial<FormRule>): FormRule[] => {
+  const { trigger = 'change', message = i18n.t('message.required') } = opt ?? {}
   return [
     { required: true, message, trigger },
     {

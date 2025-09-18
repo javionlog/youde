@@ -189,4 +189,7 @@ declare global {
   // @ts-ignore
   export type { LangType, ThemeMode, ScreenSizeKey } from '../src/global/constants/index'
   import('../src/global/constants/index')
+  // @ts-ignore
+  export type { GlTableRef } from '../src/global/components/gl-table/index'
+  import('../src/global/components/gl-table/index')
 }

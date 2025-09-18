@@ -20,19 +20,16 @@ export const ViewUserInfoBtn = () => {
     }
   ] satisfies DescriptionsProps['items']
 
-  const { run: onOpen } = useThrottleFn(
-    () => {
-      const dialogInstance = GlDialogPlugin({
-        onClose: () => {
-          dialogInstance.hide()
-        },
-        header: t('label.userInfo'),
-        footer: false,
-        body: <GlDescriptions items={items} />
-      })
-    },
-    { wait: 500 }
-  )
+  const onOpen = () => {
+    const dialogInstance = GlDialogPlugin({
+      onClose: () => {
+        dialogInstance.hide()
+      },
+      header: t('label.userInfo'),
+      footer: false,
+      body: <GlDescriptions items={items} />
+    })
+  }
   return (
     <div onClick={onOpen}>
       <UserCircleIcon size='14px' className='mr-2' />

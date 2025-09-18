@@ -1,9 +1,15 @@
+import type { User } from '@/global/api'
 import { postAuthRbacListUsers } from '@/global/api'
+import type { GlTableRef } from '@/global/components/gl-table'
+import { AddBtn } from './components/add-btn'
+import { DeleteBtn } from './components/delete-btn'
 
 type SearchProps = Parameters<typeof GlSearch>[0]
 
 export default () => {
   const { t } = useTranslation()
+  const ref = useRef<GlTableRef>(null)
+
   const search = {
     items: [
       {
@@ -17,10 +23,6 @@ export default () => {
   } satisfies SearchProps
 
   const columns = [
-    {
-      colKey: 'id',
-      title: 'ID'
-    },
     {
       colKey: 'name',
       title: t('label.name')
@@ -51,8 +53,38 @@ export default () => {
       colKey: 'updatedAt',
       title: t('label.updatedAt'),
       cellRenderType: 'datetime'
+    },
+    {
+      colKey: 'operation',
+      title: t('label.operation'),
+      fixed: 'right',
+      cell: ({ row }) => {
+        const rowData = row as User
+        return (
+          <Space>
+            <DeleteBtn rowData={rowData} refresh={getList} />
+          </Space>
+        )
+      }
     }
-  ] satisfies TalbeColumns
+  ] satisfies GlTalbeColumns
 
-  return <GlTable rowKey='id' search={search} columns={columns} fetch={postAuthRbacListUsers} />
+  const getList = () => {
+    ref.current?.fetch()
+  }
+
+  return (
+    <GlTable
+      ref={ref}
+      rowKey='id'
+      search={search}
+      operation={
+        <Space>
+          <AddBtn refresh={getList} />
+        </Space>
+      }
+      columns={columns}
+      api={postAuthRbacListUsers}
+    />
+  )
 }

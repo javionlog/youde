@@ -165,12 +165,6 @@ import type {
   PostAuthRbacRoleResourceRelationListData,
   PostAuthRbacRoleResourceRelationListResponses,
   PostAuthRbacRoleResourceRelationListErrors,
-  PostAuthRbacGetUserResourceTreeData,
-  PostAuthRbacGetUserResourceTreeResponses,
-  PostAuthRbacGetUserResourceTreeErrors,
-  PostAuthRbacListUsersData,
-  PostAuthRbacListUsersResponses,
-  PostAuthRbacListUsersErrors,
   PostAuthRbacListUserRolesData,
   PostAuthRbacListUserRolesResponses,
   PostAuthRbacListUserRolesErrors,
@@ -198,6 +192,12 @@ import type {
   PostAuthRbacListResourceTreeData,
   PostAuthRbacListResourceTreeResponses,
   PostAuthRbacListResourceTreeErrors,
+  PostAuthRbacGetUserResourceTreeData,
+  PostAuthRbacGetUserResourceTreeResponses,
+  PostAuthRbacGetUserResourceTreeErrors,
+  PostAuthRbacListUsersData,
+  PostAuthRbacListUsersResponses,
+  PostAuthRbacListUsersErrors,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 import {
@@ -207,10 +207,10 @@ import {
   getAuthListAccountsResponseTransformer,
   postAuthRefreshTokenResponseTransformer,
   postAuthGetAccessTokenResponseTransformer,
-  postAuthRbacGetUserResourceTreeResponseTransformer,
   postAuthRbacListUserResourceTreeResponseTransformer,
   postAuthRbacListRoleResourceTreeResponseTransformer,
   postAuthRbacListResourceTreeResponseTransformer,
+  postAuthRbacGetUserResourceTreeResponseTransformer,
 } from "./transformers.gen";
 
 export type Options<
@@ -1324,45 +1324,6 @@ export const postAuthRbacRoleResourceRelationList = <
 };
 
 /**
- * Get user resource tree
- */
-export const postAuthRbacGetUserResourceTree = <
-  ThrowOnError extends boolean = false,
->(
-  options?: Options<PostAuthRbacGetUserResourceTreeData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).post<
-    PostAuthRbacGetUserResourceTreeResponses,
-    PostAuthRbacGetUserResourceTreeErrors,
-    ThrowOnError
-  >({
-    responseTransformer: postAuthRbacGetUserResourceTreeResponseTransformer,
-    url: "/auth/rbac/get-user-resource-tree",
-    ...options,
-  });
-};
-
-/**
- * List users
- */
-export const postAuthRbacListUsers = <ThrowOnError extends boolean = false>(
-  options?: Options<PostAuthRbacListUsersData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).post<
-    PostAuthRbacListUsersResponses,
-    PostAuthRbacListUsersErrors,
-    ThrowOnError
-  >({
-    url: "/auth/rbac/list-users",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
  * List user roles
  */
 export const postAuthRbacListUserRoles = <ThrowOnError extends boolean = false>(
@@ -1552,5 +1513,44 @@ export const postAuthRbacListResourceTree = <
     responseTransformer: postAuthRbacListResourceTreeResponseTransformer,
     url: "/auth/rbac/list-resource-tree",
     ...options,
+  });
+};
+
+/**
+ * Get user resource tree
+ */
+export const postAuthRbacGetUserResourceTree = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<PostAuthRbacGetUserResourceTreeData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacGetUserResourceTreeResponses,
+    PostAuthRbacGetUserResourceTreeErrors,
+    ThrowOnError
+  >({
+    responseTransformer: postAuthRbacGetUserResourceTreeResponseTransformer,
+    url: "/auth/rbac/get-user-resource-tree",
+    ...options,
+  });
+};
+
+/**
+ * List users
+ */
+export const postAuthRbacListUsers = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAuthRbacListUsersData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacListUsersResponses,
+    PostAuthRbacListUsersErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/list-users",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };

@@ -4,6 +4,7 @@ import { resourceEndpoints } from './endpoints/resource'
 import { resourceLocaleEndpoints } from './endpoints/resource-locale'
 import { roleEndpoints } from './endpoints/role'
 import { roleResourceRelationEndpoints } from './endpoints/role-resource-relation'
+import { userEndpoints } from './endpoints/user'
 import { userRoleRelationEndpoints } from './endpoints/user-role-relation'
 import { resourceSchema } from './schemas/resource'
 import { resourceLocaleSchema } from './schemas/resource-locale'
@@ -27,7 +28,8 @@ export const rbac = () => {
       ...resourceLocaleEndpoints,
       ...userRoleRelationEndpoints,
       ...roleResourceRelationEndpoints,
-      ...relationEndpoints
+      ...relationEndpoints,
+      ...userEndpoints
     }
   } satisfies BetterAuthPlugin
 }

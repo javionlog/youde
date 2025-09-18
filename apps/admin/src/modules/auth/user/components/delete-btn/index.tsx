@@ -1,9 +1,8 @@
-import { DeleteIcon } from 'tdesign-icons-react'
-import type { PostAuthRbacResourceDeleteData, ResourceNode } from '@/global/api'
-import { postAuthRbacResourceDelete } from '@/global/api'
+import type { PostAuthDeleteUserData, User } from '@/global/api'
+import { postAuthDeleteUser } from '@/global/api'
 
 type Props = {
-  rowData: ResourceNode
+  rowData: User
   refresh: () => void
 }
 
@@ -26,8 +25,8 @@ export const DeleteBtn = (props: Props) => {
       setConfirmLoading(true)
       const params = {
         id: rowData.id
-      } as PostAuthRbacResourceDeleteData['body']
-      await postAuthRbacResourceDelete({ body: params })
+      } as PostAuthDeleteUserData['body']
+      await postAuthDeleteUser({ body: params })
 
       MessagePlugin.success(t('message.operateSuccessful'))
       onClose()
@@ -39,7 +38,9 @@ export const DeleteBtn = (props: Props) => {
 
   return (
     <>
-      <DeleteIcon onClick={onOpen} />
+      <Link hover='color' onClick={onOpen}>
+        {t('action.delete')}
+      </Link>
       <GlDialog
         header={t('action.delete')}
         visible={visible}

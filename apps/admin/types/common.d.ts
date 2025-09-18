@@ -7,9 +7,9 @@ declare global {
     style?: CSSProperties
   }
 
-  interface TableExtendColumn {
+  interface GlTableExtendColumn {
     cellRenderType?: 'date' | 'datetime' | 'boolean'
   }
 
-  type TalbeColumns = (NonNullable<TableProps['columns']>[number] & TableExtendColumn)[]
+  type GlTalbeColumns = (NonNullable<TableProps['columns']>[number] & GlTableExtendColumn)[]
 }

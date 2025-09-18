@@ -8,11 +8,8 @@ type Props = {
 export const ViewUserBtn = (props: Props) => {
   const { rowData } = props
   const { t } = useTranslation()
+
   const columns = [
-    {
-      colKey: 'id',
-      title: 'ID'
-    },
     {
       colKey: 'name',
       title: t('label.name')
@@ -44,29 +41,26 @@ export const ViewUserBtn = (props: Props) => {
       title: t('label.updatedAt'),
       cellRenderType: 'datetime'
     }
-  ] satisfies TalbeColumns
+  ] satisfies GlTalbeColumns
 
-  const { run: onOpen } = useThrottleFn(
-    () => {
-      const dialogInstance = GlDialogPlugin({
-        onClose: () => {
-          dialogInstance.hide()
-        },
-        header: t('resource.action.viewAssociatedUser', { ns: 'auth' }),
-        footer: false,
-        body: (
-          <GlTable
-            rowKey='id'
-            columns={columns}
-            maxHeight='100%'
-            params={{ resourceId: rowData.id }}
-            fetch={postAuthRbacListResourceUsers}
-          />
-        )
-      })
-    },
-    { wait: 500 }
-  )
+  const onOpen = () => {
+    const dialogInstance = GlDialogPlugin({
+      onClose: () => {
+        dialogInstance.hide()
+      },
+      header: t('common.action.viewAssociatedUser', { ns: 'auth' }),
+      footer: false,
+      body: (
+        <GlTable
+          rowKey='id'
+          columns={columns}
+          maxHeight='100%'
+          params={{ resourceId: rowData.id }}
+          api={postAuthRbacListResourceUsers}
+        />
+      )
+    })
+  }
 
-  return <div onClick={onOpen}>{t('resource.action.viewAssociatedUser', { ns: 'auth' })}</div>
+  return <div onClick={onOpen}>{t('common.action.viewAssociatedUser', { ns: 'auth' })}</div>
 }

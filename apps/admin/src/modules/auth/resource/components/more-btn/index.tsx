@@ -19,7 +19,7 @@ export const MoreBtn = (props: Props) => {
           <ViewUserBtn rowData={rowData} />
         </DropdownItem>
         <DropdownItem>
-          <ViewRoleBtn />
+          <ViewRoleBtn rowData={rowData} />
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

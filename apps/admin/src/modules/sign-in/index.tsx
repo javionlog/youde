@@ -18,8 +18,8 @@ export default () => {
   const [loading, setLoading] = useState(false)
 
   const rules = {
-    username: getRequiredRules({ form }),
-    password: getRequiredRules({ form })
+    username: getRequiredRules(),
+    password: getRequiredRules()
   } satisfies FormRules<PostAuthSignInUsernameData['body']>
 
   const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
