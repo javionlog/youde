@@ -1,5 +1,5 @@
 import type { User } from '@/global/api'
-import { postAuthRbacListUsers } from '@/global/api'
+import { postAuthRbacUserList } from '@/global/api'
 import type { GlTableRef } from '@/global/components/gl-table'
 import { AddBtn } from './components/add-btn'
 import { DeleteBtn } from './components/delete-btn'
@@ -17,7 +17,21 @@ export default () => {
           name: 'username',
           label: t('label.username')
         },
-        component: <Input />
+        component: <Input clearable />
+      },
+      {
+        formItem: {
+          name: 'displayUsername',
+          label: t('label.displayUsername')
+        },
+        component: <Input clearable />
+      },
+      {
+        formItem: {
+          name: 'email',
+          label: t('label.email')
+        },
+        component: <Input clearable />
       }
     ]
   } satisfies SearchProps
@@ -84,7 +98,7 @@ export default () => {
         </Space>
       }
       columns={columns}
-      api={postAuthRbacListUsers}
+      api={postAuthRbacUserList}
     />
   )
 }

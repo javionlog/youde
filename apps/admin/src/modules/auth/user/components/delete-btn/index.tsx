@@ -1,5 +1,5 @@
-import type { PostAuthDeleteUserData, User } from '@/global/api'
-import { postAuthDeleteUser } from '@/global/api'
+import type { PostAuthRbacUserDeleteData, User } from '@/global/api'
+import { postAuthRbacUserDelete } from '@/global/api'
 
 type Props = {
   rowData: User
@@ -25,8 +25,8 @@ export const DeleteBtn = (props: Props) => {
       setConfirmLoading(true)
       const params = {
         id: rowData.id
-      } as PostAuthDeleteUserData['body']
-      await postAuthDeleteUser({ body: params })
+      } as PostAuthRbacUserDeleteData['body']
+      await postAuthRbacUserDelete({ body: params })
 
       MessagePlugin.success(t('message.operateSuccessful'))
       onClose()
@@ -38,7 +38,7 @@ export const DeleteBtn = (props: Props) => {
 
   return (
     <>
-      <Link hover='color' onClick={onOpen}>
+      <Link hover='color' theme='primary' onClick={onOpen}>
         {t('action.delete')}
       </Link>
       <GlDialog

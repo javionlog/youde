@@ -192,12 +192,18 @@ import type {
   PostAuthRbacListResourceTreeData,
   PostAuthRbacListResourceTreeResponses,
   PostAuthRbacListResourceTreeErrors,
+  PostAuthRbacUserCreateData,
+  PostAuthRbacUserCreateResponses,
+  PostAuthRbacUserCreateErrors,
+  PostAuthRbacUserDeleteData,
+  PostAuthRbacUserDeleteResponses,
+  PostAuthRbacUserDeleteErrors,
+  PostAuthRbacUserListData,
+  PostAuthRbacUserListResponses,
+  PostAuthRbacUserListErrors,
   PostAuthRbacGetUserResourceTreeData,
   PostAuthRbacGetUserResourceTreeResponses,
   PostAuthRbacGetUserResourceTreeErrors,
-  PostAuthRbacListUsersData,
-  PostAuthRbacListUsersResponses,
-  PostAuthRbacListUsersErrors,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 import {
@@ -1517,6 +1523,66 @@ export const postAuthRbacListResourceTree = <
 };
 
 /**
+ * Create a user
+ */
+export const postAuthRbacUserCreate = <ThrowOnError extends boolean = false>(
+  options: Options<PostAuthRbacUserCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacUserCreateResponses,
+    PostAuthRbacUserCreateErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/user/create",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * Delete a user
+ */
+export const postAuthRbacUserDelete = <ThrowOnError extends boolean = false>(
+  options: Options<PostAuthRbacUserDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacUserDeleteResponses,
+    PostAuthRbacUserDeleteErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/user/delete",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
+ * List users
+ */
+export const postAuthRbacUserList = <ThrowOnError extends boolean = false>(
+  options?: Options<PostAuthRbacUserListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PostAuthRbacUserListResponses,
+    PostAuthRbacUserListErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/user/list",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
  * Get user resource tree
  */
 export const postAuthRbacGetUserResourceTree = <
@@ -1532,25 +1598,5 @@ export const postAuthRbacGetUserResourceTree = <
     responseTransformer: postAuthRbacGetUserResourceTreeResponseTransformer,
     url: "/auth/rbac/get-user-resource-tree",
     ...options,
-  });
-};
-
-/**
- * List users
- */
-export const postAuthRbacListUsers = <ThrowOnError extends boolean = false>(
-  options?: Options<PostAuthRbacListUsersData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).post<
-    PostAuthRbacListUsersResponses,
-    PostAuthRbacListUsersErrors,
-    ThrowOnError
-  >({
-    url: "/auth/rbac/list-users",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };

@@ -1,6 +1,6 @@
 import type { FormRules } from 'tdesign-react'
-import type { PostAuthSignUpEmailData } from '@/global/api'
-import { postAuthSignUpEmail } from '@/global/api'
+import type { PostAuthRbacUserCreateData } from '@/global/api'
+import { postAuthRbacUserCreate } from '@/global/api'
 
 type FormProps = Parameters<typeof GlForm>[0]
 
@@ -17,10 +17,10 @@ export const useForm = (props: Props) => {
 
   const rules = {
     name: getRequiredRules(),
-    email: getRequiredRules(),
     username: getRequiredRules(),
+    email: getRequiredRules(),
     password: getRequiredRules()
-  } satisfies FormRules<NonNullable<PostAuthSignUpEmailData['body'] & { username: string }>>
+  } satisfies FormRules<NonNullable<PostAuthRbacUserCreateData['body']>>
   const items = [
     {
       formItem: {
@@ -33,6 +33,13 @@ export const useForm = (props: Props) => {
       formItem: {
         name: 'username',
         label: t('label.username')
+      },
+      component: <Input clearable />
+    },
+    {
+      formItem: {
+        name: 'displayUsername',
+        label: t('label.displayUsername')
       },
       component: <Input clearable />
     },
@@ -68,8 +75,8 @@ export const useForm = (props: Props) => {
       try {
         setConfirmLoading(true)
         const fieldsValue = form.getFieldsValue(true)
-        const params = fieldsValue as PostAuthSignUpEmailData['body']
-        await postAuthSignUpEmail({ body: params })
+        const params = fieldsValue as PostAuthRbacUserCreateData['body']
+        await postAuthRbacUserCreate({ body: params })
         MessagePlugin.success(t('message.operateSuccessful'))
         onClose()
         refresh()
