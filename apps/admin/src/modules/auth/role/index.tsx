@@ -2,6 +2,7 @@ import type { Role } from '@/global/api'
 import { postAuthRbacRoleList } from '@/global/api'
 import type { GlTableRef } from '@/global/components/gl-table'
 import { DeleteBtn } from './components/delete-btn'
+import { SetResourceBtn } from './components/set-resource-btn'
 import { UpsertBtn } from './components/upsert-btn'
 
 type SearchProps = Parameters<typeof GlSearch>[0]
@@ -69,15 +70,16 @@ export default () => {
         const rowData = row as Role
         return (
           <Space>
-            <UpsertBtn mode='edit' rowData={rowData} refresh={getList} />
-            <DeleteBtn rowData={rowData} refresh={getList} />
+            <UpsertBtn mode='edit' rowData={rowData} refresh={refresh} />
+            <DeleteBtn rowData={rowData} refresh={refresh} />
+            <SetResourceBtn rowData={rowData} refresh={refresh} />
           </Space>
         )
       }
     }
   ] satisfies GlTalbeColumns
 
-  const getList = () => {
+  const refresh = () => {
     ref.current?.fetch()
   }
 
@@ -88,7 +90,7 @@ export default () => {
       search={search}
       operation={
         <Space>
-          <UpsertBtn mode='add' refresh={getList} />
+          <UpsertBtn mode='add' refresh={refresh} />
         </Space>
       }
       columns={columns}

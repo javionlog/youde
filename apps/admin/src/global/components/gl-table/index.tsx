@@ -1,6 +1,12 @@
 import type { ReactNode, RefObject } from 'react'
 import { useImperativeHandle } from 'react'
-import type { FormProps, PaginationProps, PrimaryTableRef, TableProps } from 'tdesign-react'
+import type {
+  FormProps,
+  InternalFormInstance,
+  PaginationProps,
+  PrimaryTableRef,
+  TableProps
+} from 'tdesign-react'
 
 type SearchProps = Parameters<typeof GlSearch>[0]
 type FetchResponseData = {
@@ -12,6 +18,7 @@ type FetchResponseData = {
 
 export type GlTableRef = PrimaryTableRef & {
   fetch: () => void
+  form: InternalFormInstance
 }
 
 interface Props extends StyledProps, TableProps {
@@ -82,7 +89,8 @@ export const GlTable = (props: Props) => {
   useImperativeHandle(ref, () => {
     return {
       ...tableRef.current!,
-      fetch
+      fetch,
+      form
     }
   })
 

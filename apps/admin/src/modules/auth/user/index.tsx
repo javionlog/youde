@@ -76,14 +76,14 @@ export default () => {
         const rowData = row as User
         return (
           <Space>
-            <DeleteBtn rowData={rowData} refresh={getList} />
+            <DeleteBtn rowData={rowData} refresh={refresh} />
           </Space>
         )
       }
     }
   ] satisfies GlTalbeColumns
 
-  const getList = () => {
+  const refresh = () => {
     ref.current?.fetch()
   }
 
@@ -94,7 +94,7 @@ export default () => {
       search={search}
       operation={
         <Space>
-          <AddBtn refresh={getList} />
+          <AddBtn refresh={refresh} />
         </Space>
       }
       columns={columns}

@@ -10,7 +10,7 @@ export default () => {
   const lang = camelCase(useLocaleStore(state => state.lang))
   const [loading, setLoading] = useState(false)
 
-  const getTree = async () => {
+  const refresh = async () => {
     try {
       setLoading(true)
       await postAuthRbacListResourceTree().then(res => {
@@ -29,7 +29,7 @@ export default () => {
     return <GlEllipsis>{menuName}</GlEllipsis>
   }
   useEffect(() => {
-    getTree()
+    refresh()
   }, [])
 
   return (
@@ -37,7 +37,7 @@ export default () => {
       {data ? (
         <div className='flex flex-col gap-4'>
           <div>
-            <UpsertBtn refresh={getTree} />
+            <UpsertBtn refresh={refresh} />
           </div>
           <Tree
             data={data}
@@ -48,10 +48,10 @@ export default () => {
               return (
                 <Space>
                   {nodeData.type === 'Element' ? null : (
-                    <UpsertBtn rowData={nodeData} refresh={getTree} mode='add' />
+                    <UpsertBtn rowData={nodeData} refresh={refresh} mode='add' />
                   )}
-                  <UpsertBtn rowData={nodeData} refresh={getTree} mode='edit' />
-                  <DeleteBtn rowData={nodeData} refresh={getTree} />
+                  <UpsertBtn rowData={nodeData} refresh={refresh} mode='edit' />
+                  <DeleteBtn rowData={nodeData} refresh={refresh} />
                   <MoreBtn rowData={nodeData} />
                 </Space>
               )
