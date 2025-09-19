@@ -10,7 +10,8 @@ export const roleClientSpec = getZodSchema({ fields: roleSchema.role.fields, isC
 export const roleListSpec = z.object({
   ...pageSpec.shape,
   ...sortBySpec.shape,
-  name: z.string().nullish()
+  name: z.string().nullish(),
+  enabled: z.boolean().nullish()
 })
 
 export type RoleSpec = z.infer<typeof roleSpec> & { id: string }

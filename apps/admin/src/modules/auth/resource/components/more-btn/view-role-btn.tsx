@@ -32,6 +32,14 @@ export const ViewRoleBtn = (props: Props) => {
       colKey: 'updatedAt',
       title: t('label.updatedAt'),
       cellRenderType: 'datetime'
+    },
+    {
+      colKey: 'createdBy',
+      title: t('label.createdBy')
+    },
+    {
+      colKey: 'updatedBy',
+      title: t('label.updatedBy')
     }
   ] satisfies GlTalbeColumns
 

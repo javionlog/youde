@@ -43,7 +43,8 @@ export const useForm = (props: Props) => {
       }
     ]
   } satisfies FormRules<NonNullable<PostAuthRbacResourceCreateData['body']>>
-  const items = [
+
+  let items = [
     {
       formItem: {
         name: 'name',
@@ -157,8 +158,43 @@ export const useForm = (props: Props) => {
     }
   ] satisfies FormProps['items']
 
-  const onOpen = () => {
+  if (mode === 'edit') {
+    const appendItems = [
+      {
+        formItem: {
+          name: 'createdAt',
+          label: t('label.createdAt')
+        },
+        component: <GlEllipsis>{formatDate(rowData?.createdAt!)}</GlEllipsis>
+      },
+      {
+        formItem: {
+          name: 'updatedAt',
+          label: t('label.updatedAt')
+        },
+        component: <GlEllipsis>{formatDate(rowData?.updatedAt!)}</GlEllipsis>
+      },
+      {
+        formItem: {
+          name: 'createdBy',
+          label: t('label.createdBy')
+        },
+        component: <GlEllipsis>{rowData?.createdBy!}</GlEllipsis>
+      },
+      {
+        formItem: {
+          name: 'updatedBy',
+          label: t('label.updatedBy')
+        },
+        component: <GlEllipsis>{rowData?.updatedBy!}</GlEllipsis>
+      }
+    ]
+    items = [...items, ...appendItems]
+  }
+
+  const onOpen = async () => {
     form.reset()
+    await Promise.resolve()
     if (mode === 'edit') {
       form.setFieldsValue(rowData!)
     }

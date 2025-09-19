@@ -1,7 +1,9 @@
 import * as auth from './auth'
+import * as common from './common'
 
 const enums = {
-  ...auth
+  ...auth,
+  ...common
 }
 
 type Enums = typeof enums

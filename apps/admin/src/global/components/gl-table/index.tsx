@@ -97,7 +97,7 @@ export const GlTable = (props: Props) => {
           return formatDate(row[col.colKey!], 'yyyy-MM-dd')
         }
         if (item.cellRenderType === 'datetime') {
-          return formatDate(row[col.colKey!], 'yyyy-MM-dd HH:mm:ss')
+          return formatDate(row[col.colKey!])
         }
 
         return row[col.colKey!]
@@ -150,18 +150,16 @@ export const GlTable = (props: Props) => {
     form.submit()
   }
 
-  const onCurrentChange: PaginationProps['onCurrentChange'] = current => {
+  const onCurrentChange: PaginationProps['onCurrentChange'] = async current => {
     setCurrent(current)
-    Promise.resolve().then(() => {
-      fetch()
-    })
+    await Promise.resolve()
+    fetch()
   }
 
-  const onPageSizeChange: PaginationProps['onPageSizeChange'] = pageSize => {
+  const onPageSizeChange: PaginationProps['onPageSizeChange'] = async pageSize => {
     setPageSize(pageSize)
-    Promise.resolve().then(() => {
-      fetch()
-    })
+    await Promise.resolve()
+    fetch()
   }
 
   const defaultClassName = 'gl-table flex flex-col gap-5'

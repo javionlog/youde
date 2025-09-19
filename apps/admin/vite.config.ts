@@ -62,10 +62,6 @@ export default defineConfig(({ mode }) => {
             imports: ['isNil', 'camelCase']
           },
           {
-            from: 'date-fns',
-            imports: [['format', 'formatDate']]
-          },
-          {
             from: 'react-i18next',
             imports: ['useTranslation']
           },

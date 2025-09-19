@@ -267,7 +267,7 @@ export const roleEndpoints = {
     async ctx => {
       const { body, json, context } = ctx
       const { adapter } = context
-      const { name, sortBy, page, pageSize } = body
+      const { name, enabled, sortBy, page, pageSize } = body
       let offset: number | undefined
       let limit: number | undefined
       if (!isEmpty(page) && !isEmpty(pageSize)) {
@@ -280,6 +280,12 @@ export const roleEndpoints = {
           field: 'name',
           value: name,
           operator: 'contains'
+        })
+      }
+      if (!isEmpty(enabled)) {
+        where.push({
+          field: 'enabled',
+          value: enabled
         })
       }
       const records = await adapter.findMany<RoleSpec>({

@@ -138,7 +138,7 @@ declare global {
   const createContext: typeof import('react')['createContext']
   const defaultRoutes: typeof import('../src/global/router/static/index')['defaultRoutes']
   const flattenTree: typeof import('../src/global/utils/tree')['flattenTree']
-  const formatDate: typeof import('date-fns')['format']
+  const formatDate: typeof import('../src/global/utils/time')['formatDate']
   const forwardRef: typeof import('react')['forwardRef']
   const genDynamicRoutes: typeof import('../src/global/router/dynamic/index')['genDynamicRoutes']
   const getOptions: typeof import('../src/global/enums/index')['getOptions']

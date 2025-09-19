@@ -6,27 +6,32 @@ interface Props extends StyledProps, TooltipProps {
 }
 
 export const GlEllipsis = (props: Props) => {
-  const { className, style, children, ...tooltipProps } = props
+  const { className, style, children, content, ...tooltipProps } = props
 
   const outerRef = useRef<HTMLDivElement>(null)
-  const innerRef = useRef<HTMLSpanElement>(null)
   const [disabled, setDisabled] = useState(true)
-  const onMouseEnter = () => {
-    const outerWidth = outerRef.current?.getBoundingClientRect().width ?? 0
-    const innerWidth = innerRef.current?.getBoundingClientRect().width ?? 0
-    const isOverflow = innerWidth <= outerWidth
-    setDisabled(isOverflow)
+
+  const onSetDisabled = () => {
+    const scrollWidth = outerRef.current?.scrollWidth ?? 0
+    const offsetWidth = outerRef.current?.offsetWidth ?? 0
+    const isOverflow = scrollWidth > offsetWidth
+    setDisabled(!isOverflow)
   }
+
+  useEffect(() => {
+    onSetDisabled()
+  }, [children, content])
+
   return (
-    <Tooltip disabled={disabled} content={tooltipProps.content ?? children} {...tooltipProps}>
+    <Tooltip content={disabled ? null : (content ?? children)} {...tooltipProps}>
       <div
         ref={outerRef}
         className={`overflow-hidden overflow-ellipsis whitespace-nowrap ${className ?? ''}`}
         style={style}
-        onMouseEnter={onMouseEnter}
-        onClick={onMouseEnter}
+        onMouseEnter={onSetDisabled}
+        onClick={onSetDisabled}
       >
-        <span ref={innerRef}>{children}</span>
+        {children}
       </div>
     </Tooltip>
   )
