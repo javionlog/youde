@@ -59,7 +59,7 @@ export default defineConfig(({ mode }) => {
           },
           {
             from: 'es-toolkit',
-            imports: ['isNil', 'camelCase']
+            imports: ['isNil', 'camelCase', 'uniq', 'uniqBy']
           },
           {
             from: 'react-i18next',

@@ -154,6 +154,8 @@ declare global {
   const memo: typeof import('react')['memo']
   const noLayoutMenus: typeof import('../src/global/router/static/index')['noLayoutMenus']
   const noLayoutRoutes: typeof import('../src/global/router/static/index')['noLayoutRoutes']
+  const uniq: typeof import('es-toolkit')['uniq']
+  const uniqBy: typeof import('es-toolkit')['uniqBy']
   const useAppStore: typeof import('../src/global/stores/app')['useAppStore']
   const useAutoHeight: typeof import('../src/global/hooks/use-auto-height/index')['useAutoHeight']
   const useCallback: typeof import('react')['useCallback']

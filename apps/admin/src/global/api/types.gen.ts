@@ -2655,6 +2655,7 @@ export type PostAuthRbacRoleListData = {
       direction: "asc" | "desc";
     };
     name?: unknown;
+    enabled?: unknown;
   };
   path?: never;
   query?: never;
@@ -3871,6 +3872,70 @@ export type PostAuthRbacRoleResourceRelationDeleteResponses = {
 export type PostAuthRbacRoleResourceRelationDeleteResponse =
   PostAuthRbacRoleResourceRelationDeleteResponses[keyof PostAuthRbacRoleResourceRelationDeleteResponses];
 
+export type PostAuthRbacRoleResourceRelationBatchSetData = {
+  body: {
+    roleId: string;
+    resourceIds: Array<unknown>;
+  };
+  path?: never;
+  query?: never;
+  url: "/auth/rbac/role-resource-relation/batch-set";
+};
+
+export type PostAuthRbacRoleResourceRelationBatchSetErrors = {
+  /**
+   * Bad Request. Usually due to missing parameters, or invalid parameters.
+   */
+  400: {
+    message: string;
+  };
+  /**
+   * Unauthorized. Due to missing or invalid authentication.
+   */
+  401: {
+    message: string;
+  };
+  /**
+   * Forbidden. You do not have permission to access this resource or to perform this action.
+   */
+  403: {
+    message?: string;
+  };
+  /**
+   * Not Found. The requested resource was not found.
+   */
+  404: {
+    message?: string;
+  };
+  /**
+   * Too Many Requests. You have exceeded the rate limit. Try again later.
+   */
+  429: {
+    message?: string;
+  };
+  /**
+   * Internal Server Error. This is a problem with the server that you cannot fix.
+   */
+  500: {
+    message?: string;
+  };
+};
+
+export type PostAuthRbacRoleResourceRelationBatchSetError =
+  PostAuthRbacRoleResourceRelationBatchSetErrors[keyof PostAuthRbacRoleResourceRelationBatchSetErrors];
+
+export type PostAuthRbacRoleResourceRelationBatchSetResponses = {
+  /**
+   * Success
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type PostAuthRbacRoleResourceRelationBatchSetResponse =
+  PostAuthRbacRoleResourceRelationBatchSetResponses[keyof PostAuthRbacRoleResourceRelationBatchSetResponses];
+
 export type PostAuthRbacRoleResourceRelationListData = {
   body?: {
     page?: number;
@@ -4532,7 +4597,9 @@ export type PostAuthRbacListResourceUsersResponse =
   PostAuthRbacListResourceUsersResponses[keyof PostAuthRbacListResourceUsersResponses];
 
 export type PostAuthRbacListResourceTreeData = {
-  body?: never;
+  body?: {
+    enabled?: unknown;
+  };
   path?: never;
   query?: never;
   url: "/auth/rbac/list-resource-tree";
@@ -4726,7 +4793,6 @@ export type PostAuthRbacUserListData = {
       field: string;
       direction: "asc" | "desc";
     };
-    namme?: unknown;
     username?: unknown;
     displayUsername?: unknown;
     email?: unknown;

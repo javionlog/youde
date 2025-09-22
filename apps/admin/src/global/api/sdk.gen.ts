@@ -162,6 +162,9 @@ import type {
   PostAuthRbacRoleResourceRelationDeleteData,
   PostAuthRbacRoleResourceRelationDeleteResponses,
   PostAuthRbacRoleResourceRelationDeleteErrors,
+  PostAuthRbacRoleResourceRelationBatchSetData,
+  PostAuthRbacRoleResourceRelationBatchSetResponses,
+  PostAuthRbacRoleResourceRelationBatchSetErrors,
   PostAuthRbacRoleResourceRelationListData,
   PostAuthRbacRoleResourceRelationListResponses,
   PostAuthRbacRoleResourceRelationListErrors,
@@ -1308,6 +1311,28 @@ export const postAuthRbacRoleResourceRelationDelete = <
 };
 
 /**
+ * Batch set role resource relation
+ */
+export const postAuthRbacRoleResourceRelationBatchSet = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<PostAuthRbacRoleResourceRelationBatchSetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PostAuthRbacRoleResourceRelationBatchSetResponses,
+    PostAuthRbacRoleResourceRelationBatchSetErrors,
+    ThrowOnError
+  >({
+    url: "/auth/rbac/role-resource-relation/batch-set",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+/**
  * List role resource relations
  */
 export const postAuthRbacRoleResourceRelationList = <
@@ -1519,6 +1544,10 @@ export const postAuthRbacListResourceTree = <
     responseTransformer: postAuthRbacListResourceTreeResponseTransformer,
     url: "/auth/rbac/list-resource-tree",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 

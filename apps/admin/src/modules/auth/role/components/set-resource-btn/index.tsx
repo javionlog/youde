@@ -1,26 +1,27 @@
 import type { Role } from '@/global/api'
-import { useTable } from './use-table'
+import { useTree } from './use-tree'
 
 type Props = {
-  rowData?: Role
+  rowData: Role
   refresh: () => void
 }
 
 export const SetResourceBtn = (props: Props) => {
   const {
     t,
-    ref,
     visible,
-    search,
-    columns,
-    params,
-    api,
+    resourceTree,
+    resourceValue,
+    loading,
+    confirmLoading,
+    ref,
+    getLabel,
+    onChange,
     onOpen,
     onOpened,
     onClose,
-    onConfirm,
-    confirmLoading
-  } = useTable(props)
+    onConfirm
+  } = useTree(props)
 
   const text = t('common.action.setResource', { ns: 'auth' })
   return (
@@ -37,14 +38,17 @@ export const SetResourceBtn = (props: Props) => {
         onClose={onClose}
         onConfirm={onConfirm}
       >
-        <GlTable
-          ref={ref}
-          rowKey='id'
-          search={search}
-          columns={columns}
-          params={params}
-          api={api}
-        />
+        <Loading loading={loading}>
+          <Tree
+            ref={ref}
+            value={resourceValue}
+            data={resourceTree}
+            keys={{ value: 'id', children: 'children' }}
+            label={getLabel}
+            checkable
+            onChange={onChange}
+          />
+        </Loading>
       </GlDialog>
     </>
   )

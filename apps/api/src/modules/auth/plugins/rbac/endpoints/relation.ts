@@ -778,9 +778,29 @@ export const relationEndpoints = {
     `${basePath}/list-resource-tree`,
     {
       method: 'POST',
+      body: z
+        .object({
+          ...resourceClientSpec.pick({ enabled: true }).shape
+        })
+        .partial()
+        .nullish(),
       metadata: {
         openapi: {
           description: 'List resource tree',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: getOpenAPISchema(
+                  z
+                    .object({
+                      ...resourceClientSpec.pick({ enabled: true }).shape
+                    })
+                    .partial()
+                    .nullish()
+                )
+              }
+            }
+          },
           responses: {
             '200': {
               description: 'Success',
@@ -800,10 +820,18 @@ export const relationEndpoints = {
       }
     },
     async ctx => {
-      const { json, context } = ctx
+      const { json, context, body } = ctx
       const { adapter } = context
+      const where: Where[] = []
+      if (body && !isEmpty(body.enabled)) {
+        where.push({
+          field: 'enabled',
+          value: body.enabled
+        })
+      }
       const resourceRecords = await adapter.findMany<ResourceSpec>({
         model: 'resource',
+        where,
         sortBy: {
           field: 'sort',
           direction: 'asc'

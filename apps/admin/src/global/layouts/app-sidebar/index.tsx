@@ -40,9 +40,9 @@ const MenuItems = (props: { menus: ResourceNode[] }) => {
   return (
     <>
       {menus
-        .filter(o => o.enabled)
+        .filter(o => o.isShow)
         .map(item => {
-          if (item.children?.length) {
+          if (item.type === 'Menu' && item.children?.length) {
             const icon = item.icon ? createElement(item.icon) : <AppIcon />
             const menuLocale = item.locales?.find(o => o.field === 'name')
             const menuName = menuLocale?.[lang as 'enUs'] ?? item.name

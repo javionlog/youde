@@ -1,6 +1,7 @@
 import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
-import { buildTree, getOpenAPISchema, isEmpty } from '@/global/utils'
+import { uniqBy } from 'es-toolkit'
+import { buildTree, getOpenAPISchema, getParentNodes, isEmpty } from '@/global/utils'
 import { basePath } from '../config'
 import { throwDbError } from '../errors'
 import { getSession } from '../services/base'
@@ -218,10 +219,7 @@ export const userEndpoints = {
         model: 'roleResourceRelation',
         where: [{ field: 'roleId', value: userRoleRelationRows.map(o => o.roleId), operator: 'in' }]
       })
-      const where: Where[] = [
-        { field: 'id', value: roleResourceRelationRows.map(row => row.resourceId), operator: 'in' },
-        { field: 'enabled', value: true }
-      ]
+      const where: Where[] = [{ field: 'enabled', value: true }]
       const resourceRecords = await adapter.findMany<ResourceSpec>({
         model: 'resource',
         where,
@@ -230,7 +228,17 @@ export const userEndpoints = {
           direction: 'asc'
         }
       })
-      const resourceIds = resourceRecords.map(o => o.id)
+      const leafRecords = resourceRecords.filter(o =>
+        roleResourceRelationRows.map(item => item.resourceId).includes(o.id)
+      )
+      const parentRecords: ResourceSpec[] = []
+      for (const item of roleResourceRelationRows) {
+        const parentNodes = getParentNodes(item.resourceId, resourceRecords) ?? []
+        parentRecords.push(...parentNodes)
+      }
+      const resourceList = uniqBy([...leafRecords, ...parentRecords], item => item.id)
+
+      const resourceIds = resourceList.map(o => o.id)
       const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
         model: 'resourceLocale',
         where: [
@@ -241,7 +249,7 @@ export const userEndpoints = {
           }
         ]
       })
-      const records = resourceRecords.map(item => {
+      const records = resourceList.map(item => {
         return {
           ...item,
           locales: localeRecords.filter(localeItem => {

@@ -15,6 +15,11 @@ export const roleResourceRelationListSpec = z.object({
   ...roleResourceRelationSpec.partial().shape
 })
 
+export const roleResourceRelationBatchSetSpec = z.object({
+  ...roleResourceRelationSpec.pick({ roleId: true }).shape,
+  resourceIds: z.array(z.string())
+})
+
 export type RoleResourceRelationSpec = z.infer<typeof roleResourceRelationSpec>
 
 export const getOneRoleResource = async (ctx: AuthContext, params: RoleResourceRelationSpec) => {

@@ -69,3 +69,38 @@ export const buildTree = <
 
   return result
 }
+
+export const getParentNodes = <
+  T extends Record<string | number, unknown>,
+  K extends keyof T & (number | string),
+  C extends number | string = 'children'
+>(
+  value: T[C],
+  tree: T[],
+  props?: {
+    parentId?: K
+    id?: K
+    children?: C
+  }
+): T[] => {
+  const { parentId = 'parentId', id = 'id' } = props ?? {}
+  const flatTree = flattenTree(tree, props)
+  let parentItem = flatTree.find(item => {
+    return item[id] === value
+  })
+
+  const parentNodes: T[] = []
+
+  while (parentItem) {
+    parentNodes.unshift(parentItem)
+    const pId = parentItem[parentId]
+    if (isEmpty(pId)) {
+      break
+    }
+    parentItem = flatTree.find(item => {
+      return item[id] === pId
+    })
+  }
+
+  return parentNodes
+}

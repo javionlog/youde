@@ -7,6 +7,7 @@ import { throwDataDuplicationError, throwDataNotFoundError, throwDbError } from 
 import type { RoleResourceRelationSpec } from '../services/role-resource-relation'
 import {
   getOneRoleResource,
+  roleResourceRelationBatchSetSpec,
   roleResourceRelationListSpec,
   roleResourceRelationSpec
 } from '../services/role-resource-relation'
@@ -107,7 +108,7 @@ export const roleResourceRelationEndpoints = {
       const { adapter } = context
       const { roleId, resourceId } = body
       await getOneRoleResource(context, body)
-      await adapter.deleteMany({
+      await adapter.delete({
         model: 'roleResourceRelation',
         where: [
           {
@@ -117,6 +118,77 @@ export const roleResourceRelationEndpoints = {
           { field: 'resourceId', value: resourceId }
         ]
       })
+      return json({})
+    }
+  ),
+  batchSetRoleResourceRelation: createAuthEndpoint(
+    `${basePath}/role-resource-relation/batch-set`,
+    {
+      method: 'POST',
+      body: roleResourceRelationBatchSetSpec,
+      metadata: {
+        openapi: {
+          description: 'Batch set role resource relation',
+          responses: {
+            '200': {
+              description: 'Success',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    async ctx => {
+      const { body, json, context } = ctx
+      const { adapter } = context
+      const { roleId, resourceIds } = body
+      const roleRow = await adapter.findOne({
+        model: 'role',
+        where: [{ field: 'id', value: roleId }]
+      })
+      if (!roleRow) {
+        throwDataNotFoundError('Role not found')
+      }
+      await adapter.deleteMany({
+        model: 'roleResourceRelation',
+        where: [
+          {
+            field: 'roleId',
+            value: roleId
+          }
+        ]
+      })
+
+      for (const id of resourceIds) {
+        const row = await adapter.findOne<RoleResourceRelationSpec>({
+          model: 'roleResourceRelation',
+          where: [
+            {
+              field: 'roleId',
+              value: roleId
+            },
+            { field: 'resourceId', value: id }
+          ]
+        })
+        if (row) {
+          throwDataDuplicationError()
+        }
+        try {
+          await adapter.create<RoleResourceRelationSpec>({
+            model: 'roleResourceRelation',
+            data: { roleId, resourceId: id }
+          })
+        } catch (err) {
+          throwDbError(err)
+        }
+      }
+
       return json({})
     }
   ),
