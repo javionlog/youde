@@ -83,18 +83,19 @@ export const getParentNodes = <
     parentId?: K
     id?: K
     children?: C
+    includeSelf?: boolean
   }
 ): T[] => {
-  const { parentId = 'parentId', id = 'id' } = props ?? {}
+  const { parentId = 'parentId', id = 'id', includeSelf = true } = props ?? {}
   const flatTree = flattenTree(tree, props)
   let parentItem = flatTree.find(item => {
     return item[id] === value
   })
 
-  const parentNodes: T[] = []
+  const result: T[] = []
 
   while (parentItem) {
-    parentNodes.unshift(parentItem)
+    result.unshift(parentItem)
     const pId = parentItem[parentId]
     if (isEmpty(pId)) {
       break
@@ -104,5 +105,9 @@ export const getParentNodes = <
     })
   }
 
-  return parentNodes
+  if (!includeSelf) {
+    result.pop()
+  }
+
+  return result
 }

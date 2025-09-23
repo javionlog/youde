@@ -22,20 +22,20 @@ const MenuNode = (props: MenuNodeProps) => {
   return (
     <MenuItem
       value={routerPath}
+      icon={icon}
       onClick={() => {
         if (location.pathname !== routerPath) {
           navigate(routerPath)
         }
       }}
-      icon={icon}
     >
       {menuName}
     </MenuItem>
   )
 }
 
-const MenuItems = (props: { menus: ResourceNode[] }) => {
-  const { menus } = props
+const MenuItems = (props: { menus: ResourceNode[]; level?: number }) => {
+  const { menus, level = 1 } = props
   const lang = camelCase(useLocaleStore(state => state.lang))
   return (
     <>
@@ -47,8 +47,8 @@ const MenuItems = (props: { menus: ResourceNode[] }) => {
             const menuLocale = item.locales?.find(o => o.field === 'name')
             const menuName = menuLocale?.[lang as 'enUs'] ?? item.name
             return (
-              <SubMenu key={item.id} title={menuName} value={item.id} icon={icon}>
-                <MenuItems menus={item.children} />
+              <SubMenu key={item.id} title={menuName} value={item.id} icon={icon} level={level}>
+                <MenuItems menus={item.children} level={level + 1} />
               </SubMenu>
             )
           }

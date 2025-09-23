@@ -1,5 +1,5 @@
 import type { Role } from '@/global/api'
-import { useForm } from '../../hooks/use-form'
+import { useForm } from './use-form'
 
 type Props = {
   mode: 'add' | 'edit'

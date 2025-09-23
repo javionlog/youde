@@ -32,7 +32,8 @@ export default defineConfig(({ mode }) => {
               'useMemo',
               'useReducer',
               'useRef',
-              'useState'
+              'useState',
+              'useImperativeHandle'
             ]
           },
           {

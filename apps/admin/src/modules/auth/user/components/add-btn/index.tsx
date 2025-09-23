@@ -1,4 +1,4 @@
-import { useForm } from '../../hooks/use-form'
+import { useForm } from './use-form'
 
 type Props = {
   refresh: () => void

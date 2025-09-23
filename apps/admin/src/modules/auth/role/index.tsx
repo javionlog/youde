@@ -2,7 +2,7 @@ import type { Role } from '@/global/api'
 import { postAuthRbacRoleList } from '@/global/api'
 import type { GlTableRef } from '@/global/components/gl-table'
 import { DeleteBtn } from './components/delete-btn'
-import { SetResourceBtn } from './components/set-resource-btn'
+import { MoreBtn } from './components/more-btn'
 import { UpsertBtn } from './components/upsert-btn'
 
 type SearchProps = Parameters<typeof GlSearch>[0]
@@ -72,7 +72,7 @@ export default () => {
           <Space>
             <UpsertBtn mode='edit' rowData={rowData} refresh={refresh} />
             <DeleteBtn rowData={rowData} refresh={refresh} />
-            <SetResourceBtn rowData={rowData} refresh={refresh} />
+            <MoreBtn rowData={rowData} refresh={refresh} />
           </Space>
         )
       }

@@ -1,6 +1,6 @@
 import { AddIcon, EditIcon } from 'tdesign-icons-react'
 import type { ResourceNode } from '@/global/api'
-import { useForm } from '../../hooks/use-form'
+import { useForm } from './use-form'
 
 type Props = {
   mode?: 'add' | 'edit'

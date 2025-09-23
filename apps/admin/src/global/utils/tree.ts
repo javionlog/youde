@@ -101,6 +101,44 @@ export const getParentNodes = <
       return item[id] === pId
     })
   }
+  parentNodes.pop()
 
   return parentNodes
+}
+
+export const getChildrenNodes = <
+  T extends Record<string | number, unknown>,
+  K extends keyof T & (number | string),
+  C extends number | string = 'children'
+>(
+  value: T[C],
+  tree: T[],
+  props?: {
+    parentId?: K
+    id?: K
+    children?: C
+    isDepthFirst?: boolean
+  }
+) => {
+  const { id = 'id', children = 'children', isDepthFirst = true } = props ?? {}
+  const stack = JSON.parse(JSON.stringify(tree)) as T[]
+  const result: T[] = []
+  while (stack.length > 0) {
+    const topItem = stack.shift()
+    if (topItem) {
+      if (topItem[id] === value) {
+        result.push(topItem)
+        const items = topItem[children]
+        if (Array.isArray(items)) {
+          if (isDepthFirst) {
+            stack.unshift(...items)
+          } else {
+            stack.push(...items)
+          }
+        }
+      }
+    }
+  }
+
+  return result
 }

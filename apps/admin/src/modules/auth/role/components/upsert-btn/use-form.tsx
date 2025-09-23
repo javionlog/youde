@@ -45,8 +45,12 @@ export const useForm = (props: Props) => {
   ] satisfies FormProps['items']
 
   const onOpen = async () => {
+    const defaultData: Partial<Role> = {
+      enabled: true
+    }
     form.reset()
     await Promise.resolve()
+    form.setFieldsValue(defaultData)
     if (mode === 'edit') {
       form.setFieldsValue(rowData!)
     }

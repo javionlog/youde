@@ -1,5 +1,4 @@
 import type { ReactNode, RefObject } from 'react'
-import { useImperativeHandle } from 'react'
 import type {
   FormProps,
   InternalFormInstance,

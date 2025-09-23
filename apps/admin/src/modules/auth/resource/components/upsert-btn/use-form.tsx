@@ -193,8 +193,16 @@ export const useForm = (props: Props) => {
   }
 
   const onOpen = async () => {
+    const defaultData: Partial<ResourceNode> = {
+      enabled: true,
+      isShow: true,
+      isCache: true,
+      isAffix: false,
+      isLink: false
+    }
     form.reset()
     await Promise.resolve()
+    form.setFieldsValue(defaultData)
     if (mode === 'edit') {
       form.setFieldsValue(rowData!)
     }

@@ -7,6 +7,7 @@ import { throwDbError } from '../errors'
 import { getSession } from '../services/base'
 import type { ResourceSpec } from '../services/resource'
 import type { ResourceLocaleSpec } from '../services/resource-locale'
+import type { RoleSpec } from '../services/role'
 import type { RoleResourceRelationSpec } from '../services/role-resource-relation'
 import type { UserSpec } from '../services/user'
 import { checkEmail, checkUsername, getOneUser, userListSpec, userSpec } from '../services/user'
@@ -215,11 +216,17 @@ export const userEndpoints = {
         model: 'userRoleRelation',
         where: [{ field: 'userId', value: session?.user.id! }]
       })
+      const roleRows = await adapter.findMany<RoleSpec>({
+        model: 'role',
+        where: [{ field: 'id', value: userRoleRelationRows.map(o => o.roleId), operator: 'in' }]
+      })
       const roleResourceRelationRows = await adapter.findMany<RoleResourceRelationSpec>({
         model: 'roleResourceRelation',
-        where: [{ field: 'roleId', value: userRoleRelationRows.map(o => o.roleId), operator: 'in' }]
+        where: [
+          { field: 'roleId', value: roleRows.filter(o => o.enabled).map(o => o.id), operator: 'in' }
+        ]
       })
-      const where: Where[] = [{ field: 'enabled', value: true }]
+      const where: Where[] = []
       const resourceRecords = await adapter.findMany<ResourceSpec>({
         model: 'resource',
         where,
@@ -236,7 +243,13 @@ export const userEndpoints = {
         const parentNodes = getParentNodes(item.resourceId, resourceRecords) ?? []
         parentRecords.push(...parentNodes)
       }
+
       const resourceList = uniqBy([...leafRecords, ...parentRecords], item => item.id)
+      // .filter(
+      //   item => {
+      //     return item.enabled && !disabledChildrenRecords.map(o => o.id).includes(item.id)
+      //   }
+      // )
 
       const resourceIds = resourceList.map(o => o.id)
       const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
