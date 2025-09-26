@@ -26,7 +26,7 @@ export const DeleteBtn = (props: Props) => {
       setConfirmLoading(true)
       const params = {
         id: rowData.id
-      } as PostAuthRbacResourceDeleteData['body']
+      } satisfies PostAuthRbacResourceDeleteData['body']
       await postAuthRbacResourceDelete({ body: params })
 
       MessagePlugin.success(t('message.operateSuccessful'))

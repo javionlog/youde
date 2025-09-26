@@ -196,6 +196,9 @@ export type GetArticleData = {
 };
 
 export type GetArticleResponses = {
+  /**
+   * Response for status 200
+   */
   200: {
     id: string;
     title: string;
@@ -204,6 +207,13 @@ export type GetArticleResponses = {
 };
 
 export type GetArticleResponse = GetArticleResponses[keyof GetArticleResponses];
+
+export type GetPublicData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/public/*";
+};
 
 export type SocialSignInData = {
   body: {
@@ -488,7 +498,7 @@ export type PostAuthSignUpEmailResponses = {
     /**
      * Authentication token for the session
      */
-    token?: string | null;
+    token?: string;
     user: {
       /**
        * The unique identifier of the user
@@ -505,7 +515,7 @@ export type PostAuthSignUpEmailResponses = {
       /**
        * The profile image URL of the user
        */
-      image?: string | null;
+      image?: string;
       /**
        * Whether the email has been verified
        */
@@ -595,12 +605,12 @@ export type PostAuthSignInEmailResponses = {
      * Session token
      */
     token: string;
-    url?: unknown | null;
+    url?: null;
     user: {
       id: string;
       email: string;
-      name?: string | null;
-      image?: string | null;
+      name?: string;
+      image?: string;
       emailVerified: boolean;
       createdAt: Date;
       updatedAt: Date;
@@ -858,7 +868,7 @@ export type PostAuthSendVerificationEmailData = {
     /**
      * The URL to use for email verification callback
      */
-    callbackURL?: string | null;
+    callbackURL?: string;
   };
   path?: never;
   query?: never;
@@ -1066,7 +1076,7 @@ export type PostAuthChangePasswordResponses = {
     /**
      * New session token if other sessions were revoked
      */
-    token?: string | null;
+    token?: string;
     user: {
       /**
        * The unique identifier of the user
@@ -1083,7 +1093,7 @@ export type PostAuthChangePasswordResponses = {
       /**
        * The profile image URL of the user
        */
-      image?: string | null;
+      image?: string;
       /**
        * Whether the email has been verified
        */
@@ -2711,8 +2721,8 @@ export type PostAuthRbacRoleListData = {
       field: string;
       direction: "asc" | "desc";
     };
-    name?: unknown;
-    enabled?: unknown;
+    name?: string | null;
+    enabled?: boolean | null;
   };
   path?: never;
   query?: never;
@@ -2777,19 +2787,19 @@ export type PostAuthRbacRoleListResponse =
 export type PostAuthRbacResourceCreateData = {
   body?: {
     name: string;
-    enabled?: unknown;
-    remark?: unknown;
-    sort?: unknown;
-    parentId?: unknown;
+    enabled?: boolean | null;
+    remark?: string | null;
+    sort?: number | null;
+    parentId?: string | null;
     type: "Menu" | "Page" | "Element";
-    path?: unknown;
-    activePath?: unknown;
-    component?: unknown;
-    icon?: unknown;
-    isLink?: unknown;
-    isCache?: unknown;
-    isAffix?: unknown;
-    isShow?: unknown;
+    path?: string | null;
+    activePath?: string | null;
+    component?: string | null;
+    icon?: string | null;
+    isLink?: boolean | null;
+    isCache?: boolean | null;
+    isAffix?: boolean | null;
+    isShow?: boolean | null;
   };
   path?: never;
   query?: never;
@@ -2851,19 +2861,19 @@ export type PostAuthRbacResourceCreateResponse =
 export type PostAuthRbacResourceUpdateData = {
   body?: {
     name: string;
-    enabled?: unknown;
-    remark?: unknown;
-    sort?: unknown;
-    parentId?: unknown;
+    enabled?: boolean | null;
+    remark?: string | null;
+    sort?: number | null;
+    parentId?: string | null;
     type: "Menu" | "Page" | "Element";
-    path?: unknown;
-    activePath?: unknown;
-    component?: unknown;
-    icon?: unknown;
-    isLink?: unknown;
-    isCache?: unknown;
-    isAffix?: unknown;
-    isShow?: unknown;
+    path?: string | null;
+    activePath?: string | null;
+    component?: string | null;
+    icon?: string | null;
+    isLink?: boolean | null;
+    isCache?: boolean | null;
+    isAffix?: boolean | null;
+    isShow?: boolean | null;
     id: string;
   };
   path?: never;
@@ -3106,19 +3116,19 @@ export type GetAuthRbacResourceGetResponses = {
    */
   200: {
     name: string;
-    enabled?: unknown;
-    remark?: unknown;
-    sort?: unknown;
-    parentId?: unknown;
+    enabled?: boolean | null;
+    remark?: string | null;
+    sort?: number | null;
+    parentId?: string | null;
     type: "Menu" | "Page" | "Element";
-    path?: unknown;
-    activePath?: unknown;
-    component?: unknown;
-    icon?: unknown;
-    isLink?: unknown;
-    isCache?: unknown;
-    isAffix?: unknown;
-    isShow?: unknown;
+    path?: string | null;
+    activePath?: string | null;
+    component?: string | null;
+    icon?: string | null;
+    isLink?: boolean | null;
+    isCache?: boolean | null;
+    isAffix?: boolean | null;
+    isShow?: boolean | null;
     id: string;
     locales: Array<{
       resourceId: string;
@@ -3140,7 +3150,7 @@ export type PostAuthRbacResourceListData = {
       field: string;
       direction: "asc" | "desc";
     };
-    name?: unknown;
+    name?: string | null;
   };
   path?: never;
   query?: never;
@@ -3196,19 +3206,19 @@ export type PostAuthRbacResourceListResponses = {
   200: {
     records: Array<{
       name: string;
-      enabled?: unknown;
-      remark?: unknown;
-      sort?: unknown;
-      parentId?: unknown;
+      enabled?: boolean | null;
+      remark?: string | null;
+      sort?: number | null;
+      parentId?: string | null;
       type: "Menu" | "Page" | "Element";
-      path?: unknown;
-      activePath?: unknown;
-      component?: unknown;
-      icon?: unknown;
-      isLink?: unknown;
-      isCache?: unknown;
-      isAffix?: unknown;
-      isShow?: unknown;
+      path?: string | null;
+      activePath?: string | null;
+      component?: string | null;
+      icon?: string | null;
+      isLink?: boolean | null;
+      isCache?: boolean | null;
+      isAffix?: boolean | null;
+      isShow?: boolean | null;
       id: string;
       locales: Array<{
         resourceId: string;
@@ -3548,7 +3558,7 @@ export type PostAuthRbacResourceLocaleListData = {
       field: string;
       direction: "asc" | "desc";
     };
-    field?: unknown;
+    field?: string | null;
   };
   path?: never;
   query?: never;
@@ -4063,7 +4073,7 @@ export type PostAuthRbacRoleResourceRelationListResponse =
 export type PostAuthRbacListUserRolesData = {
   body?: {
     userId: string;
-    roleName?: unknown;
+    roleName?: string | null;
     sortBy?: {
       field: string;
       direction: "asc" | "desc";
@@ -4134,7 +4144,7 @@ export type PostAuthRbacListUserRolesResponse =
 export type PostAuthRbacListUserResourcesData = {
   body?: {
     userId: string;
-    resourceName?: unknown;
+    resourceName?: string | null;
     resourceType?: "Menu" | "Page" | "Element";
     sortBy?: {
       field: string;
@@ -4197,19 +4207,19 @@ export type PostAuthRbacListUserResourcesResponses = {
   200: {
     records: Array<{
       name: string;
-      enabled?: unknown;
-      remark?: unknown;
-      sort?: unknown;
-      parentId?: unknown;
+      enabled?: boolean | null;
+      remark?: string | null;
+      sort?: number | null;
+      parentId?: string | null;
       type: "Menu" | "Page" | "Element";
-      path?: unknown;
-      activePath?: unknown;
-      component?: unknown;
-      icon?: unknown;
-      isLink?: unknown;
-      isCache?: unknown;
-      isAffix?: unknown;
-      isShow?: unknown;
+      path?: string | null;
+      activePath?: string | null;
+      component?: string | null;
+      icon?: string | null;
+      isLink?: boolean | null;
+      isCache?: boolean | null;
+      isAffix?: boolean | null;
+      isShow?: boolean | null;
       id: string;
       locales: Array<{
         resourceId: string;
@@ -4294,10 +4304,10 @@ export type PostAuthRbacListUserRolesWithGrantData = {
       field: string;
       direction: "asc" | "desc";
     };
-    name?: unknown;
-    enabled?: unknown;
+    name?: string | null;
+    enabled?: boolean | null;
     userId: string;
-    grant?: unknown;
+    grant?: boolean | null;
   };
   path?: never;
   query?: never;
@@ -4353,10 +4363,10 @@ export type PostAuthRbacListUserRolesWithGrantResponses = {
   200: {
     records: Array<{
       name: string;
-      enabled?: unknown;
-      remark?: unknown;
+      enabled?: boolean | null;
+      remark?: string | null;
       id: string;
-      grant?: unknown;
+      grant?: boolean | null;
     }>;
     total: number;
   };
@@ -4368,7 +4378,7 @@ export type PostAuthRbacListUserRolesWithGrantResponse =
 export type PostAuthRbacListRoleUsersData = {
   body?: {
     roleId: string;
-    username?: unknown;
+    username?: string | null;
     sortBy?: {
       field: string;
       direction: "asc" | "desc";
@@ -4439,7 +4449,7 @@ export type PostAuthRbacListRoleUsersResponse =
 export type PostAuthRbacListRoleResourcesData = {
   body?: {
     roleId: string;
-    resourceName?: unknown;
+    resourceName?: string | null;
     sortBy?: {
       field: string;
       direction: "asc" | "desc";
@@ -4501,19 +4511,19 @@ export type PostAuthRbacListRoleResourcesResponses = {
   200: {
     records: Array<{
       name: string;
-      enabled?: unknown;
-      remark?: unknown;
-      sort?: unknown;
-      parentId?: unknown;
+      enabled?: boolean | null;
+      remark?: string | null;
+      sort?: number | null;
+      parentId?: string | null;
       type: "Menu" | "Page" | "Element";
-      path?: unknown;
-      activePath?: unknown;
-      component?: unknown;
-      icon?: unknown;
-      isLink?: unknown;
-      isCache?: unknown;
-      isAffix?: unknown;
-      isShow?: unknown;
+      path?: string | null;
+      activePath?: string | null;
+      component?: string | null;
+      icon?: string | null;
+      isLink?: boolean | null;
+      isCache?: boolean | null;
+      isAffix?: boolean | null;
+      isShow?: boolean | null;
       id: string;
       locales: Array<{
         resourceId: string;
@@ -4593,7 +4603,7 @@ export type PostAuthRbacListRoleResourceTreeResponse =
 export type PostAuthRbacListResourceRolesData = {
   body?: {
     resourceId: string;
-    roleName?: unknown;
+    roleName?: string | null;
     sortBy?: {
       field: string;
       direction: "asc" | "desc";
@@ -4664,7 +4674,7 @@ export type PostAuthRbacListResourceRolesResponse =
 export type PostAuthRbacListResourceUsersData = {
   body?: {
     resourceId: string;
-    username?: unknown;
+    username?: string | null;
     sortBy?: {
       field: string;
       direction: "asc" | "desc";
@@ -4733,7 +4743,9 @@ export type PostAuthRbacListResourceUsersResponse =
   PostAuthRbacListResourceUsersResponses[keyof PostAuthRbacListResourceUsersResponses];
 
 export type PostAuthRbacListResourceTreeData = {
-  body?: unknown;
+  body?: {
+    enabled?: boolean | null;
+  } | null;
   path?: never;
   query?: never;
   url: "/auth/rbac/list-resource-tree";
@@ -4927,9 +4939,9 @@ export type PostAuthRbacUserListData = {
       field: string;
       direction: "asc" | "desc";
     };
-    username?: unknown;
-    displayUsername?: unknown;
-    email?: unknown;
+    username?: string | null;
+    displayUsername?: string | null;
+    email?: string | null;
   };
   path?: never;
   query?: never;

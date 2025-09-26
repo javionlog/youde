@@ -50,6 +50,7 @@ import type {
   GetAuthVerifyEmailData,
   GetAuthVerifyEmailErrors,
   GetAuthVerifyEmailResponses,
+  GetPublicData,
   PostAuthAccountInfoData,
   PostAuthAccountInfoErrors,
   PostAuthAccountInfoResponses,
@@ -251,6 +252,15 @@ export const getArticle = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: "/article",
+    ...options,
+  });
+};
+
+export const getPublic = <ThrowOnError extends boolean = false>(
+  options?: Options<GetPublicData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
+    url: "/public/*",
     ...options,
   });
 };

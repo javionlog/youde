@@ -22,6 +22,7 @@ const DialogBody = (props: DialogBodyProps) => {
 
   const { t } = useTranslation()
   const ref = useRef<GlTableRef>(null)
+  const [loading, setLoading] = useState(false)
 
   const columns = [
     {
@@ -36,6 +37,7 @@ const DialogBody = (props: DialogBodyProps) => {
               editedRow: PostAuthRbacListUserRolesWithGrantResponse['records'][number]
             }) => {
               try {
+                setLoading(true)
                 const { id, grant } = context.editedRow
                 const params: PostAuthRbacUserRoleRelationCreateData['body'] = {
                   userId: rowData.id,
@@ -46,8 +48,10 @@ const DialogBody = (props: DialogBodyProps) => {
                 } else {
                   await postAuthRbacUserRoleRelationDelete({ body: params })
                 }
-              } finally {
                 ref.current?.fetch()
+                MessagePlugin.success(t('message.operateSuccessful'))
+              } finally {
+                setLoading(false)
               }
             }
           }
@@ -88,14 +92,16 @@ const DialogBody = (props: DialogBodyProps) => {
   ] satisfies GlTalbeColumns<PostAuthRbacListUserRolesWithGrantResponse['records'][number]>
 
   return (
-    <GlTable
-      ref={ref}
-      rowKey='id'
-      columns={columns}
-      maxHeight='100%'
-      params={{ userId: rowData.id, enabled: true }}
-      api={postAuthRbacListUserRolesWithGrant}
-    />
+    <Loading loading={loading}>
+      <GlTable
+        ref={ref}
+        rowKey='id'
+        columns={columns}
+        maxHeight='100%'
+        params={{ userId: rowData.id, enabled: true }}
+        api={postAuthRbacListUserRolesWithGrant}
+      />
+    </Loading>
   )
 }
 

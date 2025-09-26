@@ -61,7 +61,12 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
         })
       ) as any
       const spec = {
-        ...mainSpec,
+        openapi: '3.1.0',
+        info: {
+          title: 'Youde API Documentation',
+          description: 'Youde API Documentation',
+          version: '0.0.0'
+        },
         components: {
           ...mainSpec.components,
           schemas: {
@@ -126,7 +131,12 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
         })
       ) as any
       const spec = {
-        ...mainSpec,
+        openapi: '3.1.0',
+        info: {
+          title: 'Youde API Documentation',
+          description: 'Youde API Documentation',
+          version: '0.0.0'
+        },
         components: {
           ...mainSpec.components,
           schemas: {

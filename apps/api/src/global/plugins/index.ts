@@ -1,5 +1,5 @@
+import { openapi as openapiPlugin } from '@elysiajs/openapi'
 import { staticPlugin } from '@elysiajs/static'
-import { swagger } from '@elysiajs/swagger'
 import { baseController } from '@/global/controllers'
 import openapi from './openapi'
 
@@ -11,9 +11,11 @@ const app = baseController
     })
   )
   .use(
-    swagger({
+    openapiPlugin({
       path: '/scalar',
-      scalarCDN: '/public/scalar/standalone.js'
+      scalar: {
+        cdn: '/public/scalar/standalone.js'
+      }
     })
   )
   .use(openapi)
