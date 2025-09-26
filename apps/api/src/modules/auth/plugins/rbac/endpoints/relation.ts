@@ -10,8 +10,10 @@ import { resourceClientSpec } from '../services/resource'
 import type { ResourceLocaleSpec } from '../services/resource-locale'
 import { resourceLocaleClientSpec } from '../services/resource-locale'
 import type { RoleSpec } from '../services/role'
+import { roleClientSpec, roleListSpec } from '../services/role'
 import type { RoleResourceRelationSpec } from '../services/role-resource-relation'
 import type { UserSpec } from '../services/user'
+import { getOneUserResourceTree } from '../services/user'
 import type { UserRoleRelationSpec } from '../services/user-role-relation'
 import { idSpec, pageSpec } from '../specs'
 
@@ -263,50 +265,128 @@ export const relationEndpoints = {
     },
     async ctx => {
       const { body, json, context } = ctx
-      const { adapter } = context
       const { userId } = body
+      return json(getOneUserResourceTree(context, userId))
+    }
+  ),
+  listUserRolesWithGrant: createAuthEndpoint(
+    `${basePath}/list-user-roles-with-grant`,
+    {
+      method: 'POST',
+      body: z.object({
+        ...roleListSpec.shape,
+        userId: z.string(),
+        grant: z.boolean().nullish()
+      }),
+      metadata: {
+        openapi: {
+          description: 'List roles with grant',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: getOpenAPISchema(
+                  z.object({
+                    ...roleListSpec.shape,
+                    userId: z.string(),
+                    grant: z.boolean().nullish()
+                  })
+                )
+              }
+            }
+          },
+          responses: {
+            '200': {
+              description: 'Success',
+              content: {
+                'application/json': {
+                  schema: getOpenAPISchema(
+                    z.object({
+                      records: z.array(
+                        z.object({
+                          ...roleClientSpec.shape,
+                          ...idSpec.shape,
+                          grant: z.boolean().nullish()
+                        })
+                      ),
+                      total: z.number()
+                    })
+                  )
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    async ctx => {
+      const { body, json, context } = ctx
+      const { adapter } = context
+      const { name, enabled, sortBy, userId, grant, page, pageSize } = body
+      let offset: number | undefined
+      let limit: number | undefined
+      if (!isEmpty(page) && !isEmpty(pageSize)) {
+        offset = (page - 1) * pageSize
+        limit = pageSize
+      }
+      const where: Where[] = []
+      if (!isEmpty(name)) {
+        where.push({
+          field: 'name',
+          value: name,
+          operator: 'contains'
+        })
+      }
+      if (!isEmpty(enabled)) {
+        where.push({
+          field: 'enabled',
+          value: enabled
+        })
+      }
       const userRoleRelationRows = await adapter.findMany<UserRoleRelationSpec>({
         model: 'userRoleRelation',
         where: [{ field: 'userId', value: userId }]
       })
-      const roleResourceRelationRows = await adapter.findMany<RoleResourceRelationSpec>({
-        model: 'roleResourceRelation',
-        where: [{ field: 'roleId', value: userRoleRelationRows.map(o => o.roleId), operator: 'in' }]
-      })
-      const where: Where[] = [
-        { field: 'id', value: roleResourceRelationRows.map(row => row.resourceId), operator: 'in' }
-      ]
-      const resourceRecords = await adapter.findMany<ResourceSpec>({
-        model: 'resource',
+      const roleRecords = await adapter.findMany<RoleSpec>({
+        model: 'role',
         where,
-        sortBy: {
-          field: 'sort',
-          direction: 'asc'
-        }
+        offset,
+        limit,
+        sortBy
       })
-      const resourceIds = resourceRecords.map(o => o.id)
-      const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
-        model: 'resourceLocale',
-        where: [
-          {
-            field: 'resourceId',
-            value: resourceIds,
-            operator: 'in'
+      const records = roleRecords
+        .map(item => {
+          return {
+            ...item,
+            grant: userRoleRelationRows.map(o => o.roleId).includes(item.id)
           }
-        ]
-      })
-      const records = resourceRecords.map(item => {
+        })
+        .filter(item => {
+          if (isEmpty(grant)) {
+            return true
+          }
+          return item.grant === grant
+        })
+      const totalRecords = (
+        await adapter.findMany<RoleSpec>({
+          model: 'role',
+          where
+        })
+      ).map(item => {
         return {
           ...item,
-          locales: localeRecords.filter(localeItem => {
-            return item.id === localeItem.resourceId
-          })
+          grant: userRoleRelationRows.map(o => o.roleId).includes(item.id)
         }
-      }) as (ResourceSpec & {
-        locales: ResourceLocaleSpec[]
-      })[]
-      const tree = buildTree(records)
-      return json(tree)
+      })
+      const total = totalRecords.filter(item => {
+        if (isEmpty(grant)) {
+          return true
+        }
+        return item.grant === grant
+      }).length
+      return json({
+        records,
+        total
+      })
     }
   ),
   listRoleUsers: createAuthEndpoint(

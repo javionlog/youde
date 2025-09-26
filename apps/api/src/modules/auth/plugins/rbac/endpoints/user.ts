@@ -1,17 +1,18 @@
 import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
-import { uniqBy } from 'es-toolkit'
-import { buildTree, getOpenAPISchema, getParentNodes, isEmpty } from '@/global/utils'
+import { getOpenAPISchema, isEmpty } from '@/global/utils'
 import { basePath } from '../config'
 import { throwDbError } from '../errors'
 import { getSession } from '../services/base'
-import type { ResourceSpec } from '../services/resource'
-import type { ResourceLocaleSpec } from '../services/resource-locale'
-import type { RoleSpec } from '../services/role'
-import type { RoleResourceRelationSpec } from '../services/role-resource-relation'
 import type { UserSpec } from '../services/user'
-import { checkEmail, checkUsername, getOneUser, userListSpec, userSpec } from '../services/user'
-import type { UserRoleRelationSpec } from '../services/user-role-relation'
+import {
+  checkEmail,
+  checkUsername,
+  getOneUser,
+  getOneUserResourceTree,
+  userListSpec,
+  userSpec
+} from '../services/user'
 import { idSpec } from '../specs'
 
 export const userEndpoints = {
@@ -211,69 +212,7 @@ export const userEndpoints = {
     async ctx => {
       const session = await getSession(ctx)
       const { json, context } = ctx
-      const { adapter } = context
-      const userRoleRelationRows = await adapter.findMany<UserRoleRelationSpec>({
-        model: 'userRoleRelation',
-        where: [{ field: 'userId', value: session?.user.id! }]
-      })
-      const roleRows = await adapter.findMany<RoleSpec>({
-        model: 'role',
-        where: [{ field: 'id', value: userRoleRelationRows.map(o => o.roleId), operator: 'in' }]
-      })
-      const roleResourceRelationRows = await adapter.findMany<RoleResourceRelationSpec>({
-        model: 'roleResourceRelation',
-        where: [
-          { field: 'roleId', value: roleRows.filter(o => o.enabled).map(o => o.id), operator: 'in' }
-        ]
-      })
-      const where: Where[] = []
-      const resourceRecords = await adapter.findMany<ResourceSpec>({
-        model: 'resource',
-        where,
-        sortBy: {
-          field: 'sort',
-          direction: 'asc'
-        }
-      })
-      const leafRecords = resourceRecords.filter(o =>
-        roleResourceRelationRows.map(item => item.resourceId).includes(o.id)
-      )
-      const parentRecords: ResourceSpec[] = []
-      for (const item of roleResourceRelationRows) {
-        const parentNodes = getParentNodes(item.resourceId, resourceRecords) ?? []
-        parentRecords.push(...parentNodes)
-      }
-
-      const resourceList = uniqBy([...leafRecords, ...parentRecords], item => item.id)
-      // .filter(
-      //   item => {
-      //     return item.enabled && !disabledChildrenRecords.map(o => o.id).includes(item.id)
-      //   }
-      // )
-
-      const resourceIds = resourceList.map(o => o.id)
-      const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
-        model: 'resourceLocale',
-        where: [
-          {
-            field: 'resourceId',
-            value: resourceIds,
-            operator: 'in'
-          }
-        ]
-      })
-      const records = resourceList.map(item => {
-        return {
-          ...item,
-          locales: localeRecords.filter(localeItem => {
-            return item.id === localeItem.resourceId
-          })
-        }
-      }) as (ResourceSpec & {
-        locales: ResourceLocaleSpec[]
-      })[]
-      const tree = buildTree(records)
-      return json(tree)
+      return json(getOneUserResourceTree(context, session?.user.id!))
     }
   )
 }

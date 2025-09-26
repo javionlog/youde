@@ -1,7 +1,7 @@
 import type { PostAuthRbacUserDeleteData, User } from '@/global/api'
 import { postAuthRbacUserDelete } from '@/global/api'
 
-type Props = {
+interface Props {
   rowData: User
   refresh: () => void
 }
@@ -45,7 +45,6 @@ export const DeleteBtn = (props: Props) => {
         header={t('action.delete')}
         visible={visible}
         confirmLoading={confirmLoading}
-        cancelBtn={{ content: t('action.cancel'), disabled: confirmLoading }}
         onClose={onClose}
         onConfirm={onConfirm}
       >

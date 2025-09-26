@@ -2,7 +2,7 @@ import { DeleteIcon } from 'tdesign-icons-react'
 import type { PostAuthRbacResourceDeleteData, ResourceNode } from '@/global/api'
 import { postAuthRbacResourceDelete } from '@/global/api'
 
-type Props = {
+interface Props {
   rowData: ResourceNode
   refresh: () => void
 }
@@ -44,7 +44,6 @@ export const DeleteBtn = (props: Props) => {
         header={t('action.delete')}
         visible={visible}
         confirmLoading={confirmLoading}
-        cancelBtn={{ content: t('action.cancel'), disabled: confirmLoading }}
         onClose={onClose}
         onConfirm={onConfirm}
       >

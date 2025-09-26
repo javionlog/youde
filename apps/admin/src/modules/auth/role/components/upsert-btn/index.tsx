@@ -1,7 +1,7 @@
 import type { Role } from '@/global/api'
 import { useForm } from './use-form'
 
-type Props = {
+interface Props {
   mode: 'add' | 'edit'
   rowData?: Role
   refresh: () => void
@@ -25,7 +25,6 @@ export const UpsertBtn = (props: Props) => {
         header={text}
         visible={visible}
         confirmLoading={confirmLoading}
-        cancelBtn={{ content: t('action.cancel'), disabled: confirmLoading }}
         onClose={onClose}
         onConfirm={onConfirm}
       >

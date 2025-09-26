@@ -56,6 +56,7 @@ export default () => {
                 </Space>
               )
             }}
+            expandAll
           />
         </div>
       ) : null}

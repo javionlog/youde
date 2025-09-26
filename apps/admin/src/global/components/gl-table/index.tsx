@@ -4,7 +4,8 @@ import type {
   InternalFormInstance,
   PaginationProps,
   PrimaryTableRef,
-  TableProps
+  TableProps,
+  TableRowData
 } from 'tdesign-react'
 
 type SearchProps = Parameters<typeof GlSearch>[0]
@@ -20,7 +21,7 @@ export type GlTableRef = PrimaryTableRef & {
   form: InternalFormInstance
 }
 
-interface Props extends StyledProps, TableProps {
+interface Props<T extends TableRowData> extends StyledProps, TableProps<T> {
   search?: SearchProps
   params?: Record<PropertyKey, any>
   api?: (...args: any[]) => Promise<any>
@@ -28,7 +29,7 @@ interface Props extends StyledProps, TableProps {
   ref?: RefObject<GlTableRef | null>
 }
 
-export const GlTable = (props: Props) => {
+export const GlTable = <T extends TableRowData>(props: Props<T>) => {
   const {
     className,
     style,
@@ -57,26 +58,26 @@ export const GlTable = (props: Props) => {
     afterHeight: 40
   })
 
-  const fetch = () => {
+  const fetch = async () => {
     if (api) {
       if (search) {
         form.submit()
       } else {
-        const finalParams = {
-          ...params,
-          page: getCurrent(),
-          pageSize: getPageSize()
+        try {
+          const finalParams = {
+            ...params,
+            page: getCurrent(),
+            pageSize: getPageSize()
+          }
+          setLoading(true)
+          const { records, total } = await api({ body: finalParams }).then(
+            (r: FetchResponseData) => r.data
+          )
+          setTableData(records)
+          setTotal(total)
+        } finally {
+          setLoading(false)
         }
-        setLoading(true)
-        api({ body: finalParams })
-          .then((r: FetchResponseData) => {
-            const { records, total } = r.data
-            setTableData(records)
-            setTotal(total)
-          })
-          .finally(() => {
-            setLoading(false)
-          })
       }
     }
   }
@@ -93,7 +94,7 @@ export const GlTable = (props: Props) => {
     }
   })
 
-  const tableColumns = (columns as GlTalbeColumns)?.map(item => {
+  const tableColumns = (columns as GlTalbeColumns<T>)?.map(item => {
     return {
       ellipsis: true,
       cell: ({ row, col }) => {
@@ -110,7 +111,7 @@ export const GlTable = (props: Props) => {
         return row[col.colKey!]
       },
       ...item
-    } satisfies GlTalbeColumns[number] & GlTableExtendColumn
+    } satisfies typeof item
   })
 
   const searchBtn = {
@@ -132,15 +133,15 @@ export const GlTable = (props: Props) => {
 
   const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
     if (validateResult === true) {
-      const finalParams = {
-        ...params,
-        ...form.getFieldsValue(true),
-        page: getCurrent(),
-        pageSize: getPageSize()
-      }
       if (api) {
-        setLoading(true)
         try {
+          const finalParams = {
+            ...params,
+            ...form.getFieldsValue(true),
+            page: getCurrent(),
+            pageSize: getPageSize()
+          }
+          setLoading(true)
           const { records, total } = await api({ body: finalParams }).then(
             (r: FetchResponseData) => r.data
           )

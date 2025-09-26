@@ -4,7 +4,7 @@ import { postAuthRbacRoleCreate, postAuthRbacRoleUpdate } from '@/global/api'
 
 type FormProps = Parameters<typeof GlForm>[0]
 
-type Props = {
+interface Props {
   mode: 'add' | 'edit'
   rowData?: Role
   refresh: () => void

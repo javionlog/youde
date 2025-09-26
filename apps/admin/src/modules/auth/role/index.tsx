@@ -1,6 +1,5 @@
 import type { Role } from '@/global/api'
 import { postAuthRbacRoleList } from '@/global/api'
-import type { GlTableRef } from '@/global/components/gl-table'
 import { DeleteBtn } from './components/delete-btn'
 import { MoreBtn } from './components/more-btn'
 import { UpsertBtn } from './components/upsert-btn'
@@ -67,17 +66,16 @@ export default () => {
       title: t('label.operation'),
       fixed: 'right',
       cell: ({ row }) => {
-        const rowData = row as Role
         return (
           <Space>
-            <UpsertBtn mode='edit' rowData={rowData} refresh={refresh} />
-            <DeleteBtn rowData={rowData} refresh={refresh} />
-            <MoreBtn rowData={rowData} refresh={refresh} />
+            <UpsertBtn mode='edit' rowData={row} refresh={refresh} />
+            <DeleteBtn rowData={row} refresh={refresh} />
+            <MoreBtn rowData={row} refresh={refresh} />
           </Space>
         )
       }
     }
-  ] satisfies GlTalbeColumns
+  ] satisfies GlTalbeColumns<Role>
 
   const refresh = () => {
     ref.current?.fetch()

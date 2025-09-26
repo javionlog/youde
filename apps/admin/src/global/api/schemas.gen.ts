@@ -410,3 +410,162 @@ export const ResourceNodeSchema = {
   },
   required: ["id", "name", "type"],
 } as const;
+
+export const RoleWritableSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+    },
+    name: {
+      type: "string",
+    },
+    enabled: {
+      type: "boolean",
+    },
+    remark: {
+      type: "string",
+    },
+  },
+  required: ["id", "name"],
+} as const;
+
+export const ResourceWritableSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+    },
+    name: {
+      type: "string",
+    },
+    enabled: {
+      type: "boolean",
+    },
+    remark: {
+      type: "string",
+    },
+    sort: {
+      type: "number",
+    },
+    parentId: {
+      type: "string",
+    },
+    type: {
+      type: "string",
+      enum: ["Menu", "Page", "Element"],
+    },
+    path: {
+      type: "string",
+    },
+    activePath: {
+      type: "string",
+    },
+    component: {
+      type: "string",
+    },
+    icon: {
+      type: "string",
+    },
+    isLink: {
+      type: "boolean",
+    },
+    isCache: {
+      type: "boolean",
+    },
+    isAffix: {
+      type: "boolean",
+    },
+    isShow: {
+      type: "boolean",
+    },
+  },
+  required: ["id", "name", "type"],
+} as const;
+
+export const ResourceLocaleWritableSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+    },
+    resourceId: {
+      type: "string",
+    },
+    field: {
+      type: "string",
+    },
+    enUs: {
+      type: "string",
+    },
+    zhCn: {
+      type: "string",
+    },
+  },
+  required: ["id", "resourceId", "field", "enUs", "zhCn"],
+} as const;
+
+export const ResourceNodeWritableSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+    },
+    name: {
+      type: "string",
+    },
+    enabled: {
+      type: "boolean",
+    },
+    remark: {
+      type: "string",
+    },
+    sort: {
+      type: "number",
+    },
+    parentId: {
+      type: "string",
+    },
+    type: {
+      type: "string",
+      enum: ["Menu", "Page", "Element"],
+    },
+    path: {
+      type: "string",
+    },
+    activePath: {
+      type: "string",
+    },
+    component: {
+      type: "string",
+    },
+    icon: {
+      type: "string",
+    },
+    isLink: {
+      type: "boolean",
+    },
+    isCache: {
+      type: "boolean",
+    },
+    isAffix: {
+      type: "boolean",
+    },
+    isShow: {
+      type: "boolean",
+    },
+    locales: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ResourceLocaleWritable",
+      },
+    },
+    children: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ResourceNodeWritable",
+      },
+    },
+  },
+  required: ["id", "name", "type"],
+} as const;

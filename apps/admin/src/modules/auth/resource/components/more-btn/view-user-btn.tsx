@@ -1,7 +1,7 @@
 import type { ResourceNode } from '@/global/api'
 import { postAuthRbacListResourceUsers } from '@/global/api'
 
-type Props = {
+interface Props {
   rowData: ResourceNode
 }
 
@@ -41,7 +41,7 @@ export const ViewUserBtn = (props: Props) => {
       title: t('label.updatedAt'),
       cellRenderType: 'datetime'
     }
-  ] satisfies GlTalbeColumns
+  ] satisfies GlTalbeColumns<ResourceNode>
 
   const onOpen = () => {
     const dialogInstance = GlDialogPlugin({

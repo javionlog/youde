@@ -1,7 +1,7 @@
 import type { Role } from '@/global/api'
 import { postAuthRbacListRoleUsers } from '@/global/api'
 
-type Props = {
+interface Props {
   rowData: Role
 }
 
@@ -41,7 +41,7 @@ export const ViewUserBtn = (props: Props) => {
       title: t('label.updatedAt'),
       cellRenderType: 'datetime'
     }
-  ] satisfies GlTalbeColumns
+  ] satisfies GlTalbeColumns<Role>
 
   const onOpen = () => {
     const dialogInstance = GlDialogPlugin({

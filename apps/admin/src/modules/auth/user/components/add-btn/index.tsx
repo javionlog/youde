@@ -1,6 +1,6 @@
 import { useForm } from './use-form'
 
-type Props = {
+interface Props {
   refresh: () => void
 }
 
@@ -15,7 +15,6 @@ export const AddBtn = (props: Props) => {
         header={t('action.add')}
         visible={visible}
         confirmLoading={confirmLoading}
-        cancelBtn={{ content: t('action.cancel'), disabled: confirmLoading }}
         onClose={onClose}
         onConfirm={onConfirm}
       >

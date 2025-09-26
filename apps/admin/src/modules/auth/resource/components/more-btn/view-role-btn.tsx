@@ -1,7 +1,7 @@
 import type { ResourceNode } from '@/global/api'
 import { postAuthRbacListResourceRoles } from '@/global/api'
 
-type Props = {
+interface Props {
   rowData: ResourceNode
 }
 
@@ -41,7 +41,7 @@ export const ViewRoleBtn = (props: Props) => {
       colKey: 'updatedBy',
       title: t('label.updatedBy')
     }
-  ] satisfies GlTalbeColumns
+  ] satisfies GlTalbeColumns<ResourceNode>
 
   const onOpen = () => {
     const dialogInstance = GlDialogPlugin({

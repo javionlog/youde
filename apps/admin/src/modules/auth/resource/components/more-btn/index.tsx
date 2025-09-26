@@ -3,7 +3,7 @@ import type { ResourceNode } from '@/global/api'
 import { ViewRoleBtn } from './view-role-btn'
 import { ViewUserBtn } from './view-user-btn'
 
-type Props = {
+interface Props {
   rowData: ResourceNode
 }
 

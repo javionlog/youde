@@ -1,8 +1,8 @@
 import type { User } from '@/global/api'
 import { postAuthRbacUserList } from '@/global/api'
-import type { GlTableRef } from '@/global/components/gl-table'
 import { AddBtn } from './components/add-btn'
 import { DeleteBtn } from './components/delete-btn'
+import { MoreBtn } from './components/more-btn'
 
 type SearchProps = Parameters<typeof GlSearch>[0]
 
@@ -73,15 +73,15 @@ export default () => {
       title: t('label.operation'),
       fixed: 'right',
       cell: ({ row }) => {
-        const rowData = row as User
         return (
           <Space>
-            <DeleteBtn rowData={rowData} refresh={refresh} />
+            <DeleteBtn rowData={row} refresh={refresh} />
+            <MoreBtn rowData={row} refresh={refresh} />
           </Space>
         )
       }
     }
-  ] satisfies GlTalbeColumns
+  ] satisfies GlTalbeColumns<User>
 
   const refresh = () => {
     ref.current?.fetch()

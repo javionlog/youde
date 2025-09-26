@@ -2,7 +2,7 @@ import { AddIcon, EditIcon } from 'tdesign-icons-react'
 import type { ResourceNode } from '@/global/api'
 import { useForm } from './use-form'
 
-type Props = {
+interface Props {
   mode?: 'add' | 'edit'
   rowData?: ResourceNode
   refresh: () => void
@@ -25,7 +25,6 @@ export const UpsertBtn = (props: Props) => {
         header={t(mode === 'edit' ? 'action.edit' : 'action.add')}
         visible={visible}
         confirmLoading={confirmLoading}
-        cancelBtn={{ content: t('action.cancel'), disabled: confirmLoading }}
         onClose={onClose}
         onConfirm={onConfirm}
       >

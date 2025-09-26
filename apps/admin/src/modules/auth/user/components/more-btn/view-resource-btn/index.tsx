@@ -1,12 +1,11 @@
-import type { Role } from '@/global/api'
+import type { User } from '@/global/api'
 import { useTree } from './use-tree'
 
 interface Props {
-  rowData: Role
-  refresh: () => void
+  rowData: User
 }
 
-export const SetResourceBtn = (props: Props) => {
+export const ViewResourceBtn = (props: Props) => {
   const { text, onOpen } = useTree(props)
 
   return (

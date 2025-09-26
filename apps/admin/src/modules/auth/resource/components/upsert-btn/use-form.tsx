@@ -8,7 +8,7 @@ import { postAuthRbacResourceCreate, postAuthRbacResourceUpdate } from '@/global
 
 type FormProps = Parameters<typeof GlForm>[0]
 
-type Props = {
+interface Props {
   mode?: 'add' | 'edit'
   rowData?: ResourceNode
   refresh: () => void

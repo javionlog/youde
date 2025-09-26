@@ -7,18 +7,18 @@ import {
   postAuthRbacRoleResourceRelationList
 } from '@/global/api'
 
-type Props = {
+interface Props {
   rowData: Role
   refresh: () => void
 }
 
-type DialogBodyProps = {
+interface DialogBodyProps {
   ref?: RefObject<DialogBodyInstance | null>
   dialogRef: RefObject<DialogInstance | null>
   rowData: Role
 }
 
-type DialogBodyInstance = {
+interface DialogBodyInstance {
   getData: () => {
     resourceIds: TreeNodeValue[]
   }
@@ -85,6 +85,7 @@ const DialogBody = (props: DialogBodyProps) => {
         keys={{ value: 'id', children: 'children' }}
         label={getLabel}
         checkable
+        expandAll
         onChange={onChange}
       />
     </Loading>
