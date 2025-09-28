@@ -186,28 +186,6 @@ export type ResourceNodeWritable = {
   children?: Array<ResourceNodeWritable>;
 };
 
-export type GetArticleData = {
-  body?: never;
-  path?: never;
-  query: {
-    id: string;
-  };
-  url: "/article";
-};
-
-export type GetArticleResponses = {
-  /**
-   * Response for status 200
-   */
-  200: {
-    id: string;
-    title: string;
-    content: string;
-  };
-};
-
-export type GetArticleResponse = GetArticleResponses[keyof GetArticleResponses];
-
 export type GetPublicData = {
   body?: never;
   path?: never;

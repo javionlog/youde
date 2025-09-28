@@ -28,6 +28,7 @@ const DialogBody = (props: DialogBodyProps) => {
     {
       colKey: 'grant',
       title: t('common.action.grant', { ns: 'auth' }),
+      fixed: 'left',
       edit: {
         component: Switch,
         keepEditMode: true,

@@ -15,8 +15,6 @@ import {
   postAuthSignUpEmailResponseTransformer,
 } from "./transformers.gen";
 import type {
-  GetArticleData,
-  GetArticleResponses,
   GetAuthDeleteUserCallbackData,
   GetAuthDeleteUserCallbackErrors,
   GetAuthDeleteUserCallbackResponses,
@@ -241,19 +239,6 @@ export type Options<
    * used to access values that aren't defined as part of the SDK function.
    */
   meta?: Record<string, unknown>;
-};
-
-export const getArticle = <ThrowOnError extends boolean = false>(
-  options: Options<GetArticleData, ThrowOnError>,
-) => {
-  return (options.client ?? client).get<
-    GetArticleResponses,
-    unknown,
-    ThrowOnError
-  >({
-    url: "/article",
-    ...options,
-  });
 };
 
 export const getPublic = <ThrowOnError extends boolean = false>(

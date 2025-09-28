@@ -52,11 +52,16 @@ export const GlTable = <T extends TableRowData>(props: Props<T>) => {
   const [pageSize, setPageSize, getPageSize] = useGetState(10)
   const tableWrapRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<PrimaryTableRef>(null)
+  const { breakpoint } = useScreen(tableWrapRef.current)
 
   const { height } = useAutoHeight(tableWrapRef.current, {
     afterTarget: tableWrapRef.current?.querySelector('.t-table__pagination-wrap'),
     afterHeight: 40
   })
+
+  const isSmallScreen = useMemo(() => {
+    return breakpoint === 'xs' || breakpoint === 'sm'
+  }, [breakpoint])
 
   const fetch = async () => {
     if (api) {
@@ -194,18 +199,18 @@ export const GlTable = <T extends TableRowData>(props: Props<T>) => {
           loading={tableProps.loading ?? loading}
           maxHeight={tableProps.maxHeight ?? height}
           columns={tableColumns}
-          pagination={
-            api
-              ? {
-                  total,
-                  current,
-                  pageSize,
-                  onCurrentChange,
-                  onPageSizeChange,
-                  disabled: loading
-                }
-              : pagination
-          }
+          pagination={{
+            total,
+            current,
+            pageSize,
+            onCurrentChange,
+            onPageSizeChange,
+            disabled: loading,
+            showPageNumber: !isSmallScreen,
+            showPageSize: !isSmallScreen,
+            showFirstAndLastPageBtn: isSmallScreen,
+            ...pagination
+          }}
           {...tableProps}
         />
       </div>
