@@ -2,15 +2,21 @@ import type { ResourceNode } from '@/global/api'
 
 export const RESOURCE_TYPE = [
   {
-    label: i18n.t('resource.enum.type.menu', { ns: 'auth' }),
+    get label() {
+      return i18n.t('resource.enum.type.menu', { ns: 'auth', lng: i18n.language })
+    },
     value: 'Menu'
   },
   {
-    label: i18n.t('resource.enum.type.page', { ns: 'auth' }),
+    get label() {
+      return i18n.t('resource.enum.type.page', { ns: 'auth', lng: i18n.language })
+    },
     value: 'Page'
   },
   {
-    label: i18n.t('resource.enum.type.element', { ns: 'auth' }),
+    get label() {
+      return i18n.t('resource.enum.type.element', { ns: 'auth', lng: i18n.language })
+    },
     value: 'Element'
   }
 ] satisfies {

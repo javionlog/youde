@@ -26,7 +26,14 @@ export default () => {
     const nodeData = node.data as NodeData
     const menuLocale = nodeData.locales?.find(o => o.field === 'name')
     const menuName = menuLocale?.[lang as 'enUs'] ?? nodeData.name
-    return <GlEllipsis>{menuName}</GlEllipsis>
+    return (
+      <GlEllipsis>
+        <span className=' mr-1 text-(--td-brand-color)'>
+          [{getTranslate('RESOURCE_TYPE', nodeData.type)}]
+        </span>
+        <span>{menuName}</span>
+      </GlEllipsis>
+    )
   }
   useEffect(() => {
     refresh()

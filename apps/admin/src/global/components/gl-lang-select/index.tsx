@@ -28,7 +28,7 @@ export const GlLangSelect = () => {
   ] satisfies DropdownOption[]
 
   return (
-    <Dropdown options={langOptions} trigger='click'>
+    <Dropdown maxColumnWidth='auto' options={langOptions} trigger='click'>
       <TranslateIcon size='24px' />
     </Dropdown>
   )

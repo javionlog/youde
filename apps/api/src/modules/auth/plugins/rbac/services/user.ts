@@ -1,7 +1,6 @@
 import type { AuthContext, Where } from 'better-auth'
-import { uniqBy } from 'es-toolkit'
 import { z } from 'zod'
-import { buildTree, getChildrenNodes, getParentNodes } from '@/global/utils'
+import { buildTree, getChildrenNodes } from '@/global/utils'
 import { throwDataDuplicationError, throwDataNotFoundError } from '../errors'
 import type { ResourceSpec } from '../services/resource'
 import type { ResourceLocaleSpec } from '../services/resource-locale'
@@ -65,17 +64,11 @@ export const getOneUserResourceTree = async (ctx: AuthContext, userId: string) =
       direction: 'asc'
     }
   })
-  const leafRecords = resourceRecords.filter(o =>
+  const resourceList = resourceRecords.filter(o =>
     roleResourceRelationRows.map(item => item.resourceId).includes(o.id)
   )
-  const parentRecords: ResourceSpec[] = []
   const disabledRecords: ResourceSpec[] = []
-  for (const item of roleResourceRelationRows) {
-    const parentNodes = getParentNodes(resourceRecords, item.resourceId) ?? []
-    parentRecords.push(...parentNodes)
-  }
 
-  const resourceList = uniqBy([...leafRecords, ...parentRecords], item => item.id)
   for (const item of resourceList) {
     if (!item.enabled) {
       disabledRecords.push(item, ...getChildrenNodes(resourceRecords, item.id))

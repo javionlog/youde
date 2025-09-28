@@ -12,7 +12,7 @@ const { DropdownMenu, DropdownItem } = Dropdown
 export const MoreBtn = (props: Props) => {
   const { rowData } = props
   return (
-    <Dropdown>
+    <Dropdown maxColumnWidth='auto'>
       <MoreIcon />
       <DropdownMenu>
         <DropdownItem>

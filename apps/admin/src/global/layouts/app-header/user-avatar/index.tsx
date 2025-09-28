@@ -5,7 +5,7 @@ import { ViewUserInfoBtn } from './view-user-info-btn'
 export const UserAvatar = () => {
   const { DropdownMenu, DropdownItem } = Dropdown
   return (
-    <Dropdown maxColumnWidth={'200px'} trigger='click'>
+    <Dropdown maxColumnWidth='auto' trigger='click'>
       <UserCircleIcon size='24px' />
       <DropdownMenu>
         <DropdownItem>

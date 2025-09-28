@@ -32,7 +32,7 @@ export const GlThemeSelect = () => {
   ] satisfies DropdownOption[]
 
   return (
-    <Dropdown options={themeModeOptions} trigger='click'>
+    <Dropdown maxColumnWidth='auto' options={themeModeOptions} trigger='click'>
       {iconMap[themeMode]('24px')}
     </Dropdown>
   )

@@ -65,15 +65,36 @@ const DialogBody = (props: DialogBodyProps) => {
   }, [])
 
   const getLabel: TreeProps['label'] = node => {
-    type NodeData = typeof node.data & ResourceNode
-    const nodeData = node.data as NodeData
+    const nodeData = node.data as ResourceNode
     const menuLocale = nodeData.locales?.find(o => o.field === 'name')
     const menuName = menuLocale?.[lang as 'enUs'] ?? nodeData.name
-    return <GlEllipsis>{menuName}</GlEllipsis>
+    return (
+      <GlEllipsis>
+        <span className=' mr-1 text-(--td-brand-color)'>
+          [{getTranslate('RESOURCE_TYPE', nodeData.type)}]
+        </span>
+        <span>{menuName}</span>
+      </GlEllipsis>
+    )
   }
 
-  const onChange: TreeProps['onChange'] = (value: TreeNodeValue[]) => {
-    setResourceValue(value)
+  const onChange: TreeProps['onChange'] = (value: TreeNodeValue[], context) => {
+    const vlaueList = value as string[]
+    const { node } = context
+    const nodeData = node.data as ResourceNode
+    const nodeChilren = node.getChildren(true)
+    const nodeChilrenValues = Array.isArray(nodeChilren)
+      ? nodeChilren.map(item => {
+          return (item.data as ResourceNode).id
+        })
+      : []
+    const nodeValues = vlaueList.includes(nodeData.id)
+      ? [...vlaueList, ...nodeChilrenValues]
+      : vlaueList.filter(val => {
+          return !nodeChilrenValues.includes(val)
+        })
+    const finalValues = uniq(nodeValues)
+    setResourceValue(finalValues)
   }
 
   return (
@@ -84,8 +105,10 @@ const DialogBody = (props: DialogBodyProps) => {
         data={resourceTree}
         keys={{ value: 'id', children: 'children' }}
         label={getLabel}
+        valueMode='all'
         checkable
         expandAll
+        checkStrictly
         onChange={onChange}
       />
     </Loading>
@@ -127,7 +150,6 @@ export const useTree = (props: Props) => {
           dialogInstance.update({ confirmLoading: false })
         }
       },
-
       header: text,
       body: <DialogBody ref={dialogBodyRef} dialogRef={dialogRef} rowData={rowData} />
     })

@@ -2,7 +2,7 @@ import type { Where } from 'better-auth'
 import { createAuthEndpoint } from 'better-auth/api'
 import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
-import { buildTree, getOpenAPISchema, isEmpty } from '@/global/utils'
+import { buildTree, getChildrenNodes, getOpenAPISchema, isEmpty } from '@/global/utils'
 import { basePath } from '../config'
 import { relationListSpec } from '../services/relation'
 import type { ResourceSpec } from '../services/resource'
@@ -641,7 +641,21 @@ export const relationEndpoints = {
           direction: 'asc'
         }
       })
-      const resourceIds = resourceRecords.map(o => o.id)
+      const resourceList = resourceRecords.filter(o =>
+        roleResourceRelationRows.map(item => item.resourceId).includes(o.id)
+      )
+      const disabledRecords: ResourceSpec[] = []
+
+      for (const item of resourceList) {
+        if (!item.enabled) {
+          disabledRecords.push(item, ...getChildrenNodes(resourceRecords, item.id))
+        }
+      }
+
+      const enabledResourceList = resourceList.filter(item => {
+        return !disabledRecords.map(o => o.id).includes(item.id)
+      })
+      const resourceIds = enabledResourceList.map(o => o.id)
       const localeRecords = await adapter.findMany<ResourceLocaleSpec>({
         model: 'resourceLocale',
         where: [

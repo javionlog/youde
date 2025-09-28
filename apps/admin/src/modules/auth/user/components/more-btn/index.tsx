@@ -14,7 +14,7 @@ export const MoreBtn = (props: Props) => {
   const { t } = useTranslation()
 
   return (
-    <Dropdown>
+    <Dropdown maxColumnWidth='auto'>
       <span className='text-(--td-brand-color)'>{t('label.more')}</span>
       <DropdownMenu>
         <DropdownItem>
