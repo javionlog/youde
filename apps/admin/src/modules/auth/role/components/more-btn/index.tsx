@@ -8,26 +8,26 @@ interface Props {
   refresh: () => void
 }
 
-const { DropdownMenu, DropdownItem } = Dropdown
+const { GlDropdownMenu, GlDropdownItem } = GlDropdown
 
 export const MoreBtn = (props: Props) => {
   const { rowData, refresh } = props
   const { t } = useTranslation()
 
   return (
-    <Dropdown maxColumnWidth='auto'>
+    <GlDropdown>
       <span className='text-(--td-brand-color)'>{t('label.more')}</span>
-      <DropdownMenu>
-        <DropdownItem>
+      <GlDropdownMenu>
+        <GlDropdownItem>
           <SetResourceBtn rowData={rowData} refresh={refresh} />
-        </DropdownItem>
-        <DropdownItem>
+        </GlDropdownItem>
+        <GlDropdownItem>
           <ViewUserBtn rowData={rowData} />
-        </DropdownItem>
-        <DropdownItem>
+        </GlDropdownItem>
+        <GlDropdownItem>
           <ViewResourceBtn rowData={rowData} />
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+        </GlDropdownItem>
+      </GlDropdownMenu>
+    </GlDropdown>
   )
 }

@@ -3,18 +3,18 @@ import { SignOutBtn } from './sign-out-btn'
 import { ViewUserInfoBtn } from './view-user-info-btn'
 
 export const UserAvatar = () => {
-  const { DropdownMenu, DropdownItem } = Dropdown
+  const { GlDropdownMenu, GlDropdownItem } = GlDropdown
   return (
-    <Dropdown maxColumnWidth='auto' trigger='click'>
+    <GlDropdown trigger='click'>
       <UserCircleIcon size='24px' />
-      <DropdownMenu>
-        <DropdownItem>
+      <GlDropdownMenu>
+        <GlDropdownItem>
           <ViewUserInfoBtn />
-        </DropdownItem>
-        <DropdownItem>
+        </GlDropdownItem>
+        <GlDropdownItem>
           <SignOutBtn />
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+        </GlDropdownItem>
+      </GlDropdownMenu>
+    </GlDropdown>
   )
 }

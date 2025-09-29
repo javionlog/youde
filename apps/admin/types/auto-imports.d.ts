@@ -52,6 +52,7 @@ declare global {
   const GlDescriptions: typeof import('../src/global/components/gl-descriptions/index')['GlDescriptions']
   const GlDialog: typeof import('../src/global/components/gl-dialog/index')['GlDialog']
   const GlDialogPlugin: typeof import('../src/global/components/gl-dialog-plugin/index')['GlDialogPlugin']
+  const GlDropdown: typeof import('../src/global/components/gl-dropdown/index')['GlDropdown']
   const GlEllipsis: typeof import('../src/global/components/gl-ellipsis/index')['GlEllipsis']
   const GlForm: typeof import('../src/global/components/gl-form/index')['GlForm']
   const GlGrid: typeof import('../src/global/components/gl-grid/index')['GlGrid']

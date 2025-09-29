@@ -1,6 +1,7 @@
 export * from './gl-descriptions'
 export * from './gl-dialog'
 export * from './gl-dialog-plugin'
+export * from './gl-dropdown'
 export * from './gl-ellipsis'
 export * from './gl-form'
 export * from './gl-grid'

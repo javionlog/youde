@@ -63,8 +63,8 @@ export const ViewUserBtn = (props: Props) => {
   }
 
   return (
-    <div>
-      <Link hover='color' theme='primary' onClick={onOpen}>
+    <div onClick={onOpen}>
+      <Link hover='color' theme='primary'>
         {t('common.action.viewAssociatedUser', { ns: 'auth' })}
       </Link>
     </div>

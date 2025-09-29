@@ -10,8 +10,8 @@ export const SetResourceBtn = (props: Props) => {
   const { text, onOpen } = useTree(props)
 
   return (
-    <div>
-      <Link hover='color' theme='primary' onClick={onOpen}>
+    <div onClick={onOpen}>
+      <Link hover='color' theme='primary'>
         {text}
       </Link>
     </div>

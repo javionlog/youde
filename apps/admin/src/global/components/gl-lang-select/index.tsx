@@ -28,8 +28,8 @@ export const GlLangSelect = () => {
   ] satisfies DropdownOption[]
 
   return (
-    <Dropdown maxColumnWidth='auto' options={langOptions} trigger='click'>
+    <GlDropdown options={langOptions} trigger='click'>
       <TranslateIcon size='24px' />
-    </Dropdown>
+    </GlDropdown>
   )
 }

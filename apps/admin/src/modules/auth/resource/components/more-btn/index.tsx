@@ -7,21 +7,21 @@ interface Props {
   rowData: ResourceNode
 }
 
-const { DropdownMenu, DropdownItem } = Dropdown
+const { GlDropdownMenu, GlDropdownItem } = GlDropdown
 
 export const MoreBtn = (props: Props) => {
   const { rowData } = props
   return (
-    <Dropdown maxColumnWidth='auto'>
+    <GlDropdown>
       <MoreIcon />
-      <DropdownMenu>
-        <DropdownItem>
+      <GlDropdownMenu>
+        <GlDropdownItem>
           <ViewUserBtn rowData={rowData} />
-        </DropdownItem>
-        <DropdownItem>
+        </GlDropdownItem>
+        <GlDropdownItem>
           <ViewRoleBtn rowData={rowData} />
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+        </GlDropdownItem>
+      </GlDropdownMenu>
+    </GlDropdown>
   )
 }
