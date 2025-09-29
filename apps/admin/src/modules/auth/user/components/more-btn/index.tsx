@@ -1,6 +1,7 @@
 import type { User } from '@/global/api'
 import { SetRoleBtn } from './set-role-btn'
 import { ViewResourceBtn } from './view-resource-btn'
+import { ViewRoleBtn } from './view-role-btn'
 
 interface Props {
   rowData: User
@@ -19,6 +20,9 @@ export const MoreBtn = (props: Props) => {
       <GlDropdownMenu>
         <GlDropdownItem>
           <SetRoleBtn rowData={rowData} />
+        </GlDropdownItem>
+        <GlDropdownItem>
+          <ViewRoleBtn rowData={rowData} />
         </GlDropdownItem>
         <GlDropdownItem>
           <ViewResourceBtn rowData={rowData} />

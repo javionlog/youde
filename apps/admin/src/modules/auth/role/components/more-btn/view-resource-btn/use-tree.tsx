@@ -13,9 +13,12 @@ interface DialogBodyProps {
 const DialogBody = (props: DialogBodyProps) => {
   const { rowData } = props
 
+  const { t } = useTranslation()
   const lang = camelCase(useLocaleStore(state => state.lang))
   const [resourceTree, setResourceTree] = useState<ResourceNode[]>([])
   const [loading, setLoading] = useState(false)
+  const [elementVisible, setElementVisible] = useState(false)
+  const [filterText, setFilterText] = useState('')
 
   useEffect(() => {
     const init = async () => {
@@ -33,8 +36,7 @@ const DialogBody = (props: DialogBodyProps) => {
   }, [])
 
   const getLabel: TreeProps['label'] = node => {
-    type NodeData = typeof node.data & ResourceNode
-    const nodeData = node.data as NodeData
+    const nodeData = node.data as ResourceNode
     const menuLocale = nodeData.locales?.find(o => o.field === 'name')
     const menuName = menuLocale?.[lang as 'enUs'] ?? nodeData.name
     return (
@@ -47,14 +49,37 @@ const DialogBody = (props: DialogBodyProps) => {
     )
   }
 
+  const filterTree: TreeProps['filter'] = node => {
+    const nodeData = node.data as ResourceNode
+    const preCondition = elementVisible ? true : nodeData.type !== 'Element'
+    if (filterText.trim() === '') {
+      return preCondition
+    }
+    const menuLocale = nodeData.locales?.find(o => o.field === 'name')
+    const menuName = menuLocale?.[lang as 'enUs'] ?? nodeData.name
+    return preCondition && menuName.includes(filterText.trim())
+  }
+
   return (
     <Loading loading={loading}>
-      <Tree
-        data={resourceTree}
-        keys={{ value: 'id', children: 'children' }}
-        label={getLabel}
-        expandAll
-      />
+      <div className='flex flex-col gap-4'>
+        <div className='flex gap-3'>
+          <Checkbox checked={elementVisible} onChange={setElementVisible} className='shrink-0'>
+            {t('common.message.showElement', { ns: 'auth' })}
+          </Checkbox>
+          <InputAdornment append={t('action.search')}>
+            <Input value={filterText} onChange={setFilterText} />
+          </InputAdornment>
+        </div>
+        <Tree
+          data={resourceTree}
+          keys={{ value: 'id', children: 'children' }}
+          label={getLabel}
+          filter={filterTree}
+          expandAll
+          allowFoldNodeOnFilter
+        />
+      </div>
     </Loading>
   )
 }
