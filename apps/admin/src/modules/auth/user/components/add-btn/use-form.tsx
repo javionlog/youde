@@ -27,35 +27,35 @@ export const useForm = (props: Props) => {
         name: 'name',
         label: t('label.name')
       },
-      component: <Input clearable />
+      component: <GlInput />
     },
     {
       formItem: {
         name: 'username',
         label: t('label.username')
       },
-      component: <Input clearable />
+      component: <GlInput />
     },
     {
       formItem: {
         name: 'displayUsername',
         label: t('label.displayUsername')
       },
-      component: <Input clearable />
+      component: <GlInput />
     },
     {
       formItem: {
         name: 'email',
         label: t('label.email')
       },
-      component: <Input clearable />
+      component: <GlInput />
     },
     {
       formItem: {
         name: 'password',
         label: t('label.password')
       },
-      component: <Input type='password' clearable />
+      component: <GlInput type='password' />
     }
   ] satisfies FormProps['items']
 

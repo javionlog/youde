@@ -50,7 +50,7 @@ export const useForm = (props: Props) => {
         name: 'name',
         label: t('resource.label.resourceName', { ns: 'auth' })
       },
-      component: <Input clearable />
+      component: <GlInput />
     },
     {
       formItem: {
@@ -58,8 +58,7 @@ export const useForm = (props: Props) => {
         label: t('resource.label.resourceType', { ns: 'auth' })
       },
       component: (
-        <Select
-          clearable
+        <GlSelect
           disabled={mode === 'edit'}
           options={getOptions('RESOURCE_TYPE').filter(o => {
             if (mode === undefined) {
@@ -84,42 +83,42 @@ export const useForm = (props: Props) => {
         name: 'sort',
         label: t('label.sort')
       },
-      component: <InputNumber min={0} decimalPlaces={0} theme='column' />
+      component: <GlInputNumber min={0} decimalPlaces={0} theme='column' />
     },
     {
       formItem: {
         name: 'remark',
         label: t('label.remark')
       },
-      component: <Input clearable />
+      component: <GlInput />
     },
     {
       formItem: {
         name: 'path',
         label: t('label.path')
       },
-      component: <Input clearable />
+      component: <GlInput />
     },
     {
       formItem: {
         name: 'activePath',
         label: t('label.activePath')
       },
-      component: <Input clearable />
+      component: <GlInput />
     },
     {
       formItem: {
         name: 'component',
         label: t('label.component')
       },
-      component: <Input clearable />
+      component: <GlInput />
     },
     {
       formItem: {
         name: 'icon',
         label: t('label.icon')
       },
-      component: <Input clearable />
+      component: <GlInput />
     },
     {
       formItem: {

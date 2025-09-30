@@ -12,6 +12,8 @@ type Columns =
 interface Props extends StyledProps {
   children?: ReactNode
   columns?: Columns
+  justifyContent?: 'start' | 'end' | 'center' | 'stretch'
+  alignItems?: 'start' | 'end' | 'center' | 'stretch'
   gap?: number | number[]
   collapsed?: boolean
   maxRows?: number
@@ -23,6 +25,8 @@ export const GlGrid = (props: Props) => {
     children,
     className,
     style,
+    justifyContent,
+    alignItems = 'center',
     columns,
     gap = 16,
     collapsed = true,
@@ -64,6 +68,8 @@ export const GlGrid = (props: Props) => {
         display: 'grid',
         gap: `${finalGap}`,
         gridTemplateColumns: `repeat(${targetColumn ?? finalColumn}, 1fr)`,
+        justifyContent,
+        alignItems,
         ...style
       }}
     >

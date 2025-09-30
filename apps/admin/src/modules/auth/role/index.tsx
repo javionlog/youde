@@ -17,14 +17,14 @@ export default () => {
           name: 'name',
           label: t('role.label.roleName', { ns: 'auth' })
         },
-        component: <Input clearable />
+        component: <GlInput />
       },
       {
         formItem: {
           name: 'enabled',
           label: t('label.enabled')
         },
-        component: <Select options={getOptions('YES_NO')} clearable />
+        component: <GlSelect options={getOptions('YES_NO')} />
       }
     ]
   } satisfies SearchProps

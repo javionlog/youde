@@ -63,14 +63,22 @@ const DialogBody = (props: DialogBodyProps) => {
   return (
     <Loading loading={loading}>
       <div className='flex flex-col gap-4'>
-        <div className='flex gap-3'>
-          <Checkbox checked={elementVisible} onChange={setElementVisible} className='shrink-0'>
-            {t('common.message.showElement', { ns: 'auth' })}
-          </Checkbox>
-          <InputAdornment append={t('action.search')}>
-            <Input value={filterText} onChange={setFilterText} />
-          </InputAdornment>
-        </div>
+        <GlGrid maxRows={10} columns={{ xs: 2, sm: 2, md: 3, lg: 4, xl: 5, '2xl': 6 }}>
+          <GlGridItem index={1}>
+            <GlCheckbox
+              checked={elementVisible}
+              onChange={setElementVisible}
+              className='overflow-hidden'
+            >
+              {t('common.message.showElement', { ns: 'auth' })}
+            </GlCheckbox>
+          </GlGridItem>
+          <GlGridItem index={2}>
+            <GlInputAdornment prepend={t('action.search')}>
+              <GlInput value={filterText} onChange={setFilterText} className='min-w-0' />
+            </GlInputAdornment>
+          </GlGridItem>
+        </GlGrid>
         <Tree
           data={resourceTree}
           keys={{ value: 'id', children: 'children' }}

@@ -1,9 +1,13 @@
 import type { DropdownProps } from 'tdesign-react'
 
 const GlDropdown = (props: DropdownProps) => {
-  const { children, maxColumnWidth = 'auto', ...rest } = props
+  const { className, children, maxColumnWidth = 'auto', ...rest } = props
   return (
-    <Dropdown maxColumnWidth={maxColumnWidth} {...rest}>
+    <Dropdown
+      className={`gl-dropdown ${className ?? ''}`}
+      maxColumnWidth={maxColumnWidth}
+      {...rest}
+    >
       {children}
     </Dropdown>
   )

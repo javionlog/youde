@@ -26,7 +26,7 @@ export const useForm = (props: Props) => {
         name: 'name',
         label: t('role.label.roleName', { ns: 'auth' })
       },
-      component: <Input clearable />
+      component: <GlInput />
     },
     {
       formItem: {
@@ -40,7 +40,7 @@ export const useForm = (props: Props) => {
         name: 'remark',
         label: t('label.remark')
       },
-      component: <Input clearable />
+      component: <GlInput />
     }
   ] satisfies FormProps['items']
 

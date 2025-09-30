@@ -17,21 +17,21 @@ export default () => {
           name: 'username',
           label: t('label.username')
         },
-        component: <Input clearable />
+        component: <GlInput />
       },
       {
         formItem: {
           name: 'displayUsername',
           label: t('label.displayUsername')
         },
-        component: <Input clearable />
+        component: <GlInput />
       },
       {
         formItem: {
           name: 'email',
           label: t('label.email')
         },
-        component: <Input clearable />
+        component: <GlInput />
       }
     ]
   } satisfies SearchProps

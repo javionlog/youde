@@ -48,18 +48,13 @@ export default () => {
           </div>
           <Form form={form} labelWidth={0} rules={rules} initialData={formData} onSubmit={onSubmit}>
             <FormItem name='username'>
-              <Input
-                prefixIcon={<Desktop1Icon />}
-                placeholder={t('message.usernameRequired')}
-                clearable
-              />
+              <GlInput prefixIcon={<Desktop1Icon />} placeholder={t('message.usernameRequired')} />
             </FormItem>
             <FormItem name='password'>
-              <Input
+              <GlInput
                 prefixIcon={<LockOnIcon />}
                 type='password'
                 placeholder={t('message.passwordRequired')}
-                clearable
               />
             </FormItem>
             <FormItem>

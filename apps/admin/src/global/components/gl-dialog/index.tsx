@@ -9,8 +9,6 @@ export const GlDialog = (props: DialogProps) => {
     closeOnOverlayClick = false,
     ...rest
   } = props
-  const defaultClassName = 'gl-dialog'
-  const finalClassName = className ? `${defaultClassName} ${className}` : defaultClassName
   const defaultDialogClassName =
     'flex! flex-col w-11/12! sm:w-[400px]! md:w-[650px]! lg:w-[900px]! xl:w-[1150px]! 2xl:w-[1400]! max-h-[80dvh]'
   const fianlDialogClassName = dialogClassName
@@ -18,7 +16,7 @@ export const GlDialog = (props: DialogProps) => {
     : defaultDialogClassName
   return (
     <Dialog
-      className={`${finalClassName}w-`}
+      className={`gl-dialog ${className ?? ''}`}
       dialogClassName={fianlDialogClassName}
       placement={placement}
       closeOnOverlayClick={closeOnOverlayClick}
