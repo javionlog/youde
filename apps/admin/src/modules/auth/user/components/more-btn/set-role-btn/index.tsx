@@ -1,5 +1,5 @@
 import type { User } from '@/global/api'
-import { useTable } from './user-table'
+import { useTable } from './use-table'
 
 interface Props {
   rowData: User

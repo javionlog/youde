@@ -4,7 +4,7 @@ import type { BetterAuthPlugin } from 'better-auth/plugins'
 import { z } from 'zod'
 import { getOpenAPISchema, isEmpty } from '@/global/utils'
 import { basePath, systemOperator } from '../config'
-import { throwDbError } from '../errors'
+import { throwDataDuplicationError, throwDbError } from '../errors'
 import { getSession } from '../services/base'
 import type { ResourceLocaleSpec } from '../services/resource-locale'
 import {
@@ -50,6 +50,17 @@ export const resourceLocaleEndpoints = {
       const { body, json, context } = ctx
       const { adapter } = context
       const session = await getSession(ctx)
+
+      const row = await adapter.findOne<ResourceLocaleSpec>({
+        model: 'resourceLocale',
+        where: [
+          { field: 'field', value: body.field },
+          { field: 'resourceId', value: body.resourceId }
+        ]
+      })
+      if (row) {
+        throwDataDuplicationError()
+      }
       try {
         const result = await adapter.create<ResourceLocaleSpec>({
           model: 'resourceLocale',

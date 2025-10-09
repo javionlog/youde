@@ -40,7 +40,9 @@
     "createdBy": "Created By",
     "updatedBy": "Updated By",
     "operation": "Operation",
-    "more": "More"
+    "more": "More",
+    "english": "English",
+    "simplifiedChinese": "Simplified Chinese"
   },
   "message": {
     "welcomeToYoude": "Welcome to Youde!",

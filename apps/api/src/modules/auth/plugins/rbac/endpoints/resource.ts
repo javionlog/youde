@@ -174,6 +174,10 @@ export const resourceEndpoints = {
         model: 'resource',
         where: [{ field: 'id', value: id }]
       })
+      await adapter.deleteMany({
+        model: 'resourceLocale',
+        where: [{ field: 'resourceId', value: id }]
+      })
       return json({})
     }
   ),
@@ -222,6 +226,12 @@ export const resourceEndpoints = {
         model: 'resource',
         where: [{ field: 'id', value: canDeleteIds, operator: 'in' }]
       })
+      for (const id of canDeleteIds) {
+        await adapter.deleteMany({
+          model: 'resourceLocale',
+          where: [{ field: 'resourceId', value: id }]
+        })
+      }
       return json({})
     }
   ),

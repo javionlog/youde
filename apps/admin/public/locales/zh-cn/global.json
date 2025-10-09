@@ -40,7 +40,9 @@
     "createdBy": "创建人",
     "updatedBy": "更新人",
     "operation": "操作",
-    "more": "更多"
+    "more": "更多",
+    "english": "英文",
+    "simplifiedChinese": "简体中文"
   },
   "message": {
     "welcomeToYoude": "欢迎来到“有的”！",

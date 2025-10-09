@@ -89,7 +89,7 @@ export default () => {
                   )}
                   <UpsertBtn rowData={nodeData} refresh={refresh} mode='edit' />
                   <DeleteBtn rowData={nodeData} refresh={refresh} />
-                  <MoreBtn rowData={nodeData} />
+                  <MoreBtn rowData={nodeData} refresh={refresh} />
                 </Space>
               )
             }}
