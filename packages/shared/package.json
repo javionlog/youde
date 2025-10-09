@@ -1,0 +1,41 @@
+{
+  "name": "@youde/shared",
+  "version": "0.0.1",
+  "author": "Javionlog",
+  "license": "MIT",
+  "packageManager": "pnpm@9.0.0",
+  "type": "module",
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/main.d.cts",
+        "default": "./dist/main.cjs"
+      },
+      "import": {
+        "types": "./dist/main.d.ts",
+        "default": "./dist/main.js"
+      }
+    }
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "check": "tsc && biome check --write --unsafe",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,json,jsonc,css,html}": [
+      "tsc && biome check --write --unsafe"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "tsdown": "^0.15.6"
+  }
+}

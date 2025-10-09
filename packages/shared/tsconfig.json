@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["tsdown.config.ts", "src"],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}

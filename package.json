@@ -11,7 +11,7 @@
   "license": "MIT",
   "packageManager": "pnpm@9.0.0",
   "engines": {
-    "node": ">=20"
+    "node": ">=20.19"
   },
   "scripts": {
     "prepare": "husky",
