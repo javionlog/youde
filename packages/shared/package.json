@@ -25,7 +25,8 @@
     "node": ">=20.19"
   },
   "scripts": {
-    "build": "tsdown",
+    "build:dev": "tsdown",
+    "build:prod": "tsdown",
     "check": "tsc && biome check --write --unsafe",
     "lint-staged": "lint-staged"
   },
