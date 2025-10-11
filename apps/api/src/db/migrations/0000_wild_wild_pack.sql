@@ -34,7 +34,8 @@ CREATE TABLE "resource" (
 	"is_cache" boolean,
 	"is_affix" boolean,
 	"is_show" boolean,
-	CONSTRAINT "resource_name_unique" UNIQUE("name")
+	CONSTRAINT "resource_name_unique" UNIQUE("name"),
+	CONSTRAINT "resource_path_unique" UNIQUE("path")
 );
 --> statement-breakpoint
 CREATE TABLE "resource_locale" (

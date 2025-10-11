@@ -61,3 +61,17 @@
 .t-table--layout-auto td {
   max-width: 250px;
 }
+
+.t-tabs.t-size-s .t-tabs__nav {
+  min-height: var(--td-comp-size-xl) !important;
+}
+
+.t-tabs.t-size-s .t-tabs__btn {
+  height: var(--td-comp-size-xl) !important;
+  line-height: var(--td-comp-size-xl) !important;
+}
+
+.t-tabs.t-size-s .t-tabs__nav-item {
+  height: var(--td-comp-size-xl) !important;
+  line-height: var(--td-comp-size-xl) !important;
+}

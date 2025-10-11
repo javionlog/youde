@@ -107,7 +107,7 @@ const DialogBody = (props: DialogBodyProps) => {
     }
   ] satisfies TabPanelProps[]
   const [tabValue, setTabValue] = useState<TabValue>(tabs[0].value)
-  const { TabPanel } = Tabs
+  const { GlTabPanel } = GlTabs
 
   useImperativeHandle(ref, () => {
     return {
@@ -120,10 +120,10 @@ const DialogBody = (props: DialogBodyProps) => {
   })
 
   return (
-    <Tabs value={tabValue} onChange={setTabValue}>
+    <GlTabs value={tabValue} onChange={setTabValue}>
       {tabs.map((item, index) => {
         return (
-          <TabPanel key={item.value} {...item}>
+          <GlTabPanel key={item.value} {...item}>
             <DialogForm
               ref={(el: DialogBodyInstance) => {
                 formRefs.current[index] = el
@@ -132,10 +132,10 @@ const DialogBody = (props: DialogBodyProps) => {
               rowData={rowData}
               tabValue={item.value}
             />
-          </TabPanel>
+          </GlTabPanel>
         )
       })}
-    </Tabs>
+    </GlTabs>
   )
 }
 

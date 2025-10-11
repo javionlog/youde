@@ -1,7 +1,6 @@
-import { camelCase } from 'es-toolkit'
-import { createElement } from 'react'
 import { AppIcon, MenuFoldIcon, MenuUnfoldIcon } from 'tdesign-icons-react'
 import type { ResourceNode } from '@/global/api'
+import { layoutMenus } from '@/global/router'
 
 const { SubMenu, MenuItem } = Menu
 
@@ -13,19 +12,22 @@ const MenuNode = (props: MenuNodeProps) => {
   const { menu } = props
   const navigate = useNavigate()
   const location = useLocation()
+  const { addTab } = useAppStore()
   const lang = camelCase(useLocaleStore(state => state.lang))
-  const routerPath = `/${menu.path}`
+  const menuPath = `/${menu.path}`
   const icon = menu.icon ? createElement(menu.icon!) : <AppIcon />
 
   const menuLocale = menu.locales?.find(o => o.field === 'name')
   const menuName = menuLocale?.[lang as 'enUs'] ?? menu.name
+
   return (
     <MenuItem
-      value={routerPath}
+      value={menu.id}
       icon={icon}
       onClick={() => {
-        if (location.pathname !== routerPath) {
-          navigate(routerPath)
+        if (location.pathname !== menuPath) {
+          navigate(menuPath)
+          addTab(menu)
         }
       }}
     >
@@ -66,6 +68,9 @@ const MobileMenu = (props: SidebarProps) => {
   const { menus } = props
   const location = useLocation()
   const sidebarCollapsed = useAppStore(state => state.sidebarCollapsed)
+  const resources = useResourceStore.getState().getResources()
+  const allResources = [...layoutMenus, ...resources]
+  const activeResourceItem = allResources.find(o => `/${o.path}` === location.pathname)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -85,7 +90,7 @@ const MobileMenu = (props: SidebarProps) => {
         onClose={() => setVisible(false)}
       >
         <Menu
-          value={location.pathname}
+          value={activeResourceItem?.id}
           collapsed={sidebarCollapsed}
           className='app-sidebar h-full w-full!'
         >
@@ -109,10 +114,13 @@ const WideMenu = (props: SidebarProps) => {
   const { menus } = props
   const location = useLocation()
   const sidebarCollapsed = useAppStore(state => state.sidebarCollapsed)
+  const resources = useResourceStore.getState().getResources()
+  const allResources = [...layoutMenus, ...resources]
+  const activeResourceItem = allResources.find(o => `/${o.path}` === location.pathname)
 
   return (
     <Menu
-      value={location.pathname}
+      value={activeResourceItem?.id}
       collapsed={sidebarCollapsed}
       operations={
         <Button

@@ -81,7 +81,7 @@ export const resource = pgTable('resource', {
   sort: integer('sort'),
   parentId: text('parent_id'),
   type: text('type').notNull(),
-  path: text('path'),
+  path: text('path').unique(),
   activePath: text('active_path'),
   component: text('component'),
   icon: text('icon'),

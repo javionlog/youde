@@ -25,7 +25,7 @@ export const AppRouter = () => {
       }
     )
 
-    return setRoutes([
+    setRoutes([
       {
         path: '/',
         Component: AppLayout,

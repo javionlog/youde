@@ -40,7 +40,8 @@ export const resourceSchema = {
       path: {
         type: 'string',
         required: false,
-        input: true
+        input: true,
+        unique: true
       },
       activePath: {
         type: 'string',

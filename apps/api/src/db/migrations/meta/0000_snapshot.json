@@ -1,5 +1,5 @@
 {
-  "id": "074a9706-d9eb-4a56-9289-00774f481f38",
+  "id": "92e46c6e-47d4-4b0f-9408-b5a656f5501f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -232,6 +232,11 @@
           "name": "resource_name_unique",
           "nullsNotDistinct": false,
           "columns": ["name"]
+        },
+        "resource_path_unique": {
+          "name": "resource_path_unique",
+          "nullsNotDistinct": false,
+          "columns": ["path"]
         }
       },
       "policies": {},
