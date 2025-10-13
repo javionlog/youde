@@ -6,6 +6,7 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const Activity: typeof import('react')['Activity']
   const Affix: typeof import('tdesign-react')['Affix']
   const Alert: typeof import('tdesign-react')['Alert']
   const Anchor: typeof import('tdesign-react')['Anchor']

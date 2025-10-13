@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
           {
             from: 'react',
             imports: [
+              'Activity',
               'createElement',
               'createContext',
               'forwardRef',
