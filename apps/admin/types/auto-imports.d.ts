@@ -193,6 +193,7 @@ declare global {
   const useScreen: typeof import('../src/global/hooks/use-screen/index')['useScreen']
   const useSize: typeof import('ahooks')['useSize']
   const useState: typeof import('react')['useState']
+  const useTabStore: typeof import('../src/global/stores/tab')['useTabStore']
   const useThrottleFn: typeof import('ahooks')['useThrottleFn']
   const useTranslation: typeof import('react-i18next')['useTranslation']
   const useUserStore: typeof import('../src/global/stores/user')['useUserStore']

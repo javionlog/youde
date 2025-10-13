@@ -6,9 +6,9 @@ export const MenuTabs = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation()
-  const tabs = useAppStore(state => state.tabs)
+  const tabs = useTabStore(state => state.tabs)
   const { addTab, deleteTab, deleteLeftTabs, deleteRightTabs, deleteOtherTabs, clearTabs } =
-    useAppStore()
+    useTabStore()
   const resources = useResourceStore.getState().getResources()
   const lang = camelCase(useLocaleStore(state => state.lang))
 
@@ -19,7 +19,11 @@ export const MenuTabs = () => {
 
   const { GlTabPanel } = GlTabs
 
-  const onRemoveTab = async () => {
+  const onRemoveTab = async (value?: string) => {
+    if (value && value !== activeResourceItem?.id) {
+      deleteTab(value)
+      return
+    }
     if (activeResourceItem && !activeResourceItem.isAffix) {
       deleteTab(activeResourceItem.id)
       await Promise.resolve()
@@ -110,7 +114,7 @@ export const MenuTabs = () => {
               label={menuName}
               value={item.id}
               removable={!item.isAffix}
-              onRemove={onRemoveTab}
+              onRemove={({ value }) => onRemoveTab(value as string)}
             />
           )
         })}

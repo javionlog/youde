@@ -12,7 +12,7 @@ const MenuNode = (props: MenuNodeProps) => {
   const { menu } = props
   const navigate = useNavigate()
   const location = useLocation()
-  const { addTab } = useAppStore()
+  const { addTab } = useTabStore()
   const lang = camelCase(useLocaleStore(state => state.lang))
   const menuPath = `/${menu.path}`
   const icon = menu.icon ? createElement(menu.icon!) : <AppIcon />
