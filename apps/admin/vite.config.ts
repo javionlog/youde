@@ -23,7 +23,6 @@ export default defineConfig(({ mode }) => {
               'Activity',
               'createElement',
               'createContext',
-              'forwardRef',
               'lazy',
               'memo',
               'StrictMode',
@@ -41,22 +40,11 @@ export default defineConfig(({ mode }) => {
           {
             from: 'react-router',
             imports: [
-              'Await',
               'Navigate',
-              'RouterProvider',
               'BrowserRouter',
-              'Outlet',
-              'NavLink',
-              'createBrowserRouter',
-              'useHref',
-              'useInRouterContext',
               'useLocation',
               'useNavigate',
-              'useNavigationType',
               'useOutlet',
-              'useOutletContext',
-              'useParams',
-              'useResolvedPath',
               'useRoutes'
             ]
           },
@@ -70,7 +58,7 @@ export default defineConfig(({ mode }) => {
           },
           {
             from: 'ahooks',
-            imports: ['useSize', 'useGetState', 'useThrottleFn', 'useDebounceFn']
+            imports: ['useSize', 'useGetState']
           }
         ],
         packagePresets: [
