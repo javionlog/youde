@@ -1,0 +1,46 @@
+{
+  "name": "@youde/portal",
+  "version": "0.0.1",
+  "author": "Javionlog",
+  "license": "MIT",
+  "packageManager": "pnpm@9.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "start:dev": "react-router dev --mode dev",
+    "start:prod": "react-router dev --mode prod",
+    "build:dev": "react-router build --mode dev",
+    "build:prod": "react-router build --mode prod",
+    "preview:dev": "react-router-serve ./dist/server/index.js --mode dev",
+    "preview:prod": "react-router-serve ./dist/server/index.js --mode prod",
+    "api-gen": "openapi-ts",
+    "check": "react-router typegen && tsc && biome check --write --unsafe",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,json,jsonc,css,html}": [
+      "tsc && biome check --write --unsafe"
+    ]
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "^0.84.2",
+    "@react-router/dev": "^7.9.2",
+    "@tailwindcss/vite": "^4.1.13",
+    "@types/node": "^22",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@youde/shared": "workspace:^",
+    "tailwindcss": "^4.1.13",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "dependencies": {
+    "@react-router/node": "^7.9.2",
+    "@react-router/serve": "^7.9.2",
+    "isbot": "^5",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router": "^7.9.2"
+  }
+}
