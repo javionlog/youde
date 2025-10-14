@@ -22,7 +22,7 @@
     }
   },
   "engines": {
-    "node": ">=20.19"
+    "node": ">=22.17.1"
   },
   "scripts": {
     "build:dev": "tsdown",

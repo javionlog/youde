@@ -98,6 +98,7 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           advancedChunks: {
+            maxSize: 1024 * 100,
             groups: [
               {
                 name: 'vendor',

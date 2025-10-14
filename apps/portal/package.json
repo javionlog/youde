@@ -6,7 +6,7 @@
   "packageManager": "pnpm@9.0.0",
   "type": "module",
   "engines": {
-    "node": ">=20.19"
+    "node": ">=22.17.1"
   },
   "scripts": {
     "start:dev": "react-router dev --mode dev",

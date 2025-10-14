@@ -69,7 +69,7 @@ export const layoutRoutes = layoutMenus.map(item => {
   return {
     id: item.id,
     path: item.path,
-    Component: lazy(() => import(`../../../modules/${item.path}/index.tsx`))
+    Component: lazy(() => import(`../../../modules/${item.path}/_index.tsx`))
   }
 }) satisfies RouteObject[]
 
@@ -77,7 +77,7 @@ export const noLayoutRoutes = noLayoutMenus.map(item => {
   return {
     id: item.id,
     path: item.path,
-    Component: lazy(() => import(`../../../modules/${item.path}/index.tsx`))
+    Component: lazy(() => import(`../../../modules/${item.path}/_index.tsx`))
   }
 }) satisfies RouteObject[]
 
