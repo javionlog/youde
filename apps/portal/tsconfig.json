@@ -4,8 +4,10 @@
     "vite.config.ts",
     "openapi-ts.config.ts",
     "react-router.config.ts",
-    "src",
-    ".react-router/types"
+    "server.js",
+    ".react-router/types",
+    "server",
+    "src"
   ],
   "compilerOptions": {
     "rootDirs": [".", "./.react-router/types"],

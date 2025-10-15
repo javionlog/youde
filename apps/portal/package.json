@@ -13,8 +13,8 @@
     "start:prod": "react-router dev --mode prod",
     "build:dev": "react-router build --mode dev",
     "build:prod": "react-router build --mode prod",
-    "preview:dev": "react-router-serve ./dist/server/index.js --mode dev",
-    "preview:prod": "react-router-serve ./dist/server/index.js --mode prod",
+    "preview:dev": "node --env-file .env.dev ./server.js",
+    "preview:prod": "node --env-file .env.prod ./server.js",
     "api-gen": "openapi-ts",
     "check": "react-router typegen && tsc && biome check --write --unsafe",
     "lint-staged": "lint-staged"
@@ -28,6 +28,10 @@
     "@hey-api/openapi-ts": "^0.84.2",
     "@react-router/dev": "^7.9.2",
     "@tailwindcss/vite": "^4.1.13",
+    "@types/compression": "^1.8.1",
+    "@types/express": "^5.0.3",
+    "@types/express-serve-static-core": "^5.1.0",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^22",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
@@ -36,9 +40,14 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
+    "@react-router/express": "^7.9.4",
     "@react-router/node": "^7.9.2",
     "@react-router/serve": "^7.9.2",
+    "compression": "^1.8.1",
+    "consola": "^3.4.2",
+    "express": "^5.1.0",
     "isbot": "^5",
+    "morgan": "^1.10.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router": "^7.9.2"

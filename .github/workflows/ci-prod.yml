@@ -53,6 +53,13 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository }}-admin-prod:latest
 
+      - name: Push portal image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./apps/portal
+          push: true
+          tags: ghcr.io/${{ github.repository }}-portal-prod:latest
+
       - name: Push api image
         uses: docker/build-push-action@v6
         with:

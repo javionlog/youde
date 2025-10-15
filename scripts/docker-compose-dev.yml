@@ -16,6 +16,13 @@ services:
       - youde-network
     depends_on:
       - api
+  portal:
+    image: ghcr.io/javionlog/youde-portal-dev:latest
+    container_name: portal-dev
+    networks:
+      - youde-network
+    depends_on:
+      - api
   api:
     image: ghcr.io/javionlog/youde-api-dev:latest
     container_name: api-dev
