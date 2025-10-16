@@ -1,7 +1,7 @@
 FROM node:22-alpine AS base
 WORKDIR /app
 
-RUN pnpm install
+RUN pnpm fetch
 COPY . /app
 
 EXPOSE 3000
