@@ -36,21 +36,31 @@
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@youde/shared": "workspace:^",
-    "tailwindcss": "^4.1.13",
     "tsdown": "^0.15.6",
+    "unplugin-auto-import": "^20.0.0",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
     "@react-router/express": "^7.9.4",
     "@react-router/node": "^7.9.2",
     "@react-router/serve": "^7.9.2",
+    "ahooks": "^3.8.5",
     "compression": "^1.8.1",
     "consola": "^3.4.2",
+    "date-fns": "^4.1.0",
+    "es-toolkit": "^1.39.10",
     "express": "^5.1.0",
+    "i18next": "^25.4.2",
+    "i18next-http-backend": "^3.0.2",
     "isbot": "^5",
     "morgan": "^1.10.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router": "^7.9.2"
+    "react-i18next": "^15.7.2",
+    "react-router": "^7.9.2",
+    "tailwindcss": "^4.1.10",
+    "tdesign-icons-react": "^0.5.1",
+    "tdesign-mobile-react": "^0.20.0",
+    "zustand": "^5.0.7"
   }
 }

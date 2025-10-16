@@ -174,15 +174,30 @@ importers:
       '@react-router/serve':
         specifier: ^7.9.2
         version: 7.9.4(react-router@7.9.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(typescript@5.9.2)
+      ahooks:
+        specifier: ^3.8.5
+        version: 3.9.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       compression:
         specifier: ^1.8.1
         version: 1.8.1
       consola:
         specifier: ^3.4.2
         version: 3.4.2
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
+      es-toolkit:
+        specifier: ^1.39.10
+        version: 1.39.10
       express:
         specifier: ^5.1.0
         version: 5.1.0
+      i18next:
+        specifier: ^25.4.2
+        version: 25.4.2(typescript@5.9.2)
+      i18next-http-backend:
+        specifier: ^3.0.2
+        version: 3.0.2
       isbot:
         specifier: ^5
         version: 5.1.31
@@ -195,9 +210,24 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.2.0(react@19.2.0)
+      react-i18next:
+        specifier: ^15.7.2
+        version: 15.7.2(i18next@25.4.2(typescript@5.9.2))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.2)
       react-router:
         specifier: ^7.9.2
         version: 7.9.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      tailwindcss:
+        specifier: ^4.1.10
+        version: 4.1.14
+      tdesign-icons-react:
+        specifier: ^0.5.1
+        version: 0.5.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      tdesign-mobile-react:
+        specifier: ^0.20.0
+        version: 0.20.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      zustand:
+        specifier: ^5.0.7
+        version: 5.0.7(@types/react@19.2.2)(react@19.2.0)
     devDependencies:
       '@hey-api/openapi-ts':
         specifier: ^0.84.2
@@ -232,12 +262,12 @@ importers:
       '@youde/shared':
         specifier: workspace:^
         version: link:../../packages/shared
-      tailwindcss:
-        specifier: ^4.1.13
-        version: 4.1.14
       tsdown:
         specifier: ^0.15.6
         version: 0.15.6(typescript@5.9.2)
+      unplugin-auto-import:
+        specifier: ^20.0.0
+        version: 20.0.0
       vite-tsconfig-paths:
         specifier: ^5.1.4
         version: 5.1.4(typescript@5.9.2)(vite@7.0.6(@types/node@22.18.8)(jiti@2.6.1)(lightningcss@1.30.1)(yaml@2.8.0))
@@ -1890,6 +1920,14 @@ packages:
 
   '@types/validator@13.15.2':
     resolution: {integrity: sha512-y7pa/oEJJ4iGYBxOpfAKn5b9+xuihvzDVnC/OSvlVnGxVg0pOqmjiMafiJ1KVNQEaPZf9HsEp5icEwGg8uIe5Q==}
+
+  '@use-gesture/core@10.3.1':
+    resolution: {integrity: sha512-WcINiDt8WjqBdUXye25anHiNxPc0VOrlT8F6LLkU6cycrOGUDyY/yyFmsg3k8i5OLvv25llc0QC45GhR/C8llw==}
+
+  '@use-gesture/react@10.3.1':
+    resolution: {integrity: sha512-Yy19y6O2GJq8f7CHf7L0nxL8bf4PZCPaVOCgJrusOeFHY1LvHgYXnmnXg6N5iwAnbgbZCDjo60SiM6IPJi9C5g==}
+    peerDependencies:
+      react: '>= 16.8.0'
 
   '@vitejs/plugin-react@5.0.2':
     resolution: {integrity: sha512-tmyFgixPZCx2+e6VO9TNITWcCQl8+Nl/E8YbAyPVv85QCc7/A3JrdfG2A8gIzvVhWuzMOVrFW1aReaNxrI6tbw==}
@@ -3954,6 +3992,9 @@ packages:
     resolution: {integrity: sha512-bSiSngZ/jWeX93BqeIAbImyTbEihizcwNjFoRUIY/T1wWQsfsm2Vw1agPKylXvQTU7iASGdHhyqRlqQzfz+Htg==}
     engines: {node: '>=18'}
 
+  smoothscroll-polyfill@0.4.4:
+    resolution: {integrity: sha512-TK5ZA9U5RqCwMpfoMq/l1mrH0JAR7y7KRvOBx0n2869aLxch+gT9GhN3yUfjiw+d/DiF1mKo14+hd62JyMmoBg==}
+
   sortablejs@1.15.6:
     resolution: {integrity: sha512-aNfiuwMEpfBM/CN6LY0ibyhxPfPbyFeBTYJKCvzkJ2GkUpazIt3H+QIPAMHwqQ7tMKaHz1Qj+rJJCqljnf4p3A==}
 
@@ -4067,6 +4108,12 @@ packages:
       react: '>=16.13.1'
       react-dom: '>=16.13.1'
 
+  tdesign-mobile-react@0.20.0:
+    resolution: {integrity: sha512-ghC06bXEcmefrOut3LAUCSbMT1rr4DGbIiiiJx9787njrFL5I/BEFAREJp9Er2nzbkTVBKgp+tFAENxX4UjBmQ==}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+
   tdesign-react@1.15.1:
     resolution: {integrity: sha512-5htrIZtYvek54Fpz/8VZp+yC2zWmzY00S7BztIz3khZpyrYBrwQgLdMKkE5I/ueEBiQQFjwNh1oAo4oFZIPSrw==}
     peerDependencies:
@@ -4079,6 +4126,9 @@ packages:
 
   through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
+
+  tinycolor2@1.6.0:
+    resolution: {integrity: sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==}
 
   tinyexec@0.3.2:
     resolution: {integrity: sha512-KQQR9yN7R5+OSwaK0XQoj22pwHoTlgYqmUscPYoknOoWCWfj/5/ABTMRi69FrKU5ffPVh5QcFikpWJI/P1ocHA==}
@@ -6078,6 +6128,13 @@ snapshots:
 
   '@types/validator@13.15.2': {}
 
+  '@use-gesture/core@10.3.1': {}
+
+  '@use-gesture/react@10.3.1(react@19.2.0)':
+    dependencies:
+      '@use-gesture/core': 10.3.1
+      react: 19.2.0
+
   '@vitejs/plugin-react@5.0.2(vite@7.0.6(@types/node@24.1.0)(jiti@2.6.1)(lightningcss@1.30.1)(yaml@2.8.0))':
     dependencies:
       '@babel/core': 7.28.3
@@ -8041,6 +8098,8 @@ snapshots:
       ansi-styles: 6.2.1
       is-fullwidth-code-point: 5.0.0
 
+  smoothscroll-polyfill@0.4.4: {}
+
   sortablejs@1.15.6: {}
 
   source-map-js@1.2.1: {}
@@ -8169,10 +8228,28 @@ snapshots:
 
   tdesign-icons-react@0.6.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
-      '@babel/runtime': 7.26.10
+      '@babel/runtime': 7.28.2
       classnames: 2.5.1
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
+
+  tdesign-mobile-react@0.20.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+    dependencies:
+      '@popperjs/core': 2.11.8
+      '@use-gesture/react': 10.3.1(react@19.2.0)
+      ahooks: 3.9.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      classnames: 2.5.1
+      csstype: 3.1.3
+      dayjs: 1.11.13
+      hoist-non-react-statics: 3.3.2
+      lodash-es: 4.17.21
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+      react-transition-group: 4.4.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      smoothscroll-polyfill: 0.4.4
+      tdesign-icons-react: 0.6.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      tinycolor2: 1.6.0
+      validator: 13.15.15
 
   tdesign-react@1.15.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
@@ -8199,6 +8276,8 @@ snapshots:
   text-extensions@2.4.0: {}
 
   through@2.3.8: {}
+
+  tinycolor2@1.6.0: {}
 
   tinyexec@0.3.2: {}
 

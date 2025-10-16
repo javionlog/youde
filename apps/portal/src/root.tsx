@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
+import 'tdesign-mobile-react/es/style/index.css'
 import './global/styles/index.css'
 
 export const Layout = ({ children }: { children: ReactNode }) => {

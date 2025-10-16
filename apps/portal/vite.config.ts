@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'node:url'
 import { reactRouter } from '@react-router/dev/vite'
 import tailwindcss from '@tailwindcss/vite'
+import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -9,8 +10,68 @@ const curDir = fileURLToPath(new URL('.', import.meta.url))
 export default defineConfig(({ mode, isSsrBuild }) => {
   const env = loadEnv(mode, curDir, 'VITE_')
   const { VITE_API_HOST_NAME, VITE_API_HOST_PORT } = env
+
   return {
-    plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
+    plugins: [
+      tailwindcss(),
+      reactRouter(),
+      tsconfigPaths(),
+      AutoImport({
+        imports: [
+          {
+            from: 'react',
+            imports: [
+              'Activity',
+              'createElement',
+              'createContext',
+              'lazy',
+              'memo',
+              'StrictMode',
+              'Suspense',
+              'useContext',
+              'useCallback',
+              'useEffect',
+              'useMemo',
+              'useReducer',
+              'useRef',
+              'useState',
+              'useImperativeHandle'
+            ]
+          },
+          {
+            from: 'react-router',
+            imports: [
+              'Navigate',
+              'BrowserRouter',
+              'useLocation',
+              'useNavigate',
+              'useOutlet',
+              'useRoutes'
+            ]
+          },
+          {
+            from: 'es-toolkit',
+            imports: ['isNil', 'camelCase', 'uniq', 'uniqBy']
+          },
+          {
+            from: 'react-i18next',
+            imports: ['useTranslation']
+          },
+          {
+            from: 'ahooks',
+            imports: ['useSize', 'useGetState']
+          }
+        ],
+        packagePresets: [
+          {
+            package: 'tdesign-mobile-react',
+            ignore: [/^[a-z]*$/]
+          }
+        ],
+        dirs: ['./src/global/utils/index.ts'],
+        dts: 'types/auto-imports.d.ts'
+      })
+    ],
     server: {
       host: 'localhost',
       port: 9000,
@@ -25,14 +86,64 @@ export default defineConfig(({ mode, isSsrBuild }) => {
       }
     },
     ssr: {
-      noExternal: true
+      noExternal: isSsrBuild ? true : undefined
     },
     build: {
-      rollupOptions: isSsrBuild
-        ? {
-            input: './server/app.ts'
+      rollupOptions: {
+        input: isSsrBuild ? './server/app.ts' : undefined,
+        output: {
+          advancedChunks: {
+            maxSize: 1024 * 100,
+            groups: [
+              {
+                name: 'vendor',
+                test: /node_modules/,
+                priority: 1
+              },
+              {
+                name: 'react',
+                test: /node_modules\/react/,
+                priority: 2
+              },
+              {
+                name: 'ahooks',
+                test: /node_modules\/ahooks/,
+                priority: 2
+              },
+              {
+                name: 'es-toolkit',
+                test: /node_modules\/es-toolkit/,
+                priority: 2
+              },
+              {
+                name: 'date-fns',
+                test: /node_modules\/date-fns/,
+                priority: 2
+              },
+              {
+                name: 'tdesign-mobile-react',
+                test: /node_modules\/tdesign-mobile-react/,
+                priority: 2
+              },
+              {
+                name: 'tdesign-icons-react',
+                test: /node_modules\/tdesign-icons-react/,
+                priority: 2
+              },
+              {
+                name: 'react-dom',
+                test: /node_modules\/react-dom/,
+                priority: 3
+              },
+              {
+                name: 'react-router',
+                test: /node_modules\/react-router/,
+                priority: 3
+              }
+            ]
           }
-        : undefined
+        }
+      }
     }
   }
 })
