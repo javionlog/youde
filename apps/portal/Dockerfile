@@ -1,23 +1,7 @@
-FROM node:22-alpine AS base
-
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-
-FROM base AS prod
-
-# COPY pnpm-lock.yaml /app
+FROM node:22-alpine
 WORKDIR /app
-RUN rm -rf node_modules
-RUN pnpm fetch --prod
-
-COPY . /app
-# RUN pnpm run build
-
-FROM base
-COPY ./server.js /app/
-COPY --from=prod /app/node_modules /app/node_modules
-COPY --from=prod /app/dist /app/dist
+COPY ./dist /app/dist
+COPY ./build /app
 
 EXPOSE 3000
-CMD [ "node", "server.js" ]
+ENTRYPOINT [ "node", "server.js" ]

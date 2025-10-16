@@ -11,8 +11,8 @@
   "scripts": {
     "start:dev": "react-router dev --mode dev",
     "start:prod": "react-router dev --mode prod",
-    "build:dev": "react-router build --mode dev",
-    "build:prod": "react-router build --mode prod",
+    "build:dev": "react-router build --mode dev && tsdown",
+    "build:prod": "react-router build --mode prod && tsdown",
     "preview:dev": "node --env-file .env.dev ./server.js",
     "preview:prod": "node --env-file .env.prod ./server.js",
     "api-gen": "openapi-ts",
@@ -37,6 +37,7 @@
     "@types/react-dom": "^19.1.9",
     "@youde/shared": "workspace:^",
     "tailwindcss": "^4.1.13",
+    "tsdown": "^0.15.6",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
