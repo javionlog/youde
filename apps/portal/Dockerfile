@@ -9,7 +9,7 @@ FROM base AS prod
 # COPY pnpm-lock.yaml /app
 WORKDIR /app
 RUN rm -rf node_modules
-RUN pnpm install
+RUN pnpm fetch --prod
 
 COPY . /app
 # RUN pnpm run build
