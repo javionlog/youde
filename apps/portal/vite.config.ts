@@ -1,11 +1,18 @@
 import { fileURLToPath } from 'node:url'
 import { reactRouter } from '@react-router/dev/vite'
 import tailwindcss from '@tailwindcss/vite'
+import { resolveModuleExportNames } from 'mlly'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 const curDir = fileURLToPath(new URL('.', import.meta.url))
+
+const componentNames = (await resolveModuleExportNames('tdesign-mobile-react/es/index.js')).filter(
+  v => {
+    return !/^[a-z]*$/.test(v)
+  }
+)
 
 export default defineConfig(({ mode, isSsrBuild }) => {
   const env = loadEnv(mode, curDir, 'VITE_')
@@ -42,11 +49,14 @@ export default defineConfig(({ mode, isSsrBuild }) => {
             from: 'react-router',
             imports: [
               'Navigate',
-              'BrowserRouter',
-              'useLocation',
+              'Links',
+              'Meta',
+              'Outlet',
+              'Scripts',
+              'ScrollRestoration',
+              'isRouteErrorResponse',
               'useNavigate',
-              'useOutlet',
-              'useRoutes'
+              'useLocation'
             ]
           },
           {
@@ -60,12 +70,10 @@ export default defineConfig(({ mode, isSsrBuild }) => {
           {
             from: 'ahooks',
             imports: ['useSize', 'useGetState']
-          }
-        ],
-        packagePresets: [
+          },
           {
-            package: 'tdesign-mobile-react',
-            ignore: [/^[a-z]*$/]
+            from: 'tdesign-mobile-react',
+            imports: componentNames
           }
         ],
         dirs: ['./src/global/utils/index.ts'],

@@ -36,6 +36,7 @@
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@youde/shared": "workspace:^",
+    "mlly": "^1.8.0",
     "tsdown": "^0.15.6",
     "unplugin-auto-import": "^20.0.0",
     "vite-tsconfig-paths": "^5.1.4"
