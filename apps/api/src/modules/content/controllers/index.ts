@@ -1,6 +1,13 @@
 import { guardController } from '@/global/controllers'
-import { deleteSchema, insertSchema, promiseListSchema, promiseRowSchema } from '../schemas'
-import { createThing, deleteThing, listThing } from '../services'
+import {
+  deleteReqSchema,
+  insertReqSchema,
+  promiseListResSchema,
+  promiseRowResSchema,
+  searchReqSchema,
+  updateReqSchema
+} from '../schemas'
+import { createThing, deleteThing, listThing, updateThing } from '../services'
 
 const tags = ['Content']
 
@@ -16,8 +23,22 @@ const app = guardController.group('/thing', app =>
         detail: {
           tags
         },
-        body: insertSchema,
-        response: promiseRowSchema
+        body: insertReqSchema,
+        response: promiseRowResSchema
+      }
+    )
+    .post(
+      '/update',
+      async ({ body, user }) => {
+        const { username } = user!
+        return await updateThing({ ...body, username: username! })
+      },
+      {
+        detail: {
+          tags
+        },
+        body: updateReqSchema,
+        response: promiseRowResSchema
       }
     )
     .post(
@@ -29,17 +50,18 @@ const app = guardController.group('/thing', app =>
         detail: {
           tags
         },
-        body: deleteSchema
+        body: deleteReqSchema
       }
     )
     .post(
       '/list',
-      async () => {
-        return await listThing()
+      async ({ body }) => {
+        return await listThing(body)
       },
       {
         detail: { tags },
-        response: promiseListSchema
+        body: searchReqSchema,
+        response: promiseListResSchema
       }
     )
 )

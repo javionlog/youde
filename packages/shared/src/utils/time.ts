@@ -12,3 +12,7 @@ export const convertDateValues = <T extends Record<PropertyKey, unknown>>(value:
     [K in keyof T]: ConvertDate<T[K]>
   }
 }
+
+export const convertDateToString = (value: number | string | Date) => {
+  return new Date(value).toISOString()
+}

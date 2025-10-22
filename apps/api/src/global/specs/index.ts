@@ -9,16 +9,6 @@ export const idSpec = z.object({
   id: z.string()
 })
 
-export const sortBySpec = z.object({
-  sortBy: z
-    .object({
-      field: z.string(),
-      direction: z.enum(['asc', 'desc'])
-    })
-    .optional()
-    .default({ field: 'updatedAt', direction: 'desc' })
-})
-
 export const dateJsonSpec = {
   createdAt: z.iso.datetime().nullish(),
   updatedAt: z.iso.datetime().nullish()

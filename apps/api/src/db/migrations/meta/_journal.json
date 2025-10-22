@@ -15,6 +15,20 @@
       "when": 1761031138018,
       "tag": "0001_cheerful_zuras",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1761116088290,
+      "tag": "0002_graceful_starbolt",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1761124961657,
+      "tag": "0003_cuddly_tyger_tiger",
+      "breakpoints": true
     }
   ]
 }
