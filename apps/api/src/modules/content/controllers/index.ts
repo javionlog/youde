@@ -1,13 +1,14 @@
 import { guardController } from '@/global/controllers'
+import { createThing, deleteThing, getThing, listThing, updateThing } from '../services'
 import {
-  deleteReqSchema,
-  insertReqSchema,
-  promiseListResSchema,
-  promiseRowResSchema,
-  searchReqSchema,
-  updateReqSchema
-} from '../schemas'
-import { createThing, deleteThing, listThing, updateThing } from '../services'
+  deleteReqSpec,
+  getReqSpec,
+  insertReqSpec,
+  promiseListResSpec,
+  promiseRowResSpec,
+  searchReqSpec,
+  updateReqSpec
+} from '../specs'
 
 const tags = ['Content']
 
@@ -23,8 +24,8 @@ const app = guardController.group('/thing', app =>
         detail: {
           tags
         },
-        body: insertReqSchema,
-        response: promiseRowResSchema
+        body: insertReqSpec,
+        response: promiseRowResSpec
       }
     )
     .post(
@@ -37,8 +38,8 @@ const app = guardController.group('/thing', app =>
         detail: {
           tags
         },
-        body: updateReqSchema,
-        response: promiseRowResSchema
+        body: updateReqSpec,
+        response: promiseRowResSpec
       }
     )
     .post(
@@ -50,7 +51,20 @@ const app = guardController.group('/thing', app =>
         detail: {
           tags
         },
-        body: deleteReqSchema
+        body: deleteReqSpec
+      }
+    )
+    .post(
+      '/get',
+      async ({ body }) => {
+        return await getThing(body)
+      },
+      {
+        detail: {
+          tags
+        },
+        body: getReqSpec,
+        response: promiseRowResSpec
       }
     )
     .post(
@@ -60,8 +74,8 @@ const app = guardController.group('/thing', app =>
       },
       {
         detail: { tags },
-        body: searchReqSchema,
-        response: promiseListResSchema
+        body: searchReqSpec,
+        response: promiseListResSpec
       }
     )
 )

@@ -2,34 +2,38 @@ import { getTableColumns } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { thing } from '@/db/schemas/content'
-import { dateJsonSpec, omitBodyFields, pageSpec } from '@/global/specs'
+import { dateJsonSpec, omitReqFields, pageSpec } from '@/global/specs'
 import { getKeys } from '@/global/utils'
 
 export const statusSpec = {
   status: z.enum(['Draft', 'Pending', 'Passed'])
 }
 
-export const insertReqSchema = createInsertSchema(thing, {
+export const insertReqSpec = createInsertSchema(thing, {
   ...dateJsonSpec,
   ...statusSpec
 }).omit({
-  ...omitBodyFields,
+  ...omitReqFields,
   id: true,
   userId: true,
   status: true
 })
 
-export const updateReqSchema = createInsertSchema(thing, { ...dateJsonSpec, id: z.string() }).omit({
-  ...omitBodyFields,
+export const updateReqSpec = createInsertSchema(thing, { ...dateJsonSpec, id: z.string() }).omit({
+  ...omitReqFields,
   userId: true,
   status: true
 })
 
-export const deleteReqSchema = z.object({
+export const deleteReqSpec = z.object({
   id: z.string()
 })
 
-export const searchReqSchema = z.object({
+export const getReqSpec = z.object({
+  id: z.string()
+})
+
+export const searchReqSpec = z.object({
   ...pageSpec.shape,
   id: z.string().nullish(),
   categoryIds: z.array(z.string()).nullish(),
@@ -45,22 +49,22 @@ export const searchReqSchema = z.object({
     .default({ field: 'updatedAt', direction: 'desc' })
 })
 
-export const rowResSchema = createSelectSchema(thing, {
+export const rowResSpec = createSelectSchema(thing, {
   ...dateJsonSpec,
   ...statusSpec
 }).omit({})
 
-export const listResSchema = z.object({
-  records: z.array(rowResSchema),
+export const listResSpec = z.object({
+  records: z.array(rowResSpec),
   total: z.number()
 })
 
-export const promiseRowResSchema = createSelectSchema(thing, {
+export const promiseRowResSpec = createSelectSchema(thing, {
   ...dateJsonSpec,
   ...statusSpec
 }).omit({})
 
-export const promiseListResSchema = z.object({
-  records: z.array(rowResSchema),
+export const promiseListResSpec = z.object({
+  records: z.array(rowResSpec),
   total: z.number()
 })

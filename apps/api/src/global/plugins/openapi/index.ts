@@ -165,7 +165,8 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
         paths: {
           ...mainSpec.paths,
           ...authPaths
-        }
+        },
+        'x-scalar-navigation': []
       }
       const res = new Response(html(spec), {
         headers: {

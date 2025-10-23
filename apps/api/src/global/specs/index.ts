@@ -14,7 +14,7 @@ export const dateJsonSpec = {
   updatedAt: z.iso.datetime().nullish()
 }
 
-export const omitBodyFields = {
+export const omitReqFields = {
   createdAt: true,
   updatedAt: true,
   createdBy: true,

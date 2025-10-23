@@ -29,6 +29,13 @@
       "when": 1761124961657,
       "tag": "0003_cuddly_tyger_tiger",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1761189807802,
+      "tag": "0004_soft_magma",
+      "breakpoints": true
     }
   ]
 }

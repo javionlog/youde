@@ -13,8 +13,11 @@
       "packages/**/*.{js,ts,jsx,tsx,json,jsonc,css,html}",
       "!apps/admin/public",
       "!apps/api/public",
+      "!apps/portal/public",
       "!apps/admin/src/global/api",
-      "!apps/admin/types/auto-imports.d.ts"
+      "!apps/admin/types/auto-imports.d.ts",
+      "!apps/portal/src/global/api",
+      "!apps/portal/types/auto-imports.d.ts"
     ]
   },
   "formatter": {

@@ -3,7 +3,7 @@ import { commonFields } from './common'
 
 export const category = pgTable('category', {
   ...commonFields,
-  name: text('name').notNull()
+  name: text('name').notNull().unique()
 })
 
 export const categoryLocale = pgTable(
@@ -22,7 +22,7 @@ export const thing = pgTable('thing', {
   ...commonFields,
   categoryId: text('category_id').notNull(),
   userId: text('user_id').notNull(),
-  title: text('title').notNull(),
+  title: text('title').notNull().unique(),
   description: text('description').notNull(),
   cover: text('cover'),
   content: text('content'),

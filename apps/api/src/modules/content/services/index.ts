@@ -6,20 +6,20 @@ import { thing } from '@/db/schemas/content'
 import { withOrderBy, withPagination } from '@/db/utils'
 import { throwDataNotFoundError, throwDbError } from '@/global/errors'
 import { convertDateValues, isEmpty } from '@/global/utils'
-import type { insertReqSchema, rowResSchema, searchReqSchema, updateReqSchema } from '../schemas'
-import { statusSpec } from '../schemas'
+import type { insertReqSpec, rowResSpec, searchReqSpec, updateReqSpec } from '../specs'
+import { statusSpec } from '../specs'
 
-export const getOneThing = async (params: z.infer<typeof updateReqSchema>) => {
+export const getThing = async (params: { id: string }) => {
   const { id } = params
   const row = (await db.select().from(thing).where(eq(thing.id, id)))[0]
   if (!row) {
-    return throwDataNotFoundError()
+    throwDataNotFoundError()
   }
-  return row
+  return convertDateValues(row) as z.infer<typeof rowResSpec>
 }
 
 export const createThing = async (
-  params: z.infer<typeof insertReqSchema> & {
+  params: z.infer<typeof insertReqSpec> & {
     userId: string
     username: string
   }
@@ -27,7 +27,7 @@ export const createThing = async (
   const { Draft } = statusSpec.status.enum
   const { username, ...restParams } = params
   try {
-    const result = (
+    const row = (
       await db
         .insert(thing)
         .values({
@@ -39,20 +39,20 @@ export const createThing = async (
         })
         .returning()
     )[0]
-    return convertDateValues(result) as z.infer<typeof rowResSchema>
+    return convertDateValues(row) as z.infer<typeof rowResSpec>
   } catch (err) {
     return throwDbError(err)
   }
 }
 
 export const updateThing = async (
-  params: z.infer<typeof updateReqSchema> & {
+  params: z.infer<typeof updateReqSpec> & {
     username: string
   }
 ) => {
   const { id, username, ...restParams } = params
   try {
-    const result = (
+    const row = (
       await db
         .update(thing)
         .set({
@@ -63,7 +63,7 @@ export const updateThing = async (
         .where(eq(thing.id, id))
         .returning()
     )[0]
-    return convertDateValues(result) as z.infer<typeof rowResSchema>
+    return convertDateValues(row) as z.infer<typeof rowResSpec>
   } catch (err) {
     return throwDbError(err)
   }
@@ -75,7 +75,7 @@ export const deleteThing = async (params: { id: string }) => {
   return row
 }
 
-export const listThing = async (params: z.infer<typeof searchReqSchema>) => {
+export const listThing = async (params: z.infer<typeof searchReqSpec>) => {
   const { id, categoryIds, title, userId, status, page, pageSize, sortBy } = params
 
   const where = []
@@ -107,7 +107,7 @@ export const listThing = async (params: z.infer<typeof searchReqSchema>) => {
   if (!isEmpty(page) && !isEmpty(pageSize)) {
     withPagination(dynamicQuery, page, pageSize)
   }
-  const records = (await dynamicQuery).map(convertDateValues) as z.infer<typeof rowResSchema>[]
+  const records = (await dynamicQuery).map(convertDateValues) as z.infer<typeof rowResSpec>[]
   return {
     total,
     records
