@@ -10,7 +10,7 @@ import {
   updateReqSpec
 } from '../specs'
 
-const tags = ['Content']
+const tags = ['Thing']
 
 const app = guardController.group('/thing', app =>
   app

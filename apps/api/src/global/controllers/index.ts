@@ -6,7 +6,7 @@ export const baseController = new Elysia({ name: 'shared.baseController' })
 
 export const guardController = new Elysia({ name: 'shared.guardController' }).resolve(
   async ({ status, request, path }) => {
-    if (SKIP_AUTH_ROUTES.includes(path)) {
+    if (SKIP_AUTH_ROUTES.includes(path) || path.startsWith('/guest')) {
       return
     }
     const { headers } = request

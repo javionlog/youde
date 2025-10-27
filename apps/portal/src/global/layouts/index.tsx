@@ -15,7 +15,7 @@ export default () => {
   }
 
   return (
-    <div className='app-layout mx-auto max-w-lg'>
+    <div className='app-layout mx-auto h-dvh max-w-lg pb-[56px]'>
       <Outlet />
       <TabBar value={tabValue} onChange={onTabChange}>
         {layoutRoutes.map(item => {

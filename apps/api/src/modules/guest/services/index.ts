@@ -2,7 +2,7 @@ import { generateId } from 'better-auth'
 import { and, eq, inArray, like } from 'drizzle-orm'
 import type { z } from 'zod'
 import { db } from '@/db'
-import { thing } from '@/db/schemas/content'
+import { thing } from '@/db/schemas/thing'
 import { withOrderBy, withPagination } from '@/db/utils'
 import { throwDataNotFoundError, throwDbError } from '@/global/errors'
 import { convertDateValues, isEmpty } from '@/global/utils'
@@ -100,7 +100,7 @@ export const listThing = async (params: z.infer<typeof searchReqSpec>) => {
     where.push(inArray(thing.status, status))
   }
   dynamicQuery.where(and(...where))
-  withOrderBy(dynamicQuery, thing[sortBy.field], sortBy.direction)
+  withOrderBy(dynamicQuery, thing[sortBy?.field ?? 'updatedAt'], sortBy?.direction)
 
   const total = (await dynamicQuery).length
 

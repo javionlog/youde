@@ -1,7 +1,7 @@
 import { getTableColumns } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { thing } from '@/db/schemas/content'
+import { thing } from '@/db/schemas/thing'
 import { dateJsonSpec, omitReqFields, pageSpec } from '@/global/specs'
 import { getKeys } from '@/global/utils'
 
@@ -45,8 +45,9 @@ export const searchReqSpec = z.object({
       field: z.enum(getKeys(getTableColumns(thing))),
       direction: z.enum(['asc', 'desc'])
     })
-    .optional()
-    .default({ field: 'updatedAt', direction: 'desc' })
+    .partial()
+    .nullish()
+  // .default({ field: 'updatedAt', direction: 'desc' })
 })
 
 export const rowResSpec = createSelectSchema(thing, {
