@@ -331,7 +331,7 @@ export const resourceEndpoints = {
         where,
         offset,
         limit,
-        sortBy
+        sortBy: { field: sortBy?.field ?? 'updatedAt', direction: sortBy?.direction ?? 'desc' }
       })
 
       const resourceIds = resourceRecords.map(o => o.id)

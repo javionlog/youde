@@ -293,7 +293,7 @@ export const roleEndpoints = {
         where,
         offset,
         limit,
-        sortBy
+        sortBy: { field: sortBy?.field ?? 'updatedAt', direction: sortBy?.direction ?? 'desc' }
       })
       const total = await adapter.count({
         model: 'role',

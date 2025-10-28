@@ -172,7 +172,7 @@ export const userEndpoints = {
         where,
         offset,
         limit,
-        sortBy
+        sortBy: { field: sortBy?.field ?? 'updatedAt', direction: sortBy?.direction ?? 'desc' }
       })
       const total = await adapter.count({
         model: 'user',

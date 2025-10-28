@@ -47,7 +47,6 @@ export const searchReqSpec = z.object({
     })
     .partial()
     .nullish()
-  // .default({ field: 'updatedAt', direction: 'desc' })
 })
 
 export const rowResSpec = createSelectSchema(thing, {

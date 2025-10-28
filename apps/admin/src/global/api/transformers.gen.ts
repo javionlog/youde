@@ -11,7 +11,78 @@ import type {
   PostAuthRefreshTokenResponse,
   PostAuthSignInEmailResponse,
   PostAuthSignUpEmailResponse,
+  PostGuestThingListResponse,
+  PostThingCreateResponse,
+  PostThingGetResponse,
+  PostThingListResponse,
+  PostThingUpdateResponse,
 } from "./types.gen";
+
+export const postGuestThingListResponseTransformer = async (
+  data: any,
+): Promise<PostGuestThingListResponse> => {
+  data.records = data.records.map((item: any) => {
+    if (item.createdAt) {
+      item.createdAt = new Date(item.createdAt);
+    }
+    if (item.updatedAt) {
+      item.updatedAt = new Date(item.updatedAt);
+    }
+    return item;
+  });
+  return data;
+};
+
+export const postThingCreateResponseTransformer = async (
+  data: any,
+): Promise<PostThingCreateResponse> => {
+  if (data.createdAt) {
+    data.createdAt = new Date(data.createdAt);
+  }
+  if (data.updatedAt) {
+    data.updatedAt = new Date(data.updatedAt);
+  }
+  return data;
+};
+
+export const postThingUpdateResponseTransformer = async (
+  data: any,
+): Promise<PostThingUpdateResponse> => {
+  if (data.createdAt) {
+    data.createdAt = new Date(data.createdAt);
+  }
+  if (data.updatedAt) {
+    data.updatedAt = new Date(data.updatedAt);
+  }
+  return data;
+};
+
+export const postThingGetResponseTransformer = async (
+  data: any,
+): Promise<PostThingGetResponse> => {
+  if (data.createdAt) {
+    data.createdAt = new Date(data.createdAt);
+  }
+  if (data.updatedAt) {
+    data.updatedAt = new Date(data.updatedAt);
+  }
+  return data;
+};
+
+export const postThingListResponseTransformer = async (
+  data: any,
+): Promise<PostThingListResponse> => {
+  data.records = data.records.map((item: any) => {
+    if (item.createdAt) {
+      item.createdAt = new Date(item.createdAt);
+    }
+    if (item.updatedAt) {
+      item.updatedAt = new Date(item.updatedAt);
+    }
+    return item;
+  });
+  return data;
+};
 
 export const postAuthSignUpEmailResponseTransformer = async (
   data: any,

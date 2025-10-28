@@ -2,6 +2,9 @@ import type { ReactNode } from 'react'
 import type { Route } from './+types/root'
 import 'tdesign-mobile-react/es/style/index.css'
 import './global/styles/index.css'
+import { setApiConfig } from './global/config/api'
+
+setApiConfig()
 
 export const Layout = ({ children }: { children: ReactNode }) => {
   return (

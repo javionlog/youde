@@ -186,6 +186,234 @@ export type ResourceNodeWritable = {
   children?: Array<ResourceNodeWritable>;
 };
 
+export type PostGuestThingListData = {
+  body: {
+    page?: number;
+    pageSize?: number;
+    id?: string | null;
+    categoryIds?: Array<string> | null;
+    title?: string | null;
+    userId?: string | null;
+    status?: Array<"Draft" | "Pending" | "Passed"> | null;
+    sortBy?: {
+      field?:
+        | "id"
+        | "createdAt"
+        | "updatedAt"
+        | "createdBy"
+        | "updatedBy"
+        | "categoryId"
+        | "userId"
+        | "title"
+        | "description"
+        | "cover"
+        | "content"
+        | "status";
+      direction?: "asc" | "desc";
+    } | null;
+  };
+  path?: never;
+  query?: never;
+  url: "/guest/thing/list";
+};
+
+export type PostGuestThingListResponses = {
+  /**
+   * Response for status 200
+   */
+  200: {
+    records: Array<{
+      id: string;
+      createdAt?: Date | null;
+      updatedAt?: Date | null;
+      createdBy: string | null;
+      updatedBy: string | null;
+      categoryId: string;
+      userId: string;
+      title: string;
+      description: string;
+      cover: string | null;
+      content: string | null;
+      status: "Draft" | "Pending" | "Passed";
+    }>;
+    total: number;
+  };
+};
+
+export type PostGuestThingListResponse =
+  PostGuestThingListResponses[keyof PostGuestThingListResponses];
+
+export type PostThingCreateData = {
+  body: {
+    categoryId: string;
+    title: string;
+    description: string;
+    cover?: string | null;
+    content?: string | null;
+  };
+  path?: never;
+  query?: never;
+  url: "/thing/create";
+};
+
+export type PostThingCreateResponses = {
+  /**
+   * Response for status 200
+   */
+  200: {
+    id: string;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
+    createdBy: string | null;
+    updatedBy: string | null;
+    categoryId: string;
+    userId: string;
+    title: string;
+    description: string;
+    cover: string | null;
+    content: string | null;
+    status: "Draft" | "Pending" | "Passed";
+  };
+};
+
+export type PostThingCreateResponse =
+  PostThingCreateResponses[keyof PostThingCreateResponses];
+
+export type PostThingUpdateData = {
+  body: {
+    id: string;
+    categoryId: string;
+    title: string;
+    description: string;
+    cover?: string | null;
+    content?: string | null;
+  };
+  path?: never;
+  query?: never;
+  url: "/thing/update";
+};
+
+export type PostThingUpdateResponses = {
+  /**
+   * Response for status 200
+   */
+  200: {
+    id: string;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
+    createdBy: string | null;
+    updatedBy: string | null;
+    categoryId: string;
+    userId: string;
+    title: string;
+    description: string;
+    cover: string | null;
+    content: string | null;
+    status: "Draft" | "Pending" | "Passed";
+  };
+};
+
+export type PostThingUpdateResponse =
+  PostThingUpdateResponses[keyof PostThingUpdateResponses];
+
+export type PostThingDeleteData = {
+  body: {
+    id: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/thing/delete";
+};
+
+export type PostThingGetData = {
+  body: {
+    id: string;
+  };
+  path?: never;
+  query?: never;
+  url: "/thing/get";
+};
+
+export type PostThingGetResponses = {
+  /**
+   * Response for status 200
+   */
+  200: {
+    id: string;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
+    createdBy: string | null;
+    updatedBy: string | null;
+    categoryId: string;
+    userId: string;
+    title: string;
+    description: string;
+    cover: string | null;
+    content: string | null;
+    status: "Draft" | "Pending" | "Passed";
+  };
+};
+
+export type PostThingGetResponse =
+  PostThingGetResponses[keyof PostThingGetResponses];
+
+export type PostThingListData = {
+  body: {
+    page?: number;
+    pageSize?: number;
+    id?: string | null;
+    categoryIds?: Array<string> | null;
+    title?: string | null;
+    userId?: string | null;
+    status?: Array<"Draft" | "Pending" | "Passed"> | null;
+    sortBy?: {
+      field?:
+        | "id"
+        | "createdAt"
+        | "updatedAt"
+        | "createdBy"
+        | "updatedBy"
+        | "categoryId"
+        | "userId"
+        | "title"
+        | "description"
+        | "cover"
+        | "content"
+        | "status";
+      direction?: "asc" | "desc";
+    } | null;
+  };
+  path?: never;
+  query?: never;
+  url: "/thing/list";
+};
+
+export type PostThingListResponses = {
+  /**
+   * Response for status 200
+   */
+  200: {
+    records: Array<{
+      id: string;
+      createdAt?: Date | null;
+      updatedAt?: Date | null;
+      createdBy: string | null;
+      updatedBy: string | null;
+      categoryId: string;
+      userId: string;
+      title: string;
+      description: string;
+      cover: string | null;
+      content: string | null;
+      status: "Draft" | "Pending" | "Passed";
+    }>;
+    total: number;
+  };
+};
+
+export type PostThingListResponse =
+  PostThingListResponses[keyof PostThingListResponses];
+
 export type GetPublicData = {
   body?: never;
   path?: never;
@@ -2696,9 +2924,9 @@ export type PostAuthRbacRoleListData = {
     page?: number;
     pageSize?: number;
     sortBy?: {
-      field: string;
-      direction: "asc" | "desc";
-    };
+      field?: string;
+      direction?: "asc" | "desc";
+    } | null;
     name?: string | null;
     enabled?: boolean | null;
   };
@@ -3125,9 +3353,9 @@ export type PostAuthRbacResourceListData = {
     page?: number;
     pageSize?: number;
     sortBy?: {
-      field: string;
-      direction: "asc" | "desc";
-    };
+      field?: string;
+      direction?: "asc" | "desc";
+    } | null;
     name?: string | null;
   };
   path?: never;
@@ -3533,9 +3761,9 @@ export type PostAuthRbacResourceLocaleListData = {
     page?: number;
     pageSize?: number;
     sortBy?: {
-      field: string;
-      direction: "asc" | "desc";
-    };
+      field?: string;
+      direction?: "asc" | "desc";
+    } | null;
     field?: string | null;
   };
   path?: never;
@@ -4053,9 +4281,9 @@ export type PostAuthRbacListUserRolesData = {
     userId: string;
     roleName?: string | null;
     sortBy?: {
-      field: string;
-      direction: "asc" | "desc";
-    };
+      field?: string;
+      direction?: "asc" | "desc";
+    } | null;
     page?: number;
     pageSize?: number;
   };
@@ -4125,9 +4353,9 @@ export type PostAuthRbacListUserResourcesData = {
     resourceName?: string | null;
     resourceType?: "Menu" | "Page" | "Element";
     sortBy?: {
-      field: string;
-      direction: "asc" | "desc";
-    };
+      field?: string;
+      direction?: "asc" | "desc";
+    } | null;
     page?: number;
     pageSize?: number;
   };
@@ -4279,9 +4507,9 @@ export type PostAuthRbacListUserRolesWithGrantData = {
     page?: number;
     pageSize?: number;
     sortBy?: {
-      field: string;
-      direction: "asc" | "desc";
-    };
+      field?: string;
+      direction?: "asc" | "desc";
+    } | null;
     name?: string | null;
     enabled?: boolean | null;
     userId: string;
@@ -4358,9 +4586,9 @@ export type PostAuthRbacListRoleUsersData = {
     roleId: string;
     username?: string | null;
     sortBy?: {
-      field: string;
-      direction: "asc" | "desc";
-    };
+      field?: string;
+      direction?: "asc" | "desc";
+    } | null;
     page?: number;
     pageSize?: number;
   };
@@ -4429,9 +4657,9 @@ export type PostAuthRbacListRoleResourcesData = {
     roleId: string;
     resourceName?: string | null;
     sortBy?: {
-      field: string;
-      direction: "asc" | "desc";
-    };
+      field?: string;
+      direction?: "asc" | "desc";
+    } | null;
     page?: number;
     pageSize?: number;
   };
@@ -4583,9 +4811,9 @@ export type PostAuthRbacListResourceRolesData = {
     resourceId: string;
     roleName?: string | null;
     sortBy?: {
-      field: string;
-      direction: "asc" | "desc";
-    };
+      field?: string;
+      direction?: "asc" | "desc";
+    } | null;
     page?: number;
     pageSize?: number;
   };
@@ -4654,9 +4882,9 @@ export type PostAuthRbacListResourceUsersData = {
     resourceId: string;
     username?: string | null;
     sortBy?: {
-      field: string;
-      direction: "asc" | "desc";
-    };
+      field?: string;
+      direction?: "asc" | "desc";
+    } | null;
     page?: number;
     pageSize?: number;
   };
@@ -4914,9 +5142,9 @@ export type PostAuthRbacUserListData = {
     page?: number;
     pageSize?: number;
     sortBy?: {
-      field: string;
-      direction: "asc" | "desc";
-    };
+      field?: string;
+      direction?: "asc" | "desc";
+    } | null;
     username?: string | null;
     displayUsername?: string | null;
     email?: string | null;

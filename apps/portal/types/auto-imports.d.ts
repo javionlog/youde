@@ -6,6 +6,7 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const API_BASE_URL: typeof import('../src/global/constants/index')['API_BASE_URL']
   const ActionSheet: typeof import('tdesign-mobile-react')['ActionSheet']
   const Activity: typeof import('react')['Activity']
   const Avatar: typeof import('tdesign-mobile-react')['Avatar']
@@ -50,6 +51,7 @@ declare global {
   const Indexes: typeof import('tdesign-mobile-react')['Indexes']
   const IndexesAnchor: typeof import('tdesign-mobile-react')['IndexesAnchor']
   const Input: typeof import('tdesign-mobile-react')['Input']
+  const LANG_TYPES: typeof import('../src/global/constants/index')['LANG_TYPES']
   const Link: typeof import('tdesign-mobile-react')['Link']
   const Links: typeof import('react-router')['Links']
   const List: typeof import('tdesign-mobile-react')['List']
@@ -74,6 +76,9 @@ declare global {
   const Rate: typeof import('tdesign-mobile-react')['Rate']
   const Result: typeof import('tdesign-mobile-react')['Result']
   const Row: typeof import('tdesign-mobile-react')['Row']
+  const SCREEN_SIZE_KEYS: typeof import('../src/global/constants/index')['SCREEN_SIZE_KEYS']
+  const SCREEN_SIZE_MAP: typeof import('../src/global/constants/index')['SCREEN_SIZE_MAP']
+  const STORAGE_PREFIX: typeof import('../src/global/constants/index')['STORAGE_PREFIX']
   const Scripts: typeof import('react-router')['Scripts']
   const ScrollRestoration: typeof import('react-router')['ScrollRestoration']
   const Search: typeof import('tdesign-mobile-react')['Search']
@@ -90,6 +95,7 @@ declare global {
   const SwipeCell: typeof import('tdesign-mobile-react')['SwipeCell']
   const Swiper: typeof import('tdesign-mobile-react')['Swiper']
   const Switch: typeof import('tdesign-mobile-react')['Switch']
+  const THEME_MODES: typeof import('../src/global/constants/index')['THEME_MODES']
   const TabBar: typeof import('tdesign-mobile-react')['TabBar']
   const TabBarItem: typeof import('tdesign-mobile-react')['TabBarItem']
   const TabPanel: typeof import('tdesign-mobile-react')['TabPanel']
@@ -134,4 +140,10 @@ declare global {
   const useSize: typeof import('ahooks')['useSize']
   const useState: typeof import('react')['useState']
   const useTranslation: typeof import('react-i18next')['useTranslation']
+}
+// for type re-export
+declare global {
+  // @ts-ignore
+  export type { LangType, ThemeMode, ScreenSizeKey } from '../src/global/constants/index'
+  import('../src/global/constants/index')
 }

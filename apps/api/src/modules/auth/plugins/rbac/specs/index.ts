@@ -15,6 +15,6 @@ export const sortBySpec = z.object({
       field: z.string(),
       direction: z.enum(['asc', 'desc'])
     })
-    .optional()
-    .default({ field: 'updatedAt', direction: 'desc' })
+    .partial()
+    .nullish()
 })

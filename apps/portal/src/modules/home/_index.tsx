@@ -31,7 +31,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
     }
     const res = await postGuestThingList({
       body: { page: page.current, pageSize: 10 },
-      baseUrl: '/api'
+      baseUrl: API_BASE_URL
     }).then(r => r.data!)
     if (isRefresh) {
       records.current = res.records

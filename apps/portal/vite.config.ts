@@ -76,7 +76,7 @@ export default defineConfig(({ mode, isSsrBuild }) => {
             imports: componentNames
           }
         ],
-        dirs: ['./src/global/utils/index.ts'],
+        dirs: ['./src/global/utils/index.ts', './src/global/constants/index.ts'],
         dts: 'types/auto-imports.d.ts'
       })
     ],

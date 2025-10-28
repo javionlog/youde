@@ -13,6 +13,11 @@ import {
   postAuthRefreshTokenResponseTransformer,
   postAuthSignInEmailResponseTransformer,
   postAuthSignUpEmailResponseTransformer,
+  postGuestThingListResponseTransformer,
+  postThingCreateResponseTransformer,
+  postThingGetResponseTransformer,
+  postThingListResponseTransformer,
+  postThingUpdateResponseTransformer,
 } from "./transformers.gen";
 import type {
   GetAuthDeleteUserCallbackData,
@@ -219,6 +224,17 @@ import type {
   PostAuthUpdateUserData,
   PostAuthUpdateUserErrors,
   PostAuthUpdateUserResponses,
+  PostGuestThingListData,
+  PostGuestThingListResponses,
+  PostThingCreateData,
+  PostThingCreateResponses,
+  PostThingDeleteData,
+  PostThingGetData,
+  PostThingGetResponses,
+  PostThingListData,
+  PostThingListResponses,
+  PostThingUpdateData,
+  PostThingUpdateResponses,
   SocialSignInData,
   SocialSignInErrors,
   SocialSignInResponses,
@@ -239,6 +255,109 @@ export type Options<
    * used to access values that aren't defined as part of the SDK function.
    */
   meta?: Record<string, unknown>;
+};
+
+export const postGuestThingList = <ThrowOnError extends boolean = false>(
+  options: Options<PostGuestThingListData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostGuestThingListResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseTransformer: postGuestThingListResponseTransformer,
+    url: "/guest/thing/list",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+export const postThingCreate = <ThrowOnError extends boolean = false>(
+  options: Options<PostThingCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostThingCreateResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseTransformer: postThingCreateResponseTransformer,
+    url: "/thing/create",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+export const postThingUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<PostThingUpdateData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostThingUpdateResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseTransformer: postThingUpdateResponseTransformer,
+    url: "/thing/update",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+export const postThingDelete = <ThrowOnError extends boolean = false>(
+  options: Options<PostThingDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<unknown, unknown, ThrowOnError>({
+    url: "/thing/delete",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+export const postThingGet = <ThrowOnError extends boolean = false>(
+  options: Options<PostThingGetData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostThingGetResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseTransformer: postThingGetResponseTransformer,
+    url: "/thing/get",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+};
+
+export const postThingList = <ThrowOnError extends boolean = false>(
+  options: Options<PostThingListData, ThrowOnError>,
+) => {
+  return (options.client ?? client).post<
+    PostThingListResponses,
+    unknown,
+    ThrowOnError
+  >({
+    responseTransformer: postThingListResponseTransformer,
+    url: "/thing/list",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
 };
 
 export const getPublic = <ThrowOnError extends boolean = false>(
