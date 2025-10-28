@@ -61,7 +61,7 @@ export default defineConfig(({ mode, isSsrBuild }) => {
           },
           {
             from: 'es-toolkit',
-            imports: ['isNil', 'camelCase', 'uniq', 'uniqBy']
+            imports: ['isNil', 'isBrowser', 'camelCase', 'uniq', 'uniqBy']
           },
           {
             from: 'react-i18next',

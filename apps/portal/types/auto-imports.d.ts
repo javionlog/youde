@@ -120,6 +120,7 @@ declare global {
   const getChildrenNodes: typeof import('../../../packages/shared/dist/main.js')['getChildrenNodes']
   const getKeys: typeof import('../../../packages/shared/dist/main.js')['getKeys']
   const getParentNodes: typeof import('../../../packages/shared/dist/main.js')['getParentNodes']
+  const isBrowser: typeof import('es-toolkit')['isBrowser']
   const isEmpty: typeof import('../../../packages/shared/dist/main.js')['isEmpty']
   const isNil: typeof import('es-toolkit')['isNil']
   const isRouteErrorResponse: typeof import('react-router')['isRouteErrorResponse']

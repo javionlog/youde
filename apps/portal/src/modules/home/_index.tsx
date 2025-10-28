@@ -24,14 +24,14 @@ export default ({ loaderData }: Route.ComponentProps) => {
       return
     }
     setLoadingText('loading')
+    setRefreshing(true)
     if (isRefresh) {
       page.current = 1
     } else {
       page.current += 1
     }
     const res = await postGuestThingList({
-      body: { page: page.current, pageSize: 10 },
-      baseUrl: API_BASE_URL
+      body: { page: page.current, pageSize: 10 }
     }).then(r => r.data!)
     if (isRefresh) {
       records.current = res.records

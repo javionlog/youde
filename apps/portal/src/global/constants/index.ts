@@ -1,7 +1,5 @@
 export const STORAGE_PREFIX = 'youde-'
 
-export const API_BASE_URL = '/api'
-
 export const THEME_MODES = ['light', 'dark'] as const
 
 export const LANG_TYPES = ['en-us', 'zh-cn'] as const
