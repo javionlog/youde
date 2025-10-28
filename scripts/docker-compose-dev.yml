@@ -23,6 +23,8 @@ services:
       - youde-network
     depends_on:
       - api
+    env_file:
+      - 1panel.env
   api:
     image: ghcr.io/javionlog/youde-api-dev:latest
     container_name: api-dev
