@@ -3,21 +3,23 @@ import type { PostGuestThingListResponse } from '@/global/api'
 import { postGuestThingList } from '@/global/api'
 import type { Route } from './+types/_index'
 
+const defaultPageSize = 20
+
 export const meta = () => {
   return [{ title: 'Youde Portal' }, { name: 'description', content: 'Welcome to Youde Portal' }]
 }
 
 export const loader = async () => {
-  const result = await postGuestThingList({ body: { page: 1, pageSize: 10 } })
-  return result
+  const result = await postGuestThingList({ body: { page: 1, pageSize: defaultPageSize } })
+  return result.data
 }
 
 export default ({ loaderData }: Route.ComponentProps) => {
   const [loadingText, setLoadingText] = useState('')
   const [refreshing, setRefreshing] = useState(false)
   const page = useRef(1)
-  const total = useRef(loaderData.data?.total ?? 0)
-  const records = useRef<PostGuestThingListResponse['records']>(loaderData.data?.records ?? [])
+  const total = useRef(loaderData?.total ?? 0)
+  const records = useRef<PostGuestThingListResponse['records']>(loaderData?.records ?? [])
 
   const fetchRecords = async (isRefresh = false) => {
     if ((records.current.length >= total.current && !isRefresh) || refreshing) {
@@ -31,7 +33,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
       page.current += 1
     }
     const res = await postGuestThingList({
-      body: { page: page.current, pageSize: 10 }
+      body: { page: page.current, pageSize: defaultPageSize }
     }).then(r => r.data!)
     if (isRefresh) {
       records.current = res.records
