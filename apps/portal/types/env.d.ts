@@ -7,6 +7,7 @@ declare global {
     PROD: boolean
     VITE_API_HOST_NAME: string
     VITE_API_HOST_PORT: string
+    VITE_SERVER_HOST_PORT: string
   }
   interface ImportMeta {
     readonly env: Readonly<ImportMetaEnv>

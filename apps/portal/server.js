@@ -5,7 +5,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware'
 import morgan from 'morgan'
 
 const serverEntry = './dist/server/index.js'
-const port = Number(process.env.PORT ?? '3000')
+const port = Number(process.env.VITE_SERVER_HOST_PORT)
 
 const app = express()
 
