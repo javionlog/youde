@@ -3,5 +3,5 @@ WORKDIR /app
 COPY ./dist /app/dist
 COPY ./build /app
 
-EXPOSE 3000
+EXPOSE 4000
 ENTRYPOINT [ "node", "server.js" ]
