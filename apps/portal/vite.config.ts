@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { resolveModuleExportNames } from 'mlly'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
+import babel from 'vite-plugin-babel'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 const curDir = fileURLToPath(new URL('.', import.meta.url))
@@ -22,6 +23,13 @@ export default defineConfig(({ mode, isSsrBuild }) => {
     plugins: [
       tailwindcss(),
       reactRouter(),
+      babel({
+        filter: /\.[jt]sx?$/,
+        babelConfig: {
+          presets: ['@babel/preset-typescript'],
+          plugins: [['babel-plugin-react-compiler', {}]]
+        }
+      }),
       tsconfigPaths(),
       AutoImport({
         imports: [

@@ -14,7 +14,11 @@ export default defineConfig(({ mode }) => {
     plugins: [
       tsconfigPaths(),
       tailwindcss(),
-      react(),
+      react({
+        babel: {
+          plugins: ['babel-plugin-react-compiler']
+        }
+      }),
       AutoImport({
         imports: [
           {
