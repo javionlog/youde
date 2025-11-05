@@ -1,24 +1,29 @@
 import { guardController } from '@/global/controllers'
-import { createThing, deleteThing, getThing, listThings, updateThing } from '../services'
+import {
+  createCategory,
+  deleteCategory,
+  getCategory,
+  listCategoryTree,
+  updateCategory
+} from '../services'
 import {
   deleteReqSpec,
   getReqSpec,
   insertReqSpec,
-  promiseListResSpec,
   promiseRowResSpec,
-  searchReqSpec,
+  promiseTreetResSpec,
   updateReqSpec
 } from '../specs'
 
-const tags = ['Thing']
+const tags = ['Category']
 
-const app = guardController.group('/thing', app =>
+const app = guardController.group('/category', app =>
   app
     .post(
       '/create',
       async ({ body, user }) => {
         const { id, username } = user!
-        return await createThing({ ...body, userId: id, username: username! })
+        return await createCategory({ ...body, userId: id, username: username! })
       },
       {
         detail: {
@@ -32,7 +37,7 @@ const app = guardController.group('/thing', app =>
       '/update',
       async ({ body, user }) => {
         const { username } = user!
-        return await updateThing({ ...body, username: username! })
+        return await updateCategory({ ...body, username: username! })
       },
       {
         detail: {
@@ -45,7 +50,7 @@ const app = guardController.group('/thing', app =>
     .post(
       '/delete',
       async ({ body }) => {
-        return await deleteThing(body)
+        return await deleteCategory(body)
       },
       {
         detail: {
@@ -57,7 +62,7 @@ const app = guardController.group('/thing', app =>
     .post(
       '/get',
       async ({ body }) => {
-        return await getThing(body)
+        return await getCategory(body)
       },
       {
         detail: {
@@ -68,14 +73,23 @@ const app = guardController.group('/thing', app =>
       }
     )
     .post(
-      '/list',
-      async ({ body }) => {
-        return await listThings(body)
+      '/tree',
+      async () => {
+        return await listCategoryTree({})
       },
       {
         detail: { tags },
-        body: searchReqSpec,
-        response: promiseListResSpec
+        response: promiseTreetResSpec
+      }
+    )
+    .post(
+      '/enabled-tree',
+      async () => {
+        return await listCategoryTree({ enabled: true })
+      },
+      {
+        detail: { tags },
+        response: promiseTreetResSpec
       }
     )
 )

@@ -51,6 +51,7 @@ export const updateThing = async (
   }
 ) => {
   const { id, username, ...restParams } = params
+  await getThing({ id })
   try {
     const row = (
       await db
@@ -71,11 +72,11 @@ export const updateThing = async (
 
 export const deleteThing = async (params: { id: string }) => {
   const { id } = params
-  const row = (await db.delete(thing).where(eq(thing.id, id)).returning())[0]
-  return row
+  const result = await db.delete(thing).where(eq(thing.id, id))
+  return result
 }
 
-export const listThing = async (params: z.infer<typeof searchReqSpec>) => {
+export const listThings = async (params: z.infer<typeof searchReqSpec>) => {
   const { id, categoryIds, title, userId, status, page, pageSize, sortBy } = params
 
   const where = []

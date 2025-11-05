@@ -39,6 +39,18 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
     '/openapi',
     async () => {
       const mainSpec = await fetch(`http://localhost:3000/scalar/json`).then(r => r.json())
+      const defSpec: any = {}
+      const walkObj = (obj: any) => {
+        for (const [k, v] of Object.entries(obj)) {
+          if (typeof obj[k] === 'object') {
+            if (k === '$defs') {
+              defSpec[k] = v
+            }
+            walkObj(v)
+          }
+        }
+      }
+      walkObj(mainSpec)
       const authSpec = await auth.api.generateOpenAPISchema()
       const authPaths = Object.fromEntries(
         Object.entries(authSpec.paths).map(([k, v]) => {
@@ -61,6 +73,7 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
         })
       ) as any
       const spec = {
+        ...defSpec,
         openapi: '3.1.0',
         info: {
           title: 'Youde API Documentation',
@@ -109,6 +122,18 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
     '/doc',
     async () => {
       const mainSpec = await fetch(`http://localhost:3000/scalar/json`).then(r => r.json())
+      const defSpec: any = {}
+      const walkObj = (obj: any) => {
+        for (const [k, v] of Object.entries(obj)) {
+          if (typeof obj[k] === 'object') {
+            if (k === '$defs') {
+              defSpec[k] = v
+            }
+            walkObj(v)
+          }
+        }
+      }
+      walkObj(mainSpec)
       const authSpec = await auth.api.generateOpenAPISchema()
       const authPaths = Object.fromEntries(
         Object.entries(authSpec.paths).map(([k, v]) => {
@@ -131,6 +156,7 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
         })
       ) as any
       const spec = {
+        ...defSpec,
         openapi: '3.1.0',
         info: {
           title: 'Youde API Documentation',

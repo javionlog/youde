@@ -75,7 +75,7 @@ export const deleteThing = async (params: { id: string }) => {
   return row
 }
 
-export const listThing = async (params: z.infer<typeof searchReqSpec>) => {
+export const listThings = async (params: z.infer<typeof searchReqSpec>) => {
   const { id, categoryIds, title, userId, status, page, pageSize, sortBy } = params
 
   const where = []

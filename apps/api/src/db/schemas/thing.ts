@@ -1,9 +1,12 @@
-import { integer, pgTable, text, uniqueIndex } from 'drizzle-orm/pg-core'
+import { boolean, integer, pgTable, text, uniqueIndex } from 'drizzle-orm/pg-core'
 import { commonFields } from './common'
 
 export const category = pgTable('category', {
   ...commonFields,
-  name: text('name').notNull().unique()
+  parentId: text('parent_id'),
+  name: text('name').notNull().unique(),
+  enabled: boolean('enabled').notNull(),
+  sort: integer('sort')
 })
 
 export const categoryLocale = pgTable(
@@ -24,10 +27,26 @@ export const thing = pgTable('thing', {
   userId: text('user_id').notNull(),
   title: text('title').notNull().unique(),
   description: text('description').notNull(),
+  platform: text('platform').notNull(),
+  fee: text('fee').notNull(),
+  country: text('country').notNull(),
   cover: text('cover'),
   content: text('content'),
+  url: text('url'),
   status: text('status').notNull()
 })
+
+export const thingLocale = pgTable(
+  'thing_locale',
+  {
+    ...commonFields,
+    thingId: text('thing_id').notNull(),
+    field: text('field').notNull(),
+    enUs: text('en_us').notNull(),
+    zhCn: text('zh_cn').notNull()
+  },
+  table => [uniqueIndex('thingIdFieldUniqueIndex').on(table.thingId, table.field)]
+)
 
 export const thingRate = pgTable(
   'thing_rate',
@@ -45,7 +64,7 @@ export const thingComment = pgTable('thing_comment', {
   thingId: text('thing_id').notNull(),
   userId: text('user_id').notNull(),
   parentId: text('parent_id'),
-  content: integer('content').notNull(),
+  content: text('content').notNull(),
   status: text('status').notNull()
 })
 

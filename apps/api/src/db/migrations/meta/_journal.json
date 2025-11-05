@@ -36,6 +36,48 @@
       "when": 1761189807802,
       "tag": "0004_soft_magma",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1762238902462,
+      "tag": "0005_dashing_alex_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1762239057699,
+      "tag": "0006_nostalgic_karnak",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1762239402230,
+      "tag": "0007_curved_ben_urich",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1762246636828,
+      "tag": "0008_brief_killmonger",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1762246722045,
+      "tag": "0009_smooth_meggan",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1762247051027,
+      "tag": "0010_cold_wonder_man",
+      "breakpoints": true
     }
   ]
 }

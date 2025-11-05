@@ -64,7 +64,9 @@ export const promiseRowResSpec = createSelectSchema(thing, {
   ...statusSpec
 }).omit({})
 
-export const promiseListResSpec = z.object({
-  records: z.array(rowResSpec),
-  total: z.number()
-})
+export const promiseListResSpec = z.promise(
+  z.object({
+    records: z.array(rowResSpec),
+    total: z.number()
+  })
+)
