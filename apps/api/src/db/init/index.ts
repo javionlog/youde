@@ -2,6 +2,8 @@ import { consola } from 'consola'
 import { sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { auth } from '@/modules/auth/services'
+import { createCategory } from '@/modules/category/services'
+import { createCategoryLocale } from '@/modules/category-locale/services'
 
 const { api } = auth
 
@@ -24,7 +26,7 @@ const reset = async () => {
 }
 
 const init = async () => {
-  const userRes = (await api.signUpEmail({
+  const _userRes = (await api.signUpEmail({
     body: {
       name: 'admin',
       username: 'admin',
@@ -32,6 +34,11 @@ const init = async () => {
       password: '12345678'
     }
   }))!
+  type UserRes = typeof _userRes
+  const userRes = _userRes as {
+    token: UserRes['token']
+    user: UserRes['user'] & { username: string }
+  }
   const roleRes = (await api.createRole({
     body: {
       name: 'Super Admin',
@@ -130,6 +137,211 @@ const init = async () => {
       body: {
         userId: userRes.user.id,
         roleId: id
+      }
+    })
+  }
+
+  const categoryCommonFields = {
+    userId: userRes.user.id,
+    username: userRes.user.username
+  }
+
+  const categoryData = [
+    {
+      name: 'Technology',
+      enUs: 'Technology',
+      zhCn: '技术',
+      children: [
+        {
+          name: 'Editor',
+          enUs: 'Editor',
+          zhCn: '编辑器'
+        },
+        {
+          name: 'Database',
+          enUs: 'Database',
+          zhCn: '数据库'
+        },
+        {
+          name: 'Network',
+          enUs: 'Network',
+          zhCn: '网络'
+        },
+        {
+          name: 'Debugging',
+          enUs: 'Debugging',
+          zhCn: '调试'
+        },
+        {
+          name: 'File',
+          enUs: 'File',
+          zhCn: '文件'
+        },
+        {
+          name: 'Project Management',
+          enUs: 'Project Management',
+          zhCn: '项目管理'
+        },
+        {
+          name: 'Mind Map',
+          enUs: 'Mind Map',
+          zhCn: '思维导图'
+        }
+      ]
+    },
+    {
+      name: 'Multimedia',
+      enUs: 'Multimedia',
+      zhCn: '多媒体',
+      children: [
+        {
+          name: 'Design',
+          enUs: 'Design',
+          zhCn: '设计'
+        },
+        {
+          name: 'Image',
+          enUs: 'Image',
+          zhCn: '图片'
+        },
+        {
+          name: 'Video',
+          enUs: 'Video',
+          zhCn: '视频'
+        },
+        {
+          name: 'Modeling',
+          enUs: 'Modeling',
+          zhCn: '建模'
+        },
+        {
+          name: 'Material',
+          enUs: 'Material',
+          zhCn: '素材'
+        }
+      ]
+    },
+    {
+      name: 'Office',
+      enUs: 'Office',
+      zhCn: '办公',
+      children: [
+        {
+          name: 'Note',
+          enUs: 'Note',
+          zhCn: '笔记'
+        },
+        {
+          name: 'Team Collaboration',
+          enUs: 'Team Collaboration',
+          zhCn: '团队协作'
+        },
+        {
+          name: 'Time Management',
+          enUs: 'Time Management',
+          zhCn: '时间管理'
+        },
+        {
+          name: 'Screen Capture',
+          enUs: 'Screen Capture',
+          zhCn: '截屏'
+        }
+      ]
+    },
+    {
+      name: 'Study',
+      enUs: 'Study',
+      zhCn: '学习',
+      children: [
+        {
+          name: 'Online Course',
+          enUs: 'Online Course',
+          zhCn: '在线课程'
+        },
+        {
+          name: 'Knowledge Community',
+          enUs: 'Knowledge Community',
+          zhCn: '知识社区'
+        },
+        {
+          name: 'Language Learning',
+          enUs: 'Language Learning',
+          zhCn: '语言学习'
+        },
+        {
+          name: 'Programming Learning',
+          enUs: 'Programming Learning',
+          zhCn: '编程学习'
+        }
+      ]
+    },
+    {
+      name: 'Entertainment',
+      enUs: 'Entertainment',
+      zhCn: '娱乐',
+      children: [
+        {
+          name: 'Movie',
+          enUs: 'Movie',
+          zhCn: '影视'
+        },
+        {
+          name: 'Music',
+          enUs: 'Music',
+          zhCn: '音乐'
+        },
+        {
+          name: 'Anime',
+          enUs: 'Anime',
+          zhCn: '动漫'
+        },
+        {
+          name: 'E-book',
+          enUs: 'E-book',
+          zhCn: '电子书'
+        }
+      ]
+    },
+    {
+      name: 'Life',
+      enUs: 'Life',
+      zhCn: '生活',
+      children: [
+        {
+          name: 'Shipping',
+          enUs: 'Shipping',
+          zhCn: '购物'
+        }
+      ]
+    }
+  ]
+
+  for (const item of categoryData) {
+    await createCategory({
+      ...categoryCommonFields,
+      name: item.name
+    }).then(async res => {
+      await createCategoryLocale({
+        ...categoryCommonFields,
+        categoryId: res.id,
+        field: 'name',
+        enUs: item.enUs,
+        zhCn: item.zhCn
+      })
+      for (const subItem of item.children) {
+        await createCategory({
+          ...categoryCommonFields,
+          parentId: res.id,
+          name: subItem.name
+        }).then(async res => {
+          await createCategoryLocale({
+            ...categoryCommonFields,
+            categoryId: res.id,
+            field: 'name',
+            enUs: subItem.enUs,
+            zhCn: subItem.zhCn
+          })
+        })
       }
     })
   }

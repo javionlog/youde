@@ -9,11 +9,6 @@ export const idSpec = z.object({
   id: z.string()
 })
 
-export const dateJsonSpec = {
-  createdAt: z.iso.datetime().nullish(),
-  updatedAt: z.iso.datetime().nullish()
-}
-
 export const omitReqFields = {
   createdAt: true,
   updatedAt: true,

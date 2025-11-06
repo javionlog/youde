@@ -6,7 +6,7 @@ import { category, categoryLocale, thing } from '@/db/schemas/thing'
 import { withOrderBy } from '@/db/utils'
 import { CommonError, throwDataNotFoundError, throwDbError } from '@/global/errors'
 import { buildTree, convertDateValues, isEmpty } from '@/global/utils'
-import type { insertReqSpec, rowResSpec, searchReqSpec, updateReqSpec } from '../specs'
+import type { insertReqSpec, searchReqSpec, updateReqSpec } from '../specs'
 
 export const checkChildrenCategory = async (params: { id: string }) => {
   const { id } = params
@@ -40,9 +40,9 @@ export const getCategory = async (params: { id: string }) => {
     throwDataNotFoundError()
   }
 
-  const result = { ...row, locales }
+  const result = convertDateValues({ ...row, locales })
 
-  return convertDateValues(result) as z.infer<typeof rowResSpec> & { locales: typeof locales }
+  return result
 }
 
 export const createCategory = async (
@@ -64,7 +64,7 @@ export const createCategory = async (
         })
         .returning()
     )[0]
-    return convertDateValues(row) as z.infer<typeof rowResSpec>
+    return convertDateValues(row)
   } catch (err) {
     return throwDbError(err)
   }
@@ -84,12 +84,12 @@ export const updateCategory = async (
         .set({
           ...restParams,
           updatedBy: username,
-          updatedAt: new Date()
+          updatedAt: new Date().toDateString()
         })
         .where(eq(category.id, id))
         .returning()
     )[0]
-    return convertDateValues(row) as z.infer<typeof rowResSpec>
+    return convertDateValues(row)
   } catch (err) {
     return throwDbError(err)
   }
@@ -114,7 +114,7 @@ export const listCategoryTree = async (params: z.infer<typeof searchReqSpec>) =>
   dynamicQuery.where(and(...where))
   withOrderBy(dynamicQuery, category.sort, 'asc')
 
-  const records = (await dynamicQuery).map(convertDateValues) as z.infer<typeof rowResSpec>[]
+  const records = (await dynamicQuery).map(convertDateValues)
 
   const locales = (
     await db

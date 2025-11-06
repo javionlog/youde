@@ -1,20 +1,16 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { category, categoryLocale } from '@/db/schemas/thing'
-import { dateJsonSpec, omitReqFields } from '@/global/specs'
+import { omitReqFields } from '@/global/specs'
 
-export const insertReqSpec = createInsertSchema(category, {
-  ...dateJsonSpec
-}).omit({
+export const insertReqSpec = createInsertSchema(category).omit({
   ...omitReqFields,
   id: true
 })
 
-export const updateReqSpec = createInsertSchema(category, { ...dateJsonSpec, id: z.string() }).omit(
-  {
-    ...omitReqFields
-  }
-)
+export const updateReqSpec = createInsertSchema(category).omit({
+  ...omitReqFields
+})
 
 export const deleteReqSpec = z.object({
   id: z.string()
@@ -28,14 +24,10 @@ export const searchReqSpec = z.object({
   enabled: z.boolean().nullish()
 })
 
-export const categoryLocaleResSpec = createSelectSchema(categoryLocale, { ...dateJsonSpec }).omit(
-  {}
-)
+export const categoryLocaleResSpec = createSelectSchema(categoryLocale).omit({})
 
 export const rowResSpec = z.object({
-  ...createSelectSchema(category, {
-    ...dateJsonSpec
-  }).omit({}).shape,
+  ...createSelectSchema(category).omit({}).shape,
   locales: z.array(categoryLocaleResSpec)
 })
 
@@ -49,10 +41,8 @@ export const treeResSpec = z.object({
 })
 
 export const promiseRowResSpec = z.object({
-  ...createSelectSchema(category, {
-    ...dateJsonSpec
-  }).omit({}).shape,
+  ...createSelectSchema(category).omit({}).shape,
   locales: z.array(categoryLocaleResSpec)
 })
 
-export const promiseTreetResSpec = z.promise(z.array(treeResSpec))
+export const promiseTreeResSpec = z.promise(z.array(treeResSpec))

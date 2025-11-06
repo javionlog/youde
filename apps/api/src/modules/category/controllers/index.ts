@@ -11,7 +11,7 @@ import {
   getReqSpec,
   insertReqSpec,
   promiseRowResSpec,
-  promiseTreetResSpec,
+  promiseTreeResSpec,
   updateReqSpec
 } from '../specs'
 
@@ -30,7 +30,7 @@ const app = guardController.group('/category', app =>
           tags
         },
         body: insertReqSpec,
-        response: promiseRowResSpec
+        response: promiseRowResSpec.omit({ locales: true })
       }
     )
     .post(
@@ -44,7 +44,7 @@ const app = guardController.group('/category', app =>
           tags
         },
         body: updateReqSpec,
-        response: promiseRowResSpec
+        response: promiseRowResSpec.omit({ locales: true })
       }
     )
     .post(
@@ -79,7 +79,7 @@ const app = guardController.group('/category', app =>
       },
       {
         detail: { tags },
-        response: promiseTreetResSpec
+        response: promiseTreeResSpec
       }
     )
     .post(
@@ -89,7 +89,7 @@ const app = guardController.group('/category', app =>
       },
       {
         detail: { tags },
-        response: promiseTreetResSpec
+        response: promiseTreeResSpec
       }
     )
 )

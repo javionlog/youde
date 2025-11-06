@@ -5,7 +5,7 @@ export const category = pgTable('category', {
   ...commonFields,
   parentId: text('parent_id'),
   name: text('name').notNull().unique(),
-  enabled: boolean('enabled').notNull(),
+  enabled: boolean('enabled'),
   sort: integer('sort')
 })
 

@@ -6,16 +6,24 @@ import { thing } from '@/db/schemas/thing'
 import { withOrderBy, withPagination } from '@/db/utils'
 import { throwDataNotFoundError, throwDbError } from '@/global/errors'
 import { convertDateValues, isEmpty } from '@/global/utils'
-import type { insertReqSpec, rowResSpec, searchReqSpec, updateReqSpec } from '../specs'
+import type {
+  deleteReqSpec,
+  getReqSpec,
+  insertReqSpec,
+  promiseListResSpec,
+  promiseRowResSpec,
+  searchReqSpec,
+  updateReqSpec
+} from '../specs'
 import { statusSpec } from '../specs'
 
-export const getThing = async (params: { id: string }) => {
+export const getThing = async (params: z.infer<typeof getReqSpec>) => {
   const { id } = params
   const row = (await db.select().from(thing).where(eq(thing.id, id)))[0]
   if (!row) {
     throwDataNotFoundError()
   }
-  return convertDateValues(row) as z.infer<typeof rowResSpec>
+  return convertDateValues(row) as z.infer<typeof promiseRowResSpec>
 }
 
 export const createThing = async (
@@ -39,7 +47,7 @@ export const createThing = async (
         })
         .returning()
     )[0]
-    return convertDateValues(row) as z.infer<typeof rowResSpec>
+    return convertDateValues(row) as z.infer<typeof promiseRowResSpec>
   } catch (err) {
     return throwDbError(err)
   }
@@ -59,18 +67,18 @@ export const updateThing = async (
         .set({
           ...restParams,
           updatedBy: username,
-          updatedAt: new Date()
+          updatedAt: new Date().toDateString()
         })
         .where(eq(thing.id, id))
         .returning()
     )[0]
-    return convertDateValues(row) as z.infer<typeof rowResSpec>
+    return convertDateValues(row) as z.infer<typeof promiseRowResSpec>
   } catch (err) {
     return throwDbError(err)
   }
 }
 
-export const deleteThing = async (params: { id: string }) => {
+export const deleteThing = async (params: z.infer<typeof deleteReqSpec>) => {
   const { id } = params
   const result = await db.delete(thing).where(eq(thing.id, id))
   return result
@@ -108,9 +116,9 @@ export const listThings = async (params: z.infer<typeof searchReqSpec>) => {
   if (!isEmpty(page) && !isEmpty(pageSize)) {
     withPagination(dynamicQuery, page, pageSize)
   }
-  const records = (await dynamicQuery).map(convertDateValues) as z.infer<typeof rowResSpec>[]
+  const records = (await dynamicQuery).map(convertDateValues)
   return {
     total,
     records
-  }
+  } as z.infer<typeof promiseListResSpec>
 }
