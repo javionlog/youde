@@ -5,7 +5,7 @@ import { db } from '@/db'
 import { thing } from '@/db/schemas/thing'
 import { withOrderBy, withPagination } from '@/db/utils'
 import { throwDataNotFoundError, throwDbError } from '@/global/errors'
-import { convertDateValues, isEmpty } from '@/global/utils'
+import { isEmpty } from '@/global/utils'
 import type {
   deleteReqSpec,
   getReqSpec,
@@ -23,7 +23,7 @@ export const getThing = async (params: z.infer<typeof getReqSpec>) => {
   if (!row) {
     throwDataNotFoundError()
   }
-  return convertDateValues(row) as z.infer<typeof promiseRowResSpec>
+  return row as z.infer<typeof promiseRowResSpec>
 }
 
 export const createThing = async (
@@ -47,7 +47,7 @@ export const createThing = async (
         })
         .returning()
     )[0]
-    return convertDateValues(row) as z.infer<typeof promiseRowResSpec>
+    return row as z.infer<typeof promiseRowResSpec>
   } catch (err) {
     return throwDbError(err)
   }
@@ -72,7 +72,7 @@ export const updateThing = async (
         .where(eq(thing.id, id))
         .returning()
     )[0]
-    return convertDateValues(row) as z.infer<typeof promiseRowResSpec>
+    return row as z.infer<typeof promiseRowResSpec>
   } catch (err) {
     return throwDbError(err)
   }
@@ -116,7 +116,7 @@ export const listThings = async (params: z.infer<typeof searchReqSpec>) => {
   if (!isEmpty(page) && !isEmpty(pageSize)) {
     withPagination(dynamicQuery, page, pageSize)
   }
-  const records = (await dynamicQuery).map(convertDateValues)
+  const records = await dynamicQuery
   return {
     total,
     records

@@ -5,7 +5,7 @@ import { db } from '@/db'
 import { category, categoryLocale, thing } from '@/db/schemas/thing'
 import { withOrderBy } from '@/db/utils'
 import { CommonError, throwDataNotFoundError, throwDbError } from '@/global/errors'
-import { buildTree, convertDateValues, isEmpty } from '@/global/utils'
+import { buildTree, isEmpty } from '@/global/utils'
 import type { insertReqSpec, searchReqSpec, updateReqSpec } from '../specs'
 
 export const checkChildrenCategory = async (params: { id: string }) => {
@@ -32,15 +32,13 @@ export const getCategory = async (params: { id: string }) => {
 
   const row = (await db.select().from(category).where(eq(category.id, id)))[0]
 
-  const locales = (
-    await db.select().from(categoryLocale).where(eq(categoryLocale.categoryId, id))
-  ).map(convertDateValues)
+  const locales = await db.select().from(categoryLocale).where(eq(categoryLocale.categoryId, id))
 
   if (!row) {
     throwDataNotFoundError()
   }
 
-  const result = convertDateValues({ ...row, locales })
+  const result = { ...row, locales }
 
   return result
 }
@@ -64,7 +62,7 @@ export const createCategory = async (
         })
         .returning()
     )[0]
-    return convertDateValues(row)
+    return row
   } catch (err) {
     return throwDbError(err)
   }
@@ -89,7 +87,7 @@ export const updateCategory = async (
         .where(eq(category.id, id))
         .returning()
     )[0]
-    return convertDateValues(row)
+    return row
   } catch (err) {
     return throwDbError(err)
   }
@@ -114,19 +112,17 @@ export const listCategoryTree = async (params: z.infer<typeof searchReqSpec>) =>
   dynamicQuery.where(and(...where))
   withOrderBy(dynamicQuery, category.sort, 'asc')
 
-  const records = (await dynamicQuery).map(convertDateValues)
+  const records = await dynamicQuery
 
-  const locales = (
-    await db
-      .select()
-      .from(categoryLocale)
-      .where(
-        inArray(
-          categoryLocale.categoryId,
-          records.map(o => o.id)
-        )
+  const locales = await db
+    .select()
+    .from(categoryLocale)
+    .where(
+      inArray(
+        categoryLocale.categoryId,
+        records.map(o => o.id)
       )
-  ).map(convertDateValues)
+    )
 
   const result = records.map(item => {
     return {

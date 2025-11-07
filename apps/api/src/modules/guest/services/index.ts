@@ -3,7 +3,7 @@ import type { z } from 'zod'
 import { db } from '@/db'
 import { thing } from '@/db/schemas/thing'
 import { withOrderBy, withPagination } from '@/db/utils'
-import { convertDateValues, isEmpty } from '@/global/utils'
+import { isEmpty } from '@/global/utils'
 import type { promiseListResSpec, searchReqSpec } from '../specs'
 
 export const listThings = async (params: z.infer<typeof searchReqSpec>) => {
@@ -38,7 +38,7 @@ export const listThings = async (params: z.infer<typeof searchReqSpec>) => {
   if (!isEmpty(page) && !isEmpty(pageSize)) {
     withPagination(dynamicQuery, page, pageSize)
   }
-  const records = (await dynamicQuery).map(convertDateValues)
+  const records = await dynamicQuery
 
   return {
     total,

@@ -94,7 +94,7 @@ export const roleEndpoints = {
           where: [{ field: 'id', value: id }],
           update: {
             ...body,
-            updatedAt: new Date(),
+            updatedAt: new Date().toISOString(),
             updatedBy: session?.user.username ?? systemOperator
           }
         })

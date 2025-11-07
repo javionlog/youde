@@ -1,1 +1,0 @@
-ALTER TABLE "thing" RENAME COLUMN "download_url" TO "url";

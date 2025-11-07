@@ -124,7 +124,7 @@ export const resourceEndpoints = {
           where: [{ field: 'id', value: id }],
           update: {
             ...rest,
-            updatedAt: new Date(),
+            updatedAt: new Date().toISOString(),
             updatedBy: session?.user.username ?? systemOperator
           }
         })

@@ -4,7 +4,6 @@ import type { z } from 'zod'
 import { db } from '@/db'
 import { categoryLocale } from '@/db/schemas/thing'
 import { throwDbError } from '@/global/errors'
-import { convertDateValues } from '@/global/utils'
 import type { getReqSpec, insertReqSpec, updateReqSpec } from '../specs'
 
 export const getCategoryLocale = async (params: z.infer<typeof getReqSpec>) => {
@@ -17,7 +16,7 @@ export const getCategoryLocale = async (params: z.infer<typeof getReqSpec>) => {
       .where(and(eq(categoryLocale.categoryId, categoryId), eq(categoryLocale.field, field)))
   )[0]
 
-  return convertDateValues(row)
+  return row
 }
 
 export const createCategoryLocale = async (
@@ -39,7 +38,7 @@ export const createCategoryLocale = async (
         })
         .returning()
     )[0]
-    return convertDateValues(row)
+    return row
   } catch (err) {
     return throwDbError(err)
   }
@@ -64,7 +63,7 @@ export const updateCategory = async (
         .where(and(eq(categoryLocale.categoryId, categoryId), eq(categoryLocale.field, field)))
         .returning()
     )[0]
-    return convertDateValues(row)
+    return row
   } catch (err) {
     return throwDbError(err)
   }

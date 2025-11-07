@@ -2,16 +2,16 @@ import type { ExtendAuthPluginSchema } from '../types'
 
 export const baseFields = {
   createdAt: {
-    type: 'date',
+    type: 'string',
     required: false,
     input: false,
-    defaultValue: () => new Date()
+    defaultValue: () => new Date().toISOString()
   },
   updatedAt: {
-    type: 'date',
+    type: 'string',
     required: false,
     input: false,
-    defaultValue: () => new Date()
+    defaultValue: () => new Date().toDateString()
   },
   createdBy: {
     type: 'string',

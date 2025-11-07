@@ -60,8 +60,8 @@ export const verification = pgTable('verification', {
 
 export const role = pgTable('role', {
   id: text('id').primaryKey(),
-  createdAt: timestamp('created_at').$defaultFn(() => new Date()),
-  updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
+  createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
+  updatedAt: text('updated_at').$defaultFn(() => new Date().toDateString()),
   createdBy: text('created_by'),
   updatedBy: text('updated_by'),
   name: text('name').notNull().unique(),
@@ -71,8 +71,8 @@ export const role = pgTable('role', {
 
 export const resource = pgTable('resource', {
   id: text('id').primaryKey(),
-  createdAt: timestamp('created_at').$defaultFn(() => new Date()),
-  updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
+  createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
+  updatedAt: text('updated_at').$defaultFn(() => new Date().toDateString()),
   createdBy: text('created_by'),
   updatedBy: text('updated_by'),
   name: text('name').notNull().unique(),
@@ -105,8 +105,8 @@ export const roleResourceRelation = pgTable('role_resource_relation', {
 
 export const resourceLocale = pgTable('resource_locale', {
   id: text('id').primaryKey(),
-  createdAt: timestamp('created_at').$defaultFn(() => new Date()),
-  updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
+  createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
+  updatedAt: text('updated_at').$defaultFn(() => new Date().toDateString()),
   createdBy: text('created_by'),
   updatedBy: text('updated_by'),
   resourceId: text('resource_id').notNull(),

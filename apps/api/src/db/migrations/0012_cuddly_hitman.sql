@@ -1,1 +1,0 @@
-ALTER TABLE "category" ALTER COLUMN "enabled" DROP NOT NULL;
