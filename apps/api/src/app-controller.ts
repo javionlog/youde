@@ -1,15 +1,19 @@
 import { Elysia } from 'elysia'
 import sharedPlugin from './global/plugins'
-import auth from './modules/auth/controllers'
-import category from './modules/category/controllers'
-import categoryLocale from './modules/category-locale/controllers'
-import guest from './modules/guest/controllers'
-import thing from './modules/thing/controllers'
+import adminAuthResource from './modules/admin/auth/resource/controllers'
+import adminAuthResourceLocale from './modules/admin/auth/resource-locale/controllers'
+import adminAuthRole from './modules/admin/auth/role/controllers'
+import adminAuthRoleResourceRelation from './modules/admin/auth/role-resource-relation/controllers'
+import adminAuthUserRoleRelation from './modules/admin/auth/user-role-relation/controllers'
+import adminSession from './modules/admin/session/controllers'
+import adminUser from './modules/admin/user/controllers'
 
 export const appController = new Elysia({ name: 'global.controller' })
   .use(sharedPlugin)
-  .use(auth)
-  .use(guest)
-  .use(thing)
-  .use(category)
-  .use(categoryLocale)
+  .use(adminUser)
+  .use(adminSession)
+  .use(adminAuthRole)
+  .use(adminAuthResource)
+  .use(adminAuthResourceLocale)
+  .use(adminAuthUserRoleRelation)
+  .use(adminAuthRoleResourceRelation)

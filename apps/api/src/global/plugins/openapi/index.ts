@@ -1,5 +1,4 @@
 import { Elysia } from 'elysia'
-import { auth } from '@/modules/auth/services'
 
 const html = (content: object) => `<!doctype html>
 <html>
@@ -51,63 +50,17 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
         }
       }
       walkObj(mainSpec)
-      const authSpec = await auth.api.generateOpenAPISchema()
-      const authPaths = Object.fromEntries(
-        Object.entries(authSpec.paths).map(([k, v]) => {
-          if (v.get) {
-            if (v.get.tags?.includes('Default')) {
-              v.get.tags = ['Auth']
-            }
-          }
-          if (v.post) {
-            if (v.post.tags?.includes('Default')) {
-              v.post.tags = ['Auth']
-            }
-          }
-          return [`/auth${k}`, v]
-        })
-      )
-      const authSchemas = Object.fromEntries(
-        Object.entries(authSpec.components.schemas).map(([k, v]: [string, any]) => {
-          return [k, { ...v, required: ['id', ...v.required] }]
-        })
-      ) as any
+      const { paths, ...restSpec } = mainSpec
+      Reflect.deleteProperty(paths, '/public/*')
       const spec = {
         ...defSpec,
+        ...restSpec,
+        paths,
         openapi: '3.1.0',
         info: {
           title: 'Youde API Documentation',
           description: 'Youde API Documentation',
           version: '0.0.0'
-        },
-        components: {
-          ...mainSpec.components,
-          schemas: {
-            ...mainSpec.components?.schemas,
-            ...authSchemas,
-            ResourceNode: {
-              ...authSchemas.Resource,
-              properties: {
-                ...authSchemas.Resource?.properties,
-                locales: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/ResourceLocale'
-                  }
-                },
-                children: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/ResourceNode'
-                  }
-                }
-              }
-            }
-          }
-        },
-        paths: {
-          ...mainSpec.paths,
-          ...authPaths
         }
       }
       return spec
@@ -134,65 +87,18 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
         }
       }
       walkObj(mainSpec)
-      const authSpec = await auth.api.generateOpenAPISchema()
-      const authPaths = Object.fromEntries(
-        Object.entries(authSpec.paths).map(([k, v]) => {
-          if (v.get) {
-            if (v.get.tags?.includes('Default')) {
-              v.get.tags = ['Auth']
-            }
-          }
-          if (v.post) {
-            if (v.post.tags?.includes('Default')) {
-              v.post.tags = ['Auth']
-            }
-          }
-          return [`/auth${k}`, v]
-        })
-      )
-      const authSchemas = Object.fromEntries(
-        Object.entries(authSpec.components.schemas).map(([k, v]: [string, any]) => {
-          return [k, { ...v, required: ['id', ...v.required] }]
-        })
-      ) as any
+      const { paths, ...restSpec } = mainSpec
+      Reflect.deleteProperty(paths, '/public/*')
       const spec = {
         ...defSpec,
+        paths,
+        ...restSpec,
         openapi: '3.1.0',
         info: {
           title: 'Youde API Documentation',
           description: 'Youde API Documentation',
           version: '0.0.0'
-        },
-        components: {
-          ...mainSpec.components,
-          schemas: {
-            ...mainSpec.components?.schemas,
-            ...authSchemas,
-            ResourceNode: {
-              ...authSchemas.Resource,
-              properties: {
-                ...authSchemas.Resource?.properties,
-                locales: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/ResourceLocale'
-                  }
-                },
-                children: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/ResourceNode'
-                  }
-                }
-              }
-            }
-          }
-        },
-        paths: {
-          ...mainSpec.paths,
-          ...authPaths
-        },
-        'x-scalar-navigation': []
+        }
       }
       const res = new Response(html(spec), {
         headers: {

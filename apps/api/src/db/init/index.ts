@@ -1,11 +1,15 @@
 import { consola } from 'consola'
 import { sql } from 'drizzle-orm'
 import { db } from '@/db'
-import { auth } from '@/modules/auth/services'
-import { createCategory } from '@/modules/category/services'
-import { createCategoryLocale } from '@/modules/category-locale/services'
-
-const { api } = auth
+import { SYSTEM_OPERATOR } from '@/global/config'
+import { createAdminResource } from '@/modules/admin/auth/resource/services'
+import { createAdminResourceLocale } from '@/modules/admin/auth/resource-locale/services'
+import { createAdminRole } from '@/modules/admin/auth/role/services'
+import { createAdminRoleResourceRelation } from '@/modules/admin/auth/role-resource-relation/services'
+import { createAdminUserRoleRelation } from '@/modules/admin/auth/user-role-relation/services'
+import { createAdminUser } from '@/modules/admin/user/services'
+import { createCategory } from '@/modules/common/category/services'
+import { createCategoryLocale } from '@/modules/common/category-locale/services'
 
 const reset = async () => {
   const tableSchema = db._.schema
@@ -25,128 +29,146 @@ const reset = async () => {
   )
 }
 
+type ResourceType = 'Menu' | 'Page' | 'Element'
+
 const init = async () => {
-  const _userRes = (await api.signUpEmail({
-    body: {
-      name: 'admin',
-      username: 'admin',
-      email: 'admin@example.com',
-      password: '12345678'
-    }
-  }))!
-  type UserRes = typeof _userRes
-  const userRes = _userRes as {
-    token: UserRes['token']
-    user: UserRes['user'] & { username: string }
+  /* Create user */
+  const userRes = await createAdminUser({
+    createdByUsername: SYSTEM_OPERATOR,
+    banned: false,
+    isAdmin: true,
+    username: 'admin',
+    password: '12345678'
+  })
+
+  /* Create role */
+  const roleIds: string[] = []
+  const roleCommonFileds = {
+    createdByUsername: SYSTEM_OPERATOR,
+    enabled: true
   }
-  const roleRes = (await api.createRole({
-    body: {
-      name: 'Super Admin',
-      enabled: true
+  const roleDatas = [
+    {
+      name: 'Super Admin'
     }
-  }))!
-  const resourceRes1 = (await api.createResource({
-    body: {
+  ]
+  for (let i = 0; i < roleDatas.length; i++) {
+    const roleRes = await createAdminRole({
+      ...roleCommonFileds,
+      name: 'Super Admin'
+    })
+    roleIds.push(roleRes.id)
+  }
+
+  /* Create resource */
+  const resourceIds: string[] = []
+  const resourceCommonFileds = {
+    createdByUsername: SYSTEM_OPERATOR,
+    enabled: true,
+    isShow: true,
+    isCache: true,
+    isAffix: false,
+    isLink: false
+  }
+  const resourceLocaleCommonFileds = {
+    createdByUsername: SYSTEM_OPERATOR,
+    field: 'name' as 'name'
+  }
+  const resourceDatas = [
+    {
       name: 'Auth Management',
-      type: 'Menu',
-      sort: 1,
-      enabled: true,
-      isShow: true
-    }
-  }))!
-  await api.createResourceLocale({
-    body: {
-      resourceId: resourceRes1.id,
-      field: 'name',
       enUs: 'Auth Management',
-      zhCn: '权限管理'
+      zhCn: '权限管理',
+      type: 'Menu',
+      children: [
+        {
+          name: 'User Management',
+          enUs: 'User Management',
+          zhCn: '用户管理',
+          type: 'Page',
+          path: 'auth/user'
+        },
+        {
+          name: 'Role Management',
+          enUs: 'Role Management',
+          zhCn: '角色管理',
+          type: 'Page',
+          path: 'auth/role'
+        },
+        {
+          name: 'Resource Management',
+          enUs: 'Resource Management',
+          zhCn: '资源管理',
+          type: 'Page',
+          path: 'auth/resource'
+        }
+      ]
     }
-  })
-  const resourceRes2 = (await api.createResource({
-    body: {
-      parentId: resourceRes1?.id,
-      name: 'User Management',
-      type: 'Page',
-      path: 'auth/user',
-      sort: 2,
-      enabled: true,
-      isCache: true,
-      isShow: true
-    }
-  }))!
-  await api.createResourceLocale({
-    body: {
-      resourceId: resourceRes2.id,
-      field: 'name',
-      enUs: 'User Management',
-      zhCn: '用户管理'
-    }
-  })
-  const resourceRes3 = (await api.createResource({
-    body: {
-      parentId: resourceRes1?.id,
-      name: 'Role Management',
-      type: 'Page',
-      path: 'auth/role',
-      sort: 3,
-      enabled: true,
-      isCache: true,
-      isShow: true
-    }
-  }))!
-  await api.createResourceLocale({
-    body: {
-      resourceId: resourceRes3.id,
-      field: 'name',
-      enUs: 'Role Management',
-      zhCn: '角色管理'
-    }
-  })
-  const resourceRes4 = (await api.createResource({
-    body: {
-      parentId: resourceRes1?.id,
-      name: 'Resource Management',
-      type: 'Page',
-      path: 'auth/resource',
-      sort: 4,
-      enabled: true,
-      isCache: true,
-      isShow: true
-    }
-  }))!
-  await api.createResourceLocale({
-    body: {
-      resourceId: resourceRes4.id,
-      field: 'name',
-      enUs: 'Resource Management',
-      zhCn: '资源管理'
-    }
-  })
-  const resourceIds = [resourceRes1.id, resourceRes2.id, resourceRes3.id, resourceRes4.id]
-  const roleIds = [roleRes.id]
-  for (const id of resourceIds) {
-    await api.createRoleResourceRelation({
-      body: {
-        roleId: roleRes.id,
-        resourceId: id
-      }
+  ]
+  for (let i = 0; i < resourceDatas.length; i++) {
+    const item = resourceDatas[i]
+    const resourceRes = await createAdminResource({
+      ...resourceCommonFileds,
+      type: item.type as ResourceType,
+      name: item.name,
+      sort: i + 1
     })
-  }
-  for (const id of roleIds) {
-    await api.createUserRoleRelation({
-      body: {
-        userId: userRes.user.id,
-        roleId: id
-      }
+    resourceIds.push(resourceRes.id)
+    await createAdminResourceLocale({
+      ...resourceLocaleCommonFileds,
+      resourceId: resourceRes.id,
+      enUs: item.enUs,
+      zhCn: item.zhCn
     })
+    for (let j = 0; j < item.children.length; j++) {
+      const subItem = item.children[j]
+      const subResourceRes = await createAdminResource({
+        ...resourceCommonFileds,
+        parentId: resourceRes.id,
+        type: item.type as ResourceType,
+        name: subItem.name,
+        sort: j + 1
+      })
+      resourceIds.push(subResourceRes.id)
+      await createAdminResourceLocale({
+        ...resourceLocaleCommonFileds,
+        resourceId: subResourceRes.id,
+        enUs: subItem.enUs,
+        zhCn: subItem.zhCn
+      })
+    }
   }
 
+  /* Create user, role, resource relation */
+  for (const roleId of roleIds) {
+    await createAdminUserRoleRelation({
+      createdByUsername: SYSTEM_OPERATOR,
+      userId: userRes.id,
+      roleId
+    })
+    for (const resourceId of resourceIds) {
+      await createAdminRoleResourceRelation({
+        createdByUsername: SYSTEM_OPERATOR,
+        roleId,
+        resourceId
+      })
+    }
+  }
+
+  /* Create category */
   const categoryCommonFields = {
-    userId: userRes.user.id,
-    username: userRes.user.username
+    userId: userRes.id,
+    username: userRes.username,
+    enabled: true
   }
 
-  const categoryData = [
+  const categoryLocaleCommonFields = {
+    userId: userRes.id,
+    username: userRes.username,
+    field: 'name' as 'name'
+  }
+
+  const categoryDatas = [
     {
       name: 'Technology',
       enUs: 'Technology',
@@ -315,35 +337,34 @@ const init = async () => {
       ]
     }
   ]
-
-  for (const item of categoryData) {
-    await createCategory({
+  for (let i = 0; i < categoryDatas.length; i++) {
+    const item = categoryDatas[i]
+    const categoryRes = await createCategory({
       ...categoryCommonFields,
-      name: item.name
-    }).then(async res => {
-      await createCategoryLocale({
-        ...categoryCommonFields,
-        categoryId: res.id,
-        field: 'name',
-        enUs: item.enUs,
-        zhCn: item.zhCn
-      })
-      for (const subItem of item.children) {
-        await createCategory({
-          ...categoryCommonFields,
-          parentId: res.id,
-          name: subItem.name
-        }).then(async res => {
-          await createCategoryLocale({
-            ...categoryCommonFields,
-            categoryId: res.id,
-            field: 'name',
-            enUs: subItem.enUs,
-            zhCn: subItem.zhCn
-          })
-        })
-      }
+      name: item.name,
+      sort: i + 1
     })
+    await createCategoryLocale({
+      ...categoryLocaleCommonFields,
+      categoryId: categoryRes.id,
+      enUs: item.enUs,
+      zhCn: item.zhCn
+    })
+    for (let j = 0; j < item.children.length; j++) {
+      const subItem = item.children[j]
+      const subCategoryRes = await createCategory({
+        ...categoryCommonFields,
+        parentId: categoryRes.id,
+        name: subItem.name,
+        sort: j + 1
+      })
+      await createCategoryLocale({
+        ...categoryLocaleCommonFields,
+        categoryId: subCategoryRes.id,
+        enUs: subItem.enUs,
+        zhCn: subItem.zhCn
+      })
+    }
   }
 }
 

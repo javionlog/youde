@@ -1,0 +1,110 @@
+import { getTableColumns } from 'drizzle-orm'
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
+import { z } from 'zod'
+import { adminUser } from '@/db/schemas/admin'
+import { omitReqFields, pageSpec } from '@/global/specs'
+import { getKeys, passwordRegex, usernameRegex } from '@/global/utils'
+
+export const rowSepc = createSelectSchema(adminUser).omit({})
+export type RowType = z.infer<typeof rowSepc>
+
+export const rowResSpec = createSelectSchema(adminUser).omit({ password: true })
+
+export const promiseRowResSpec = z.promise(rowResSpec)
+
+export const promiseListResSpec = z.promise(
+  z.object({
+    records: z.array(rowResSpec),
+    total: z.number()
+  })
+)
+
+export const signInResSpec = z.object({
+  token: z.string(),
+  user: rowResSpec.pick({ id: true, username: true })
+})
+
+export const promiseSignInResSpec = z.promise(signInResSpec)
+
+export const signInReqSpec = createInsertSchema(adminUser, {
+  username: z.string().trim().min(1),
+  password: z.string().trim().min(1)
+}).omit({
+  ...omitReqFields,
+  id: true,
+  banned: true,
+  isAdmin: true
+})
+export type SignInReqType = z.infer<typeof signInReqSpec>
+
+export const createReqSpec = createInsertSchema(adminUser, {
+  username: z
+    .string()
+    .regex(usernameRegex, { error: '4 to 16 digits (letters, numbers, underscores, minus signs)' }),
+  password: z.string().regex(passwordRegex, {
+    error: '8 to 64 digits, Majuscule, lowercase letters, numbers, `@#$%^&*`~()-+=`'
+  })
+}).omit({
+  ...omitReqFields,
+  id: true
+})
+export type CreateReqType = z.infer<typeof createReqSpec>
+
+export const updateReqSpec = createInsertSchema(adminUser, { id: z.string() }).omit({
+  ...omitReqFields,
+  password: true
+})
+export type UpdateReqType = z.infer<typeof updateReqSpec>
+
+export const deleteReqSpec = rowResSpec.pick({ id: true })
+export type DeleteReqType = z.infer<typeof deleteReqSpec>
+
+export const getReqSpec = rowResSpec.pick({ id: true })
+export type GetReqType = z.infer<typeof getReqSpec>
+
+export const listReqSpec = z.object({
+  ...pageSpec.shape,
+  username: z.string().nullish(),
+  banned: z.boolean().nullish(),
+  isAdmin: z.boolean().nullish(),
+  sortBy: z
+    .object({
+      field: z.enum(getKeys(getTableColumns(adminUser))),
+      direction: z.enum(['asc', 'desc'])
+    })
+    .partial()
+    .nullish()
+})
+export type ListReqType = z.infer<typeof listReqSpec>
+
+export const listRoleUsersReqSpec = z.object({
+  ...pageSpec.shape,
+  roleId: z.string(),
+  username: z.string().nullish(),
+  banned: z.boolean().nullish(),
+  isAdmin: z.boolean().nullish(),
+  sortBy: z
+    .object({
+      field: z.enum(getKeys(getTableColumns(adminUser))),
+      direction: z.enum(['asc', 'desc'])
+    })
+    .partial()
+    .nullish()
+})
+export type ListRoleUsersReqType = z.infer<typeof listRoleUsersReqSpec>
+
+export const listResourceUsersReqSpec = z.object({
+  ...pageSpec.shape,
+  resourceId: z.string(),
+  username: z.string().nullish(),
+  banned: z.boolean().nullish(),
+  isAdmin: z.boolean().nullish(),
+  sortBy: z
+    .object({
+      field: z.enum(getKeys(getTableColumns(adminUser))),
+      direction: z.enum(['asc', 'desc'])
+    })
+    .partial()
+    .nullish()
+})
+export type ListResourceUsersReqType = z.infer<typeof listResourceUsersReqSpec>

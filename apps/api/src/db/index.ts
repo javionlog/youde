@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js'
-
-import * as authSchema from './schemas/auth'
-import * as thingSchema from './schemas/thing'
+import * as adminSchema from './schemas/admin'
+import * as commonSchema from './schemas/common'
+import * as portalSchema from './schemas/portal'
 
 const { DATABASE_URL } = process.env
 
@@ -10,7 +10,8 @@ export const db = drizzle({
     url: DATABASE_URL
   },
   schema: {
-    ...authSchema,
-    ...thingSchema
+    ...adminSchema,
+    ...commonSchema,
+    ...portalSchema
   }
 })

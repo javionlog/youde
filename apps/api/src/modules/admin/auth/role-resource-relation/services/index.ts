@@ -1,0 +1,80 @@
+import { and, eq, inArray } from 'drizzle-orm'
+import { db } from '@/db'
+import { adminRoleResourceRelation } from '@/db/schemas/admin'
+import { withPagination } from '@/db/utils'
+import { throwDbError } from '@/global/errors'
+import { isEmpty } from '@/global/utils'
+import type { CreateReqType, DeleteReqType, ListReqType } from '../specs'
+
+export const createAdminRoleResourceRelation = async (
+  params: CreateReqType & {
+    createdByUsername: string
+  }
+) => {
+  const { createdByUsername, ...restParams } = params
+  try {
+    const row = (
+      await db
+        .insert(adminRoleResourceRelation)
+        .values({
+          ...restParams,
+          createdBy: createdByUsername,
+          updatedBy: createdByUsername
+        })
+        .returning()
+    )[0]
+    return row
+  } catch (err) {
+    return throwDbError(err)
+  }
+}
+
+export const deleteAdminRoleResourceRelation = async (params: DeleteReqType) => {
+  const { roleId, resourceId } = params
+  const result = await db
+    .delete(adminRoleResourceRelation)
+    .where(
+      and(
+        eq(adminRoleResourceRelation.roleId, roleId),
+        eq(adminRoleResourceRelation.resourceId, resourceId)
+      )
+    )
+  return result
+}
+
+export const listAdminRoleResourceRelations = async (params: ListReqType) => {
+  const { roleId, resourceId, roleIds, resourceIds, page, pageSize } = params
+  if ([roleId, resourceId, roleIds, resourceIds].filter(v => !isEmpty(v)).length === 0) {
+    return {
+      total: 0,
+      records: []
+    }
+  }
+  const where = []
+  const dynamicQuery = db.select().from(adminRoleResourceRelation).$dynamic()
+
+  if (!isEmpty(roleId)) {
+    where.push(eq(adminRoleResourceRelation.roleId, roleId))
+  }
+  if (!isEmpty(roleIds)) {
+    where.push(inArray(adminRoleResourceRelation.roleId, roleIds))
+  }
+  if (!isEmpty(resourceId)) {
+    where.push(eq(adminRoleResourceRelation.resourceId, resourceId))
+  }
+  if (!isEmpty(resourceIds)) {
+    where.push(inArray(adminRoleResourceRelation.resourceId, resourceIds))
+  }
+  dynamicQuery.where(and(...where))
+
+  const total = (await dynamicQuery).length
+
+  if (!isEmpty(page) && !isEmpty(pageSize)) {
+    withPagination(dynamicQuery, page, pageSize)
+  }
+  const records = await dynamicQuery
+  return {
+    total,
+    records
+  }
+}
