@@ -1,4 +1,4 @@
-import { guardController } from '@/global/controllers'
+import { adminGuardController } from '@/global/controllers'
 import { createThing, deleteThing, getThing, listThings, updateThing } from '../services'
 import {
   createReqSpec,
@@ -12,12 +12,12 @@ import {
 
 const tags = ['Thing']
 
-const app = guardController.group('/thing', app =>
+const app = adminGuardController.group('/thing', app =>
   app
     .post(
       '/create',
       async ({ body, user }) => {
-        const { id, username } = user!
+        const { id, username } = user
         return await createThing({ ...body, userId: id, username: username! })
       },
       {
@@ -31,7 +31,7 @@ const app = guardController.group('/thing', app =>
     .post(
       '/update',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await updateThing({ ...body, username: username! })
       },
       {

@@ -1,29 +1,11 @@
 import { Elysia } from 'elysia'
-import { ADMIN_SKIP_AUTH_ROUTES, SKIP_AUTH_ROUTES } from '@/global/config'
+import { ADMIN_SKIP_AUTH_ROUTES } from '@/global/config'
 import { deleteAdminSession, getAdminSession } from '@/modules/admin/session/services'
 import type { RowType as SessionRowType } from '@/modules/admin/session/specs'
 import { getAdminUser } from '@/modules/admin/user/services'
 import type { RowType as UserRowType } from '@/modules/admin/user/specs'
-import { auth } from '@/modules/auth/services'
 
 export const baseController = new Elysia({ name: 'shared.baseController' })
-
-export const guardController = new Elysia({ name: 'shared.guardController' }).resolve(
-  async ({ status, request, path }) => {
-    if (SKIP_AUTH_ROUTES.includes(path) || path.startsWith('/guest')) {
-      return
-    }
-    const { headers } = request
-    const session = await auth.api.getSession({ headers })
-    if (!session) {
-      return status(401)
-    }
-    return {
-      user: session.user,
-      session: session.session
-    }
-  }
-)
 
 export const adminGuardController = new Elysia({
   name: 'shared.adminGuardController',

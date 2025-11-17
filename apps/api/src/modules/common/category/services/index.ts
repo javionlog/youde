@@ -1,4 +1,3 @@
-import { generateId } from 'better-auth'
 import { and, eq, inArray } from 'drizzle-orm'
 import type { z } from 'zod'
 import { db } from '@/db'
@@ -54,7 +53,6 @@ export const createCategory = async (
         .insert(category)
         .values({
           ...restParams,
-          id: generateId(),
           createdBy: username,
           updatedBy: username
         })

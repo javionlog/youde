@@ -1,4 +1,3 @@
-import { generateId } from 'better-auth'
 import { and, eq } from 'drizzle-orm'
 import type { z } from 'zod'
 import { db } from '@/db'
@@ -34,7 +33,6 @@ export const createCategoryLocale = async (
         .insert(categoryLocale)
         .values({
           ...restParams,
-          id: generateId(),
           createdBy: username,
           updatedBy: username
         })

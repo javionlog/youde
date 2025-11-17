@@ -1,4 +1,3 @@
-import { generateId } from 'better-auth'
 import { and, eq, inArray, like } from 'drizzle-orm'
 import type { z } from 'zod'
 import { db } from '@/db'
@@ -40,7 +39,6 @@ export const createThing = async (
         .insert(thing)
         .values({
           ...restParams,
-          id: generateId(),
           status: Draft,
           createdBy: username,
           updatedBy: username

@@ -26,8 +26,6 @@
     "db-studio:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit studio",
     "db-gen:dev": "bun --env-file=.env.dev --env-file=.env.dev.local drizzle-kit generate",
     "db-gen:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit generate",
-    "auth-gen:dev": "bun --env-file=.env.dev --env-file=.env.dev.local cli generate --config ./src/modules/auth/services/index.ts --output ./src/db/schemas/auth.ts",
-    "auth-gen:prod": "bun --env-file=.env.prod --env-file=.env.prod.local cli generate --config ./src/modules/auth/services/index.ts --output ./src/db/schemas/auth.ts",
     "check": "tsc && biome check --write --unsafe",
     "lint-staged": "lint-staged"
   },
@@ -37,7 +35,6 @@
     ]
   },
   "devDependencies": {
-    "@better-auth/cli": "^1.3.3",
     "@types/bun": "^1.2.19",
     "drizzle-kit": "^0.31.4"
   },
@@ -46,7 +43,6 @@
     "@elysiajs/openapi": "^1.4.11",
     "@elysiajs/static": "^1.4.0",
     "@youde/shared": "workspace:^",
-    "better-auth": "^1.3.3",
     "consola": "^3.4.2",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.44.3",

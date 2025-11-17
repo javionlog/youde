@@ -1,4 +1,4 @@
-import { guardController } from '@/global/controllers'
+import { adminGuardController } from '@/global/controllers'
 import {
   createCategory,
   deleteCategory,
@@ -17,12 +17,12 @@ import {
 
 const tags = ['Category']
 
-const app = guardController.group('/category', app =>
+const app = adminGuardController.group('/category', app =>
   app
     .post(
       '/create',
       async ({ body, user }) => {
-        const { id, username } = user!
+        const { id, username } = user
         return await createCategory({ ...body, userId: id, username: username! })
       },
       {
@@ -36,7 +36,7 @@ const app = guardController.group('/category', app =>
     .post(
       '/update',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await updateCategory({ ...body, username: username! })
       },
       {

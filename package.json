@@ -33,10 +33,5 @@
     "typescript": "^5.9.2",
     "vite": "npm:rolldown-vite@latest",
     "vite-tsconfig-paths": "^5.1.4"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "better-auth": "patches/better-auth.patch"
-    }
   }
 }
