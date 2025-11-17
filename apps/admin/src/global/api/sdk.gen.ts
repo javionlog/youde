@@ -3,7 +3,7 @@
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
 import { postAdminResourceRoleGrantResourceTreeResponseTransformer, postAdminResourceRoleResourceTreeResponseTransformer, postAdminResourceTreeResponseTransformer, postAdminResourceUserResourceTreeResponseTransformer, postAdminUserSignInResponseTransformer } from './transformers.gen';
-import type { DeleteAdminResourceData, DeleteAdminRoleData, DeleteAdminRoleResourceRelationData, DeleteAdminSessionData, DeleteAdminUserData, DeleteAdminUserRoleRelationData, GetAdminResourceData, GetAdminResourceLocaleData, GetAdminResourceLocaleResponses, GetAdminResourceResponses, GetAdminRoleData, GetAdminRoleResponses, GetAdminSessionData, GetAdminSessionResponses, GetAdminUserData, GetAdminUserResponses, PatchAdminResourceData, PatchAdminResourceLocaleData, PatchAdminResourceLocaleResponses, PatchAdminResourceResponses, PatchAdminRoleData, PatchAdminRoleResponses, PatchAdminUserData, PatchAdminUserResponses, PostAdminResourceData, PostAdminResourceLocaleData, PostAdminResourceLocaleResponses, PostAdminResourceResponses, PostAdminResourceRoleGrantResourceTreeData, PostAdminResourceRoleGrantResourceTreeResponses, PostAdminResourceRoleResourceTreeData, PostAdminResourceRoleResourceTreeResponses, PostAdminResourceTreeData, PostAdminResourceTreeResponses, PostAdminResourceUserResourceTreeData, PostAdminResourceUserResourceTreeResponses, PostAdminRoleData, PostAdminRoleListData, PostAdminRoleListResponses, PostAdminRoleResourceRelationData, PostAdminRoleResourceRelationListData, PostAdminRoleResourceRelationListResponses, PostAdminRoleResourceRelationResponses, PostAdminRoleResourceRelationSetManyData, PostAdminRoleResourceRoleListData, PostAdminRoleResourceRoleListResponses, PostAdminRoleResponses, PostAdminRoleUserGrantRoleListData, PostAdminRoleUserGrantRoleListResponses, PostAdminRoleUserRoleListData, PostAdminRoleUserRoleListResponses, PostAdminSessionData, PostAdminSessionListData, PostAdminSessionListResponses, PostAdminSessionResponses, PostAdminUserData, PostAdminUserListData, PostAdminUserListResponses, PostAdminUserResourceUserListData, PostAdminUserResourceUserListResponses, PostAdminUserResponses, PostAdminUserRoleRelationData, PostAdminUserRoleRelationListData, PostAdminUserRoleRelationListResponses, PostAdminUserRoleRelationResponses, PostAdminUserRoleUserListData, PostAdminUserRoleUserListResponses, PostAdminUserSignInData, PostAdminUserSignInResponses, PostAdminUserSignOutData } from './types.gen';
+import type { DeleteAdminResourceData, DeleteAdminRoleData, DeleteAdminRoleResourceRelationData, DeleteAdminSessionData, DeleteAdminUserData, DeleteAdminUserRoleRelationData, GetAdminResourceData, GetAdminResourceLocaleData, GetAdminResourceLocaleResponses, GetAdminResourceResponses, GetAdminRoleData, GetAdminRoleResponses, GetAdminSessionData, GetAdminSessionResponses, GetAdminUserData, GetAdminUserResponses, PatchAdminResourceData, PatchAdminResourceLocaleData, PatchAdminResourceLocaleResponses, PatchAdminResourceResponses, PatchAdminRoleData, PatchAdminRoleResponses, PatchAdminUserData, PatchAdminUserPasswordData, PatchAdminUserResponses, PatchAdminUserSelfPasswordData, PostAdminResourceData, PostAdminResourceLocaleData, PostAdminResourceLocaleResponses, PostAdminResourceResponses, PostAdminResourceRoleGrantResourceTreeData, PostAdminResourceRoleGrantResourceTreeResponses, PostAdminResourceRoleResourceTreeData, PostAdminResourceRoleResourceTreeResponses, PostAdminResourceTreeData, PostAdminResourceTreeResponses, PostAdminResourceUserResourceTreeData, PostAdminResourceUserResourceTreeResponses, PostAdminRoleData, PostAdminRoleListData, PostAdminRoleListResponses, PostAdminRoleResourceRelationData, PostAdminRoleResourceRelationListData, PostAdminRoleResourceRelationListResponses, PostAdminRoleResourceRelationResponses, PostAdminRoleResourceRelationSetManyData, PostAdminRoleResourceRoleListData, PostAdminRoleResourceRoleListResponses, PostAdminRoleResponses, PostAdminRoleUserGrantRoleListData, PostAdminRoleUserGrantRoleListResponses, PostAdminRoleUserRoleListData, PostAdminRoleUserRoleListResponses, PostAdminSessionData, PostAdminSessionListData, PostAdminSessionListResponses, PostAdminSessionResponses, PostAdminUserData, PostAdminUserListData, PostAdminUserListResponses, PostAdminUserResourceUserListData, PostAdminUserResourceUserListResponses, PostAdminUserResponses, PostAdminUserRoleRelationData, PostAdminUserRoleRelationListData, PostAdminUserRoleRelationListResponses, PostAdminUserRoleRelationResponses, PostAdminUserRoleUserListData, PostAdminUserRoleUserListResponses, PostAdminUserSignInData, PostAdminUserSignInResponses, PostAdminUserSignOutData } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -449,6 +449,34 @@ export const postAdminUserSignOut = <ThrowOnError extends boolean = false>(optio
     return (options?.client ?? client).post<unknown, unknown, ThrowOnError>({
         url: '/admin/user/sign-out',
         ...options
+    });
+};
+
+/**
+ * Reset user password
+ */
+export const patchAdminUserPassword = <ThrowOnError extends boolean = false>(options: Options<PatchAdminUserPasswordData, ThrowOnError>) => {
+    return (options.client ?? client).patch<unknown, unknown, ThrowOnError>({
+        url: '/admin/user/password',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
+ * Reset self password
+ */
+export const patchAdminUserSelfPassword = <ThrowOnError extends boolean = false>(options: Options<PatchAdminUserSelfPasswordData, ThrowOnError>) => {
+    return (options.client ?? client).patch<unknown, unknown, ThrowOnError>({
+        url: '/admin/user/self-password',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
     });
 };
 

@@ -6,6 +6,7 @@ import { throwDataNotFoundError, throwDbError } from '@/global/errors'
 import { buildTree, getChildrenNodes, isEmpty } from '@/global/utils'
 import { listAdminRoleResourceRelations } from '@/modules/admin/auth/role-resource-relation/services'
 import { listAdminUserRoleRelations } from '@/modules/admin/auth/user-role-relation/services'
+import { getAdminUser } from '@/modules/admin/user/services'
 import type {
   CreateReqType,
   DeleteReqType,
@@ -126,6 +127,12 @@ export const listAdminResourceTree = async (params: ListReqType) => {
 
 export const listUserAdminResourceTree = async (params: ListUserResourcesReqType) => {
   const { userId } = params
+  const userRow = await getAdminUser({ id: userId })
+
+  if (userRow.isAdmin) {
+    return await listAdminResourceTree({})
+  }
+
   const roleIds = (await listAdminUserRoleRelations({ userId })).records.map(o => o.roleId)
   const roleRecords = await db.select().from(adminRole).where(inArray(adminRole.id, roleIds))
   const resourceIds = (

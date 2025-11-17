@@ -1,8 +1,8 @@
 import type { GetAdminUserResponse } from '@/global/api'
 import { postAdminUserList } from '@/global/api'
-import { AddBtn } from './components/add-btn'
 import { DeleteBtn } from './components/delete-btn'
 import { MoreBtn } from './components/more-btn'
+import { UpsertBtn } from './components/upsert-btn'
 
 type SearchProps = Parameters<typeof GlSearch>[0]
 
@@ -61,6 +61,7 @@ export default () => {
       cell: ({ row }) => {
         return (
           <Space>
+            <UpsertBtn mode='edit' rowData={row} refresh={refresh} />
             <DeleteBtn rowData={row} refresh={refresh} />
             <MoreBtn rowData={row} refresh={refresh} />
           </Space>
@@ -80,7 +81,7 @@ export default () => {
       search={search}
       operation={
         <Space>
-          <AddBtn refresh={refresh} />
+          <UpsertBtn mode='add' refresh={refresh} />
         </Space>
       }
       columns={columns}

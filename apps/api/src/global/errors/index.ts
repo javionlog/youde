@@ -87,6 +87,18 @@ export class CommonError extends Error {
   }
 }
 
+export const throwServerError = (message?: string) => {
+  throw new CommonError('Internal Server Error', {
+    message: message ?? 'Internal Server Error'
+  })
+}
+
+export const throwRequestError = (message?: string) => {
+  throw new CommonError('Bad Request', {
+    message: message ?? 'Bad Request'
+  })
+}
+
 export const throwDbError = (err: any) => {
   throw new CommonError('Internal Server Error', {
     message: `${err.cause?.name ?? ''}${err.cause?.detail ?? ''}${String(err)}`
@@ -114,5 +126,11 @@ export const throwDataIsReferencedError = (message?: string) => {
 export const throwForbiddenError = (message?: string) => {
   throw new CommonError('Forbidden', {
     message: message ?? 'Access forbidden'
+  })
+}
+
+export const throwNoPermissionError = (message?: string) => {
+  throw new CommonError('Bad Request', {
+    message: message ?? 'No permission to operate'
   })
 }

@@ -16,7 +16,8 @@
     "closeLeft": "关闭左侧",
     "closeRight": "关闭右侧",
     "closeOthers": "关闭其他",
-    "closeAll": "关闭全部"
+    "closeAll": "关闭全部",
+    "resetPassword": "重置密码"
   },
   "label": {
     "name": "姓名",
@@ -48,7 +49,10 @@
     "more": "更多",
     "english": "英文",
     "simplifiedChinese": "简体中文",
-    "isAdmin": "是否管理员"
+    "isAdmin": "是否管理员",
+    "oldPassword": "旧密码",
+    "newPassword": "新密码",
+    "confirmPassword": "确认密码"
   },
   "message": {
     "welcomeToYoude": "欢迎来到“有的”！",
@@ -59,6 +63,7 @@
     "loading": "加载中...",
     "initializing": "初始化中...",
     "operateSuccessful": "操作成功",
-    "confirmDelete": "确定要删除吗？"
+    "confirmDelete": "确定要删除吗？",
+    "twoPasswordInconsistentTip": "两次密码不一致"
   }
 }

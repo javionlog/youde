@@ -941,6 +941,27 @@ export type PostAdminUserSignOutData = {
     url: '/admin/user/sign-out';
 };
 
+export type PatchAdminUserPasswordData = {
+    body: {
+        id: string;
+        password: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/user/password';
+};
+
+export type PatchAdminUserSelfPasswordData = {
+    body: {
+        id: string;
+        oldPassword: string;
+        newPassword: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/user/self-password';
+};
+
 export type DeleteAdminUserData = {
     body: {
         id: string;

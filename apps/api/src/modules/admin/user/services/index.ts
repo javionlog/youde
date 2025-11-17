@@ -3,7 +3,13 @@ import { omit, pick } from 'es-toolkit'
 import { db } from '@/db'
 import { adminUser } from '@/db/schemas/admin'
 import { withOrderBy, withPagination } from '@/db/utils'
-import { throwDataNotFoundError, throwDbError, throwForbiddenError } from '@/global/errors'
+import {
+  throwDataNotFoundError,
+  throwDbError,
+  throwForbiddenError,
+  throwNoPermissionError,
+  throwRequestError
+} from '@/global/errors'
 import { getHashPassword, isEmpty } from '@/global/utils'
 import { listUserAdminResourceTree } from '@/modules/admin/auth/resource/services'
 import { listAdminRoleResourceRelations } from '@/modules/admin/auth/role-resource-relation/services'
@@ -17,6 +23,8 @@ import type {
   ListReqType,
   ListResourceUsersReqType,
   ListRoleUsersReqType,
+  ResetPasswordReqType,
+  ResetSelfPasswordReqType,
   SignInReqType,
   SignOutReqType,
   UpdateReqType
@@ -29,6 +37,15 @@ export const getAdminUser = async (params: GetReqType) => {
     throwDataNotFoundError()
   }
   return omit(row, ['password'])
+}
+
+export const getFullAdminUser = async (params: GetReqType) => {
+  const { id } = params
+  const row = (await db.select().from(adminUser).where(eq(adminUser.id, id)))[0]
+  if (!row) {
+    throwDataNotFoundError()
+  }
+  return row
 }
 
 export const signIn = async (params: SignInReqType) => {
@@ -65,6 +82,68 @@ export const signIn = async (params: SignInReqType) => {
 export const signOut = async (params: SignOutReqType) => {
   const { token } = params
   return await deleteAdminSession({ token })
+}
+
+export const resetAdminUserPassword = async (
+  params: ResetPasswordReqType & {
+    updatedByUsername: string
+  }
+) => {
+  const { updatedByUsername, password, id } = params
+  try {
+    const hashPassword = getHashPassword(password)
+    const row = (
+      await db
+        .update(adminUser)
+        .set({
+          password: hashPassword,
+          updatedBy: updatedByUsername,
+          updatedAt: new Date().toDateString()
+        })
+        .where(eq(adminUser.id, id))
+        .returning()
+    )[0]
+    return row
+  } catch (err) {
+    return throwDbError(err)
+  }
+}
+
+export const resetSelfAdminUserPassword = async (
+  params: ResetSelfPasswordReqType & {
+    updatedByUsername: string
+    currentUserId: string
+  }
+) => {
+  const { updatedByUsername, oldPassword, newPassword, currentUserId, id } = params
+  if (currentUserId !== id) {
+    throwNoPermissionError()
+  }
+  if (oldPassword === newPassword) {
+    throwRequestError('The new password can not equal to the old password ')
+  }
+  const oldHashPassword = getHashPassword(oldPassword)
+  const newHashPassword = getHashPassword(newPassword)
+  const userRow = await getFullAdminUser({ id })
+  if (oldHashPassword !== userRow.password) {
+    throwRequestError('Incorrect old password')
+  }
+  try {
+    const row = (
+      await db
+        .update(adminUser)
+        .set({
+          password: newHashPassword,
+          updatedBy: updatedByUsername,
+          updatedAt: new Date().toDateString()
+        })
+        .where(eq(adminUser.id, id))
+        .returning()
+    )[0]
+    return row
+  } catch (err) {
+    return throwDbError(err)
+  }
 }
 
 export const createAdminUser = async (

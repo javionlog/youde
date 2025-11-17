@@ -7,6 +7,8 @@ import {
   listAdminUsers,
   listResourceAdminUsers,
   listRoleAdminUsers,
+  resetAdminUserPassword,
+  resetSelfAdminUserPassword,
   signIn,
   signOut,
   updateAdminUser
@@ -21,6 +23,8 @@ import {
   promiseListResSpec,
   promiseRowResSpec,
   promiseSignInResSpec,
+  resetPasswordReqSpec,
+  resetSelfPasswordReqSpec,
   signInReqSpec,
   updateReqSpec
 } from '../specs'
@@ -61,6 +65,42 @@ const app = adminGuardController.group('/user', app =>
           tags,
           description: 'User sign out'
         }
+      }
+    )
+    .patch(
+      '/password',
+      async ({ body, user }) => {
+        const { username } = user
+        return await resetAdminUserPassword({ ...body, updatedByUsername: username })
+      },
+      {
+        detail: {
+          tags,
+          description: 'Reset user password'
+        },
+        body: resetPasswordReqSpec
+      }
+    )
+    .patch(
+      '/self-password',
+      async ({ status, cookie, body, user }) => {
+        const { username, id } = user
+        await resetSelfAdminUserPassword({
+          ...body,
+          updatedByUsername: username,
+          currentUserId: id
+        })
+        const token = String(cookie.sessionToken.value)
+        await signOut({ token })
+        cookie.sessionToken.remove()
+        return status(401)
+      },
+      {
+        detail: {
+          tags,
+          description: 'Reset self password'
+        },
+        body: resetSelfPasswordReqSpec
       }
     )
     .post(
@@ -154,5 +194,4 @@ const app = adminGuardController.group('/user', app =>
       }
     )
 )
-
 export default app

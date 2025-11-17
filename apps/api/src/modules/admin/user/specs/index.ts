@@ -6,6 +6,11 @@ import { omitReqFields, pageSpec } from '@/global/specs'
 import { getKeys, passwordRegex, usernameRegex } from '@/global/utils'
 import { treeResSpec } from '@/modules/admin/auth/resource/specs'
 
+const usernameErrorMessage = '4 to 16 digits, letters, numbers, underscores, minus signs'
+
+const passwordErrorMessage =
+  '8 to 64 digits, must contain capital letters, lowercase letters, numbers, @#$%^&*`~()-+='
+
 export const rowSepc = createSelectSchema(adminUser).omit({})
 export type RowType = z.infer<typeof rowSepc>
 
@@ -45,12 +50,8 @@ export const signOutReqSpec = z.object({
 export type SignOutReqType = z.infer<typeof signOutReqSpec>
 
 export const createReqSpec = createInsertSchema(adminUser, {
-  username: z
-    .string()
-    .regex(usernameRegex, { error: '4 to 16 digits (letters, numbers, underscores, minus signs)' }),
-  password: z.string().regex(passwordRegex, {
-    error: '8 to 64 digits, Majuscule, lowercase letters, numbers, `@#$%^&*`~()-+=`'
-  })
+  username: z.string().regex(usernameRegex, { error: usernameErrorMessage }),
+  password: z.string().regex(passwordRegex, { error: passwordErrorMessage })
 }).omit({
   ...omitReqFields,
   id: true
@@ -62,6 +63,19 @@ export const updateReqSpec = createInsertSchema(adminUser, { id: z.string() }).o
   password: true
 })
 export type UpdateReqType = z.infer<typeof updateReqSpec>
+
+export const resetPasswordReqSpec = z.object({
+  id: z.string(),
+  password: z.string().regex(passwordRegex, { error: passwordErrorMessage })
+})
+export type ResetPasswordReqType = z.infer<typeof resetPasswordReqSpec>
+
+export const resetSelfPasswordReqSpec = z.object({
+  id: z.string(),
+  oldPassword: z.string(),
+  newPassword: z.string().regex(passwordRegex, { error: passwordErrorMessage })
+})
+export type ResetSelfPasswordReqType = z.infer<typeof resetSelfPasswordReqSpec>
 
 export const deleteReqSpec = rowResSpec.pick({ id: true })
 export type DeleteReqType = z.infer<typeof deleteReqSpec>

@@ -16,7 +16,8 @@
     "closeLeft": "Close Left",
     "closeRight": "Close Right",
     "closeOthers": "Close Others",
-    "closeAll": "Close All"
+    "closeAll": "Close All",
+    "resetPassword": "Reset Password"
   },
   "label": {
     "name": "Name",
@@ -48,7 +49,10 @@
     "more": "More",
     "english": "English",
     "simplifiedChinese": "Simplified Chinese",
-    "isAdmin": "Administrator or not"
+    "isAdmin": "Administrator or not",
+    "oldPassword": "Old Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password"
   },
   "message": {
     "welcomeToYoude": "Welcome to Youde!",
@@ -59,6 +63,7 @@
     "loading": "Loading...",
     "initializing": "Initializing...",
     "operateSuccessful": "Operate successful",
-    "confirmDelete": "Are you sure to delete this?"
+    "confirmDelete": "Are you sure to delete this?",
+    "twoPasswordInconsistentTip": "Two passwords are inconsistent"
   }
 }
