@@ -1,20 +1,13 @@
-import { and, eq } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { adminResourceLocale } from '@/db/schemas/admin'
 import { throwDbError } from '@/global/errors'
 import type { CreateReqType, GetReqType, UpdateReqType } from '../specs'
 
 export const getAdminResourceLocale = async (params: GetReqType) => {
-  const { resourceId, field } = params
+  const { id } = params
 
-  const row = (
-    await db
-      .select()
-      .from(adminResourceLocale)
-      .where(
-        and(eq(adminResourceLocale.resourceId, resourceId), eq(adminResourceLocale.field, field))
-      )
-  )[0]
+  const row = (await db.select().from(adminResourceLocale).where(eq(adminResourceLocale.id, id)))[0]
 
   return row
 }
@@ -47,8 +40,8 @@ export const updateAdminResourceLocale = async (
     updatedByUsername: string
   }
 ) => {
-  const { resourceId, field, updatedByUsername, ...restParams } = params
-  await getAdminResourceLocale({ resourceId, field })
+  const { id, updatedByUsername, ...restParams } = params
+  await getAdminResourceLocale({ id })
   try {
     const row = (
       await db
@@ -58,9 +51,7 @@ export const updateAdminResourceLocale = async (
           updatedBy: updatedByUsername,
           updatedAt: new Date().toDateString()
         })
-        .where(
-          and(eq(adminResourceLocale.resourceId, resourceId), eq(adminResourceLocale.field, field))
-        )
+        .where(eq(adminResourceLocale.id, id))
         .returning()
     )[0]
     return row

@@ -1,8 +1,8 @@
-import type { User } from '@/global/api'
+import type { GetAdminUserResponse } from '@/global/api'
 import { useTree } from './use-tree'
 
 interface Props {
-  rowData: User
+  rowData: GetAdminUserResponse
 }
 
 export const ViewResourceBtn = (props: Props) => {

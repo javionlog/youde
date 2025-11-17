@@ -1,5 +1,5 @@
 {
-  "id": "7b503e48-8258-47bf-bf5e-76849904155d",
+  "id": "b4021ddd-85e9-4997-ae28-07d3fb968bf2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -1185,8 +1185,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "banned": {
-          "name": "banned",
+        "enabled": {
+          "name": "enabled",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true

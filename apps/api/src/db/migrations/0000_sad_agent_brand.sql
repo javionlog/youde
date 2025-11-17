@@ -179,7 +179,7 @@ CREATE TABLE "admin_user" (
 	"updated_by" text,
 	"username" varchar(32) NOT NULL,
 	"password" text NOT NULL,
-	"banned" boolean NOT NULL,
+	"enabled" boolean NOT NULL,
 	"isAdmin" boolean NOT NULL,
 	CONSTRAINT "admin_user_username_unique" UNIQUE("username")
 );

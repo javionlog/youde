@@ -19,7 +19,7 @@ export const promiseListResSpec = z.promise(
   })
 )
 
-export const promiseListUserRolesResSpec = z.promise(
+export const promiseListUserGrantRolesResSpec = z.promise(
   z.object({
     records: z.array(z.object({ ...rowResSpec.shape, grant: z.boolean() })),
     total: z.number()
@@ -62,7 +62,6 @@ export const listUserRolesReqSpec = z.object({
   userId: z.string(),
   name: z.string().nullish(),
   enabled: z.boolean().nullish(),
-  grant: z.boolean().nullish(),
   sortBy: z
     .object({
       field: z.enum(getKeys(getTableColumns(adminRole))),
@@ -72,6 +71,22 @@ export const listUserRolesReqSpec = z.object({
     .nullish()
 })
 export type ListUserRolesReqType = z.infer<typeof listUserRolesReqSpec>
+
+export const listUserGrantRolesReqSpec = z.object({
+  ...pageSpec.shape,
+  userId: z.string(),
+  name: z.string().nullish(),
+  enabled: z.boolean().nullish(),
+  grant: z.boolean().nullish(),
+  sortBy: z
+    .object({
+      field: z.enum(getKeys(getTableColumns(adminRole))),
+      direction: z.enum(['asc', 'desc'])
+    })
+    .partial()
+    .nullish()
+})
+export type ListUserGrantRolesReqType = z.infer<typeof listUserGrantRolesReqSpec>
 
 export const listResourceRolesReqSpec = z.object({
   ...pageSpec.shape,

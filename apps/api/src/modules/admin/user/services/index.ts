@@ -3,11 +3,12 @@ import { omit, pick } from 'es-toolkit'
 import { db } from '@/db'
 import { adminUser } from '@/db/schemas/admin'
 import { withOrderBy, withPagination } from '@/db/utils'
-import { throwDataNotFoundError, throwDbError } from '@/global/errors'
-import { isEmpty } from '@/global/utils'
+import { throwDataNotFoundError, throwDbError, throwForbiddenError } from '@/global/errors'
+import { getHashPassword, isEmpty } from '@/global/utils'
+import { listUserAdminResourceTree } from '@/modules/admin/auth/resource/services'
 import { listAdminRoleResourceRelations } from '@/modules/admin/auth/role-resource-relation/services'
 import { listAdminUserRoleRelations } from '@/modules/admin/auth/user-role-relation/services'
-import { createAdminSession } from '@/modules/admin/session/services'
+import { createAdminSession, deleteAdminSession } from '@/modules/admin/session/services'
 
 import type {
   CreateReqType,
@@ -17,6 +18,7 @@ import type {
   ListResourceUsersReqType,
   ListRoleUsersReqType,
   SignInReqType,
+  SignOutReqType,
   UpdateReqType
 } from '../specs'
 
@@ -35,7 +37,11 @@ export const signIn = async (params: SignInReqType) => {
   if (!userRow) {
     throwDataNotFoundError('The user does not exist or the password is incorrect')
   }
-  const isMatch = Bun.password.verifySync(password, userRow.password)
+  if (!userRow.enabled) {
+    throwForbiddenError()
+  }
+  const hashPassword = getHashPassword(password)
+  const isMatch = hashPassword === userRow.password
   if (!isMatch) {
     throwDataNotFoundError('The user does not exist or the password is incorrect')
   }
@@ -45,13 +51,20 @@ export const signIn = async (params: SignInReqType) => {
       createdByUsername: userRow.username
     })
 
+    const resourceTree = await listUserAdminResourceTree({ userId: userRow.id })
     return {
       token: sessionRow.token,
-      user: pick(userRow, ['id', 'username'])
+      user: pick(userRow, ['id', 'username', 'isAdmin']),
+      resourceTree
     }
   } catch (err) {
     return throwDbError(err)
   }
+}
+
+export const signOut = async (params: SignOutReqType) => {
+  const { token } = params
+  return await deleteAdminSession({ token })
 }
 
 export const createAdminUser = async (
@@ -61,7 +74,7 @@ export const createAdminUser = async (
 ) => {
   const { createdByUsername, password, ...restParams } = params
   try {
-    const hashPassword = Bun.password.hashSync(password)
+    const hashPassword = getHashPassword(password)
     const row = (
       await db
         .insert(adminUser)
@@ -84,7 +97,7 @@ export const updateAdminUser = async (
     updatedByUsername: string
   }
 ) => {
-  const { id, updatedByUsername, username, banned, isAdmin } = params
+  const { id, updatedByUsername, username, enabled, isAdmin } = params
   await getAdminUser({ id })
   try {
     const row = (
@@ -92,7 +105,7 @@ export const updateAdminUser = async (
         .update(adminUser)
         .set({
           username,
-          banned,
+          enabled,
           isAdmin,
           updatedBy: updatedByUsername,
           updatedAt: new Date().toDateString()
@@ -113,7 +126,7 @@ export const deleteAdminUser = async (params: DeleteReqType) => {
 }
 
 export const listAdminUsers = async (params: ListReqType) => {
-  const { username, banned, isAdmin, page, pageSize, sortBy } = params
+  const { username, enabled, isAdmin, page, pageSize, sortBy } = params
 
   const where = []
   const dynamicQuery = db.select().from(adminUser).$dynamic()
@@ -121,8 +134,8 @@ export const listAdminUsers = async (params: ListReqType) => {
   if (!isEmpty(username)) {
     where.push(like(adminUser.username, `%${username}%`))
   }
-  if (!isEmpty(banned)) {
-    where.push(eq(adminUser.banned, banned))
+  if (!isEmpty(enabled)) {
+    where.push(eq(adminUser.enabled, enabled))
   }
   if (!isEmpty(isAdmin)) {
     where.push(eq(adminUser.isAdmin, isAdmin))
@@ -143,7 +156,7 @@ export const listAdminUsers = async (params: ListReqType) => {
 }
 
 export const listRoleAdminUsers = async (params: ListRoleUsersReqType) => {
-  const { roleId, username, banned, isAdmin, page, pageSize, sortBy } = params
+  const { roleId, username, enabled, isAdmin, page, pageSize, sortBy } = params
   const userIds = (await listAdminUserRoleRelations({ roleId })).records.map(o => o.userId)
 
   const where = [inArray(adminUser.id, userIds)]
@@ -152,8 +165,8 @@ export const listRoleAdminUsers = async (params: ListRoleUsersReqType) => {
   if (!isEmpty(username)) {
     where.push(like(adminUser.username, `%${username}%`))
   }
-  if (!isEmpty(banned)) {
-    where.push(eq(adminUser.banned, banned))
+  if (!isEmpty(enabled)) {
+    where.push(eq(adminUser.enabled, enabled))
   }
   if (!isEmpty(isAdmin)) {
     where.push(eq(adminUser.isAdmin, isAdmin))
@@ -174,7 +187,7 @@ export const listRoleAdminUsers = async (params: ListRoleUsersReqType) => {
 }
 
 export const listResourceAdminUsers = async (params: ListResourceUsersReqType) => {
-  const { resourceId, username, banned, isAdmin, page, pageSize, sortBy } = params
+  const { resourceId, username, enabled, isAdmin, page, pageSize, sortBy } = params
   const roleIds = (await listAdminRoleResourceRelations({ resourceId })).records.map(o => o.roleId)
   const userIds = (await listAdminUserRoleRelations({ roleIds })).records.map(o => o.userId)
 
@@ -184,8 +197,8 @@ export const listResourceAdminUsers = async (params: ListResourceUsersReqType) =
   if (!isEmpty(username)) {
     where.push(like(adminUser.username, `%${username}%`))
   }
-  if (!isEmpty(banned)) {
-    where.push(eq(adminUser.banned, banned))
+  if (!isEmpty(enabled)) {
+    where.push(eq(adminUser.enabled, enabled))
   }
   if (!isEmpty(isAdmin)) {
     where.push(eq(adminUser.isAdmin, isAdmin))

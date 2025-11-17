@@ -5,7 +5,7 @@ export const adminUser = pgTable('admin_user', {
   ...commonFields,
   username: varchar('username', { length: 32 }).notNull().unique(),
   password: text('password').notNull(),
-  banned: boolean().notNull(),
+  enabled: boolean().notNull(),
   isAdmin: boolean().notNull()
 })
 

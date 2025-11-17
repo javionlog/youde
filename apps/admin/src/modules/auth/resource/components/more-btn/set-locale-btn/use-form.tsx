@@ -2,11 +2,11 @@ import type { RefObject } from 'react'
 import type { DialogInstance, FormRules, TabPanelProps, TabValue } from 'tdesign-react'
 
 import type {
-  PostAuthRbacResourceLocaleCreateData,
-  PostAuthRbacResourceLocaleUpdateData,
+  GetAdminResourceLocaleResponse,
+  PostAdminResourceLocaleData,
   ResourceNode
 } from '@/global/api'
-import { postAuthRbacResourceLocaleCreate, postAuthRbacResourceLocaleUpdate } from '@/global/api'
+import { patchAdminResourceLocale, postAdminResourceLocale } from '@/global/api'
 
 type FormProps = Parameters<typeof GlForm>[0]
 
@@ -31,7 +31,7 @@ interface DialogFormProps {
 }
 
 interface DialogBodyInstance {
-  getData: () => Promise<NonNullable<PostAuthRbacResourceLocaleUpdateData['body']>>
+  getData: () => Promise<NonNullable<GetAdminResourceLocaleResponse>>
 }
 
 const DialogForm = (props: DialogFormProps) => {
@@ -48,10 +48,8 @@ const DialogForm = (props: DialogFormProps) => {
         if (validateResult === true) {
           return {
             ...form.getFieldsValue(true),
-            field: tabValue,
-            resourceId: rowData.id,
             id: localeItem?.id
-          } as NonNullable<PostAuthRbacResourceLocaleUpdateData['body']>
+          } as NonNullable<GetAdminResourceLocaleResponse>
         }
         return null
       }
@@ -73,7 +71,7 @@ const DialogForm = (props: DialogFormProps) => {
   const rules = {
     zhCn: getRequiredRules(),
     enUs: getRequiredRules()
-  } satisfies FormRules<NonNullable<PostAuthRbacResourceLocaleCreateData['body']>>
+  } satisfies FormRules<NonNullable<PostAdminResourceLocaleData['body']>>
 
   const items = [
     {
@@ -166,9 +164,9 @@ export const useForm = (props: Props) => {
             return
           }
           if (data.id) {
-            await postAuthRbacResourceLocaleUpdate({ body: data })
+            await patchAdminResourceLocale({ body: data })
           } else {
-            await postAuthRbacResourceLocaleCreate({ body: data })
+            await postAdminResourceLocale({ body: data })
           }
           MessagePlugin.success(t('message.operateSuccessful'))
           dialogInstance.hide()

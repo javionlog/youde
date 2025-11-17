@@ -23,6 +23,13 @@ export const createReqSpec = createInsertSchema(adminRoleResourceRelation).omit(
 })
 export type CreateReqType = z.infer<typeof createReqSpec>
 
+export const setManyReqSpec = z.object({
+  roleId: z.string(),
+  createResourceIds: z.array(z.string()),
+  deleteResourceIds: z.array(z.string())
+})
+export type SetManyReqType = z.infer<typeof setManyReqSpec>
+
 export const deleteReqSpec = rowResSpec.pick({ roleId: true, resourceId: true })
 export type DeleteReqType = z.infer<typeof deleteReqSpec>
 

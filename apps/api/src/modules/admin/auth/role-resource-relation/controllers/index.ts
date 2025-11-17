@@ -2,14 +2,16 @@ import { adminGuardController } from '@/global/controllers'
 import {
   createAdminRoleResourceRelation,
   deleteAdminRoleResourceRelation,
-  listAdminRoleResourceRelations
+  listAdminRoleResourceRelations,
+  setManyAdminRoleResourceRelations
 } from '../services'
 import {
   createReqSpec,
   deleteReqSpec,
   listReqSpec,
   promiseListResSpec,
-  promiseRowResSpec
+  promiseRowResSpec,
+  setManyReqSpec
 } from '../specs'
 
 const tags = ['Admin-Role-Resource-Relation']
@@ -19,7 +21,7 @@ const app = adminGuardController.group('/role-resource-relation', app =>
     .post(
       '',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await createAdminRoleResourceRelation({ ...body, createdByUsername: username! })
       },
       {
@@ -29,6 +31,20 @@ const app = adminGuardController.group('/role-resource-relation', app =>
         },
         body: createReqSpec,
         response: promiseRowResSpec
+      }
+    )
+    .post(
+      '/set-many',
+      async ({ body, user }) => {
+        const { username } = user
+        return await setManyAdminRoleResourceRelations({ ...body, createdByUsername: username! })
+      },
+      {
+        detail: {
+          tags,
+          description: 'Set many role resource relations'
+        },
+        body: setManyReqSpec
       }
     )
     .delete(

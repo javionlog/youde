@@ -47,7 +47,8 @@
     "operation": "Operation",
     "more": "More",
     "english": "English",
-    "simplifiedChinese": "Simplified Chinese"
+    "simplifiedChinese": "Simplified Chinese",
+    "isAdmin": "Administrator or not"
   },
   "message": {
     "welcomeToYoude": "Welcome to Youde!",

@@ -3,6 +3,7 @@ import { sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { SYSTEM_OPERATOR } from '@/global/config'
 import { createAdminResource } from '@/modules/admin/auth/resource/services'
+import type { RowType as ResourceRowType } from '@/modules/admin/auth/resource/specs'
 import { createAdminResourceLocale } from '@/modules/admin/auth/resource-locale/services'
 import { createAdminRole } from '@/modules/admin/auth/role/services'
 import { createAdminRoleResourceRelation } from '@/modules/admin/auth/role-resource-relation/services'
@@ -29,16 +30,16 @@ const reset = async () => {
   )
 }
 
-type ResourceType = 'Menu' | 'Page' | 'Element'
+type ResourceType = ResourceRowType['type']
 
 const init = async () => {
   /* Create user */
   const userRes = await createAdminUser({
     createdByUsername: SYSTEM_OPERATOR,
-    banned: false,
+    enabled: true,
     isAdmin: true,
     username: 'admin',
-    password: '12345678'
+    password: 'Admin888@@'
   })
 
   /* Create role */
@@ -125,7 +126,8 @@ const init = async () => {
       const subResourceRes = await createAdminResource({
         ...resourceCommonFileds,
         parentId: resourceRes.id,
-        type: item.type as ResourceType,
+        path: subItem.path,
+        type: subItem.type as ResourceType,
         name: subItem.name,
         sort: j + 1
       })

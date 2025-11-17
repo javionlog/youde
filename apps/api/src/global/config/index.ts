@@ -10,7 +10,11 @@ type MethodType = 'nolimit' | 'get' | 'post' | 'put' | 'delete' | 'patch' | 'opt
 
 export const ADMIN_SKIP_AUTH_ROUTES = [
   {
-    url: '/admin-user/sign-in',
+    url: '/admin/user',
+    method: 'nolimit'
+  },
+  {
+    url: '/admin/user/sign-in',
     method: 'nolimit'
   }
 ] satisfies {

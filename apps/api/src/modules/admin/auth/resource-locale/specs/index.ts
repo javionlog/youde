@@ -18,9 +18,12 @@ export const createReqSpec = createInsertSchema(adminResourceLocale).omit({
 })
 export type CreateReqType = z.infer<typeof createReqSpec>
 
-export const updateReqSpec = createInsertSchema(adminResourceLocale).omit({
+export const updateReqSpec = createInsertSchema(adminResourceLocale, {
+  id: z.string()
+}).omit({
   ...omitReqFields,
-  id: true
+  resourceId: true,
+  field: true
 })
 export type UpdateReqType = z.infer<typeof updateReqSpec>
 
@@ -30,7 +33,6 @@ export const deleteReqSpec = z.object({
 export type DeleteReqType = z.infer<typeof deleteReqSpec>
 
 export const getReqSpec = z.object({
-  resourceId: z.string(),
-  ...rowResSpec.pick({ field: true }).shape
+  id: z.string()
 })
 export type GetReqType = z.infer<typeof getReqSpec>

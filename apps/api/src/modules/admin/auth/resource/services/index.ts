@@ -11,6 +11,7 @@ import type {
   DeleteReqType,
   GetReqType,
   ListReqType,
+  ListRoleGrantResourcesReqType,
   ListRoleResourcesReqType,
   ListUserResourcesReqType,
   RowType,
@@ -202,6 +203,58 @@ export const listRoleAdminResourceTree = async (params: ListRoleResourcesReqType
     )
 
   const result = enabledResourceList.map(item => {
+    return {
+      ...item,
+      locales: locales.filter(localeItem => {
+        return item.id === localeItem.resourceId
+      })
+    }
+  })
+
+  return buildTree(result)
+}
+
+export const listRoleGrantAdminResourceTree = async (params: ListRoleGrantResourcesReqType) => {
+  const { roleId } = params
+  const resourceIds = (
+    await listAdminRoleResourceRelations({
+      roleId
+    })
+  ).records.map(o => o.resourceId)
+
+  const dynamicQuery = db.select().from(adminResource).$dynamic()
+  withOrderBy(dynamicQuery, adminResource.sort, 'asc')
+  const resourceRecords = await dynamicQuery
+  const resourceList = resourceRecords.filter(o => resourceIds.includes(o.id))
+  const disabledResourceList: RowType[] = []
+  for (const item of resourceList) {
+    if (!item.enabled) {
+      disabledResourceList.push(item, ...getChildrenNodes(resourceRecords, item.id))
+    }
+  }
+
+  const allEnabledResourceList = resourceRecords
+    .filter(item => {
+      return !disabledResourceList.map(o => o.id).includes(item.id)
+    })
+    .map(item => {
+      return {
+        ...item,
+        grant: resourceIds.includes(item.id)
+      }
+    })
+
+  const locales = await db
+    .select()
+    .from(adminResourceLocale)
+    .where(
+      inArray(
+        adminResourceLocale.resourceId,
+        allEnabledResourceList.map(o => o.id)
+      )
+    )
+
+  const result = allEnabledResourceList.map(item => {
     return {
       ...item,
       locales: locales.filter(localeItem => {

@@ -1,12 +1,12 @@
 import type { FormRules } from 'tdesign-react'
-import type { PostAuthRbacRoleCreateData, PostAuthRbacRoleUpdateData, Role } from '@/global/api'
-import { postAuthRbacRoleCreate, postAuthRbacRoleUpdate } from '@/global/api'
+import type { GetAdminRoleResponse, PatchAdminRoleData, PostAdminRoleData } from '@/global/api'
+import { patchAdminRole, postAdminRole } from '@/global/api'
 
 type FormProps = Parameters<typeof GlForm>[0]
 
 interface Props {
   mode: 'add' | 'edit'
-  rowData?: Role
+  rowData?: GetAdminRoleResponse
   refresh: () => void
 }
 
@@ -19,7 +19,7 @@ export const useForm = (props: Props) => {
 
   const rules = {
     name: getRequiredRules()
-  } satisfies FormRules<NonNullable<PostAuthRbacRoleCreateData['body']>>
+  } satisfies FormRules<NonNullable<PostAdminRoleData['body']>>
   const items = [
     {
       formItem: {
@@ -31,7 +31,8 @@ export const useForm = (props: Props) => {
     {
       formItem: {
         name: 'enabled',
-        label: t('label.enabled')
+        label: t('label.enabled'),
+        initialData: true
       },
       component: <Switch />
     },
@@ -45,12 +46,8 @@ export const useForm = (props: Props) => {
   ] satisfies FormProps['items']
 
   const onOpen = async () => {
-    const defaultData: Partial<Role> = {
-      enabled: true
-    }
     form.reset()
     await Promise.resolve()
-    form.setFieldsValue(defaultData)
     if (mode === 'edit') {
       form.setFieldsValue(rowData!)
     }
@@ -72,11 +69,11 @@ export const useForm = (props: Props) => {
           const params = {
             ...fieldsValue,
             id: rowData?.id
-          } as PostAuthRbacRoleUpdateData['body']
-          await postAuthRbacRoleUpdate({ body: params })
+          } as PatchAdminRoleData['body']
+          await patchAdminRole({ body: params })
         } else {
-          const params = fieldsValue as PostAuthRbacRoleCreateData['body']
-          await postAuthRbacRoleCreate({ body: params })
+          const params = fieldsValue as PostAdminRoleData['body']
+          await postAdminRole({ body: params })
         }
         MessagePlugin.success(t('message.operateSuccessful'))
         onClose()

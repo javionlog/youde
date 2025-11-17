@@ -22,12 +22,24 @@ export const treeResSpec = z.object({
   }
 })
 
+/* @ts-ignore */
+export const grantTreeResSpec = z.object({
+  ...rowResSpec.shape,
+  grant: z.boolean(),
+  /* @ts-ignore */
+  get children() {
+    return z.array(grantTreeResSpec)
+  }
+})
+
 export const promiseRowResSpec = z.object({
   ...createSelectSchema(adminResource).omit({}).shape,
   locales: z.array(resourceLocaleResSpec)
 })
 
 export const promiseTreeResSpec = z.promise(z.array(treeResSpec))
+
+export const promiseGrantTreeResSpec = z.promise(z.array(grantTreeResSpec))
 
 export const createReqSpec = createInsertSchema(adminResource).omit({
   ...omitReqFields,
@@ -62,3 +74,8 @@ export const listRoleResourcesReqSpec = z.object({
   roleId: z.string()
 })
 export type ListRoleResourcesReqType = z.infer<typeof listRoleResourcesReqSpec>
+
+export const listRoleGrantResourcesReqSpec = z.object({
+  roleId: z.string()
+})
+export type ListRoleGrantResourcesReqType = z.infer<typeof listRoleGrantResourcesReqSpec>

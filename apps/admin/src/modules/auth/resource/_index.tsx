@@ -1,6 +1,6 @@
 import type { TreeProps } from 'tdesign-react'
 import type { ResourceNode } from '@/global/api'
-import { postAuthRbacListResourceTree } from '@/global/api'
+import { postAdminResourceTree } from '@/global/api'
 import { DeleteBtn } from './components/delete-btn'
 import { MoreBtn } from './components/more-btn'
 import { UpsertBtn } from './components/upsert-btn'
@@ -16,7 +16,7 @@ export default () => {
   const refresh = async () => {
     try {
       setLoading(true)
-      await postAuthRbacListResourceTree().then(res => {
+      await postAdminResourceTree({ body: {} }).then(res => {
         setData(res.data ?? [])
       })
     } finally {

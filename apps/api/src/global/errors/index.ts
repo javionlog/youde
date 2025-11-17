@@ -110,3 +110,9 @@ export const throwDataIsReferencedError = (message?: string) => {
     message: message ?? 'Data is referenced'
   })
 }
+
+export const throwForbiddenError = (message?: string) => {
+  throw new CommonError('Forbidden', {
+    message: message ?? 'Access forbidden'
+  })
+}

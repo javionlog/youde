@@ -1,5 +1,5 @@
-import type { Role } from '@/global/api'
-import { postAuthRbacRoleList } from '@/global/api'
+import type { GetAdminRoleResponse } from '@/global/api'
+import { postAdminRoleList } from '@/global/api'
 import { DeleteBtn } from './components/delete-btn'
 import { MoreBtn } from './components/more-btn'
 import { UpsertBtn } from './components/upsert-btn'
@@ -75,7 +75,7 @@ export default () => {
         )
       }
     }
-  ] satisfies GlTalbeColumns<Role>
+  ] satisfies GlTalbeColumns<GetAdminRoleResponse>
 
   const refresh = () => {
     ref.current?.fetch()
@@ -92,7 +92,7 @@ export default () => {
         </Space>
       }
       columns={columns}
-      api={postAuthRbacRoleList}
+      api={postAdminRoleList}
     />
   )
 }

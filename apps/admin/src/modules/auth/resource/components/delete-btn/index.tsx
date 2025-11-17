@@ -1,6 +1,6 @@
 import { DeleteIcon } from 'tdesign-icons-react'
-import type { PostAuthRbacResourceDeleteData, ResourceNode } from '@/global/api'
-import { postAuthRbacResourceDelete } from '@/global/api'
+import type { DeleteAdminResourceData, ResourceNode } from '@/global/api'
+import { deleteAdminResource } from '@/global/api'
 
 interface Props {
   rowData: ResourceNode
@@ -26,8 +26,8 @@ export const DeleteBtn = (props: Props) => {
       setConfirmLoading(true)
       const params = {
         id: rowData.id
-      } satisfies PostAuthRbacResourceDeleteData['body']
-      await postAuthRbacResourceDelete({ body: params })
+      } satisfies DeleteAdminResourceData['body']
+      await deleteAdminResource({ body: params })
 
       MessagePlugin.success(t('message.operateSuccessful'))
       onClose()

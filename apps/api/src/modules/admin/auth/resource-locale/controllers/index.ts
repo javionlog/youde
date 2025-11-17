@@ -13,7 +13,7 @@ const app = adminGuardController.group('/resource-locale', app =>
     .post(
       '',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await createAdminResourceLocale({ ...body, createdByUsername: username! })
       },
       {
@@ -28,7 +28,7 @@ const app = adminGuardController.group('/resource-locale', app =>
     .patch(
       '',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await updateAdminResourceLocale({ ...body, updatedByUsername: username! })
       },
       {

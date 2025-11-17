@@ -1,5 +1,5 @@
 import { PoweroffIcon } from 'tdesign-icons-react'
-import { postAuthSignOut } from '@/global/api'
+import { postAdminUserSignOut } from '@/global/api'
 
 export const SignOutBtn = () => {
   const { t } = useTranslation()
@@ -13,11 +13,11 @@ export const SignOutBtn = () => {
     }
     try {
       setLoading(true)
-      await postAuthSignOut()
+      await postAdminUserSignOut()
       const to = `/sign-in?redirect=${pathname}${search}`
       navigate(to)
       useUserStore.setState({ user: null })
-      useResourceStore.setState({ resourceTree: [], resourceInited: false })
+      useResourceStore.setState({ resourceTree: [] })
       useHttpStore.setState({ responseStatus: 0 })
     } finally {
       setLoading(false)

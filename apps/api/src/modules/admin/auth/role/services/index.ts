@@ -12,6 +12,7 @@ import type {
   GetReqType,
   ListReqType,
   ListResourceRolesReqType,
+  ListUserGrantRolesReqType,
   ListUserRolesReqType,
   UpdateReqType
 } from '../specs'
@@ -108,6 +109,37 @@ export const listAdminRoles = async (params: ListReqType) => {
 }
 
 export const listUserAdminRoles = async (params: ListUserRolesReqType) => {
+  const { userId, name, enabled, page, pageSize, sortBy } = params
+
+  const roleIds = (await listAdminUserRoleRelations({ userId })).records.map(o => o.roleId)
+
+  const where = [inArray(adminRole.id, roleIds)]
+  const dynamicQuery = db.select().from(adminRole).$dynamic()
+
+  if (!isEmpty(name)) {
+    where.push(like(adminRole.name, `%${name}%`))
+  }
+  if (!isEmpty(enabled)) {
+    where.push(eq(adminRole.enabled, enabled))
+  }
+  dynamicQuery.where(and(...where))
+  withOrderBy(dynamicQuery, adminRole[sortBy?.field ?? 'updatedAt'], sortBy?.direction)
+
+  const total = (await dynamicQuery).length
+
+  if (!isEmpty(page) && !isEmpty(pageSize)) {
+    withPagination(dynamicQuery, page, pageSize)
+  }
+
+  const records = await dynamicQuery
+
+  return {
+    total,
+    records
+  }
+}
+
+export const listUserGrantAdminRoles = async (params: ListUserGrantRolesReqType) => {
   const { userId, name, enabled, grant, page, pageSize, sortBy } = params
 
   const roleIds = (await listAdminUserRoleRelations({ userId })).records.map(o => o.roleId)

@@ -1,10 +1,6 @@
 import type { CustomValidator, FormRules } from 'tdesign-react'
-import type {
-  PostAuthRbacResourceCreateData,
-  PostAuthRbacResourceUpdateData,
-  ResourceNode
-} from '@/global/api'
-import { postAuthRbacResourceCreate, postAuthRbacResourceUpdate } from '@/global/api'
+import type { PatchAdminResourceData, PostAdminResourceData, ResourceNode } from '@/global/api'
+import { patchAdminResource, postAdminResource } from '@/global/api'
 
 type FormProps = Parameters<typeof GlForm>[0]
 
@@ -42,7 +38,7 @@ export const useForm = (props: Props) => {
         }) as CustomValidator
       }
     ]
-  } satisfies FormRules<NonNullable<PostAuthRbacResourceCreateData['body']>>
+  } satisfies FormRules<NonNullable<PostAdminResourceData['body']>>
 
   let items = [
     {
@@ -123,35 +119,40 @@ export const useForm = (props: Props) => {
     {
       formItem: {
         name: 'enabled',
-        label: t('label.enabled')
+        label: t('label.enabled'),
+        initialData: true
       },
       component: <Switch />
     },
     {
       formItem: {
         name: 'isShow',
-        label: t('resource.label.whetherToShow', { ns: 'auth' })
+        label: t('resource.label.whetherToShow', { ns: 'auth' }),
+        initialData: true
       },
       component: <Switch />
     },
     {
       formItem: {
         name: 'isCache',
-        label: t('resource.label.whetherToCache', { ns: 'auth' })
+        label: t('resource.label.whetherToCache', { ns: 'auth' }),
+        initialData: true
       },
       component: <Switch />
     },
     {
       formItem: {
         name: 'isAffix',
-        label: t('resource.label.whetherToAffix', { ns: 'auth' })
+        label: t('resource.label.whetherToAffix', { ns: 'auth' }),
+        initialData: false
       },
       component: <Switch />
     },
     {
       formItem: {
         name: 'isLink',
-        label: t('resource.label.whetherToLink', { ns: 'auth' })
+        label: t('resource.label.whetherToLink', { ns: 'auth' }),
+        initialData: false
       },
       component: <Switch />
     }
@@ -192,16 +193,8 @@ export const useForm = (props: Props) => {
   }
 
   const onOpen = async () => {
-    const defaultData: Partial<ResourceNode> = {
-      enabled: true,
-      isShow: true,
-      isCache: true,
-      isAffix: false,
-      isLink: false
-    }
     form.reset()
     await Promise.resolve()
-    form.setFieldsValue(defaultData)
     if (mode === 'edit') {
       form.setFieldsValue(rowData!)
     }
@@ -223,17 +216,17 @@ export const useForm = (props: Props) => {
           const params = {
             ...fieldsValue,
             id: rowData?.id
-          } as PostAuthRbacResourceUpdateData['body']
-          await postAuthRbacResourceUpdate({ body: params })
+          } as PatchAdminResourceData['body']
+          await patchAdminResource({ body: params })
         } else if (mode === 'add') {
           const params = {
             ...fieldsValue,
             parentId: rowData?.id
-          } as PostAuthRbacResourceCreateData['body']
-          await postAuthRbacResourceCreate({ body: params })
+          } as PostAdminResourceData['body']
+          await postAdminResource({ body: params })
         } else {
-          const params = fieldsValue as PostAuthRbacResourceCreateData['body']
-          await postAuthRbacResourceCreate({ body: params })
+          const params = fieldsValue as PostAdminResourceData['body']
+          await postAdminResource({ body: params })
         }
         MessagePlugin.success(t('message.operateSuccessful'))
         onClose()

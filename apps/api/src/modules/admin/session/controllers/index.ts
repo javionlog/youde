@@ -21,7 +21,7 @@ const app = adminGuardController.group('/session', app =>
     .post(
       '',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await createAdminSession({ ...body, createdByUsername: username! })
       },
       {

@@ -1,8 +1,8 @@
-import type { Role } from '@/global/api'
-import { postAuthRbacListRoleUsers } from '@/global/api'
+import type { GetAdminRoleResponse } from '@/global/api'
+import { postAdminUserRoleUserList } from '@/global/api'
 
 interface Props {
-  rowData: Role
+  rowData: GetAdminRoleResponse
 }
 
 export const ViewUserBtn = (props: Props) => {
@@ -11,24 +11,17 @@ export const ViewUserBtn = (props: Props) => {
 
   const columns = [
     {
-      colKey: 'name',
-      title: t('label.name')
-    },
-    {
       colKey: 'username',
       title: t('label.username')
     },
     {
-      colKey: 'displayUsername',
-      title: t('label.displayUsername')
+      colKey: 'enabled',
+      title: t('label.enabled'),
+      cellRenderType: 'boolean'
     },
     {
-      colKey: 'email',
-      title: t('label.email')
-    },
-    {
-      colKey: 'emailVerified',
-      title: t('label.emailVerified'),
+      colKey: 'isAdmin',
+      title: t('label.isAdmin'),
       cellRenderType: 'boolean'
     },
     {
@@ -41,7 +34,7 @@ export const ViewUserBtn = (props: Props) => {
       title: t('label.updatedAt'),
       cellRenderType: 'datetime'
     }
-  ] satisfies GlTalbeColumns<Role>
+  ] satisfies GlTalbeColumns<GetAdminRoleResponse>
 
   const onOpen = () => {
     const dialogInstance = GlDialogPlugin({
@@ -56,7 +49,7 @@ export const ViewUserBtn = (props: Props) => {
           columns={columns}
           maxHeight='100%'
           params={{ roleId: rowData.id }}
-          api={postAuthRbacListRoleUsers}
+          api={postAdminUserRoleUserList}
         />
       )
     })

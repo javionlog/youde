@@ -8,6 +8,7 @@ import {
   listResourceAdminUsers,
   listRoleAdminUsers,
   signIn,
+  signOut,
   updateAdminUser
 } from '../services'
 import {
@@ -48,9 +49,24 @@ const app = adminGuardController.group('/user', app =>
       }
     )
     .post(
+      '/sign-out',
+      async ({ cookie }) => {
+        const token = String(cookie.sessionToken.value)
+        const result = await signOut({ token })
+        cookie.sessionToken.remove()
+        return result
+      },
+      {
+        detail: {
+          tags,
+          description: 'User sign out'
+        }
+      }
+    )
+    .post(
       '',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await createAdminUser({ ...body, createdByUsername: username! })
       },
       {
@@ -65,7 +81,7 @@ const app = adminGuardController.group('/user', app =>
     .patch(
       '',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await updateAdminUser({ ...body, updatedByUsername: username! })
       },
       {

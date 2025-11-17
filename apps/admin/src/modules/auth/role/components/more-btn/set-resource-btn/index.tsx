@@ -1,8 +1,8 @@
-import type { Role } from '@/global/api'
+import type { GetAdminRoleResponse } from '@/global/api'
 import { useTree } from './use-tree'
 
 interface Props {
-  rowData: Role
+  rowData: GetAdminRoleResponse
   refresh: () => void
 }
 

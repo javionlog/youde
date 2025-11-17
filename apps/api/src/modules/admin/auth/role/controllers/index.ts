@@ -6,6 +6,7 @@ import {
   listAdminRoles,
   listResourceAdminRoles,
   listUserAdminRoles,
+  listUserGrantAdminRoles,
   updateAdminRole
 } from '../services'
 import {
@@ -14,9 +15,10 @@ import {
   getReqSpec,
   listReqSpec,
   listResourceRolesReqSpec,
+  listUserGrantRolesReqSpec,
   listUserRolesReqSpec,
   promiseListResSpec,
-  promiseListUserRolesResSpec,
+  promiseListUserGrantRolesResSpec,
   promiseRowResSpec,
   updateReqSpec
 } from '../specs'
@@ -28,7 +30,7 @@ const app = adminGuardController.group('/role', app =>
     .post(
       '',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await createAdminRole({ ...body, createdByUsername: username! })
       },
       {
@@ -43,7 +45,7 @@ const app = adminGuardController.group('/role', app =>
     .patch(
       '',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await updateAdminRole({ ...body, updatedByUsername: username! })
       },
       {
@@ -101,7 +103,18 @@ const app = adminGuardController.group('/role', app =>
       {
         detail: { tags, description: 'List user roles' },
         body: listUserRolesReqSpec,
-        response: promiseListUserRolesResSpec
+        response: promiseListResSpec
+      }
+    )
+    .post(
+      '/user-grant-role-list',
+      async ({ body }) => {
+        return await listUserGrantAdminRoles(body)
+      },
+      {
+        detail: { tags, description: 'List user grant roles' },
+        body: listUserGrantRolesReqSpec,
+        response: promiseListUserGrantRolesResSpec
       }
     )
     .post(

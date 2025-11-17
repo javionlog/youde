@@ -1,10 +1,10 @@
-import type { User } from '@/global/api'
+import type { GetAdminUserResponse } from '@/global/api'
 import { SetRoleBtn } from './set-role-btn'
 import { ViewResourceBtn } from './view-resource-btn'
 import { ViewRoleBtn } from './view-role-btn'
 
 interface Props {
-  rowData: User
+  rowData: GetAdminUserResponse
   refresh: () => void
 }
 

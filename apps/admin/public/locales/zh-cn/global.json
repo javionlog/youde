@@ -47,7 +47,8 @@
     "operation": "操作",
     "more": "更多",
     "english": "英文",
-    "simplifiedChinese": "简体中文"
+    "simplifiedChinese": "简体中文",
+    "isAdmin": "是否管理员"
   },
   "message": {
     "welcomeToYoude": "欢迎来到“有的”！",

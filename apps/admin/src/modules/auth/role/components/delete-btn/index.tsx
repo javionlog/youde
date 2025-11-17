@@ -1,8 +1,8 @@
-import type { PostAuthRbacRoleDeleteData, Role } from '@/global/api'
-import { postAuthRbacRoleDelete } from '@/global/api'
+import type { DeleteAdminRoleData, GetAdminRoleResponse } from '@/global/api'
+import { deleteAdminRole } from '@/global/api'
 
 interface Props {
-  rowData: Role
+  rowData: GetAdminRoleResponse
   refresh: () => void
 }
 
@@ -25,8 +25,8 @@ export const DeleteBtn = (props: Props) => {
       setConfirmLoading(true)
       const params = {
         id: rowData.id
-      } satisfies PostAuthRbacRoleDeleteData['body']
-      await postAuthRbacRoleDelete({ body: params })
+      } satisfies DeleteAdminRoleData['body']
+      await deleteAdminRole({ body: params })
 
       MessagePlugin.success(t('message.operateSuccessful'))
       onClose()

@@ -1,13 +1,13 @@
 import type { TreeProps } from 'tdesign-react'
-import type { ResourceNode, Role } from '@/global/api'
-import { postAuthRbacListRoleResourceTree } from '@/global/api'
+import type { GetAdminRoleResponse, ResourceNode } from '@/global/api'
+import { postAdminResourceRoleResourceTree } from '@/global/api'
 
 interface Props {
-  rowData: Role
+  rowData: GetAdminRoleResponse
 }
 
 interface DialogBodyProps {
-  rowData: Role
+  rowData: GetAdminRoleResponse
 }
 
 const DialogBody = (props: DialogBodyProps) => {
@@ -24,7 +24,7 @@ const DialogBody = (props: DialogBodyProps) => {
     const init = async () => {
       try {
         setLoading(true)
-        const treeList = await postAuthRbacListRoleResourceTree({
+        const treeList = await postAdminResourceRoleResourceTree({
           body: { roleId: rowData.id }
         }).then(r => r.data ?? [])
         setResourceTree(treeList)

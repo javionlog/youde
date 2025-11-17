@@ -19,7 +19,7 @@ const app = adminGuardController.group('/user-role-relation', app =>
     .post(
       '',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await createAdminUserRoleRelation({ ...body, createdByUsername: username! })
       },
       {

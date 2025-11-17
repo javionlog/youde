@@ -1,5 +1,5 @@
 import type { ResourceNode } from '@/global/api'
-import { postAuthRbacListResourceRoles } from '@/global/api'
+import { postAdminRoleResourceRoleList } from '@/global/api'
 
 interface Props {
   rowData: ResourceNode
@@ -56,7 +56,7 @@ export const ViewRoleBtn = (props: Props) => {
           columns={columns}
           maxHeight='100%'
           params={{ resourceId: rowData.id }}
-          api={postAuthRbacListResourceRoles}
+          api={postAdminRoleResourceRoleList}
         />
       )
     })

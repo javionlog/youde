@@ -1,8 +1,8 @@
-import type { User } from '@/global/api'
+import type { GetAdminUserResponse } from '@/global/api'
 import { useTable } from './use-table'
 
 interface Props {
-  rowData: User
+  rowData: GetAdminUserResponse
 }
 
 export const SetRoleBtn = (props: Props) => {

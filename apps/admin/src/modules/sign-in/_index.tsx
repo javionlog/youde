@@ -1,14 +1,14 @@
 import { Desktop1Icon, LockOnIcon } from 'tdesign-icons-react'
 import type { FormProps, FormRules } from 'tdesign-react'
-import type { PostAuthSignInUsernameData } from '@/global/api'
-import { postAuthSignInUsername } from '@/global/api'
+import type { PostAdminUserSignInData } from '@/global/api'
+import { postAdminUserSignIn } from '@/global/api'
 
 const { FormItem } = Form
 
 const initialData = {
   username: 'admin',
-  password: '12345678'
-} satisfies PostAuthSignInUsernameData['body']
+  password: 'Admin888@@'
+} satisfies PostAdminUserSignInData['body']
 
 export default () => {
   const [formData] = useState(initialData)
@@ -20,15 +20,16 @@ export default () => {
   const rules = {
     username: getRequiredRules(),
     password: getRequiredRules()
-  } satisfies FormRules<PostAuthSignInUsernameData['body']>
+  } satisfies FormRules<PostAdminUserSignInData['body']>
 
   const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
     if (validateResult === true) {
       try {
         setLoading(true)
         const params = form.getFieldsValue(true) as typeof initialData
-        const resData = await postAuthSignInUsername({ body: params }).then(r => r.data!)
+        const resData = await postAdminUserSignIn({ body: params }).then(r => r.data!)
         useUserStore.setState({ user: resData.user })
+        useResourceStore.setState({ resourceTree: resData.resourceTree })
       } finally {
         setLoading(false)
       }

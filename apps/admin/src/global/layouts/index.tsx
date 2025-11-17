@@ -9,7 +9,7 @@ const NavToSignIn = () => {
 
   useEffect(() => {
     useUserStore.setState({ user: null })
-    useResourceStore.setState({ resourceTree: [], resourceInited: false })
+    useResourceStore.setState({ resourceTree: [] })
     useHttpStore.setState({ responseStatus: 0 })
   }, [responseStatus])
 
@@ -58,10 +58,8 @@ export const AppLayout = () => {
   const outlet = useOutlet()
   const user = useUserStore(state => state.user)
   const resourceTree = useResourceStore(state => state.resourceTree)
-  const resourceInited = useResourceStore(state => state.resourceInited)
   const responseStatus = useHttpStore(state => state.responseStatus)
   const location = useLocation()
-  const { fetchResourceTree } = useResourceStore()
   const cachePaths = useTabStore(state => state.tabs).map(o => `/${o.path}`)
 
   const activeCacheKey = useMemo(() => {
@@ -70,17 +68,13 @@ export const AppLayout = () => {
 
   const menus = [...layoutMenus, ...resourceTree]
 
-  useEffect(() => {
-    fetchResourceTree()
-  }, [])
-
   if (!user || responseStatus === 401) {
     return <NavToSignIn />
   }
 
   return (
     <>
-      {resourceInited ? (
+      {
         <div className='app-layout flex'>
           <AppSidebar menus={menus} />
           <ScrollToWrapper>
@@ -100,9 +94,7 @@ export const AppLayout = () => {
             </Suspense>
           </ScrollToWrapper>
         </div>
-      ) : (
-        <div className='grid h-dvh items-center justify-center'>{t('message.initializing')}</div>
-      )}
+      }
     </>
   )
 }

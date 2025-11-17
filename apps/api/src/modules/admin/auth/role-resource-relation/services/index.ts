@@ -4,7 +4,7 @@ import { adminRoleResourceRelation } from '@/db/schemas/admin'
 import { withPagination } from '@/db/utils'
 import { throwDbError } from '@/global/errors'
 import { isEmpty } from '@/global/utils'
-import type { CreateReqType, DeleteReqType, ListReqType } from '../specs'
+import type { CreateReqType, DeleteReqType, ListReqType, SetManyReqType } from '../specs'
 
 export const createAdminRoleResourceRelation = async (
   params: CreateReqType & {
@@ -24,6 +24,40 @@ export const createAdminRoleResourceRelation = async (
         .returning()
     )[0]
     return row
+  } catch (err) {
+    return throwDbError(err)
+  }
+}
+
+export const setManyAdminRoleResourceRelations = async (
+  params: SetManyReqType & {
+    createdByUsername: string
+  }
+) => {
+  const { createdByUsername, roleId, createResourceIds, deleteResourceIds } = params
+  try {
+    if (createResourceIds.length > 0) {
+      const insertValues = createResourceIds.map(val => {
+        return {
+          roleId,
+          resourceId: val,
+          createdBy: createdByUsername,
+          updatedBy: createdByUsername
+        }
+      })
+      await db.insert(adminRoleResourceRelation).values(insertValues).returning()
+    }
+    if (deleteResourceIds.length > 0) {
+      await db
+        .delete(adminRoleResourceRelation)
+        .where(
+          and(
+            eq(adminRoleResourceRelation.roleId, roleId),
+            inArray(adminRoleResourceRelation.resourceId, deleteResourceIds)
+          )
+        )
+    }
+    return {}
   } catch (err) {
     return throwDbError(err)
   }

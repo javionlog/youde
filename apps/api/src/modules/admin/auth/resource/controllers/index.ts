@@ -5,6 +5,7 @@ import {
   getAdminResource,
   listAdminResourceTree,
   listRoleAdminResourceTree,
+  listRoleGrantAdminResourceTree,
   listUserAdminResourceTree,
   updateAdminResource
 } from '../services'
@@ -13,8 +14,10 @@ import {
   deleteReqSpec,
   getReqSpec,
   listReqSpec,
+  listRoleGrantResourcesReqSpec,
   listRoleResourcesReqSpec,
   listUserResourcesReqSpec,
+  promiseGrantTreeResSpec,
   promiseRowResSpec,
   promiseTreeResSpec,
   updateReqSpec
@@ -27,7 +30,7 @@ const app = adminGuardController.group('/resource', app =>
     .post(
       '',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await createAdminResource({ ...body, createdByUsername: username! })
       },
       {
@@ -42,7 +45,7 @@ const app = adminGuardController.group('/resource', app =>
     .patch(
       '',
       async ({ body, user }) => {
-        const { username } = user!
+        const { username } = user
         return await updateAdminResource({ ...body, createdByUsername: username! })
       },
       {
@@ -112,6 +115,17 @@ const app = adminGuardController.group('/resource', app =>
         detail: { tags, description: 'List role resource tree' },
         body: listRoleResourcesReqSpec,
         response: promiseTreeResSpec
+      }
+    )
+    .post(
+      '/role-grant-resource-tree',
+      async ({ body }) => {
+        return await listRoleGrantAdminResourceTree(body)
+      },
+      {
+        detail: { tags, description: 'List role grant resource tree' },
+        body: listRoleGrantResourcesReqSpec,
+        response: promiseGrantTreeResSpec
       }
     )
 )

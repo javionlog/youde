@@ -1,4 +1,46 @@
 import { Elysia } from 'elysia'
+import { z } from 'zod'
+import { grantTreeResSpec, treeResSpec } from '@/modules/admin/auth/resource/specs'
+
+z.globalRegistry.add(treeResSpec, { id: 'ResourceNode' })
+z.globalRegistry.add(grantTreeResSpec, { id: 'GrantResourceNode' })
+
+const getSpec = async () => {
+  const mainSpec = await fetch(`http://localhost:3000/scalar/json`).then(r => r.json())
+  const walkObj = (obj: any) => {
+    for (const [k, v] of Object.entries(obj)) {
+      if (typeof obj[k] === 'object') {
+        walkObj(v)
+      } else {
+        if (k === '$ref') {
+          obj[k] = `#/components/schemas/${obj[k].split('/').pop()}`
+        }
+      }
+    }
+  }
+  walkObj(mainSpec)
+  const { paths, ...restSpec } = mainSpec
+  Reflect.deleteProperty(paths, '/public/*')
+  const { schemas } = z.toJSONSchema(z.globalRegistry, {
+    uri: id => {
+      return `#/components/schemas/${id}`
+    }
+  })
+  const spec = {
+    ...restSpec,
+    paths,
+    components: {
+      schemas
+    },
+    openapi: '3.1.1',
+    info: {
+      title: 'Youde API Documentation',
+      description: 'Youde API Documentation',
+      version: '1.0.0'
+    }
+  }
+  return spec
+}
 
 const html = (content: object) => `<!doctype html>
 <html>
@@ -37,33 +79,7 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
   .get(
     '/openapi',
     async () => {
-      const mainSpec = await fetch(`http://localhost:3000/scalar/json`).then(r => r.json())
-      const defSpec: any = {}
-      const walkObj = (obj: any) => {
-        for (const [k, v] of Object.entries(obj)) {
-          if (typeof obj[k] === 'object') {
-            if (k === '$defs') {
-              defSpec[k] = v
-            }
-            walkObj(v)
-          }
-        }
-      }
-      walkObj(mainSpec)
-      const { paths, ...restSpec } = mainSpec
-      Reflect.deleteProperty(paths, '/public/*')
-      const spec = {
-        ...defSpec,
-        ...restSpec,
-        paths,
-        openapi: '3.1.0',
-        info: {
-          title: 'Youde API Documentation',
-          description: 'Youde API Documentation',
-          version: '0.0.0'
-        }
-      }
-      return spec
+      return await getSpec()
     },
     {
       detail: {
@@ -74,32 +90,7 @@ const app = new Elysia({ name: 'shared.plugin.openapi' })
   .get(
     '/doc',
     async () => {
-      const mainSpec = await fetch(`http://localhost:3000/scalar/json`).then(r => r.json())
-      const defSpec: any = {}
-      const walkObj = (obj: any) => {
-        for (const [k, v] of Object.entries(obj)) {
-          if (typeof obj[k] === 'object') {
-            if (k === '$defs') {
-              defSpec[k] = v
-            }
-            walkObj(v)
-          }
-        }
-      }
-      walkObj(mainSpec)
-      const { paths, ...restSpec } = mainSpec
-      Reflect.deleteProperty(paths, '/public/*')
-      const spec = {
-        ...defSpec,
-        paths,
-        ...restSpec,
-        openapi: '3.1.0',
-        info: {
-          title: 'Youde API Documentation',
-          description: 'Youde API Documentation',
-          version: '0.0.0'
-        }
-      }
+      const spec = await getSpec()
       const res = new Response(html(spec), {
         headers: {
           'content-type': 'text/html; charset=utf8'

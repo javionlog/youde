@@ -1,9 +1,9 @@
-import type { Role } from '@/global/api'
+import type { GetAdminRoleResponse } from '@/global/api'
 import { useForm } from './use-form'
 
 interface Props {
   mode: 'add' | 'edit'
-  rowData?: Role
+  rowData?: GetAdminRoleResponse
   refresh: () => void
 }
 

@@ -7,16 +7,12 @@ export const ViewUserInfoBtn = () => {
   const user = useUserStore(state => state.user)
   const items = [
     {
-      label: t('label.name'),
-      content: user?.name!
-    },
-    {
       label: t('label.username'),
-      content: user?.username!
+      content: user?.username
     },
     {
-      label: t('label.email'),
-      content: user?.email!
+      label: t('label.isAdmin'),
+      content: user?.isAdmin ? t('label.yes') : t('label.no')
     }
   ] satisfies DescriptionsProps['items']
 

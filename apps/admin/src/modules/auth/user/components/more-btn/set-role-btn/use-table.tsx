@@ -1,20 +1,20 @@
 import type {
-  PostAuthRbacListUserRolesWithGrantResponse,
-  PostAuthRbacUserRoleRelationCreateData,
-  User
+  GetAdminUserResponse,
+  PostAdminRoleUserGrantRoleListResponse,
+  PostAdminUserRoleRelationData
 } from '@/global/api'
 import {
-  postAuthRbacListUserRolesWithGrant,
-  postAuthRbacUserRoleRelationCreate,
-  postAuthRbacUserRoleRelationDelete
+  deleteAdminUserRoleRelation,
+  postAdminRoleUserGrantRoleList,
+  postAdminUserRoleRelation
 } from '@/global/api'
 
 interface Props {
-  rowData: User
+  rowData: GetAdminUserResponse
 }
 
 interface DialogBodyProps {
-  rowData: User
+  rowData: GetAdminUserResponse
 }
 
 const DialogBody = (props: DialogBodyProps) => {
@@ -35,19 +35,19 @@ const DialogBody = (props: DialogBodyProps) => {
         on: () => {
           return {
             onChange: async (context: {
-              editedRow: PostAuthRbacListUserRolesWithGrantResponse['records'][number]
+              editedRow: PostAdminRoleUserGrantRoleListResponse['records'][number]
             }) => {
               try {
                 setLoading(true)
                 const { id, grant } = context.editedRow
-                const params: PostAuthRbacUserRoleRelationCreateData['body'] = {
+                const params: PostAdminUserRoleRelationData['body'] = {
                   userId: rowData.id,
                   roleId: id
                 }
                 if (grant) {
-                  await postAuthRbacUserRoleRelationCreate({ body: params })
+                  await postAdminUserRoleRelation({ body: params })
                 } else {
-                  await postAuthRbacUserRoleRelationDelete({ body: params })
+                  await deleteAdminUserRoleRelation({ body: params })
                 }
                 ref.current?.fetch()
                 MessagePlugin.success(t('message.operateSuccessful'))
@@ -90,7 +90,7 @@ const DialogBody = (props: DialogBodyProps) => {
       colKey: 'updatedBy',
       title: t('label.updatedBy')
     }
-  ] satisfies GlTalbeColumns<PostAuthRbacListUserRolesWithGrantResponse['records'][number]>
+  ] satisfies GlTalbeColumns<PostAdminRoleUserGrantRoleListResponse['records'][number]>
 
   return (
     <Loading loading={loading}>
@@ -100,7 +100,7 @@ const DialogBody = (props: DialogBodyProps) => {
         columns={columns}
         maxHeight='100%'
         params={{ userId: rowData.id, enabled: true }}
-        api={postAuthRbacListUserRolesWithGrant}
+        api={postAdminRoleUserGrantRoleList}
       />
     </Loading>
   )

@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { adminUser } from '@/db/schemas/admin'
 import { omitReqFields, pageSpec } from '@/global/specs'
 import { getKeys, passwordRegex, usernameRegex } from '@/global/utils'
+import { treeResSpec } from '@/modules/admin/auth/resource/specs'
 
 export const rowSepc = createSelectSchema(adminUser).omit({})
 export type RowType = z.infer<typeof rowSepc>
@@ -21,7 +22,8 @@ export const promiseListResSpec = z.promise(
 
 export const signInResSpec = z.object({
   token: z.string(),
-  user: rowResSpec.pick({ id: true, username: true })
+  user: rowResSpec.pick({ id: true, username: true, isAdmin: true }),
+  resourceTree: z.array(treeResSpec)
 })
 
 export const promiseSignInResSpec = z.promise(signInResSpec)
@@ -32,10 +34,15 @@ export const signInReqSpec = createInsertSchema(adminUser, {
 }).omit({
   ...omitReqFields,
   id: true,
-  banned: true,
+  enabled: true,
   isAdmin: true
 })
 export type SignInReqType = z.infer<typeof signInReqSpec>
+
+export const signOutReqSpec = z.object({
+  token: z.string()
+})
+export type SignOutReqType = z.infer<typeof signOutReqSpec>
 
 export const createReqSpec = createInsertSchema(adminUser, {
   username: z
@@ -65,7 +72,7 @@ export type GetReqType = z.infer<typeof getReqSpec>
 export const listReqSpec = z.object({
   ...pageSpec.shape,
   username: z.string().nullish(),
-  banned: z.boolean().nullish(),
+  enabled: z.boolean().nullish(),
   isAdmin: z.boolean().nullish(),
   sortBy: z
     .object({
@@ -81,7 +88,7 @@ export const listRoleUsersReqSpec = z.object({
   ...pageSpec.shape,
   roleId: z.string(),
   username: z.string().nullish(),
-  banned: z.boolean().nullish(),
+  enabled: z.boolean().nullish(),
   isAdmin: z.boolean().nullish(),
   sortBy: z
     .object({
@@ -97,7 +104,7 @@ export const listResourceUsersReqSpec = z.object({
   ...pageSpec.shape,
   resourceId: z.string(),
   username: z.string().nullish(),
-  banned: z.boolean().nullish(),
+  enabled: z.boolean().nullish(),
   isAdmin: z.boolean().nullish(),
   sortBy: z
     .object({

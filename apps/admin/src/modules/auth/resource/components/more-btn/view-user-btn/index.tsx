@@ -1,5 +1,5 @@
 import type { ResourceNode } from '@/global/api'
-import { postAuthRbacListResourceUsers } from '@/global/api'
+import { postAdminUserResourceUserList } from '@/global/api'
 
 interface Props {
   rowData: ResourceNode
@@ -11,24 +11,17 @@ export const ViewUserBtn = (props: Props) => {
 
   const columns = [
     {
-      colKey: 'name',
-      title: t('label.name')
-    },
-    {
       colKey: 'username',
       title: t('label.username')
     },
     {
-      colKey: 'displayUsername',
-      title: t('label.displayUsername')
+      colKey: 'enabled',
+      title: t('label.enabled'),
+      cellRenderType: 'boolean'
     },
     {
-      colKey: 'email',
-      title: t('label.email')
-    },
-    {
-      colKey: 'emailVerified',
-      title: t('label.emailVerified'),
+      colKey: 'isAdmin',
+      title: t('label.isAdmin'),
       cellRenderType: 'boolean'
     },
     {
@@ -56,7 +49,7 @@ export const ViewUserBtn = (props: Props) => {
           columns={columns}
           maxHeight='100%'
           params={{ resourceId: rowData.id }}
-          api={postAuthRbacListResourceUsers}
+          api={postAdminUserResourceUserList}
         />
       )
     })

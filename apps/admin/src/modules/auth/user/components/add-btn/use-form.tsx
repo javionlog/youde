@@ -1,6 +1,6 @@
 import type { FormRules } from 'tdesign-react'
-import type { PostAuthRbacUserCreateData } from '@/global/api'
-import { postAuthRbacUserCreate } from '@/global/api'
+import type { PostAdminUserData } from '@/global/api'
+import { postAdminUser } from '@/global/api'
 
 type FormProps = Parameters<typeof GlForm>[0]
 
@@ -16,19 +16,12 @@ export const useForm = (props: Props) => {
   const [confirmLoading, setConfirmLoading] = useState(false)
 
   const rules = {
-    name: getRequiredRules(),
     username: getRequiredRules(),
-    email: getRequiredRules(),
-    password: getRequiredRules()
-  } satisfies FormRules<NonNullable<PostAuthRbacUserCreateData['body']>>
+    password: getRequiredRules(),
+    isAdmin: getRequiredRules(),
+    enabled: getRequiredRules()
+  } satisfies FormRules<NonNullable<PostAdminUserData['body']>>
   const items = [
-    {
-      formItem: {
-        name: 'name',
-        label: t('label.name')
-      },
-      component: <GlInput />
-    },
     {
       formItem: {
         name: 'username',
@@ -38,24 +31,26 @@ export const useForm = (props: Props) => {
     },
     {
       formItem: {
-        name: 'displayUsername',
-        label: t('label.displayUsername')
-      },
-      component: <GlInput />
-    },
-    {
-      formItem: {
-        name: 'email',
-        label: t('label.email')
-      },
-      component: <GlInput />
-    },
-    {
-      formItem: {
         name: 'password',
         label: t('label.password')
       },
       component: <GlInput type='password' />
+    },
+    {
+      formItem: {
+        name: 'isAdmin',
+        label: t('label.isAdmin'),
+        initialData: false
+      },
+      component: <Switch />
+    },
+    {
+      formItem: {
+        name: 'enabled',
+        label: t('label.enabled'),
+        initialData: true
+      },
+      component: <Switch />
     }
   ] satisfies FormProps['items']
 
@@ -75,8 +70,8 @@ export const useForm = (props: Props) => {
       try {
         setConfirmLoading(true)
         const fieldsValue = form.getFieldsValue(true)
-        const params = fieldsValue as PostAuthRbacUserCreateData['body']
-        await postAuthRbacUserCreate({ body: params })
+        const params = fieldsValue as PostAdminUserData['body']
+        await postAdminUser({ body: params })
         MessagePlugin.success(t('message.operateSuccessful'))
         onClose()
         refresh()

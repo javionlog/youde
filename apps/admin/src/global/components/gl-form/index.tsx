@@ -21,6 +21,7 @@ export const GlForm = (props: Props) => {
     columns,
     gap = 20,
     collapsed = false,
+    resetType = 'initial',
     maxRows,
     items,
     ...formProps
@@ -49,7 +50,7 @@ export const GlForm = (props: Props) => {
 
   return (
     <div ref={ref} className={`gl-form ${className ?? ''}`} style={style}>
-      <Form {...formProps}>
+      <Form resetType={resetType} {...formProps}>
         <GlGrid
           columns={columns}
           gap={gap}

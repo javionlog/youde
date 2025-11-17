@@ -1,5 +1,5 @@
-import type { User } from '@/global/api'
-import { postAuthRbacUserList } from '@/global/api'
+import type { GetAdminUserResponse } from '@/global/api'
+import { postAdminUserList } from '@/global/api'
 import { AddBtn } from './components/add-btn'
 import { DeleteBtn } from './components/delete-btn'
 import { MoreBtn } from './components/more-btn'
@@ -21,41 +21,27 @@ export default () => {
       },
       {
         formItem: {
-          name: 'displayUsername',
-          label: t('label.displayUsername')
+          name: 'enabled',
+          label: t('label.enabled')
         },
-        component: <GlInput />
-      },
-      {
-        formItem: {
-          name: 'email',
-          label: t('label.email')
-        },
-        component: <GlInput />
+        component: <GlSelect options={getOptions('YES_NO')} />
       }
     ]
   } satisfies SearchProps
 
   const columns = [
     {
-      colKey: 'name',
-      title: t('label.name')
-    },
-    {
       colKey: 'username',
       title: t('label.username')
     },
     {
-      colKey: 'displayUsername',
-      title: t('label.displayUsername')
+      colKey: 'enabled',
+      title: t('label.enabled'),
+      cellRenderType: 'boolean'
     },
     {
-      colKey: 'email',
-      title: t('label.email')
-    },
-    {
-      colKey: 'emailVerified',
-      title: t('label.emailVerified'),
+      colKey: 'isAdmin',
+      title: t('label.isAdmin'),
       cellRenderType: 'boolean'
     },
     {
@@ -81,7 +67,7 @@ export default () => {
         )
       }
     }
-  ] satisfies GlTalbeColumns<User>
+  ] satisfies GlTalbeColumns<GetAdminUserResponse>
 
   const refresh = () => {
     ref.current?.fetch()
@@ -98,7 +84,7 @@ export default () => {
         </Space>
       }
       columns={columns}
-      api={postAuthRbacUserList}
+      api={postAdminUserList}
     />
   )
 }

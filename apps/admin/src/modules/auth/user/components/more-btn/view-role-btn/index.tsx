@@ -1,8 +1,8 @@
-import type { User } from '@/global/api'
-import { postAuthRbacListUserRoles } from '@/global/api'
+import type { GetAdminRoleData, GetAdminUserResponse } from '@/global/api'
+import { postAdminRoleUserRoleList } from '@/global/api'
 
 interface Props {
-  rowData: User
+  rowData: GetAdminUserResponse
 }
 
 export const ViewRoleBtn = (props: Props) => {
@@ -41,7 +41,7 @@ export const ViewRoleBtn = (props: Props) => {
       colKey: 'updatedBy',
       title: t('label.updatedBy')
     }
-  ] satisfies GlTalbeColumns<User>
+  ] satisfies GlTalbeColumns<GetAdminRoleData>
 
   const onOpen = () => {
     const dialogInstance = GlDialogPlugin({
@@ -56,7 +56,7 @@ export const ViewRoleBtn = (props: Props) => {
           columns={columns}
           maxHeight='100%'
           params={{ userId: rowData.id }}
-          api={postAuthRbacListUserRoles}
+          api={postAdminRoleUserRoleList}
         />
       )
     })
