@@ -35,12 +35,11 @@ const app = adminGuardController.group('/user', app =>
   app
     .post(
       '/sign-in',
-      async ({ headers, cookie, body, server, request }) => {
-        const ipAddress = server?.requestIP(request)?.address
+      async ({ headers, cookie, body, ip }) => {
         const result = await signIn({
           ...body,
           userAgent: headers['user-agent'],
-          ipAddress
+          ipAddress: ip
         })
         cookie.sessionToken.set({
           value: result.token,

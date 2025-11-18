@@ -1,4 +1,5 @@
 import { Elysia } from 'elysia'
+import { ip } from 'elysia-ip'
 import sharedPlugin from './global/plugins'
 import adminAuthResource from './modules/admin/auth/resource/controllers'
 import adminAuthResourceLocale from './modules/admin/auth/resource-locale/controllers'
@@ -9,6 +10,7 @@ import adminSession from './modules/admin/session/controllers'
 import adminUser from './modules/admin/user/controllers'
 
 export const appController = new Elysia({ name: 'global.controller' })
+  .use(ip())
   .use(sharedPlugin)
   .use(adminUser)
   .use(adminSession)
