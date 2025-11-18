@@ -25,6 +25,13 @@ export default () => {
           label: t('label.enabled')
         },
         component: <GlSelect options={getOptions('YES_NO')} />
+      },
+      {
+        formItem: {
+          name: 'isAdmin',
+          label: t('label.isAdmin')
+        },
+        component: <GlSelect options={getOptions('YES_NO')} />
       }
     ]
   } satisfies SearchProps

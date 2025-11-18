@@ -1,4 +1,5 @@
 import type { GetAdminUserResponse } from '@/global/api'
+import { ResetPasswordBtn } from './reset-password-btn'
 import { SetRoleBtn } from './set-role-btn'
 import { ViewResourceBtn } from './view-resource-btn'
 import { ViewRoleBtn } from './view-role-btn'
@@ -18,6 +19,9 @@ export const MoreBtn = (props: Props) => {
     <GlDropdown>
       <span className='text-(--td-brand-color)'>{t('label.more')}</span>
       <GlDropdownMenu>
+        <GlDropdownItem>
+          <ResetPasswordBtn rowData={rowData} />
+        </GlDropdownItem>
         <GlDropdownItem>
           <SetRoleBtn rowData={rowData} />
         </GlDropdownItem>

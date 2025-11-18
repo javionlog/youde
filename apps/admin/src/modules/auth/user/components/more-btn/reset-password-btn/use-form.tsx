@@ -1,24 +1,27 @@
 import type { RefObject } from 'react'
-import { UserPasswordIcon } from 'tdesign-icons-react'
 import type { DialogInstance, FormRules } from 'tdesign-react'
-import type { PatchAdminUserSelfPasswordData } from '@/global/api'
-import { patchAdminUserSelfPassword } from '@/global/api'
+import type { GetAdminUserResponse, PatchAdminUserPasswordData } from '@/global/api'
+import { patchAdminUserPassword } from '@/global/api'
 
 type FormProps = Parameters<typeof GlForm>[0]
+
+interface Props {
+  rowData: GetAdminUserResponse
+}
 
 interface DialogBodyProps {
   ref?: RefObject<DialogBodyInstance | null>
   dialogRef: RefObject<DialogInstance | null>
+  rowData: GetAdminUserResponse
 }
 
 interface DialogBodyInstance {
-  getData: () => Promise<PatchAdminUserSelfPasswordData['body'] | null>
+  getData: () => Promise<PatchAdminUserPasswordData['body'] | null>
 }
 
 const DialogBody = (props: DialogBodyProps) => {
-  const { ref } = props
+  const { ref, rowData } = props
 
-  const user = useUserStore(state => state.user)
   const { t } = useTranslation()
   const [form] = Form.useForm()
 
@@ -29,8 +32,8 @@ const DialogBody = (props: DialogBodyProps) => {
         if (validateResult === true) {
           const fieldsValue = {
             ...form.getFieldsValue(true),
-            id: user?.id
-          } as PatchAdminUserSelfPasswordData['body']
+            id: rowData.id
+          } as PatchAdminUserPasswordData['body']
           return fieldsValue
         }
         return null
@@ -39,49 +42,24 @@ const DialogBody = (props: DialogBodyProps) => {
   })
 
   const rules = {
-    oldPassword: getRequiredRules(),
-    newPassword: getRequiredRules(),
-    confirmPassword: [
-      ...getRequiredRules(),
-      {
-        validator: val => {
-          return form.getFieldValue('newPassword') === val
-        },
-        message: t('message.twoPasswordInconsistentTip')
-      }
-    ]
-  } satisfies FormRules<
-    NonNullable<PatchAdminUserSelfPasswordData['body'] & { confirmPassword: string }>
-  >
+    password: getRequiredRules()
+  } satisfies FormRules<NonNullable<PatchAdminUserPasswordData['body']>>
 
   const items = [
     {
       formItem: {
-        name: 'oldPassword',
-        label: t('label.oldPassword')
-      },
-      component: <GlInput type='password' />
-    },
-    {
-      formItem: {
-        name: 'newPassword',
-        label: t('label.newPassword')
-      },
-      component: <GlInput type='password' />
-    },
-    {
-      formItem: {
-        name: 'confirmPassword',
-        label: t('label.confirmPassword')
+        name: 'password',
+        label: t('label.password')
       },
       component: <GlInput type='password' />
     }
-  ].filter(o => o.component) satisfies FormProps['items']
+  ] satisfies FormProps['items']
 
   return <GlForm form={form} rules={rules} items={items} />
 }
 
-export const ResetPasswordBtn = () => {
+export const useForm = (props: Props) => {
+  const { rowData } = props
   const { t } = useTranslation()
   const dialogRef = useRef<DialogInstance>(null)
   const dialogBodyRef = useRef<DialogBodyInstance>(null)
@@ -101,12 +79,8 @@ export const ResetPasswordBtn = () => {
           })
           const params = await dialogBodyRef.current?.getData()
           if (params) {
-            await patchAdminUserSelfPassword({ body: params })
+            await patchAdminUserPassword({ body: params })
             MessagePlugin.success(t('message.operateSuccessful'))
-            dialogInstance.hide()
-          }
-        } catch (e: any) {
-          if (e.message === 'Unauthorized') {
             dialogInstance.hide()
           }
         } finally {
@@ -114,16 +88,15 @@ export const ResetPasswordBtn = () => {
         }
       },
       header: text,
-      body: <DialogBody ref={dialogBodyRef} dialogRef={dialogRef} />
+      body: <DialogBody ref={dialogBodyRef} dialogRef={dialogRef} rowData={rowData} />
     })
   }
 
   const text = t('action.resetPassword')
 
-  return (
-    <div onClick={onOpen}>
-      <UserPasswordIcon size='14px' className='mr-2' />
-      <span>{text}</span>
-    </div>
-  )
+  return {
+    t,
+    text,
+    onOpen
+  }
 }
