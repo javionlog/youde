@@ -35,8 +35,13 @@ const app = adminGuardController.group('/user', app =>
   app
     .post(
       '/sign-in',
-      async ({ cookie, body }) => {
-        const result = await signIn(body)
+      async ({ headers, cookie, body, server, request }) => {
+        const requestIp = server?.requestIP(request)
+        const result = await signIn({
+          ...body,
+          userAgent: headers['user-agent'],
+          ipAddress: requestIp ? String(requestIp) : undefined
+        })
         cookie.sessionToken.set({
           value: result.token,
           maxAge: ADMIN_SESSION_MAX_AGE

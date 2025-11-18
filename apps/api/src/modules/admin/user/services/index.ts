@@ -48,8 +48,13 @@ export const getFullAdminUser = async (params: GetReqType) => {
   return row
 }
 
-export const signIn = async (params: SignInReqType) => {
-  const { username, password } = params
+export const signIn = async (
+  params: SignInReqType & {
+    userAgent?: string
+    ipAddress?: string
+  }
+) => {
+  const { username, password, ...restParams } = params
   const userRow = (await db.select().from(adminUser).where(eq(adminUser.username, username)))[0]
   if (!userRow) {
     throwDataNotFoundError('The user does not exist or the password is incorrect')
@@ -64,7 +69,9 @@ export const signIn = async (params: SignInReqType) => {
   }
   try {
     const sessionRow = await createAdminSession({
+      ...restParams,
       userId: userRow.id,
+      username: userRow.username,
       createdByUsername: userRow.username
     })
 

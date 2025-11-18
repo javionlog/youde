@@ -43,6 +43,7 @@
     "icon": "Icon",
     "createdAt": "Created At",
     "updatedAt": "Updated At",
+    "expiresAt": "Expires At",
     "createdBy": "Created By",
     "updatedBy": "Updated By",
     "operation": "Operation",
@@ -52,7 +53,11 @@
     "isAdmin": "Administrator or not",
     "oldPassword": "Old Password",
     "newPassword": "New Password",
-    "confirmPassword": "Confirm Password"
+    "confirmPassword": "Confirm Password",
+    "session": "Session",
+    "token": "Token",
+    "ipAddress": "IP Address",
+    "userAgent": "User Agent"
   },
   "message": {
     "welcomeToYoude": "Welcome to Youde!",

@@ -83,6 +83,13 @@ const init = async () => {
       type: 'Menu',
       children: [
         {
+          name: 'Session Management',
+          enUs: 'Seesion Management',
+          zhCn: '会话管理',
+          type: 'Page',
+          path: 'auth/session'
+        },
+        {
           name: 'User Management',
           enUs: 'User Management',
           zhCn: '用户管理',

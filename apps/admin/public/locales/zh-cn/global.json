@@ -43,6 +43,7 @@
     "icon": "图标",
     "createdAt": "创建时间",
     "updatedAt": "更新时间",
+    "expiresAt": "过期时间",
     "createdBy": "创建人",
     "updatedBy": "更新人",
     "operation": "操作",
@@ -52,7 +53,11 @@
     "isAdmin": "是否管理员",
     "oldPassword": "旧密码",
     "newPassword": "新密码",
-    "confirmPassword": "确认密码"
+    "confirmPassword": "确认密码",
+    "session": "会话",
+    "token": "令牌",
+    "ipAddress": "IP 地址",
+    "userAgent": "用户代理"
   },
   "message": {
     "welcomeToYoude": "欢迎来到“有的”！",

@@ -22,7 +22,7 @@ const app = adminGuardController.group('/session', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await createAdminSession({ ...body, createdByUsername: username! })
+        return await createAdminSession({ ...body, username, createdByUsername: username })
       },
       {
         detail: {
@@ -66,7 +66,7 @@ const app = adminGuardController.group('/session', app =>
         return await listAdminSessions(body)
       },
       {
-        detail: { tags, description: 'Update session list' },
+        detail: { tags, description: 'List sessions' },
         body: listReqSpec,
         response: promiseListResSpec
       }
