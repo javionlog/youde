@@ -1,5 +1,5 @@
 {
-  "id": "b4021ddd-85e9-4997-ae28-07d3fb968bf2",
+  "id": "abe199eb-a80a-4106-aa97-a9ced6f30a75",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -162,6 +162,89 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.country": {
+      "name": "country",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "code": {
+          "name": "code",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "region": {
+          "name": "region",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "en_us": {
+          "name": "en_us",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "zh_cn": {
+          "name": "zh_cn",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "country_code_unique": {
+          "name": "country_code_unique",
+          "nullsNotDistinct": false,
+          "columns": ["code"]
+        },
+        "country_en_us_unique": {
+          "name": "country_en_us_unique",
+          "nullsNotDistinct": false,
+          "columns": ["en_us"]
+        },
+        "country_zh_cn_unique": {
+          "name": "country_zh_cn_unique",
+          "nullsNotDistinct": false,
+          "columns": ["zh_cn"]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

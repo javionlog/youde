@@ -3,14 +3,12 @@ import { z } from 'zod'
 import { adminResourceLocale } from '@/db/schemas/admin'
 import { omitReqFields } from '@/global/specs'
 
-export const rowSepc = createSelectSchema(adminResourceLocale).omit({})
-export type RowType = z.infer<typeof rowSepc>
+export const rowSpec = createSelectSchema(adminResourceLocale).omit({})
+export type RowType = z.infer<typeof rowSpec>
 
 export const rowResSpec = createSelectSchema(adminResourceLocale).omit({})
 
 export const promiseRowResSpec = z.promise(rowResSpec)
-
-export const promiseListResSpec = z.promise(z.array(rowResSpec))
 
 export const createReqSpec = createInsertSchema(adminResourceLocale).omit({
   ...omitReqFields,
@@ -20,10 +18,10 @@ export type CreateReqType = z.infer<typeof createReqSpec>
 
 export const updateReqSpec = createInsertSchema(adminResourceLocale, {
   id: z.string()
-}).omit({
-  ...omitReqFields,
-  resourceId: true,
-  field: true
+}).pick({
+  id: true,
+  enUs: true,
+  zhCn: true
 })
 export type UpdateReqType = z.infer<typeof updateReqSpec>
 

@@ -1,5 +1,5 @@
 import { adminGuardController } from '@/global/controllers'
-import { createCategoryLocale, getCategoryLocale, updateCategory } from '../services'
+import { createCategoryLocale, getCategoryLocale, updateCategoryLocale } from '../services'
 import { createReqSpec, getReqSpec, promiseRowResSpec, updateReqSpec } from '../specs'
 
 const tags = ['Category']
@@ -7,10 +7,10 @@ const tags = ['Category']
 const app = adminGuardController.group('/category-locale', app =>
   app
     .post(
-      '/create',
+      '',
       async ({ body, user }) => {
-        const { id, username } = user
-        return await createCategoryLocale({ ...body, userId: id, username: username! })
+        const { username } = user
+        return await createCategoryLocale({ ...body, createdByUsername: username! })
       },
       {
         detail: {
@@ -20,11 +20,11 @@ const app = adminGuardController.group('/category-locale', app =>
         response: promiseRowResSpec
       }
     )
-    .post(
-      '/update',
+    .patch(
+      '',
       async ({ body, user }) => {
         const { username } = user
-        return await updateCategory({ ...body, username: username! })
+        return await updateCategoryLocale({ ...body, updatedByUsername: username! })
       },
       {
         detail: {
@@ -34,8 +34,8 @@ const app = adminGuardController.group('/category-locale', app =>
         response: promiseRowResSpec
       }
     )
-    .post(
-      '/get',
+    .get(
+      '',
       async ({ body }) => {
         return await getCategoryLocale(body)
       },

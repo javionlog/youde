@@ -11,19 +11,19 @@ const usernameErrorMessage = '4 to 16 digits, letters, numbers, underscores, min
 const passwordErrorMessage =
   '8 to 64 digits, must contain capital letters, lowercase letters, numbers, @#$%^&*`~()-+='
 
-export const rowSepc = createSelectSchema(adminUser).omit({})
-export type RowType = z.infer<typeof rowSepc>
+export const rowSpec = createSelectSchema(adminUser).omit({})
+export type RowType = z.infer<typeof rowSpec>
 
 export const rowResSpec = createSelectSchema(adminUser).omit({ password: true })
 
+export const listResSpec = z.object({
+  records: z.array(rowResSpec),
+  total: z.number()
+})
+
 export const promiseRowResSpec = z.promise(rowResSpec)
 
-export const promiseListResSpec = z.promise(
-  z.object({
-    records: z.array(rowResSpec),
-    total: z.number()
-  })
-)
+export const promiseListResSpec = z.promise(listResSpec)
 
 export const signInResSpec = z.object({
   token: z.string(),

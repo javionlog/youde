@@ -1,40 +1,31 @@
-import { and, eq } from 'drizzle-orm'
-import type { z } from 'zod'
+import { eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { categoryLocale } from '@/db/schemas/common'
 import { throwDbError } from '@/global/errors'
-import type { createReqSpec, getReqSpec, updateReqSpec } from '../specs'
+import type { CreateReqType, GetReqType, UpdateReqType } from '../specs'
 
-export const getCategoryLocale = async (params: z.infer<typeof getReqSpec>) => {
-  const { categoryId, field } = params
+export const getCategoryLocale = async (params: GetReqType) => {
+  const { id } = params
 
-  const row = (
-    await db
-      .select()
-      .from(categoryLocale)
-      .where(
-        and(eq(categoryLocale.categoryId, categoryId), eq(categoryLocale.field, field as 'name'))
-      )
-  )[0]
+  const row = (await db.select().from(categoryLocale).where(eq(categoryLocale.id, id)))[0]
 
   return row
 }
 
 export const createCategoryLocale = async (
-  params: z.infer<typeof createReqSpec> & {
-    userId: string
-    username: string
+  params: CreateReqType & {
+    createdByUsername: string
   }
 ) => {
-  const { username, ...restParams } = params
+  const { createdByUsername, ...restParams } = params
   try {
     const row = (
       await db
         .insert(categoryLocale)
         .values({
           ...restParams,
-          createdBy: username,
-          updatedBy: username
+          createdBy: createdByUsername,
+          updatedBy: createdByUsername
         })
         .returning()
     )[0]
@@ -44,23 +35,23 @@ export const createCategoryLocale = async (
   }
 }
 
-export const updateCategory = async (
-  params: z.infer<typeof updateReqSpec> & {
-    username: string
+export const updateCategoryLocale = async (
+  params: UpdateReqType & {
+    updatedByUsername: string
   }
 ) => {
-  const { categoryId, field, username, ...restParams } = params
-  await getCategoryLocale({ categoryId, field })
+  const { id, updatedByUsername, ...restParams } = params
+  await getCategoryLocale({ id })
   try {
     const row = (
       await db
         .update(categoryLocale)
         .set({
           ...restParams,
-          updatedBy: username,
+          updatedBy: updatedByUsername,
           updatedAt: new Date().toDateString()
         })
-        .where(and(eq(categoryLocale.categoryId, categoryId), eq(categoryLocale.field, field)))
+        .where(eq(categoryLocale.id, id))
         .returning()
     )[0]
     return row

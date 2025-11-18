@@ -1,9 +1,14 @@
 import { Elysia } from 'elysia'
 import { z } from 'zod'
-import { grantTreeResSpec, treeResSpec } from '@/modules/admin/auth/resource/specs'
+import {
+  grantTreeResSpec as grantResourceNode,
+  treeResSpec as resourceNode
+} from '@/modules/admin/auth/resource/specs'
+import { treeResSpec as categoryNode } from '@/modules/common/category/specs'
 
-z.globalRegistry.add(treeResSpec, { id: 'ResourceNode' })
-z.globalRegistry.add(grantTreeResSpec, { id: 'GrantResourceNode' })
+z.globalRegistry.add(resourceNode, { id: 'ResourceNode' })
+z.globalRegistry.add(grantResourceNode, { id: 'GrantResourceNode' })
+z.globalRegistry.add(categoryNode, { id: 'CategoryNode' })
 
 const getSpec = async () => {
   const mainSpec = await fetch(`http://localhost:3000/scalar/json`).then(r => r.json())

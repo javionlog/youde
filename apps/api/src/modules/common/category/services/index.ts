@@ -1,11 +1,10 @@
 import { and, eq, inArray } from 'drizzle-orm'
-import type { z } from 'zod'
 import { db } from '@/db'
 import { category, categoryLocale, thing } from '@/db/schemas/common'
 import { withOrderBy } from '@/db/utils'
 import { CommonError, throwDataNotFoundError, throwDbError } from '@/global/errors'
 import { buildTree, isEmpty } from '@/global/utils'
-import type { createReqSpec, listReqSpec, updateReqSpec } from '../specs'
+import type { CreateReqType, DeleteReqType, GetReqType, ListReqType, UpdateReqType } from '../specs'
 
 export const checkChildrenCategory = async (params: { id: string }) => {
   const { id } = params
@@ -24,7 +23,7 @@ export const checkChildrenCategory = async (params: { id: string }) => {
   return categoryRow
 }
 
-export const getCategory = async (params: { id: string }) => {
+export const getCategory = async (params: GetReqType) => {
   const { id } = params
 
   const row = (await db.select().from(category).where(eq(category.id, id)))[0]
@@ -41,20 +40,19 @@ export const getCategory = async (params: { id: string }) => {
 }
 
 export const createCategory = async (
-  params: z.infer<typeof createReqSpec> & {
-    userId: string
-    username: string
+  params: CreateReqType & {
+    createdByUsername: string
   }
 ) => {
-  const { username, ...restParams } = params
+  const { createdByUsername, ...restParams } = params
   try {
     const row = (
       await db
         .insert(category)
         .values({
           ...restParams,
-          createdBy: username,
-          updatedBy: username
+          createdBy: createdByUsername,
+          updatedBy: createdByUsername
         })
         .returning()
     )[0]
@@ -65,11 +63,11 @@ export const createCategory = async (
 }
 
 export const updateCategory = async (
-  params: z.infer<typeof updateReqSpec> & {
-    username: string
+  params: UpdateReqType & {
+    updatedByUsername: string
   }
 ) => {
-  const { id, parentId: _parentId, username, ...restParams } = params
+  const { id, parentId: _parentId, updatedByUsername, ...restParams } = params
   await getCategory({ id })
   try {
     const row = (
@@ -77,7 +75,7 @@ export const updateCategory = async (
         .update(category)
         .set({
           ...restParams,
-          updatedBy: username,
+          updatedBy: updatedByUsername,
           updatedAt: new Date().toDateString()
         })
         .where(eq(category.id, id))
@@ -89,14 +87,14 @@ export const updateCategory = async (
   }
 }
 
-export const deleteCategory = async (params: { id: string }) => {
+export const deleteCategory = async (params: DeleteReqType) => {
   const { id } = params
   await checkChildrenCategory({ id })
   const result = await db.delete(category).where(eq(category.id, id))
   return result
 }
 
-export const listCategoryTree = async (params: z.infer<typeof listReqSpec>) => {
+export const listCategoryTree = async (params: ListReqType) => {
   const { enabled } = params
 
   const dynamicQuery = db.select().from(category).$dynamic()

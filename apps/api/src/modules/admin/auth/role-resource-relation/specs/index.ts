@@ -3,19 +3,19 @@ import { z } from 'zod'
 import { adminRoleResourceRelation } from '@/db/schemas/admin'
 import { omitReqFields, pageSpec } from '@/global/specs'
 
-export const rowSepc = createSelectSchema(adminRoleResourceRelation).omit({})
-export type RowType = z.infer<typeof rowSepc>
+export const rowSpec = createSelectSchema(adminRoleResourceRelation).omit({})
+export type RowType = z.infer<typeof rowSpec>
 
 export const rowResSpec = createSelectSchema(adminRoleResourceRelation).omit({})
 
+export const listResSpec = z.object({
+  records: z.array(rowResSpec),
+  total: z.number()
+})
+
 export const promiseRowResSpec = z.promise(rowResSpec)
 
-export const promiseListResSpec = z.promise(
-  z.object({
-    records: z.array(rowResSpec),
-    total: z.number()
-  })
-)
+export const promiseListResSpec = z.promise(listResSpec)
 
 export const createReqSpec = createInsertSchema(adminRoleResourceRelation).omit({
   ...omitReqFields,

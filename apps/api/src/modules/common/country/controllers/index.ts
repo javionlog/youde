@@ -1,5 +1,5 @@
 import { adminGuardController } from '@/global/controllers'
-import { createThing, deleteThing, getThing, listThings, updateThing } from '../services'
+import { createCountry, deleteCountry, getCountry, listCountries, updateCountry } from '../services'
 import {
   createReqSpec,
   deleteReqSpec,
@@ -10,15 +10,15 @@ import {
   updateReqSpec
 } from '../specs'
 
-const tags = ['Thing']
+const tags = ['Country']
 
-const app = adminGuardController.group('/thing', app =>
+const app = adminGuardController.group('/country', app =>
   app
     .post(
       '',
       async ({ body, user }) => {
-        const { id, username } = user
-        return await createThing({ ...body, userId: id, createdByUsername: username })
+        const { username } = user
+        return await createCountry({ ...body, createdByUsername: username })
       },
       {
         detail: {
@@ -32,7 +32,7 @@ const app = adminGuardController.group('/thing', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await updateThing({ ...body, updatedByUsername: username })
+        return await updateCountry({ ...body, updatedByUsername: username })
       },
       {
         detail: {
@@ -45,7 +45,7 @@ const app = adminGuardController.group('/thing', app =>
     .delete(
       '',
       async ({ body }) => {
-        return await deleteThing(body)
+        return await deleteCountry(body)
       },
       {
         detail: {
@@ -57,7 +57,7 @@ const app = adminGuardController.group('/thing', app =>
     .get(
       '',
       async ({ body }) => {
-        return await getThing(body)
+        return await getCountry(body)
       },
       {
         detail: {
@@ -70,7 +70,7 @@ const app = adminGuardController.group('/thing', app =>
     .post(
       '/list',
       async ({ body }) => {
-        return await listThings(body)
+        return await listCountries(body)
       },
       {
         detail: { tags },

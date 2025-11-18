@@ -46,7 +46,7 @@ const app = adminGuardController.group('/resource', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await updateAdminResource({ ...body, createdByUsername: username! })
+        return await updateAdminResource({ ...body, updatedByUsername: username! })
       },
       {
         detail: {

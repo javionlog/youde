@@ -5,19 +5,19 @@ import { adminRole } from '@/db/schemas/admin'
 import { omitReqFields, pageSpec } from '@/global/specs'
 import { getKeys } from '@/global/utils'
 
-export const rowSepc = createSelectSchema(adminRole).omit({})
-export type RowType = z.infer<typeof rowSepc>
+export const rowSpec = createSelectSchema(adminRole).omit({})
+export type RowType = z.infer<typeof rowSpec>
 
 export const rowResSpec = createSelectSchema(adminRole).omit({})
 
+export const listResSpec = z.object({
+  records: z.array(rowResSpec),
+  total: z.number()
+})
+
 export const promiseRowResSpec = z.promise(rowResSpec)
 
-export const promiseListResSpec = z.promise(
-  z.object({
-    records: z.array(rowResSpec),
-    total: z.number()
-  })
-)
+export const promiseListResSpec = z.promise(listResSpec)
 
 export const promiseListUserGrantRolesResSpec = z.promise(
   z.object({

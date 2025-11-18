@@ -21,6 +21,7 @@
   },
   "label": {
     "name": "Name",
+    "code": "Code",
     "username": "Username",
     "displayUsername": "Display Username",
     "userInfo": "User Info.",
@@ -57,7 +58,8 @@
     "session": "Session",
     "token": "Token",
     "ipAddress": "IP Address",
-    "userAgent": "User Agent"
+    "userAgent": "User Agent",
+    "region": "Region"
   },
   "message": {
     "welcomeToYoude": "Welcome to Youde!",

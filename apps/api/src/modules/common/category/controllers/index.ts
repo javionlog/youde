@@ -20,10 +20,10 @@ const tags = ['Category']
 const app = adminGuardController.group('/category', app =>
   app
     .post(
-      '/create',
+      '',
       async ({ body, user }) => {
-        const { id, username } = user
-        return await createCategory({ ...body, userId: id, username: username! })
+        const { username } = user
+        return await createCategory({ ...body, createdByUsername: username })
       },
       {
         detail: {
@@ -33,11 +33,11 @@ const app = adminGuardController.group('/category', app =>
         response: promiseRowResSpec.omit({ locales: true })
       }
     )
-    .post(
-      '/update',
+    .patch(
+      '',
       async ({ body, user }) => {
         const { username } = user
-        return await updateCategory({ ...body, username: username! })
+        return await updateCategory({ ...body, updatedByUsername: username })
       },
       {
         detail: {
@@ -47,8 +47,8 @@ const app = adminGuardController.group('/category', app =>
         response: promiseRowResSpec.omit({ locales: true })
       }
     )
-    .post(
-      '/delete',
+    .delete(
+      '',
       async ({ body }) => {
         return await deleteCategory(body)
       },
@@ -59,8 +59,8 @@ const app = adminGuardController.group('/category', app =>
         body: deleteReqSpec
       }
     )
-    .post(
-      '/get',
+    .get(
+      '',
       async ({ body }) => {
         return await getCategory(body)
       },

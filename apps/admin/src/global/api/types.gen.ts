@@ -73,6 +73,30 @@ export type GrantResourceNode = {
     children: Array<GrantResourceNode>;
 };
 
+export type CategoryNode = {
+    id: string;
+    createdAt: string | null;
+    updatedAt: string | null;
+    createdBy: string | null;
+    updatedBy: string | null;
+    parentId: string | null;
+    name: string;
+    enabled: boolean;
+    sort: number;
+    locales: Array<{
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        categoryId: string;
+        field: 'name';
+        enUs: string;
+        zhCn: string;
+    }>;
+    children: Array<CategoryNode>;
+};
+
 export type DeleteAdminResourceData = {
     body: {
         id: string;
@@ -1173,3 +1197,540 @@ export type PostAdminUserResourceUserListResponses = {
 };
 
 export type PostAdminUserResourceUserListResponse = PostAdminUserResourceUserListResponses[keyof PostAdminUserResourceUserListResponses];
+
+export type DeleteAdminCategoryData = {
+    body: {
+        id: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/category';
+};
+
+export type GetAdminCategoryData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/admin/category';
+};
+
+export type GetAdminCategoryResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        parentId: string | null;
+        name: string;
+        enabled: boolean;
+        sort: number;
+        locales: Array<{
+            id: string;
+            createdAt: string | null;
+            updatedAt: string | null;
+            createdBy: string | null;
+            updatedBy: string | null;
+            categoryId: string;
+            field: 'name';
+            enUs: string;
+            zhCn: string;
+        }>;
+    };
+};
+
+export type GetAdminCategoryResponse = GetAdminCategoryResponses[keyof GetAdminCategoryResponses];
+
+export type PatchAdminCategoryData = {
+    body: {
+        id: string;
+        parentId?: string | null;
+        name: string;
+        enabled: boolean;
+        sort: number;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/category';
+};
+
+export type PatchAdminCategoryResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        parentId: string | null;
+        name: string;
+        enabled: boolean;
+        sort: number;
+    };
+};
+
+export type PatchAdminCategoryResponse = PatchAdminCategoryResponses[keyof PatchAdminCategoryResponses];
+
+export type PostAdminCategoryData = {
+    body: {
+        parentId?: string | null;
+        name: string;
+        enabled: boolean;
+        sort: number;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/category';
+};
+
+export type PostAdminCategoryResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        parentId: string | null;
+        name: string;
+        enabled: boolean;
+        sort: number;
+    };
+};
+
+export type PostAdminCategoryResponse = PostAdminCategoryResponses[keyof PostAdminCategoryResponses];
+
+export type PostAdminCategoryTreeData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/admin/category/tree';
+};
+
+export type PostAdminCategoryTreeResponses = {
+    /**
+     * Response for status 200
+     */
+    200: Array<CategoryNode>;
+};
+
+export type PostAdminCategoryTreeResponse = PostAdminCategoryTreeResponses[keyof PostAdminCategoryTreeResponses];
+
+export type PostAdminCategoryEnabledTreeData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/admin/category/enabled-tree';
+};
+
+export type PostAdminCategoryEnabledTreeResponses = {
+    /**
+     * Response for status 200
+     */
+    200: Array<CategoryNode>;
+};
+
+export type PostAdminCategoryEnabledTreeResponse = PostAdminCategoryEnabledTreeResponses[keyof PostAdminCategoryEnabledTreeResponses];
+
+export type GetAdminCategoryLocaleData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/admin/category-locale';
+};
+
+export type GetAdminCategoryLocaleResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        categoryId: string;
+        field: 'name';
+        enUs: string;
+        zhCn: string;
+    };
+};
+
+export type GetAdminCategoryLocaleResponse = GetAdminCategoryLocaleResponses[keyof GetAdminCategoryLocaleResponses];
+
+export type PatchAdminCategoryLocaleData = {
+    body: {
+        id: string;
+        enUs: string;
+        zhCn: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/category-locale';
+};
+
+export type PatchAdminCategoryLocaleResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        categoryId: string;
+        field: 'name';
+        enUs: string;
+        zhCn: string;
+    };
+};
+
+export type PatchAdminCategoryLocaleResponse = PatchAdminCategoryLocaleResponses[keyof PatchAdminCategoryLocaleResponses];
+
+export type PostAdminCategoryLocaleData = {
+    body: {
+        categoryId: string;
+        field: 'name';
+        enUs: string;
+        zhCn: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/category-locale';
+};
+
+export type PostAdminCategoryLocaleResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        categoryId: string;
+        field: 'name';
+        enUs: string;
+        zhCn: string;
+    };
+};
+
+export type PostAdminCategoryLocaleResponse = PostAdminCategoryLocaleResponses[keyof PostAdminCategoryLocaleResponses];
+
+export type DeleteAdminCountryData = {
+    body: {
+        id: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/country';
+};
+
+export type GetAdminCountryData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/admin/country';
+};
+
+export type GetAdminCountryResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        code: string;
+        region: string;
+        enUs: string;
+        zhCn: string;
+    };
+};
+
+export type GetAdminCountryResponse = GetAdminCountryResponses[keyof GetAdminCountryResponses];
+
+export type PatchAdminCountryData = {
+    body: {
+        id: string;
+        code: string;
+        region: string;
+        enUs: string;
+        zhCn: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/country';
+};
+
+export type PatchAdminCountryResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        code: string;
+        region: string;
+        enUs: string;
+        zhCn: string;
+    };
+};
+
+export type PatchAdminCountryResponse = PatchAdminCountryResponses[keyof PatchAdminCountryResponses];
+
+export type PostAdminCountryData = {
+    body: {
+        code: string;
+        region: string;
+        enUs: string;
+        zhCn: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/country';
+};
+
+export type PostAdminCountryResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        code: string;
+        region: string;
+        enUs: string;
+        zhCn: string;
+    };
+};
+
+export type PostAdminCountryResponse = PostAdminCountryResponses[keyof PostAdminCountryResponses];
+
+export type PostAdminCountryListData = {
+    body: {
+        page?: number;
+        pageSize?: number;
+        codes?: Array<string> | null;
+        regions?: Array<string> | null;
+        sortBy?: {
+            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'code' | 'region' | 'enUs' | 'zhCn';
+            direction?: 'asc' | 'desc';
+        } | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/country/list';
+};
+
+export type PostAdminCountryListResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        records: Array<{
+            id: string;
+            createdAt: string | null;
+            updatedAt: string | null;
+            createdBy: string | null;
+            updatedBy: string | null;
+            code: string;
+            region: string;
+            enUs: string;
+            zhCn: string;
+        }>;
+        total: number;
+    };
+};
+
+export type PostAdminCountryListResponse = PostAdminCountryListResponses[keyof PostAdminCountryListResponses];
+
+export type DeleteAdminThingData = {
+    body: {
+        id: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/thing';
+};
+
+export type GetAdminThingData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/admin/thing';
+};
+
+export type GetAdminThingResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        categoryId: string;
+        userId: string;
+        title: string;
+        description: string;
+        fee: 'Free' | 'Partly Free' | 'Paid';
+        country: string;
+        cover: string | null;
+        content: string;
+        url: string;
+        status: 'Draft' | 'Pending' | 'Passed';
+    };
+};
+
+export type GetAdminThingResponse = GetAdminThingResponses[keyof GetAdminThingResponses];
+
+export type PatchAdminThingData = {
+    body: {
+        id: string;
+        categoryId: string;
+        title: string;
+        description: string;
+        fee: 'Free' | 'Partly Free' | 'Paid';
+        country: string;
+        cover?: string | null;
+        content: string;
+        url: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/thing';
+};
+
+export type PatchAdminThingResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        categoryId: string;
+        userId: string;
+        title: string;
+        description: string;
+        fee: 'Free' | 'Partly Free' | 'Paid';
+        country: string;
+        cover: string | null;
+        content: string;
+        url: string;
+        status: 'Draft' | 'Pending' | 'Passed';
+    };
+};
+
+export type PatchAdminThingResponse = PatchAdminThingResponses[keyof PatchAdminThingResponses];
+
+export type PostAdminThingData = {
+    body: {
+        categoryId: string;
+        title: string;
+        description: string;
+        fee: 'Free' | 'Partly Free' | 'Paid';
+        country: string;
+        cover?: string | null;
+        content: string;
+        url: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/thing';
+};
+
+export type PostAdminThingResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        id: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        categoryId: string;
+        userId: string;
+        title: string;
+        description: string;
+        fee: 'Free' | 'Partly Free' | 'Paid';
+        country: string;
+        cover: string | null;
+        content: string;
+        url: string;
+        status: 'Draft' | 'Pending' | 'Passed';
+    };
+};
+
+export type PostAdminThingResponse = PostAdminThingResponses[keyof PostAdminThingResponses];
+
+export type PostAdminThingListData = {
+    body: {
+        page?: number;
+        pageSize?: number;
+        id?: string | null;
+        title?: string | null;
+        createdBy?: string | null;
+        fee?: 'Free' | 'Partly Free' | 'Paid' | null;
+        countries?: Array<string> | null;
+        categoryIds?: Array<string> | null;
+        status?: Array<'Draft' | 'Pending' | 'Passed'> | null;
+        sortBy?: {
+            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'categoryId' | 'userId' | 'title' | 'description' | 'fee' | 'country' | 'cover' | 'content' | 'url' | 'status';
+            direction?: 'asc' | 'desc';
+        } | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/admin/thing/list';
+};
+
+export type PostAdminThingListResponses = {
+    /**
+     * Response for status 200
+     */
+    200: {
+        records: Array<{
+            id: string;
+            createdAt: string | null;
+            updatedAt: string | null;
+            createdBy: string | null;
+            updatedBy: string | null;
+            categoryId: string;
+            userId: string;
+            title: string;
+            description: string;
+            fee: 'Free' | 'Partly Free' | 'Paid';
+            country: string;
+            cover: string | null;
+            content: string;
+            url: string;
+            status: 'Draft' | 'Pending' | 'Passed';
+        }>;
+        total: number;
+    };
+};
+
+export type PostAdminThingListResponse = PostAdminThingListResponses[keyof PostAdminThingListResponses];

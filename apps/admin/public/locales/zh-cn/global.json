@@ -20,7 +20,8 @@
     "resetPassword": "重置密码"
   },
   "label": {
-    "name": "姓名",
+    "name": "名称",
+    "code": "编码",
     "username": "用户名",
     "displayUsername": "显示的用户名",
     "userInfo": "用户信息",
@@ -57,7 +58,8 @@
     "session": "会话",
     "token": "令牌",
     "ipAddress": "IP 地址",
-    "userAgent": "用户代理"
+    "userAgent": "用户代理",
+    "region": "地区"
   },
   "message": {
     "welcomeToYoude": "欢迎来到“有的”！",

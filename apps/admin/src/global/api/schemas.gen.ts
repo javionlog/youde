@@ -444,3 +444,153 @@ export const GrantResourceNodeSchema = {
     additionalProperties: false,
     id: 'GrantResourceNode'
 } as const;
+
+export const CategoryNodeSchema = {
+    '$schema': 'https://json-schema.org/draft/2020-12/schema',
+    '$id': '#/components/schemas/CategoryNode',
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        createdAt: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ]
+        },
+        updatedAt: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ]
+        },
+        createdBy: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ]
+        },
+        updatedBy: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ]
+        },
+        parentId: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ]
+        },
+        name: {
+            type: 'string',
+            maxLength: 64
+        },
+        enabled: {
+            type: 'boolean'
+        },
+        sort: {
+            type: 'integer',
+            minimum: -2147483648,
+            maximum: 2147483647
+        },
+        locales: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    id: {
+                        type: 'string'
+                    },
+                    createdAt: {
+                        anyOf: [
+                            {
+                                type: 'string'
+                            },
+                            {
+                                type: 'null'
+                            }
+                        ]
+                    },
+                    updatedAt: {
+                        anyOf: [
+                            {
+                                type: 'string'
+                            },
+                            {
+                                type: 'null'
+                            }
+                        ]
+                    },
+                    createdBy: {
+                        anyOf: [
+                            {
+                                type: 'string'
+                            },
+                            {
+                                type: 'null'
+                            }
+                        ]
+                    },
+                    updatedBy: {
+                        anyOf: [
+                            {
+                                type: 'string'
+                            },
+                            {
+                                type: 'null'
+                            }
+                        ]
+                    },
+                    categoryId: {
+                        type: 'string'
+                    },
+                    field: {
+                        type: 'string',
+                        enum: ['name']
+                    },
+                    enUs: {
+                        type: 'string',
+                        maxLength: 64
+                    },
+                    zhCn: {
+                        type: 'string',
+                        maxLength: 64
+                    }
+                },
+                required: ['id', 'createdAt', 'updatedAt', 'createdBy', 'updatedBy', 'categoryId', 'field', 'enUs', 'zhCn'],
+                additionalProperties: false
+            }
+        },
+        children: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CategoryNode'
+            }
+        }
+    },
+    required: ['id', 'createdAt', 'updatedAt', 'createdBy', 'updatedBy', 'parentId', 'name', 'enabled', 'sort', 'locales', 'children'],
+    additionalProperties: false,
+    id: 'CategoryNode'
+} as const;

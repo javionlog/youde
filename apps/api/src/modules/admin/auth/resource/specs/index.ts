@@ -3,8 +3,8 @@ import { z } from 'zod'
 import { adminResource, adminResourceLocale } from '@/db/schemas/admin'
 import { omitReqFields } from '@/global/specs'
 
-export const rowSepc = createSelectSchema(adminResource).omit({})
-export type RowType = z.infer<typeof rowSepc>
+export const rowSpec = createSelectSchema(adminResource).omit({})
+export type RowType = z.infer<typeof rowSpec>
 
 export const resourceLocaleResSpec = createSelectSchema(adminResourceLocale).omit({})
 

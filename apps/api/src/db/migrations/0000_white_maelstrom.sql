@@ -23,6 +23,21 @@ CREATE TABLE "category_locale" (
 	"zh_cn" varchar(64) NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "country" (
+	"id" text PRIMARY KEY NOT NULL,
+	"created_at" text,
+	"updated_at" text,
+	"created_by" text,
+	"updated_by" text,
+	"code" varchar(16) NOT NULL,
+	"region" varchar(64) NOT NULL,
+	"en_us" varchar(128) NOT NULL,
+	"zh_cn" varchar(128) NOT NULL,
+	CONSTRAINT "country_code_unique" UNIQUE("code"),
+	CONSTRAINT "country_en_us_unique" UNIQUE("en_us"),
+	CONSTRAINT "country_zh_cn_unique" UNIQUE("zh_cn")
+);
+--> statement-breakpoint
 CREATE TABLE "tag" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" text,

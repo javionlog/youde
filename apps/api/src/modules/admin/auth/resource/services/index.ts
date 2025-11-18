@@ -61,10 +61,10 @@ export const createAdminResource = async (
 
 export const updateAdminResource = async (
   params: UpdateReqType & {
-    createdByUsername: string
+    updatedByUsername: string
   }
 ) => {
-  const { id, parentId: _parentId, createdByUsername, ...restParams } = params
+  const { id, parentId: _parentId, updatedByUsername, ...restParams } = params
   await getAdminResource({ id })
   try {
     const row = (
@@ -72,7 +72,7 @@ export const updateAdminResource = async (
         .update(adminResource)
         .set({
           ...restParams,
-          updatedBy: createdByUsername,
+          updatedBy: updatedByUsername,
           updatedAt: new Date().toDateString()
         })
         .where(eq(adminResource.id, id))

@@ -11,6 +11,8 @@ import { createAdminUserRoleRelation } from '@/modules/admin/auth/user-role-rela
 import { createAdminUser } from '@/modules/admin/user/services'
 import { createCategory } from '@/modules/common/category/services'
 import { createCategoryLocale } from '@/modules/common/category-locale/services'
+import { createCountry } from '@/modules/common/country/services'
+import { countries } from './coutries'
 
 const reset = async () => {
   const tableSchema = db._.schema
@@ -33,6 +35,16 @@ const reset = async () => {
 type ResourceType = ResourceRowType['type']
 
 const init = async () => {
+  /* Create country */
+  await Promise.all(
+    countries.map(item =>
+      createCountry({
+        ...item,
+        createdByUsername: SYSTEM_OPERATOR
+      })
+    )
+  )
+
   /* Create user */
   const userRes = await createAdminUser({
     createdByUsername: SYSTEM_OPERATOR,
@@ -111,6 +123,43 @@ const init = async () => {
           path: 'auth/resource'
         }
       ]
+    },
+    {
+      name: 'Basic Data',
+      enUs: 'Basic Data',
+      zhCn: '基础数据',
+      type: 'Menu',
+      children: [
+        {
+          name: 'Country',
+          enUs: 'Country',
+          zhCn: '国家',
+          type: 'Page',
+          path: 'basic-data/country'
+        }
+      ]
+    },
+    {
+      name: 'Content Management',
+      enUs: 'Content Management',
+      zhCn: '内容管理',
+      type: 'Menu',
+      children: [
+        {
+          name: 'Category Management',
+          enUs: 'Category Management',
+          zhCn: '类目管理',
+          type: 'Page',
+          path: 'content/category'
+        },
+        {
+          name: 'Thing Management',
+          enUs: 'Thing Management',
+          zhCn: '物品管理',
+          type: 'Page',
+          path: 'content/thing'
+        }
+      ]
     }
   ]
   for (let i = 0; i < resourceDatas.length; i++) {
@@ -167,13 +216,13 @@ const init = async () => {
   /* Create category */
   const categoryCommonFields = {
     userId: userRes.id,
-    username: userRes.username,
+    createdByUsername: userRes.username,
     enabled: true
   }
 
   const categoryLocaleCommonFields = {
     userId: userRes.id,
-    username: userRes.username,
+    createdByUsername: userRes.username,
     field: 'name' as 'name'
   }
 
