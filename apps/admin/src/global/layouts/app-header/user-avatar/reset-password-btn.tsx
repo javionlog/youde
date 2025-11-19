@@ -58,25 +58,25 @@ const DialogBody = (props: DialogBodyProps) => {
     {
       formItem: {
         name: 'oldPassword',
-        label: t('label.oldPassword')
-      },
-      component: <GlInput type='password' />
+        label: t('label.oldPassword'),
+        children: <GlInput type='password' />
+      }
     },
     {
       formItem: {
         name: 'newPassword',
-        label: t('label.newPassword')
-      },
-      component: <GlInput type='password' />
+        label: t('label.newPassword'),
+        children: <GlInput type='password' />
+      }
     },
     {
       formItem: {
         name: 'confirmPassword',
-        label: t('label.confirmPassword')
-      },
-      component: <GlInput type='password' />
+        label: t('label.confirmPassword'),
+        children: <GlInput type='password' />
+      }
     }
-  ].filter(o => o.component) satisfies FormProps['items']
+  ] satisfies FormProps['items']
 
   return <GlForm form={form} rules={rules} items={items} />
 }

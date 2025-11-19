@@ -30,42 +30,42 @@ export const useForm = (props: Props) => {
           isAdmin: getRequiredRules(),
           enabled: getRequiredRules()
         } satisfies FormRules<NonNullable<PostAdminUserData['body']>>)
-  const items = [
-    {
-      formItem: {
-        name: 'username',
-        label: t('label.username')
-      },
-      component: <GlInput />
-    },
-    mode === 'edit'
-      ? {
-          component: null
+  const items = (
+    [
+      {
+        formItem: {
+          name: 'username',
+          label: t('label.username'),
+          children: <GlInput />
         }
-      : {
-          formItem: {
-            name: 'password',
-            label: t('label.password')
+      },
+      mode === 'edit'
+        ? {}
+        : {
+            formItem: {
+              name: 'password',
+              label: t('label.password'),
+              children: <GlInput type='password' />
+            }
           },
-          component: <GlInput type='password' />
-        },
-    {
-      formItem: {
-        name: 'isAdmin',
-        label: t('label.isAdmin'),
-        initialData: false
+      {
+        formItem: {
+          name: 'isAdmin',
+          label: t('label.isAdmin'),
+          initialData: false,
+          children: <Switch />
+        }
       },
-      component: <Switch />
-    },
-    {
-      formItem: {
-        name: 'enabled',
-        label: t('label.enabled'),
-        initialData: true
-      },
-      component: <Switch />
-    }
-  ].filter(o => o.component) satisfies FormProps['items']
+      {
+        formItem: {
+          name: 'enabled',
+          label: t('label.enabled'),
+          initialData: true,
+          children: <Switch />
+        }
+      }
+    ] satisfies FormProps['items']
+  ).filter(o => o.formItem?.children)
 
   const onOpen = async () => {
     form.reset()

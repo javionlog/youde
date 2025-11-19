@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react'
 import type { FormItemProps, FormProps } from 'tdesign-react'
 
 type GridProps = Parameters<typeof GlGrid>[0]
@@ -7,7 +6,6 @@ type GridItemProps = Parameters<typeof GlGridItem>[0]
 type Item = {
   formItem?: FormItemProps
   gridItem?: GridItemProps
-  component?: ReactNode
 }
 
 interface Props extends StyledProps, FormProps, GridProps {
@@ -65,7 +63,7 @@ export const GlForm = (props: Props) => {
                   {...item.formItem}
                   label={<GlEllipsis>{item.formItem?.label}</GlEllipsis>}
                 >
-                  {item.component}
+                  {item.formItem?.children}
                 </Form.FormItem>
               </GlGridItem>
             )

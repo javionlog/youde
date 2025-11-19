@@ -70,7 +70,7 @@ export const deleteCountry = async (params: DeleteReqType) => {
 }
 
 export const listCountries = async (params: ListReqType) => {
-  const { regions, codes, page, pageSize, sortBy } = params
+  const { regions, codes, enUs, zhCn, page, pageSize, sortBy } = params
 
   const where = []
   const dynamicQuery = db.select().from(country).$dynamic()
@@ -80,6 +80,12 @@ export const listCountries = async (params: ListReqType) => {
   }
   if (codes?.length) {
     where.push(inArray(country.code, codes))
+  }
+  if (enUs?.length) {
+    where.push(inArray(country.enUs, enUs))
+  }
+  if (zhCn?.length) {
+    where.push(inArray(country.zhCn, zhCn))
   }
   dynamicQuery.where(and(...where))
   withOrderBy(dynamicQuery, country[sortBy?.field ?? 'updatedAt'], sortBy?.direction)

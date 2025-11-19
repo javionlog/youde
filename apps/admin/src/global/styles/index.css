@@ -75,3 +75,7 @@
   height: var(--td-comp-size-xl) !important;
   line-height: var(--td-comp-size-xl) !important;
 }
+
+.t-table .t-table__pagination {
+  padding: 16px 0 0;
+}

@@ -13,9 +13,9 @@ export default () => {
       {
         formItem: {
           name: 'username',
-          label: t('label.username')
-        },
-        component: <GlInput />
+          label: t('label.username'),
+          children: <GlInput />
+        }
       }
     ]
   } satisfies SearchProps

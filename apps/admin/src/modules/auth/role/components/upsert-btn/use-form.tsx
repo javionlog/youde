@@ -24,24 +24,24 @@ export const useForm = (props: Props) => {
     {
       formItem: {
         name: 'name',
-        label: t('role.label.roleName', { ns: 'auth' })
-      },
-      component: <GlInput />
+        label: t('role.label.roleName', { ns: 'auth' }),
+        children: <GlInput />
+      }
     },
     {
       formItem: {
         name: 'enabled',
         label: t('label.enabled'),
-        initialData: true
-      },
-      component: <Switch />
+        initialData: true,
+        children: <Switch />
+      }
     },
     {
       formItem: {
         name: 'remark',
-        label: t('label.remark')
-      },
-      component: <GlInput />
+        label: t('label.remark'),
+        children: <GlInput />
+      }
     }
   ] satisfies FormProps['items']
 

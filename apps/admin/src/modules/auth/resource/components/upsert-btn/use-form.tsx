@@ -44,117 +44,117 @@ export const useForm = (props: Props) => {
     {
       formItem: {
         name: 'name',
-        label: t('resource.label.resourceName', { ns: 'auth' })
-      },
-      component: <GlInput />
+        label: t('resource.label.resourceName', { ns: 'auth' }),
+        children: <GlInput />
+      }
     },
     {
       formItem: {
         name: 'type',
-        label: t('resource.label.resourceType', { ns: 'auth' })
-      },
-      component: (
-        <GlSelect
-          disabled={mode === 'edit'}
-          options={getOptions('RESOURCE_TYPE').filter(o => {
-            if (mode === undefined) {
-              return o.value === 'Menu' || o.value === 'Page'
-            }
-            if (mode === 'add') {
-              if (rowData?.type === 'Menu') {
+        label: t('resource.label.resourceType', { ns: 'auth' }),
+        children: (
+          <GlSelect
+            disabled={mode === 'edit'}
+            options={getOptions('RESOURCE_TYPE').filter(o => {
+              if (mode === undefined) {
                 return o.value === 'Menu' || o.value === 'Page'
               }
-              if (rowData?.type === 'Page') {
-                return o.value === 'Element'
+              if (mode === 'add') {
+                if (rowData?.type === 'Menu') {
+                  return o.value === 'Menu' || o.value === 'Page'
+                }
+                if (rowData?.type === 'Page') {
+                  return o.value === 'Element'
+                }
+                return false
               }
-              return false
-            }
-            return true
-          })}
-        />
-      )
+              return true
+            })}
+          />
+        )
+      }
     },
     {
       formItem: {
         name: 'sort',
-        label: t('label.sort')
-      },
-      component: <GlInputNumber min={0} decimalPlaces={0} theme='column' />
+        label: t('label.sort'),
+        children: <GlInputNumber min={0} decimalPlaces={0} theme='column' />
+      }
     },
     {
       formItem: {
         name: 'remark',
-        label: t('label.remark')
-      },
-      component: <GlInput />
+        label: t('label.remark'),
+        children: <GlInput />
+      }
     },
     {
       formItem: {
         name: 'path',
-        label: t('label.path')
-      },
-      component: <GlInput />
+        label: t('label.path'),
+        children: <GlInput />
+      }
     },
     {
       formItem: {
         name: 'activePath',
-        label: t('label.activePath')
-      },
-      component: <GlInput />
+        label: t('label.activePath'),
+        children: <GlInput />
+      }
     },
     {
       formItem: {
         name: 'component',
-        label: t('label.component')
-      },
-      component: <GlInput />
+        label: t('label.component'),
+        children: <GlInput />
+      }
     },
     {
       formItem: {
         name: 'icon',
-        label: t('label.icon')
-      },
-      component: <GlInput />
+        label: t('label.icon'),
+        children: <GlInput />
+      }
     },
     {
       formItem: {
         name: 'enabled',
         label: t('label.enabled'),
-        initialData: true
-      },
-      component: <Switch />
+        initialData: true,
+        children: <Switch />
+      }
     },
     {
       formItem: {
         name: 'isShow',
         label: t('resource.label.whetherToShow', { ns: 'auth' }),
-        initialData: true
-      },
-      component: <Switch />
+        initialData: true,
+        children: <Switch />
+      }
     },
     {
       formItem: {
         name: 'isCache',
         label: t('resource.label.whetherToCache', { ns: 'auth' }),
-        initialData: true
-      },
-      component: <Switch />
+        initialData: true,
+        children: <Switch />
+      }
     },
     {
       formItem: {
         name: 'isAffix',
         label: t('resource.label.whetherToAffix', { ns: 'auth' }),
-        initialData: false
-      },
-      component: <Switch />
+        initialData: false,
+        children: <Switch />
+      }
     },
     {
       formItem: {
         name: 'isLink',
         label: t('resource.label.whetherToLink', { ns: 'auth' }),
-        initialData: false
-      },
-      component: <Switch />
+        initialData: false,
+        children: <Switch />
+      }
     }
   ] satisfies FormProps['items']
 
@@ -163,32 +163,32 @@ export const useForm = (props: Props) => {
       {
         formItem: {
           name: 'createdAt',
-          label: t('label.createdAt')
-        },
-        component: <GlEllipsis>{formatDate(rowData?.createdAt!)}</GlEllipsis>
+          label: t('label.createdAt'),
+          children: <GlEllipsis>{formatDate(rowData?.createdAt!)}</GlEllipsis>
+        }
       },
       {
         formItem: {
           name: 'updatedAt',
-          label: t('label.updatedAt')
-        },
-        component: <GlEllipsis>{formatDate(rowData?.updatedAt!)}</GlEllipsis>
+          label: t('label.updatedAt'),
+          children: <GlEllipsis>{formatDate(rowData?.updatedAt!)}</GlEllipsis>
+        }
       },
       {
         formItem: {
           name: 'createdBy',
-          label: t('label.createdBy')
-        },
-        component: <GlEllipsis>{rowData?.createdBy!}</GlEllipsis>
+          label: t('label.createdBy'),
+          children: <GlEllipsis>{rowData?.createdBy!}</GlEllipsis>
+        }
       },
       {
         formItem: {
           name: 'updatedBy',
-          label: t('label.updatedBy')
-        },
-        component: <GlEllipsis>{rowData?.updatedBy!}</GlEllipsis>
+          label: t('label.updatedBy'),
+          children: <GlEllipsis>{rowData?.updatedBy!}</GlEllipsis>
+        }
       }
-    ]
+    ] satisfies FormProps['items']
     items = [...items, ...appendItems]
   }
 

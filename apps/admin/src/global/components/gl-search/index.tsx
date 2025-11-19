@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react'
 import { ChevronDownIcon, ChevronUpIcon, RollbackIcon, SearchIcon } from 'tdesign-icons-react'
 import type { ButtonProps, FormItemProps, FormProps } from 'tdesign-react'
 
@@ -8,7 +7,6 @@ type GridItemProps = Parameters<typeof GlGridItem>[0]
 type Item = {
   formItem?: FormItemProps
   gridItem?: GridItemProps
-  component?: ReactNode
 }
 
 interface Props extends StyledProps, FormProps, GridProps {
@@ -76,7 +74,7 @@ export const GlSearch = (props: Props) => {
                     {...item.formItem}
                     label={<GlEllipsis>{item.formItem?.label}</GlEllipsis>}
                   >
-                    {item.component}
+                    {item.formItem?.children}
                   </Form.FormItem>
                 </GlGridItem>
               )

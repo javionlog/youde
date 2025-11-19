@@ -31,30 +31,30 @@ export const useForm = (props: Props) => {
     {
       formItem: {
         name: 'region',
-        label: t('label.region')
-      },
-      component: <GlInput />
+        label: t('label.region'),
+        children: <GlInput />
+      }
     },
     {
       formItem: {
         name: 'code',
-        label: t('label.code')
-      },
-      component: <GlInput />
+        label: t('label.code'),
+        children: <GlInput />
+      }
     },
     {
       formItem: {
         name: 'enUs',
-        label: t('label.english')
-      },
-      component: <GlInput />
+        label: t('label.english'),
+        children: <GlInput />
+      }
     },
     {
       formItem: {
         name: 'zhCn',
-        label: t('label.simplifiedChinese')
-      },
-      component: <GlInput />
+        label: t('label.simplifiedChinese'),
+        children: <GlInput />
+      }
     }
   ] satisfies FormProps['items']
 

@@ -46,6 +46,8 @@ export const listReqSpec = z.object({
   ...pageSpec.shape,
   codes: z.array(z.string()).nullish(),
   regions: z.array(z.string()).nullish(),
+  enUs: z.array(z.string()).nullish(),
+  zhCn: z.array(z.string()).nullish(),
   sortBy: z
     .object({
       field: z.enum(getKeys(getTableColumns(country))),

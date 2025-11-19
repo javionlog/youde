@@ -49,9 +49,9 @@ const DialogBody = (props: DialogBodyProps) => {
     {
       formItem: {
         name: 'password',
-        label: t('label.password')
-      },
-      component: <GlInput type='password' />
+        label: t('label.password'),
+        children: <GlInput type='password' />
+      }
     }
   ] satisfies FormProps['items']
 

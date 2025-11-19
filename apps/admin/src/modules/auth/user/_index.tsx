@@ -15,23 +15,23 @@ export default () => {
       {
         formItem: {
           name: 'username',
-          label: t('label.username')
-        },
-        component: <GlInput />
+          label: t('label.username'),
+          children: <GlInput />
+        }
       },
       {
         formItem: {
           name: 'enabled',
-          label: t('label.enabled')
-        },
-        component: <GlSelect options={getOptions('YES_NO')} />
+          label: t('label.enabled'),
+          children: <GlSelect options={getOptions('YES_NO')} />
+        }
       },
       {
         formItem: {
           name: 'isAdmin',
-          label: t('label.isAdmin')
-        },
-        component: <GlSelect options={getOptions('YES_NO')} />
+          label: t('label.isAdmin'),
+          children: <GlSelect options={getOptions('YES_NO')} />
+        }
       }
     ]
   } satisfies SearchProps

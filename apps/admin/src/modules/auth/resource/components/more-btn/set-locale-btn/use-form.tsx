@@ -77,16 +77,16 @@ const DialogForm = (props: DialogFormProps) => {
     {
       formItem: {
         name: 'enUs',
-        label: t('label.english')
-      },
-      component: <GlInput />
+        label: t('label.english'),
+        children: <GlInput />
+      }
     },
     {
       formItem: {
         name: 'zhCn',
-        label: t('label.simplifiedChinese')
-      },
-      component: <GlInput />
+        label: t('label.simplifiedChinese'),
+        children: <GlInput />
+      }
     }
   ] satisfies FormProps['items']
 

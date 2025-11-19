@@ -15,16 +15,16 @@ export default () => {
       {
         formItem: {
           name: 'name',
-          label: t('role.label.roleName', { ns: 'auth' })
-        },
-        component: <GlInput />
+          label: t('role.label.roleName', { ns: 'auth' }),
+          children: <GlInput />
+        }
       },
       {
         formItem: {
           name: 'enabled',
-          label: t('label.enabled')
-        },
-        component: <GlSelect options={getOptions('YES_NO')} />
+          label: t('label.enabled'),
+          children: <GlSelect options={getOptions('YES_NO')} />
+        }
       }
     ]
   } satisfies SearchProps

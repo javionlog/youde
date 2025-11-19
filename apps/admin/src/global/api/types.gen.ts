@@ -1530,6 +1530,8 @@ export type PostAdminCountryListData = {
         pageSize?: number;
         codes?: Array<string> | null;
         regions?: Array<string> | null;
+        enUs?: Array<string> | null;
+        zhCn?: Array<string> | null;
         sortBy?: {
             field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'code' | 'region' | 'enUs' | 'zhCn';
             direction?: 'asc' | 'desc';
