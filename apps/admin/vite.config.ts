@@ -99,7 +99,7 @@ export default defineConfig(({ mode }) => {
       }
     },
     build: {
-      rollupOptions: {
+      rolldownOptions: {
         output: {
           advancedChunks: {
             maxSize: 1024 * 100,

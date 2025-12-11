@@ -105,7 +105,7 @@ export default defineConfig(({ mode, isSsrBuild }) => {
       noExternal: isSsrBuild ? true : undefined
     },
     build: {
-      rollupOptions: {
+      rolldownOptions: {
         input: isSsrBuild ? './server/app.ts' : undefined,
         output: {
           advancedChunks: {

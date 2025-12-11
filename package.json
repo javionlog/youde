@@ -31,7 +31,7 @@
     "lint-staged": "^16.1.2",
     "turbo": "^2.5.4",
     "typescript": "^5.9.2",
-    "vite": "npm:rolldown-vite@latest",
+    "vite": "8.0.0-beta.1",
     "vite-tsconfig-paths": "^5.1.4"
   }
 }
