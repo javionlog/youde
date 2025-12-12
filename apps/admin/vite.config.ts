@@ -132,7 +132,8 @@ export default defineConfig(({ mode }) => {
               {
                 name: 'tdesign-react',
                 test: /node_modules\/tdesign-react/,
-                priority: 2
+                priority: 2,
+                maxSize: Infinity
               },
               {
                 name: 'tdesign-icons-react',
