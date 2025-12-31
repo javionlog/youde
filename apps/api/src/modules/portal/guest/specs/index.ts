@@ -1,7 +1,7 @@
 import { getTableColumns } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { thing } from '@/db/schemas/common'
+import { treasure } from '@/db/schemas/common'
 import { omitReqFields, pageSpec } from '@/global/specs'
 import { getKeys } from '@/global/utils'
 
@@ -9,7 +9,7 @@ export const statusSpec = {
   status: z.enum(['Draft', 'Pending', 'Passed'])
 }
 
-export const createReqSpec = createInsertSchema(thing, {
+export const createReqSpec = createInsertSchema(treasure, {
   ...statusSpec
 }).omit({
   ...omitReqFields,
@@ -18,7 +18,7 @@ export const createReqSpec = createInsertSchema(thing, {
   status: true
 })
 
-export const updateReqSpec = createInsertSchema(thing).omit({
+export const updateReqSpec = createInsertSchema(treasure).omit({
   ...omitReqFields,
   userId: true,
   status: true
@@ -41,14 +41,14 @@ export const listReqSpec = z.object({
   status: z.array(statusSpec.status).nullish(),
   sortBy: z
     .object({
-      field: z.enum(getKeys(getTableColumns(thing))),
+      field: z.enum(getKeys(getTableColumns(treasure))),
       direction: z.enum(['asc', 'desc'])
     })
     .partial()
     .nullish()
 })
 
-export const rowResSpec = createSelectSchema(thing, {
+export const rowResSpec = createSelectSchema(treasure, {
   ...statusSpec
 }).omit({})
 
@@ -57,7 +57,7 @@ export const listResSpec = z.object({
   total: z.number()
 })
 
-export const promiseRowResSpec = createSelectSchema(thing, {
+export const promiseRowResSpec = createSelectSchema(treasure, {
   ...statusSpec
 }).omit({})
 

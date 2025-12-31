@@ -1,28 +1,3 @@
-CREATE TABLE "category" (
-	"id" text PRIMARY KEY NOT NULL,
-	"created_at" text,
-	"updated_at" text,
-	"created_by" text,
-	"updated_by" text,
-	"parent_id" text,
-	"name" varchar(64) NOT NULL,
-	"enabled" boolean NOT NULL,
-	"sort" integer NOT NULL,
-	CONSTRAINT "category_name_unique" UNIQUE("name")
-);
---> statement-breakpoint
-CREATE TABLE "category_locale" (
-	"id" text PRIMARY KEY NOT NULL,
-	"created_at" text,
-	"updated_at" text,
-	"created_by" text,
-	"updated_by" text,
-	"category_id" text NOT NULL,
-	"field" text NOT NULL,
-	"en_us" varchar(64) NOT NULL,
-	"zh_cn" varchar(64) NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE "country" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" text,
@@ -38,17 +13,7 @@ CREATE TABLE "country" (
 	CONSTRAINT "country_zh_cn_unique" UNIQUE("zh_cn")
 );
 --> statement-breakpoint
-CREATE TABLE "tag" (
-	"id" text PRIMARY KEY NOT NULL,
-	"created_at" text,
-	"updated_at" text,
-	"created_by" text,
-	"updated_by" text,
-	"name" varchar(64) NOT NULL,
-	"status" text NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "thing" (
+CREATE TABLE "treasure" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" text,
 	"updated_at" text,
@@ -59,48 +24,83 @@ CREATE TABLE "thing" (
 	"title" varchar(256) NOT NULL,
 	"description" varchar(1024) NOT NULL,
 	"fee" text NOT NULL,
-	"country" varchar(2) NOT NULL,
+	"country_code" varchar(16) NOT NULL,
 	"cover" varchar(256),
 	"content" text NOT NULL,
 	"url" varchar(256) NOT NULL,
 	"status" text NOT NULL,
-	CONSTRAINT "thing_title_unique" UNIQUE("title")
+	CONSTRAINT "treasure_title_unique" UNIQUE("title")
 );
 --> statement-breakpoint
-CREATE TABLE "thing_comment" (
+CREATE TABLE "treasure_category" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" text,
 	"updated_at" text,
 	"created_by" text,
 	"updated_by" text,
-	"thing_id" text NOT NULL,
+	"parent_id" text,
+	"name" varchar(64) NOT NULL,
+	"enabled" boolean NOT NULL,
+	"sort" integer NOT NULL,
+	CONSTRAINT "treasure_category_name_unique" UNIQUE("name")
+);
+--> statement-breakpoint
+CREATE TABLE "treasure_category_locale" (
+	"id" text PRIMARY KEY NOT NULL,
+	"created_at" text,
+	"updated_at" text,
+	"created_by" text,
+	"updated_by" text,
+	"category_id" text NOT NULL,
+	"field" text NOT NULL,
+	"en_us" varchar(64) NOT NULL,
+	"zh_cn" varchar(64) NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "treasure_comment" (
+	"id" text PRIMARY KEY NOT NULL,
+	"created_at" text,
+	"updated_at" text,
+	"created_by" text,
+	"updated_by" text,
+	"treasure_id" text NOT NULL,
 	"user_id" text NOT NULL,
 	"parent_id" text,
 	"content" text NOT NULL,
 	"status" text NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "thing_meta" (
+CREATE TABLE "treasure_meta" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" text,
 	"updated_at" text,
 	"created_by" text,
 	"updated_by" text,
-	"thing_id" text NOT NULL,
+	"treasure_id" text NOT NULL,
 	"user_id" text NOT NULL,
 	"tag_id" text NOT NULL,
 	"platform" text NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "thing_rate" (
+CREATE TABLE "treasure_rate" (
 	"id" text PRIMARY KEY NOT NULL,
 	"created_at" text,
 	"updated_at" text,
 	"created_by" text,
 	"updated_by" text,
-	"thing_id" text NOT NULL,
+	"treasure_id" text NOT NULL,
 	"user_id" text NOT NULL,
 	"score" integer NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "treasure_tag" (
+	"id" text PRIMARY KEY NOT NULL,
+	"created_at" text,
+	"updated_at" text,
+	"created_by" text,
+	"updated_by" text,
+	"name" varchar(64) NOT NULL,
+	"status" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "admin_resource" (
@@ -260,10 +260,10 @@ CREATE TABLE "portal_verification" (
 ALTER TABLE "admin_session" ADD CONSTRAINT "admin_session_user_id_admin_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."admin_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "portal_account" ADD CONSTRAINT "portal_account_user_id_portal_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."portal_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "portal_session" ADD CONSTRAINT "portal_session_user_id_portal_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."portal_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-CREATE UNIQUE INDEX "categoryIdFieldUniqueIndex" ON "category_locale" USING btree ("category_id","field");--> statement-breakpoint
-CREATE UNIQUE INDEX "thingIdPlatformUniqueIndex" ON "thing_meta" USING btree ("thing_id","platform");--> statement-breakpoint
-CREATE UNIQUE INDEX "thingIdTagIdUniqueIndex" ON "thing_meta" USING btree ("thing_id","tag_id");--> statement-breakpoint
-CREATE UNIQUE INDEX "thingIdUserIdUniqueIndex" ON "thing_rate" USING btree ("thing_id","user_id");--> statement-breakpoint
+CREATE UNIQUE INDEX "categoryIdFieldUniqueIndex" ON "treasure_category_locale" USING btree ("category_id","field");--> statement-breakpoint
+CREATE UNIQUE INDEX "treasureIdPlatformUniqueIndex" ON "treasure_meta" USING btree ("treasure_id","platform");--> statement-breakpoint
+CREATE UNIQUE INDEX "treasureIdTagIdUniqueIndex" ON "treasure_meta" USING btree ("treasure_id","tag_id");--> statement-breakpoint
+CREATE UNIQUE INDEX "treasureIdUserIdUniqueIndex" ON "treasure_rate" USING btree ("treasure_id","user_id");--> statement-breakpoint
 CREATE UNIQUE INDEX "resourceIdFieldUniqueIndex" ON "admin_resource_locale" USING btree ("resource_id","field");--> statement-breakpoint
 CREATE UNIQUE INDEX "roleIdResourceIdUniqueIndex" ON "admin_role_resource_relation" USING btree ("role_id","resource_id");--> statement-breakpoint
 CREATE UNIQUE INDEX "userIdRoleIdUniqueIndex" ON "admin_user_role_relation" USING btree ("user_id","role_id");

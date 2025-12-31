@@ -1,21 +1,21 @@
 import { and, eq, inArray, like } from 'drizzle-orm'
 import { db } from '@/db'
-import { thing } from '@/db/schemas/common'
+import { treasure } from '@/db/schemas/common'
 import { withOrderBy, withPagination } from '@/db/utils'
 import { throwDataNotFoundError, throwDbError } from '@/global/errors'
 import { isEmpty } from '@/global/utils'
 import type { CreateReqType, DeleteReqType, GetReqType, ListReqType, UpdateReqType } from '../specs'
 
-export const getThing = async (params: GetReqType) => {
+export const getTreasure = async (params: GetReqType) => {
   const { id } = params
-  const row = (await db.select().from(thing).where(eq(thing.id, id)))[0]
+  const row = (await db.select().from(treasure).where(eq(treasure.id, id)))[0]
   if (!row) {
     throwDataNotFoundError()
   }
   return row
 }
 
-export const createThing = async (
+export const createTreasure = async (
   params: CreateReqType & {
     userId: string
     createdByUsername: string
@@ -25,7 +25,7 @@ export const createThing = async (
   try {
     const row = (
       await db
-        .insert(thing)
+        .insert(treasure)
         .values({
           ...restParams,
           status: 'Draft',
@@ -40,23 +40,23 @@ export const createThing = async (
   }
 }
 
-export const updateThing = async (
+export const updateTreasure = async (
   params: UpdateReqType & {
     updatedByUsername: string
   }
 ) => {
   const { id, updatedByUsername, ...restParams } = params
-  await getThing({ id })
+  await getTreasure({ id })
   try {
     const row = (
       await db
-        .update(thing)
+        .update(treasure)
         .set({
           ...restParams,
           updatedBy: updatedByUsername,
           updatedAt: new Date().toDateString()
         })
-        .where(eq(thing.id, id))
+        .where(eq(treasure.id, id))
         .returning()
     )[0]
     return row
@@ -65,38 +65,38 @@ export const updateThing = async (
   }
 }
 
-export const deleteThing = async (params: DeleteReqType) => {
+export const deleteTreasure = async (params: DeleteReqType) => {
   const { id } = params
-  const result = await db.delete(thing).where(eq(thing.id, id))
+  const result = await db.delete(treasure).where(eq(treasure.id, id))
   return result
 }
 
-export const listThings = async (params: ListReqType) => {
+export const listTreasures = async (params: ListReqType) => {
   const { id, title, createdBy, categoryIds, countries, status, page, pageSize, sortBy } = params
 
   const where = []
-  const dynamicQuery = db.select().from(thing).$dynamic()
+  const dynamicQuery = db.select().from(treasure).$dynamic()
 
   if (!isEmpty(id)) {
-    where.push(eq(thing.id, id))
+    where.push(eq(treasure.id, id))
   }
   if (!isEmpty(title)) {
-    where.push(like(thing.title, `%${title}%`))
+    where.push(like(treasure.title, `%${title}%`))
   }
   if (!isEmpty(createdBy)) {
-    where.push(eq(thing.createdBy, createdBy))
+    where.push(eq(treasure.createdBy, createdBy))
   }
   if (categoryIds?.length) {
-    where.push(inArray(thing.categoryId, categoryIds))
+    where.push(inArray(treasure.categoryId, categoryIds))
   }
   if (countries?.length) {
-    where.push(inArray(thing.country, countries))
+    where.push(inArray(treasure.countryCode, countries))
   }
   if (status?.length) {
-    where.push(inArray(thing.status, status))
+    where.push(inArray(treasure.status, status))
   }
   dynamicQuery.where(and(...where))
-  withOrderBy(dynamicQuery, thing[sortBy?.field ?? 'updatedAt'], sortBy?.direction)
+  withOrderBy(dynamicQuery, treasure[sortBy?.field ?? 'updatedAt'], sortBy?.direction)
 
   const total = (await dynamicQuery).length
 

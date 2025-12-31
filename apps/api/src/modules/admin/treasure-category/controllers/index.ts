@@ -1,10 +1,10 @@
 import { adminGuardController } from '@/global/controllers'
 import {
-  createCategory,
-  deleteCategory,
-  getCategory,
-  listCategoryTree,
-  updateCategory
+  createTreasureCategory,
+  deleteTreasureCategory,
+  getTreasureCategory,
+  listTreasureCategoryTree,
+  updateTreasureCategory
 } from '../services'
 import {
   createReqSpec,
@@ -15,15 +15,15 @@ import {
   updateReqSpec
 } from '../specs'
 
-const tags = ['Category']
+const tags = ['Treasure-Category']
 
-const app = adminGuardController.group('/category', app =>
+const app = adminGuardController.group('/treasure-category', app =>
   app
     .post(
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await createCategory({ ...body, createdByUsername: username })
+        return await createTreasureCategory({ ...body, createdByUsername: username })
       },
       {
         detail: {
@@ -37,7 +37,7 @@ const app = adminGuardController.group('/category', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await updateCategory({ ...body, updatedByUsername: username })
+        return await updateTreasureCategory({ ...body, updatedByUsername: username })
       },
       {
         detail: {
@@ -50,7 +50,7 @@ const app = adminGuardController.group('/category', app =>
     .delete(
       '',
       async ({ body }) => {
-        return await deleteCategory(body)
+        return await deleteTreasureCategory(body)
       },
       {
         detail: {
@@ -62,7 +62,7 @@ const app = adminGuardController.group('/category', app =>
     .get(
       '',
       async ({ body }) => {
-        return await getCategory(body)
+        return await getTreasureCategory(body)
       },
       {
         detail: {
@@ -75,7 +75,7 @@ const app = adminGuardController.group('/category', app =>
     .post(
       '/tree',
       async () => {
-        return await listCategoryTree({})
+        return await listTreasureCategoryTree({})
       },
       {
         detail: { tags },
@@ -85,7 +85,7 @@ const app = adminGuardController.group('/category', app =>
     .post(
       '/enabled-tree',
       async () => {
-        return await listCategoryTree({ enabled: true })
+        return await listTreasureCategoryTree({ enabled: true })
       },
       {
         detail: { tags },

@@ -1,5 +1,11 @@
 import { adminGuardController } from '@/global/controllers'
-import { createThing, deleteThing, getThing, listThings, updateThing } from '../services'
+import {
+  createTreasure,
+  deleteTreasure,
+  getTreasure,
+  listTreasures,
+  updateTreasure
+} from '../services'
 import {
   createReqSpec,
   deleteReqSpec,
@@ -10,15 +16,15 @@ import {
   updateReqSpec
 } from '../specs'
 
-const tags = ['Thing']
+const tags = ['Treasure']
 
-const app = adminGuardController.group('/thing', app =>
+const app = adminGuardController.group('/treasure', app =>
   app
     .post(
       '',
       async ({ body, user }) => {
         const { id, username } = user
-        return await createThing({ ...body, userId: id, createdByUsername: username })
+        return await createTreasure({ ...body, userId: id, createdByUsername: username })
       },
       {
         detail: {
@@ -32,7 +38,7 @@ const app = adminGuardController.group('/thing', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await updateThing({ ...body, updatedByUsername: username })
+        return await updateTreasure({ ...body, updatedByUsername: username })
       },
       {
         detail: {
@@ -45,7 +51,7 @@ const app = adminGuardController.group('/thing', app =>
     .delete(
       '',
       async ({ body }) => {
-        return await deleteThing(body)
+        return await deleteTreasure(body)
       },
       {
         detail: {
@@ -57,7 +63,7 @@ const app = adminGuardController.group('/thing', app =>
     .get(
       '',
       async ({ body }) => {
-        return await getThing(body)
+        return await getTreasure(body)
       },
       {
         detail: {
@@ -70,7 +76,7 @@ const app = adminGuardController.group('/thing', app =>
     .post(
       '/list',
       async ({ body }) => {
-        return await listThings(body)
+        return await listTreasures(body)
       },
       {
         detail: { tags },

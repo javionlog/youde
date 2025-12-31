@@ -1,14 +1,14 @@
 import { adminGuardController } from '@/global/controllers'
-import { listThings } from '../services'
+import { listTreasures } from '../services'
 import { listReqSpec, promiseListResSpec } from '../specs'
 
 const tags = ['Guest']
 
 const app = adminGuardController.group('/guest', app =>
   app.post(
-    '/thing/list',
+    '/treasure/list',
     async ({ body }) => {
-      return await listThings(body)
+      return await listTreasures(body)
     },
     {
       detail: { tags },

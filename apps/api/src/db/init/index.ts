@@ -8,10 +8,10 @@ import { createAdminResourceLocale } from '@/modules/admin/auth/resource-locale/
 import { createAdminRole } from '@/modules/admin/auth/role/services'
 import { createAdminRoleResourceRelation } from '@/modules/admin/auth/role-resource-relation/services'
 import { createAdminUserRoleRelation } from '@/modules/admin/auth/user-role-relation/services'
+import { createCountry } from '@/modules/admin/country/services'
+import { createTreasureCategory } from '@/modules/admin/treasure-category/services'
+import { createTreasureCategoryLocale } from '@/modules/admin/treasure-category-locale/services'
 import { createAdminUser } from '@/modules/admin/user/services'
-import { createCategory } from '@/modules/common/category/services'
-import { createCategoryLocale } from '@/modules/common/category-locale/services'
-import { createCountry } from '@/modules/common/country/services'
 import { countries } from './coutries'
 
 const reset = async () => {
@@ -153,11 +153,11 @@ const init = async () => {
           path: 'content/category'
         },
         {
-          name: 'Thing Management',
-          enUs: 'Thing Management',
-          zhCn: '物品管理',
+          name: 'Treasure Management',
+          enUs: 'Treasure Management',
+          zhCn: '宝藏管理',
           type: 'Page',
-          path: 'content/thing'
+          path: 'content/treasure'
         }
       ]
     }
@@ -397,12 +397,12 @@ const init = async () => {
   ]
   for (let i = 0; i < categoryDatas.length; i++) {
     const item = categoryDatas[i]
-    const categoryRes = await createCategory({
+    const categoryRes = await createTreasureCategory({
       ...categoryCommonFields,
       name: item.name,
       sort: i + 1
     })
-    await createCategoryLocale({
+    await createTreasureCategoryLocale({
       ...categoryLocaleCommonFields,
       categoryId: categoryRes.id,
       enUs: item.enUs,
@@ -410,13 +410,13 @@ const init = async () => {
     })
     for (let j = 0; j < item.children.length; j++) {
       const subItem = item.children[j]
-      const subCategoryRes = await createCategory({
+      const subCategoryRes = await createTreasureCategory({
         ...categoryCommonFields,
         parentId: categoryRes.id,
         name: subItem.name,
         sort: j + 1
       })
-      await createCategoryLocale({
+      await createTreasureCategoryLocale({
         ...categoryLocaleCommonFields,
         categoryId: subCategoryRes.id,
         enUs: subItem.enUs,

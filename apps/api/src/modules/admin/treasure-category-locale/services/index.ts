@@ -1,18 +1,20 @@
 import { eq } from 'drizzle-orm'
 import { db } from '@/db'
-import { categoryLocale } from '@/db/schemas/common'
+import { treasureCategoryLocale } from '@/db/schemas/common'
 import { throwDbError } from '@/global/errors'
 import type { CreateReqType, GetReqType, UpdateReqType } from '../specs'
 
-export const getCategoryLocale = async (params: GetReqType) => {
+export const getTreasureCategoryLocale = async (params: GetReqType) => {
   const { id } = params
 
-  const row = (await db.select().from(categoryLocale).where(eq(categoryLocale.id, id)))[0]
+  const row = (
+    await db.select().from(treasureCategoryLocale).where(eq(treasureCategoryLocale.id, id))
+  )[0]
 
   return row
 }
 
-export const createCategoryLocale = async (
+export const createTreasureCategoryLocale = async (
   params: CreateReqType & {
     createdByUsername: string
   }
@@ -21,7 +23,7 @@ export const createCategoryLocale = async (
   try {
     const row = (
       await db
-        .insert(categoryLocale)
+        .insert(treasureCategoryLocale)
         .values({
           ...restParams,
           createdBy: createdByUsername,
@@ -35,23 +37,23 @@ export const createCategoryLocale = async (
   }
 }
 
-export const updateCategoryLocale = async (
+export const updateTreasureCategoryLocale = async (
   params: UpdateReqType & {
     updatedByUsername: string
   }
 ) => {
   const { id, updatedByUsername, ...restParams } = params
-  await getCategoryLocale({ id })
+  await getTreasureCategoryLocale({ id })
   try {
     const row = (
       await db
-        .update(categoryLocale)
+        .update(treasureCategoryLocale)
         .set({
           ...restParams,
           updatedBy: updatedByUsername,
           updatedAt: new Date().toDateString()
         })
-        .where(eq(categoryLocale.id, id))
+        .where(eq(treasureCategoryLocale.id, id))
         .returning()
     )[0]
     return row

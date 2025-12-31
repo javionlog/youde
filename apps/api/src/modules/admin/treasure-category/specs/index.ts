@@ -1,16 +1,16 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { category, categoryLocale } from '@/db/schemas/common'
+import { treasureCategory, treasureCategoryLocale } from '@/db/schemas/common'
 import { omitReqFields } from '@/global/specs'
 
-export const rowSpec = createSelectSchema(category).omit({})
+export const rowSpec = createSelectSchema(treasureCategory).omit({})
 export type RowType = z.infer<typeof rowSpec>
 
-export const categoryLocaleResSpec = createSelectSchema(categoryLocale).omit({})
+export const treasureCategoryLocaleResSpec = createSelectSchema(treasureCategoryLocale).omit({})
 
 export const rowResSpec = z.object({
-  ...createSelectSchema(category).omit({}).shape,
-  locales: z.array(categoryLocaleResSpec)
+  ...createSelectSchema(treasureCategory).omit({}).shape,
+  locales: z.array(treasureCategoryLocaleResSpec)
 })
 
 /* @ts-ignore */
@@ -23,19 +23,19 @@ export const treeResSpec = z.object({
 })
 
 export const promiseRowResSpec = z.object({
-  ...createSelectSchema(category).omit({}).shape,
-  locales: z.array(categoryLocaleResSpec)
+  ...createSelectSchema(treasureCategory).omit({}).shape,
+  locales: z.array(treasureCategoryLocaleResSpec)
 })
 
 export const promiseTreeResSpec = z.promise(z.array(treeResSpec))
 
-export const createReqSpec = createInsertSchema(category).omit({
+export const createReqSpec = createInsertSchema(treasureCategory).omit({
   ...omitReqFields,
   id: true
 })
 export type CreateReqType = z.infer<typeof createReqSpec>
 
-export const updateReqSpec = createInsertSchema(category, {
+export const updateReqSpec = createInsertSchema(treasureCategory, {
   id: z.string()
 }).omit({
   ...omitReqFields

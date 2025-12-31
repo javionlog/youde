@@ -4,7 +4,7 @@ import {
   grantTreeResSpec as grantResourceNode,
   treeResSpec as resourceNode
 } from '@/modules/admin/auth/resource/specs'
-import { treeResSpec as categoryNode } from '@/modules/common/category/specs'
+import { treeResSpec as categoryNode } from '@/modules/admin/treasure-category/specs'
 
 z.globalRegistry.add(resourceNode, { id: 'ResourceNode' })
 z.globalRegistry.add(grantResourceNode, { id: 'GrantResourceNode' })

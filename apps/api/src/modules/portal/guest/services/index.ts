@@ -1,37 +1,37 @@
 import { and, eq, inArray, like } from 'drizzle-orm'
 import type { z } from 'zod'
 import { db } from '@/db'
-import { thing } from '@/db/schemas/common'
+import { treasure } from '@/db/schemas/common'
 import { withOrderBy, withPagination } from '@/db/utils'
 import { isEmpty } from '@/global/utils'
 import type { listReqSpec, promiseListResSpec } from '../specs'
 
-export const listThings = async (params: z.infer<typeof listReqSpec>) => {
+export const listTreasures = async (params: z.infer<typeof listReqSpec>) => {
   const { id, categoryIds, title, userId, status, page, pageSize, sortBy } = params
 
   const where = []
-  const dynamicQuery = db.select().from(thing).$dynamic()
+  const dynamicQuery = db.select().from(treasure).$dynamic()
 
   if (!isEmpty(id)) {
-    where.push(eq(thing.id, id))
+    where.push(eq(treasure.id, id))
   }
   if (!isEmpty(id)) {
-    where.push(eq(thing.id, id))
+    where.push(eq(treasure.id, id))
   }
   if (categoryIds?.length) {
-    where.push(inArray(thing.categoryId, categoryIds))
+    where.push(inArray(treasure.categoryId, categoryIds))
   }
   if (!isEmpty(title)) {
-    where.push(like(thing.title, `%${title}%`))
+    where.push(like(treasure.title, `%${title}%`))
   }
   if (!isEmpty(userId)) {
-    where.push(eq(thing.userId, userId))
+    where.push(eq(treasure.userId, userId))
   }
   if (status?.length) {
-    where.push(inArray(thing.status, status))
+    where.push(inArray(treasure.status, status))
   }
   dynamicQuery.where(and(...where))
-  withOrderBy(dynamicQuery, thing[sortBy?.field ?? 'updatedAt'], sortBy?.direction)
+  withOrderBy(dynamicQuery, treasure[sortBy?.field ?? 'updatedAt'], sortBy?.direction)
 
   const total = (await dynamicQuery).length
 
