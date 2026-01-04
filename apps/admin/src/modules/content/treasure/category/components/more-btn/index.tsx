@@ -1,9 +1,7 @@
 import { MoreIcon } from 'tdesign-icons-react'
 import type { TreasureCategoryNode } from '@/global/api'
 import { SetLocaleBtn } from './set-locale-btn'
-
-// import { ViewRoleBtn } from './view-role-btn'
-// import { ViewUserBtn } from './view-user-btn'
+import { ViewTreasureBtn } from './view-treasure-btn'
 
 interface Props {
   rowData: TreasureCategoryNode
@@ -18,12 +16,9 @@ export const MoreBtn = (props: Props) => {
     <GlDropdown>
       <MoreIcon />
       <GlDropdownMenu>
-        {/* <GlDropdownItem>
-          <ViewUserBtn rowData={rowData} />
-        </GlDropdownItem>
         <GlDropdownItem>
-          <ViewRoleBtn rowData={rowData} />
-        </GlDropdownItem> */}
+          <ViewTreasureBtn rowData={rowData} />
+        </GlDropdownItem>
         <GlDropdownItem>
           <SetLocaleBtn rowData={rowData} refresh={refresh} />
         </GlDropdownItem>

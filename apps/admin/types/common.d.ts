@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import type { TableProps, TableRowData } from 'tdesign-react'
+import type { EnumKeys } from '@/global/enums'
 
 declare global {
   interface StyledProps {
@@ -8,7 +9,8 @@ declare global {
   }
 
   interface GlTableExtendColumn {
-    cellRenderType?: 'date' | 'datetime' | 'boolean'
+    cellRenderType?: 'date' | 'datetime' | 'boolean' | 'enum'
+    enumKey?: EnumKeys
   }
 
   type GlTalbeColumns<T extends TableRowData = TableRowData> = (NonNullable<

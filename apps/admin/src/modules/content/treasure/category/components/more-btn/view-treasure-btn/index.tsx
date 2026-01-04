@@ -1,8 +1,8 @@
-import type { ResourceNode } from '@/global/api'
-import { postAdminRoleResourceRoleList } from '@/global/api'
+import type { GetAdminTreasureResponse, TreasureCategoryNode } from '@/global/api'
+import { postAdminTreasureList } from '@/global/api'
 
 interface Props {
-  rowData: ResourceNode
+  rowData: TreasureCategoryNode
 }
 
 export const ViewTreasureBtn = (props: Props) => {
@@ -11,17 +11,36 @@ export const ViewTreasureBtn = (props: Props) => {
 
   const columns = [
     {
-      colKey: 'name',
-      title: t('role.label.roleName', { ns: 'auth' })
+      colKey: 'categoryId',
+      title: t('treasure.label.category', { ns: 'content' })
     },
     {
-      colKey: 'enabled',
-      title: t('label.enabled'),
-      cellRenderType: 'boolean'
+      colKey: 'title',
+      title: t('label.title')
     },
     {
-      colKey: 'remark',
-      title: t('label.remark')
+      colKey: 'description',
+      title: t('label.description')
+    },
+    {
+      colKey: 'fee',
+      title: t('label.fee'),
+      cellRenderType: 'enum',
+      enumKey: 'TREASURE_FEE'
+    },
+    {
+      colKey: 'countryCode',
+      title: t('label.country')
+    },
+    {
+      colKey: 'url',
+      title: t('label.url')
+    },
+    {
+      colKey: 'status',
+      title: t('label.status'),
+      cellRenderType: 'enum',
+      enumKey: 'TREASURE_STATUS'
     },
     {
       colKey: 'createdAt',
@@ -41,26 +60,28 @@ export const ViewTreasureBtn = (props: Props) => {
       colKey: 'updatedBy',
       title: t('label.updatedBy')
     }
-  ] satisfies GlTalbeColumns<ResourceNode>
+  ] satisfies GlTalbeColumns<GetAdminTreasureResponse>
 
   const onOpen = () => {
     const dialogInstance = GlDialogPlugin({
       onClose: () => {
         dialogInstance.hide()
       },
-      header: t('common.action.viewAssociatedRole', { ns: 'auth' }),
+      header: t('treasure.action.viewAssociatedTreasure', { ns: 'content' }),
       footer: false,
       body: (
         <GlTable
           rowKey='id'
           columns={columns}
           maxHeight='100%'
-          params={{ resourceId: rowData.id }}
-          api={postAdminRoleResourceRoleList}
+          params={{ categoryIds: [rowData.id] }}
+          api={postAdminTreasureList}
         />
       )
     })
   }
 
-  return <div onClick={onOpen}>{t('common.action.viewAssociatedRole', { ns: 'auth' })}</div>
+  return (
+    <div onClick={onOpen}>{t('treasure.action.viewAssociatedTreasure', { ns: 'content' })}</div>
+  )
 }

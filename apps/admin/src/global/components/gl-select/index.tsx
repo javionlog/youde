@@ -11,7 +11,7 @@ export const GlSelect = (props: SelectProps) => {
   } = props
   return (
     <Select
-      className={`gl-input ${className ?? ''}`}
+      className={`gl-select ${className ?? ''}`}
       clearable={clearable}
       filterable={filterable}
       minCollapsedNum={minCollapsedNum}

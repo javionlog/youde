@@ -59,7 +59,20 @@
     "token": "令牌",
     "ipAddress": "IP 地址",
     "userAgent": "用户代理",
-    "region": "地区"
+    "region": "地区",
+    "country": "国家",
+    "status": "状态",
+    "title": "标题",
+    "description": "描述",
+    "fee": "费用",
+    "cover": "封面",
+    "content": "内容",
+    "url": "URL"
+  },
+  "component": {
+    "input": {
+      "placeholder": "请输入"
+    }
   },
   "message": {
     "welcomeToYoude": "欢迎来到“有的”！",

@@ -1,14 +1,16 @@
 import * as auth from './auth'
 import * as common from './common'
+import * as treasure from './treasure'
 
 const enums = {
   ...auth,
-  ...common
+  ...common,
+  ...treasure
 }
 
-type Enums = typeof enums
+export type Enums = typeof enums
 
-type EnumKeys = keyof Enums
+export type EnumKeys = keyof Enums
 
 export const getOptions = <K extends EnumKeys>(key: K) => {
   return enums[key]

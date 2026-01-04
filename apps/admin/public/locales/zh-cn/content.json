@@ -1,6 +1,21 @@
 {
   "common": {},
   "treasure": {
+    "enum": {
+      "status": {
+        "draft": "草稿",
+        "pending": "待审核",
+        "passed": "已通过"
+      },
+      "fee": {
+        "free": "免费",
+        "partlyFree": "部分免费",
+        "paid": "付费"
+      }
+    },
+    "action": {
+      "viewAssociatedTreasure": "查看关联宝藏"
+    },
     "label": {
       "category": "分类",
       "categoryName": "分类名称",

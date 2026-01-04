@@ -1,6 +1,21 @@
 {
   "common": {},
   "treasure": {
+    "enum": {
+      "status": {
+        "draft": "Draft",
+        "pending": "Pending",
+        "passed": "Passed"
+      },
+      "fee": {
+        "free": "Free",
+        "partlyFree": "Partly Free",
+        "paid": "Paid"
+      }
+    },
+    "action": {
+      "viewAssociatedTreasure": "View Associated Treasure"
+    },
     "label": {
       "category": "Category",
       "categoryName": "Category Name",

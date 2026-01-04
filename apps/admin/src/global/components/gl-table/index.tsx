@@ -112,6 +112,9 @@ export const GlTable = <T extends TableRowData>(props: Props<T>) => {
         if (item.cellRenderType === 'datetime') {
           return formatDate(row[col.colKey!])
         }
+        if (item.cellRenderType === 'enum' && item.enumKey && col.colKey) {
+          return getTranslate(item.enumKey, row[col.colKey])
+        }
 
         return row[col.colKey!]
       },

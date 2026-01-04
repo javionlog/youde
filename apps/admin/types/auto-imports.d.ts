@@ -49,6 +49,7 @@ declare global {
   const Empty: typeof import('tdesign-react')['Empty']
   const EnhancedTable: typeof import('tdesign-react')['EnhancedTable']
   const Form: typeof import('tdesign-react')['Form']
+  const GlCascader: typeof import('../src/global/components/gl-cascader/index')['GlCascader']
   const GlCheckbox: typeof import('../src/global/components/gl-checkbox/index')['GlCheckbox']
   const GlDescriptions: typeof import('../src/global/components/gl-descriptions/index')['GlDescriptions']
   const GlDialog: typeof import('../src/global/components/gl-dialog/index')['GlDialog']
@@ -66,6 +67,7 @@ declare global {
   const GlSelect: typeof import('../src/global/components/gl-select/index')['GlSelect']
   const GlTable: typeof import('../src/global/components/gl-table/index')['GlTable']
   const GlTabs: typeof import('../src/global/components/gl-tabs/index')['GlTabs']
+  const GlTextArea: typeof import('../src/global/components/gl-text-area/index')['GlTextArea']
   const GlThemeSelect: typeof import('../src/global/components/gl-theme-select/index')['GlThemeSelect']
   const Guide: typeof import('tdesign-react')['Guide']
   const HighlightOption: typeof import('tdesign-react')['HighlightOption']
@@ -193,6 +195,9 @@ declare global {
   // @ts-ignore
   export type { LangType, ThemeMode, ScreenSizeKey } from '../src/global/constants/index'
   import('../src/global/constants/index')
+  // @ts-ignore
+  export type { Enums, EnumKeys } from '../src/global/enums/index'
+  import('../src/global/enums/index')
   // @ts-ignore
   export type { GlTableRef } from '../src/global/components/gl-table/index'
   import('../src/global/components/gl-table/index')

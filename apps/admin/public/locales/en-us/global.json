@@ -59,7 +59,20 @@
     "token": "Token",
     "ipAddress": "IP Address",
     "userAgent": "User Agent",
-    "region": "Region"
+    "region": "Region",
+    "country": "Country",
+    "status": "Status",
+    "title": "Title",
+    "description": "Description",
+    "fee": "Fee",
+    "cover": "Cover",
+    "content": "Content",
+    "url": "URL"
+  },
+  "component": {
+    "input": {
+      "placeholder": "Please input"
+    }
   },
   "message": {
     "welcomeToYoude": "Welcome to Youde!",
