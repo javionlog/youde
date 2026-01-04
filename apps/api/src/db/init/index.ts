@@ -146,13 +146,6 @@ const init = async () => {
       type: 'Menu',
       children: [
         {
-          name: 'Category Management',
-          enUs: 'Category Management',
-          zhCn: '类目管理',
-          type: 'Page',
-          path: 'content/category'
-        },
-        {
           name: 'Treasure Management',
           enUs: 'Treasure Management',
           zhCn: '宝藏管理',

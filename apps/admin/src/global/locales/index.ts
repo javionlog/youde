@@ -7,7 +7,7 @@ i18n
   .use(backend)
   .use(initReactI18next)
   .init<HttpBackendOptions>({
-    ns: ['global', 'auth'],
+    ns: ['global', 'auth', 'content'],
     lng: useLocaleStore.getState().lang,
     supportedLngs: ['en-us', 'zh-cn'],
     lowerCaseLng: true,

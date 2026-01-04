@@ -1,0 +1,10 @@
+{
+  "common": {},
+  "treasure": {
+    "label": {
+      "category": "Category",
+      "categoryName": "Category Name",
+      "treasure": "Treasure"
+    }
+  }
+}

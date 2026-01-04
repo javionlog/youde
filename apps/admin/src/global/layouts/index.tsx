@@ -86,7 +86,7 @@ export const AppLayout = () => {
                 </div>
               }
             >
-              <div className='mt-5 grow rounded-lg bg-(--td-bg-color-container) p-5 sm:m-5'>
+              <div className='grow rounded-lg bg-(--td-bg-color-container) p-5 sm:m-5'>
                 <KeepAlive activeCacheKey={activeCacheKey} include={cachePaths}>
                   {outlet}
                 </KeepAlive>

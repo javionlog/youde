@@ -10,6 +10,7 @@ import {
   createReqSpec,
   deleteReqSpec,
   getReqSpec,
+  listReqSpec,
   promiseRowResSpec,
   promiseTreeResSpec,
   updateReqSpec
@@ -74,21 +75,12 @@ const app = adminGuardController.group('/treasure-category', app =>
     )
     .post(
       '/tree',
-      async () => {
-        return await listTreasureCategoryTree({})
+      async ({ body }) => {
+        return await listTreasureCategoryTree(body)
       },
       {
         detail: { tags },
-        response: promiseTreeResSpec
-      }
-    )
-    .post(
-      '/enabled-tree',
-      async () => {
-        return await listTreasureCategoryTree({ enabled: true })
-      },
-      {
-        detail: { tags },
+        body: listReqSpec,
         response: promiseTreeResSpec
       }
     )

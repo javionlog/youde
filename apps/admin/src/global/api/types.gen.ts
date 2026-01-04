@@ -73,7 +73,7 @@ export type GrantResourceNode = {
     children: Array<GrantResourceNode>;
 };
 
-export type CategoryNode = {
+export type TreasureCategoryNode = {
     id: string;
     createdAt: string | null;
     updatedAt: string | null;
@@ -94,7 +94,7 @@ export type CategoryNode = {
         enUs: string;
         zhCn: string;
     }>;
-    children: Array<CategoryNode>;
+    children: Array<TreasureCategoryNode>;
 };
 
 export type DeleteAdminResourceData = {
@@ -1352,7 +1352,9 @@ export type PostAdminTreasureCategoryResponses = {
 export type PostAdminTreasureCategoryResponse = PostAdminTreasureCategoryResponses[keyof PostAdminTreasureCategoryResponses];
 
 export type PostAdminTreasureCategoryTreeData = {
-    body?: never;
+    body: {
+        enabled?: boolean | null;
+    };
     path?: never;
     query?: never;
     url: '/admin/treasure-category/tree';
@@ -1362,26 +1364,10 @@ export type PostAdminTreasureCategoryTreeResponses = {
     /**
      * Response for status 200
      */
-    200: Array<CategoryNode>;
+    200: Array<TreasureCategoryNode>;
 };
 
 export type PostAdminTreasureCategoryTreeResponse = PostAdminTreasureCategoryTreeResponses[keyof PostAdminTreasureCategoryTreeResponses];
-
-export type PostAdminTreasureCategoryEnabledTreeData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/admin/treasure-category/enabled-tree';
-};
-
-export type PostAdminTreasureCategoryEnabledTreeResponses = {
-    /**
-     * Response for status 200
-     */
-    200: Array<CategoryNode>;
-};
-
-export type PostAdminTreasureCategoryEnabledTreeResponse = PostAdminTreasureCategoryEnabledTreeResponses[keyof PostAdminTreasureCategoryEnabledTreeResponses];
 
 export type GetAdminTreasureCategoryLocaleData = {
     body?: never;

@@ -445,9 +445,9 @@ export const GrantResourceNodeSchema = {
     id: 'GrantResourceNode'
 } as const;
 
-export const CategoryNodeSchema = {
+export const TreasureCategoryNodeSchema = {
     '$schema': 'https://json-schema.org/draft/2020-12/schema',
-    '$id': '#/components/schemas/CategoryNode',
+    '$id': '#/components/schemas/TreasureCategoryNode',
     type: 'object',
     properties: {
         id: {
@@ -586,11 +586,11 @@ export const CategoryNodeSchema = {
         children: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/CategoryNode'
+                '$ref': '#/components/schemas/TreasureCategoryNode'
             }
         }
     },
     required: ['id', 'createdAt', 'updatedAt', 'createdBy', 'updatedBy', 'parentId', 'name', 'enabled', 'sort', 'locales', 'children'],
     additionalProperties: false,
-    id: 'CategoryNode'
+    id: 'TreasureCategoryNode'
 } as const;

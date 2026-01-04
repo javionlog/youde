@@ -4,11 +4,11 @@ import {
   grantTreeResSpec as grantResourceNode,
   treeResSpec as resourceNode
 } from '@/modules/admin/auth/resource/specs'
-import { treeResSpec as categoryNode } from '@/modules/admin/treasure-category/specs'
+import { treeResSpec as treasureCategoryNode } from '@/modules/admin/treasure-category/specs'
 
 z.globalRegistry.add(resourceNode, { id: 'ResourceNode' })
 z.globalRegistry.add(grantResourceNode, { id: 'GrantResourceNode' })
-z.globalRegistry.add(categoryNode, { id: 'CategoryNode' })
+z.globalRegistry.add(treasureCategoryNode, { id: 'TreasureCategoryNode' })
 
 const getSpec = async () => {
   const mainSpec = await fetch(`http://localhost:3000/scalar/json`).then(r => r.json())

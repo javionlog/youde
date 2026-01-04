@@ -1,0 +1,10 @@
+{
+  "common": {},
+  "treasure": {
+    "label": {
+      "category": "分类",
+      "categoryName": "分类名称",
+      "treasure": "宝藏"
+    }
+  }
+}
