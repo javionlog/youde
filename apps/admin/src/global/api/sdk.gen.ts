@@ -2,8 +2,8 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import { postAdminCategoryEnabledTreeResponseTransformer, postAdminCategoryTreeResponseTransformer, postAdminResourceRoleGrantResourceTreeResponseTransformer, postAdminResourceRoleResourceTreeResponseTransformer, postAdminResourceTreeResponseTransformer, postAdminResourceUserResourceTreeResponseTransformer, postAdminUserSignInResponseTransformer } from './transformers.gen';
-import type { DeleteAdminCategoryData, DeleteAdminCountryData, DeleteAdminResourceData, DeleteAdminRoleData, DeleteAdminRoleResourceRelationData, DeleteAdminSessionData, DeleteAdminThingData, DeleteAdminUserData, DeleteAdminUserRoleRelationData, GetAdminCategoryData, GetAdminCategoryLocaleData, GetAdminCategoryLocaleResponses, GetAdminCategoryResponses, GetAdminCountryData, GetAdminCountryResponses, GetAdminResourceData, GetAdminResourceLocaleData, GetAdminResourceLocaleResponses, GetAdminResourceResponses, GetAdminRoleData, GetAdminRoleResponses, GetAdminSessionData, GetAdminSessionResponses, GetAdminThingData, GetAdminThingResponses, GetAdminUserData, GetAdminUserResponses, PatchAdminCategoryData, PatchAdminCategoryLocaleData, PatchAdminCategoryLocaleResponses, PatchAdminCategoryResponses, PatchAdminCountryData, PatchAdminCountryResponses, PatchAdminResourceData, PatchAdminResourceLocaleData, PatchAdminResourceLocaleResponses, PatchAdminResourceResponses, PatchAdminRoleData, PatchAdminRoleResponses, PatchAdminThingData, PatchAdminThingResponses, PatchAdminUserData, PatchAdminUserPasswordData, PatchAdminUserResponses, PatchAdminUserSelfPasswordData, PostAdminCategoryData, PostAdminCategoryEnabledTreeData, PostAdminCategoryEnabledTreeResponses, PostAdminCategoryLocaleData, PostAdminCategoryLocaleResponses, PostAdminCategoryResponses, PostAdminCategoryTreeData, PostAdminCategoryTreeResponses, PostAdminCountryData, PostAdminCountryListData, PostAdminCountryListResponses, PostAdminCountryResponses, PostAdminResourceData, PostAdminResourceLocaleData, PostAdminResourceLocaleResponses, PostAdminResourceResponses, PostAdminResourceRoleGrantResourceTreeData, PostAdminResourceRoleGrantResourceTreeResponses, PostAdminResourceRoleResourceTreeData, PostAdminResourceRoleResourceTreeResponses, PostAdminResourceTreeData, PostAdminResourceTreeResponses, PostAdminResourceUserResourceTreeData, PostAdminResourceUserResourceTreeResponses, PostAdminRoleData, PostAdminRoleListData, PostAdminRoleListResponses, PostAdminRoleResourceRelationData, PostAdminRoleResourceRelationListData, PostAdminRoleResourceRelationListResponses, PostAdminRoleResourceRelationResponses, PostAdminRoleResourceRelationSetManyData, PostAdminRoleResourceRoleListData, PostAdminRoleResourceRoleListResponses, PostAdminRoleResponses, PostAdminRoleUserGrantRoleListData, PostAdminRoleUserGrantRoleListResponses, PostAdminRoleUserRoleListData, PostAdminRoleUserRoleListResponses, PostAdminSessionData, PostAdminSessionListData, PostAdminSessionListResponses, PostAdminSessionResponses, PostAdminThingData, PostAdminThingListData, PostAdminThingListResponses, PostAdminThingResponses, PostAdminUserData, PostAdminUserListData, PostAdminUserListResponses, PostAdminUserResourceUserListData, PostAdminUserResourceUserListResponses, PostAdminUserResponses, PostAdminUserRoleRelationData, PostAdminUserRoleRelationListData, PostAdminUserRoleRelationListResponses, PostAdminUserRoleRelationResponses, PostAdminUserRoleUserListData, PostAdminUserRoleUserListResponses, PostAdminUserSignInData, PostAdminUserSignInResponses, PostAdminUserSignOutData } from './types.gen';
+import { postAdminResourceRoleGrantResourceTreeResponseTransformer, postAdminResourceRoleResourceTreeResponseTransformer, postAdminResourceTreeResponseTransformer, postAdminResourceUserResourceTreeResponseTransformer, postAdminTreasureCategoryEnabledTreeResponseTransformer, postAdminTreasureCategoryTreeResponseTransformer, postAdminUserSignInResponseTransformer } from './transformers.gen';
+import type { DeleteAdminCountryData, DeleteAdminResourceData, DeleteAdminRoleData, DeleteAdminRoleResourceRelationData, DeleteAdminSessionData, DeleteAdminTreasureCategoryData, DeleteAdminTreasureData, DeleteAdminUserData, DeleteAdminUserRoleRelationData, GetAdminCountryData, GetAdminCountryResponses, GetAdminResourceData, GetAdminResourceLocaleData, GetAdminResourceLocaleResponses, GetAdminResourceResponses, GetAdminRoleData, GetAdminRoleResponses, GetAdminSessionData, GetAdminSessionResponses, GetAdminTreasureCategoryData, GetAdminTreasureCategoryLocaleData, GetAdminTreasureCategoryLocaleResponses, GetAdminTreasureCategoryResponses, GetAdminTreasureData, GetAdminTreasureResponses, GetAdminUserData, GetAdminUserResponses, PatchAdminCountryData, PatchAdminCountryResponses, PatchAdminResourceData, PatchAdminResourceLocaleData, PatchAdminResourceLocaleResponses, PatchAdminResourceResponses, PatchAdminRoleData, PatchAdminRoleResponses, PatchAdminTreasureCategoryData, PatchAdminTreasureCategoryLocaleData, PatchAdminTreasureCategoryLocaleResponses, PatchAdminTreasureCategoryResponses, PatchAdminTreasureData, PatchAdminTreasureResponses, PatchAdminUserData, PatchAdminUserPasswordData, PatchAdminUserResponses, PatchAdminUserSelfPasswordData, PostAdminCountryData, PostAdminCountryListData, PostAdminCountryListResponses, PostAdminCountryResponses, PostAdminResourceData, PostAdminResourceLocaleData, PostAdminResourceLocaleResponses, PostAdminResourceResponses, PostAdminResourceRoleGrantResourceTreeData, PostAdminResourceRoleGrantResourceTreeResponses, PostAdminResourceRoleResourceTreeData, PostAdminResourceRoleResourceTreeResponses, PostAdminResourceTreeData, PostAdminResourceTreeResponses, PostAdminResourceUserResourceTreeData, PostAdminResourceUserResourceTreeResponses, PostAdminRoleData, PostAdminRoleListData, PostAdminRoleListResponses, PostAdminRoleResourceRelationData, PostAdminRoleResourceRelationListData, PostAdminRoleResourceRelationListResponses, PostAdminRoleResourceRelationResponses, PostAdminRoleResourceRelationSetManyData, PostAdminRoleResourceRoleListData, PostAdminRoleResourceRoleListResponses, PostAdminRoleResponses, PostAdminRoleUserGrantRoleListData, PostAdminRoleUserGrantRoleListResponses, PostAdminRoleUserRoleListData, PostAdminRoleUserRoleListResponses, PostAdminSessionData, PostAdminSessionListData, PostAdminSessionListResponses, PostAdminSessionResponses, PostAdminTreasureCategoryData, PostAdminTreasureCategoryEnabledTreeData, PostAdminTreasureCategoryEnabledTreeResponses, PostAdminTreasureCategoryLocaleData, PostAdminTreasureCategoryLocaleResponses, PostAdminTreasureCategoryResponses, PostAdminTreasureCategoryTreeData, PostAdminTreasureCategoryTreeResponses, PostAdminTreasureData, PostAdminTreasureListData, PostAdminTreasureListResponses, PostAdminTreasureResponses, PostAdminUserData, PostAdminUserListData, PostAdminUserListResponses, PostAdminUserResourceUserListData, PostAdminUserResourceUserListResponses, PostAdminUserResponses, PostAdminUserRoleRelationData, PostAdminUserRoleRelationListData, PostAdminUserRoleRelationListResponses, PostAdminUserRoleRelationResponses, PostAdminUserRoleUserListData, PostAdminUserRoleUserListResponses, PostAdminUserSignInData, PostAdminUserSignInResponses, PostAdminUserSignOutData } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -375,6 +375,57 @@ export const postAdminUserRoleRelationList = <ThrowOnError extends boolean = fal
     });
 };
 
+export const deleteAdminCountry = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminCountryData, ThrowOnError>) => {
+    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
+        url: '/admin/country',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const getAdminCountry = <ThrowOnError extends boolean = false>(options?: Options<GetAdminCountryData, ThrowOnError>) => {
+    return (options?.client ?? client).get<GetAdminCountryResponses, unknown, ThrowOnError>({
+        url: '/admin/country',
+        ...options
+    });
+};
+
+export const patchAdminCountry = <ThrowOnError extends boolean = false>(options: Options<PatchAdminCountryData, ThrowOnError>) => {
+    return (options.client ?? client).patch<PatchAdminCountryResponses, unknown, ThrowOnError>({
+        url: '/admin/country',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const postAdminCountry = <ThrowOnError extends boolean = false>(options: Options<PostAdminCountryData, ThrowOnError>) => {
+    return (options.client ?? client).post<PostAdminCountryResponses, unknown, ThrowOnError>({
+        url: '/admin/country',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const postAdminCountryList = <ThrowOnError extends boolean = false>(options: Options<PostAdminCountryListData, ThrowOnError>) => {
+    return (options.client ?? client).post<PostAdminCountryListResponses, unknown, ThrowOnError>({
+        url: '/admin/country/list',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
 /**
  * Delete session
  */
@@ -419,6 +470,142 @@ export const postAdminSession = <ThrowOnError extends boolean = false>(options: 
 export const postAdminSessionList = <ThrowOnError extends boolean = false>(options: Options<PostAdminSessionListData, ThrowOnError>) => {
     return (options.client ?? client).post<PostAdminSessionListResponses, unknown, ThrowOnError>({
         url: '/admin/session/list',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const deleteAdminTreasure = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminTreasureData, ThrowOnError>) => {
+    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
+        url: '/admin/treasure',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const getAdminTreasure = <ThrowOnError extends boolean = false>(options?: Options<GetAdminTreasureData, ThrowOnError>) => {
+    return (options?.client ?? client).get<GetAdminTreasureResponses, unknown, ThrowOnError>({
+        url: '/admin/treasure',
+        ...options
+    });
+};
+
+export const patchAdminTreasure = <ThrowOnError extends boolean = false>(options: Options<PatchAdminTreasureData, ThrowOnError>) => {
+    return (options.client ?? client).patch<PatchAdminTreasureResponses, unknown, ThrowOnError>({
+        url: '/admin/treasure',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const postAdminTreasure = <ThrowOnError extends boolean = false>(options: Options<PostAdminTreasureData, ThrowOnError>) => {
+    return (options.client ?? client).post<PostAdminTreasureResponses, unknown, ThrowOnError>({
+        url: '/admin/treasure',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const postAdminTreasureList = <ThrowOnError extends boolean = false>(options: Options<PostAdminTreasureListData, ThrowOnError>) => {
+    return (options.client ?? client).post<PostAdminTreasureListResponses, unknown, ThrowOnError>({
+        url: '/admin/treasure/list',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const deleteAdminTreasureCategory = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminTreasureCategoryData, ThrowOnError>) => {
+    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
+        url: '/admin/treasure-category',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const getAdminTreasureCategory = <ThrowOnError extends boolean = false>(options?: Options<GetAdminTreasureCategoryData, ThrowOnError>) => {
+    return (options?.client ?? client).get<GetAdminTreasureCategoryResponses, unknown, ThrowOnError>({
+        url: '/admin/treasure-category',
+        ...options
+    });
+};
+
+export const patchAdminTreasureCategory = <ThrowOnError extends boolean = false>(options: Options<PatchAdminTreasureCategoryData, ThrowOnError>) => {
+    return (options.client ?? client).patch<PatchAdminTreasureCategoryResponses, unknown, ThrowOnError>({
+        url: '/admin/treasure-category',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const postAdminTreasureCategory = <ThrowOnError extends boolean = false>(options: Options<PostAdminTreasureCategoryData, ThrowOnError>) => {
+    return (options.client ?? client).post<PostAdminTreasureCategoryResponses, unknown, ThrowOnError>({
+        url: '/admin/treasure-category',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const postAdminTreasureCategoryTree = <ThrowOnError extends boolean = false>(options?: Options<PostAdminTreasureCategoryTreeData, ThrowOnError>) => {
+    return (options?.client ?? client).post<PostAdminTreasureCategoryTreeResponses, unknown, ThrowOnError>({
+        responseTransformer: postAdminTreasureCategoryTreeResponseTransformer,
+        url: '/admin/treasure-category/tree',
+        ...options
+    });
+};
+
+export const postAdminTreasureCategoryEnabledTree = <ThrowOnError extends boolean = false>(options?: Options<PostAdminTreasureCategoryEnabledTreeData, ThrowOnError>) => {
+    return (options?.client ?? client).post<PostAdminTreasureCategoryEnabledTreeResponses, unknown, ThrowOnError>({
+        responseTransformer: postAdminTreasureCategoryEnabledTreeResponseTransformer,
+        url: '/admin/treasure-category/enabled-tree',
+        ...options
+    });
+};
+
+export const getAdminTreasureCategoryLocale = <ThrowOnError extends boolean = false>(options?: Options<GetAdminTreasureCategoryLocaleData, ThrowOnError>) => {
+    return (options?.client ?? client).get<GetAdminTreasureCategoryLocaleResponses, unknown, ThrowOnError>({
+        url: '/admin/treasure-category-locale',
+        ...options
+    });
+};
+
+export const patchAdminTreasureCategoryLocale = <ThrowOnError extends boolean = false>(options: Options<PatchAdminTreasureCategoryLocaleData, ThrowOnError>) => {
+    return (options.client ?? client).patch<PatchAdminTreasureCategoryLocaleResponses, unknown, ThrowOnError>({
+        url: '/admin/treasure-category-locale',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+export const postAdminTreasureCategoryLocale = <ThrowOnError extends boolean = false>(options: Options<PostAdminTreasureCategoryLocaleData, ThrowOnError>) => {
+    return (options.client ?? client).post<PostAdminTreasureCategoryLocaleResponses, unknown, ThrowOnError>({
+        url: '/admin/treasure-category-locale',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -566,193 +753,6 @@ export const postAdminUserRoleUserList = <ThrowOnError extends boolean = false>(
 export const postAdminUserResourceUserList = <ThrowOnError extends boolean = false>(options: Options<PostAdminUserResourceUserListData, ThrowOnError>) => {
     return (options.client ?? client).post<PostAdminUserResourceUserListResponses, unknown, ThrowOnError>({
         url: '/admin/user/resource-user-list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const deleteAdminCategory = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminCategoryData, ThrowOnError>) => {
-    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
-        url: '/admin/category',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const getAdminCategory = <ThrowOnError extends boolean = false>(options?: Options<GetAdminCategoryData, ThrowOnError>) => {
-    return (options?.client ?? client).get<GetAdminCategoryResponses, unknown, ThrowOnError>({
-        url: '/admin/category',
-        ...options
-    });
-};
-
-export const patchAdminCategory = <ThrowOnError extends boolean = false>(options: Options<PatchAdminCategoryData, ThrowOnError>) => {
-    return (options.client ?? client).patch<PatchAdminCategoryResponses, unknown, ThrowOnError>({
-        url: '/admin/category',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const postAdminCategory = <ThrowOnError extends boolean = false>(options: Options<PostAdminCategoryData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminCategoryResponses, unknown, ThrowOnError>({
-        url: '/admin/category',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const postAdminCategoryTree = <ThrowOnError extends boolean = false>(options?: Options<PostAdminCategoryTreeData, ThrowOnError>) => {
-    return (options?.client ?? client).post<PostAdminCategoryTreeResponses, unknown, ThrowOnError>({
-        responseTransformer: postAdminCategoryTreeResponseTransformer,
-        url: '/admin/category/tree',
-        ...options
-    });
-};
-
-export const postAdminCategoryEnabledTree = <ThrowOnError extends boolean = false>(options?: Options<PostAdminCategoryEnabledTreeData, ThrowOnError>) => {
-    return (options?.client ?? client).post<PostAdminCategoryEnabledTreeResponses, unknown, ThrowOnError>({
-        responseTransformer: postAdminCategoryEnabledTreeResponseTransformer,
-        url: '/admin/category/enabled-tree',
-        ...options
-    });
-};
-
-export const getAdminCategoryLocale = <ThrowOnError extends boolean = false>(options?: Options<GetAdminCategoryLocaleData, ThrowOnError>) => {
-    return (options?.client ?? client).get<GetAdminCategoryLocaleResponses, unknown, ThrowOnError>({
-        url: '/admin/category-locale',
-        ...options
-    });
-};
-
-export const patchAdminCategoryLocale = <ThrowOnError extends boolean = false>(options: Options<PatchAdminCategoryLocaleData, ThrowOnError>) => {
-    return (options.client ?? client).patch<PatchAdminCategoryLocaleResponses, unknown, ThrowOnError>({
-        url: '/admin/category-locale',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const postAdminCategoryLocale = <ThrowOnError extends boolean = false>(options: Options<PostAdminCategoryLocaleData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminCategoryLocaleResponses, unknown, ThrowOnError>({
-        url: '/admin/category-locale',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const deleteAdminCountry = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminCountryData, ThrowOnError>) => {
-    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
-        url: '/admin/country',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const getAdminCountry = <ThrowOnError extends boolean = false>(options?: Options<GetAdminCountryData, ThrowOnError>) => {
-    return (options?.client ?? client).get<GetAdminCountryResponses, unknown, ThrowOnError>({
-        url: '/admin/country',
-        ...options
-    });
-};
-
-export const patchAdminCountry = <ThrowOnError extends boolean = false>(options: Options<PatchAdminCountryData, ThrowOnError>) => {
-    return (options.client ?? client).patch<PatchAdminCountryResponses, unknown, ThrowOnError>({
-        url: '/admin/country',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const postAdminCountry = <ThrowOnError extends boolean = false>(options: Options<PostAdminCountryData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminCountryResponses, unknown, ThrowOnError>({
-        url: '/admin/country',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const postAdminCountryList = <ThrowOnError extends boolean = false>(options: Options<PostAdminCountryListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminCountryListResponses, unknown, ThrowOnError>({
-        url: '/admin/country/list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const deleteAdminThing = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminThingData, ThrowOnError>) => {
-    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
-        url: '/admin/thing',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const getAdminThing = <ThrowOnError extends boolean = false>(options?: Options<GetAdminThingData, ThrowOnError>) => {
-    return (options?.client ?? client).get<GetAdminThingResponses, unknown, ThrowOnError>({
-        url: '/admin/thing',
-        ...options
-    });
-};
-
-export const patchAdminThing = <ThrowOnError extends boolean = false>(options: Options<PatchAdminThingData, ThrowOnError>) => {
-    return (options.client ?? client).patch<PatchAdminThingResponses, unknown, ThrowOnError>({
-        url: '/admin/thing',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const postAdminThing = <ThrowOnError extends boolean = false>(options: Options<PostAdminThingData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminThingResponses, unknown, ThrowOnError>({
-        url: '/admin/thing',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-export const postAdminThingList = <ThrowOnError extends boolean = false>(options: Options<PostAdminThingListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminThingListResponses, unknown, ThrowOnError>({
-        url: '/admin/thing/list',
         ...options,
         headers: {
             'Content-Type': 'application/json',
