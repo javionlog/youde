@@ -12,7 +12,10 @@ export const ViewTreasureBtn = (props: Props) => {
   const columns = [
     {
       colKey: 'categoryId',
-      title: t('treasure.label.category', { ns: 'content' })
+      title: t('treasure.label.category', { ns: 'content' }),
+      cell: ({ row }) => {
+        return useTreasureStore.getState().getCategoryName(row.categoryId)
+      }
     },
     {
       colKey: 'title',
@@ -30,7 +33,10 @@ export const ViewTreasureBtn = (props: Props) => {
     },
     {
       colKey: 'countryCode',
-      title: t('label.country')
+      title: t('label.country'),
+      cell: ({ row }) => {
+        return useBasicDataStore.getState().getCountryName(row.countryCode)
+      }
     },
     {
       colKey: 'url',
