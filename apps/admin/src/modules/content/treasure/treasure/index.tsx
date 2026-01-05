@@ -1,5 +1,5 @@
-import type { GetAdminTreasureResponse, PostAdminTreasureCategoryTreeResponse } from '@/global/api'
-import { postAdminTreasureCategoryTree, postAdminTreasureList } from '@/global/api'
+import type { GetAdminTreasureResponse } from '@/global/api'
+import { postAdminTreasureList } from '@/global/api'
 import { DeleteBtn } from './components/delete-btn'
 import { UpsertBtn } from './components/upsert-btn'
 
@@ -7,21 +7,7 @@ type SearchProps = Parameters<typeof GlSearch>[0]
 
 export const TreasurePanel = () => {
   const { t } = useTranslation()
-  const lang = camelCase(useLocaleStore(state => state.lang))
-  const [categoryOptions, setCategoryOptions] = useState<PostAdminTreasureCategoryTreeResponse>([])
   const ref = useRef<GlTableRef>(null)
-
-  const finalCategoryOptions = useMemo(() => {
-    const flatOptions = flattenTree(categoryOptions).map(item => {
-      const categoryLocale = item.locales?.find(o => o.field === 'name')
-      const categoryName = categoryLocale?.[lang as 'enUs'] ?? item.name
-      return {
-        ...item,
-        name: categoryName
-      }
-    })
-    return buildTree(flatOptions)
-  }, [categoryOptions, lang])
 
   const search = {
     items: [
@@ -29,13 +15,7 @@ export const TreasurePanel = () => {
         formItem: {
           name: 'categoryIds',
           label: t('treasure.label.category', { ns: 'content' }),
-          children: (
-            <GlCascader
-              keys={{ label: 'name', value: 'id', children: 'children' }}
-              options={finalCategoryOptions}
-              multiple
-            />
-          )
+          children: <GlCascader options={useTreasureStore().getCategoryTree()} multiple />
         }
       },
       {
@@ -44,6 +24,27 @@ export const TreasurePanel = () => {
           label: t('label.title'),
           children: <GlInput />
         }
+      },
+      {
+        formItem: {
+          name: 'fees',
+          label: t('label.fee'),
+          children: <GlSelect options={getOptions('TREASURE_FEE')} multiple />
+        }
+      },
+      {
+        formItem: {
+          name: 'countryCodes',
+          label: t('label.country'),
+          children: <GlCascader options={useBasicDataStore().getRegionCountryTree()} multiple />
+        }
+      },
+      {
+        formItem: {
+          name: 'status',
+          label: t('label.status'),
+          children: <GlSelect options={getOptions('TREASURE_STATUS')} multiple />
+        }
       }
     ]
   } satisfies SearchProps
@@ -51,7 +52,10 @@ export const TreasurePanel = () => {
   const columns = [
     {
       colKey: 'categoryId',
-      title: t('treasure.label.category', { ns: 'content' })
+      title: t('treasure.label.category', { ns: 'content' }),
+      cell: ({ row }) => {
+        return useTreasureStore.getState().getCategoryName(row.categoryId)
+      }
     },
     {
       colKey: 'title',
@@ -69,7 +73,10 @@ export const TreasurePanel = () => {
     },
     {
       colKey: 'countryCode',
-      title: t('label.country')
+      title: t('label.country'),
+      cell: ({ row }) => {
+        return useBasicDataStore.getState().getCountryName(row.countryCode)
+      }
     },
     {
       colKey: 'url',
@@ -117,12 +124,6 @@ export const TreasurePanel = () => {
   const refresh = () => {
     ref.current?.fetch()
   }
-
-  useEffect(() => {
-    postAdminTreasureCategoryTree({ body: {} }).then(res => {
-      setCategoryOptions(res.data ?? [])
-    })
-  }, [])
 
   return (
     <GlTable

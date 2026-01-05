@@ -72,7 +72,8 @@ export const deleteTreasure = async (params: DeleteReqType) => {
 }
 
 export const listTreasures = async (params: ListReqType) => {
-  const { id, title, createdBy, categoryIds, countries, status, page, pageSize, sortBy } = params
+  const { id, title, fees, createdBy, categoryIds, countryCodes, status, page, pageSize, sortBy } =
+    params
 
   const where = []
   const dynamicQuery = db.select().from(treasure).$dynamic()
@@ -86,11 +87,14 @@ export const listTreasures = async (params: ListReqType) => {
   if (!isEmpty(createdBy)) {
     where.push(eq(treasure.createdBy, createdBy))
   }
+  if (fees?.length) {
+    where.push(inArray(treasure.fee, fees))
+  }
   if (categoryIds?.length) {
     where.push(inArray(treasure.categoryId, categoryIds))
   }
-  if (countries?.length) {
-    where.push(inArray(treasure.countryCode, countries))
+  if (countryCodes?.length) {
+    where.push(inArray(treasure.countryCode, countryCodes))
   }
   if (status?.length) {
     where.push(inArray(treasure.status, status))

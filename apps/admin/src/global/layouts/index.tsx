@@ -66,6 +66,19 @@ export const AppLayout = () => {
     return location.pathname
   }, [location.pathname])
 
+  useEffect(() => {
+    useBasicDataStore.getState().setCountries()
+    useTreasureStore.getState().setCategoryTree()
+  }, [])
+
+  useLocaleStore.subscribe(
+    state => state.lang,
+    lang => {
+      useBasicDataStore.getState().setLocaleCountries(lang)
+      useTreasureStore.getState().setLocaleCategoryTree(lang)
+    }
+  )
+
   const menus = [...layoutMenus, ...resourceTree]
 
   if (!user || responseStatus === 401) {

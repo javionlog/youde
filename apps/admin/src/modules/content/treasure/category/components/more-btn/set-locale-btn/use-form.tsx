@@ -171,6 +171,7 @@ export const useForm = (props: Props) => {
           MessagePlugin.success(t('message.operateSuccessful'))
           dialogInstance.hide()
           refresh()
+          useTreasureStore.getState().setCategoryTree()
         } finally {
           dialogInstance.update({ confirmLoading: false })
         }

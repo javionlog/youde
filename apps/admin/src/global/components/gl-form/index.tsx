@@ -12,6 +12,21 @@ interface Props extends StyledProps, FormProps, GridProps {
   items: Item[]
 }
 
+export const GlFormItem = (props: FormItemProps) => {
+  const { FormItem } = Form
+  const { className, ...rest } = props
+
+  return (
+    <FormItem
+      className={`gl-form-item ${className ?? ''}`}
+      {...rest}
+      label={<GlEllipsis>{rest.label}</GlEllipsis>}
+    >
+      {props.children}
+    </FormItem>
+  )
+}
+
 export const GlForm = (props: Props) => {
   const {
     className,
@@ -59,12 +74,7 @@ export const GlForm = (props: Props) => {
           {items.map((item, index) => {
             return (
               <GlGridItem key={String(item.formItem?.name)} index={index} {...item.gridItem}>
-                <Form.FormItem
-                  {...item.formItem}
-                  label={<GlEllipsis>{item.formItem?.label}</GlEllipsis>}
-                >
-                  {item.formItem?.children}
-                </Form.FormItem>
+                <GlFormItem {...item.formItem}>{item.formItem?.children}</GlFormItem>
               </GlGridItem>
             )
           })}

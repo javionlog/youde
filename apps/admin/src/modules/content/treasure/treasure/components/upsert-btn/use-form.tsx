@@ -2,10 +2,9 @@ import type { FormRules } from 'tdesign-react'
 import type {
   GetAdminTreasureResponse,
   PatchAdminTreasureData,
-  PostAdminTreasureCategoryTreeResponse,
   PostAdminTreasureData
 } from '@/global/api'
-import { patchAdminTreasure, postAdminTreasure, postAdminTreasureCategoryTree } from '@/global/api'
+import { patchAdminTreasure, postAdminTreasure } from '@/global/api'
 
 type FormProps = Parameters<typeof GlForm>[0]
 
@@ -21,20 +20,6 @@ export const useForm = (props: Props) => {
   const [visible, setVisible] = useState(false)
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
-  const lang = camelCase(useLocaleStore(state => state.lang))
-  const [categoryOptions, setCategoryOptions] = useState<PostAdminTreasureCategoryTreeResponse>([])
-
-  const finalCategoryOptions = useMemo(() => {
-    const flatOptions = flattenTree(categoryOptions).map(item => {
-      const categoryLocale = item.locales?.find(o => o.field === 'name')
-      const categoryName = categoryLocale?.[lang as 'enUs'] ?? item.name
-      return {
-        ...item,
-        name: categoryName
-      }
-    })
-    return buildTree(flatOptions)
-  }, [categoryOptions, lang])
 
   const rules = {
     categoryId: getRequiredRules(),
@@ -49,12 +34,7 @@ export const useForm = (props: Props) => {
       formItem: {
         name: 'categoryId',
         label: t('treasure.label.category', { ns: 'content' }),
-        children: (
-          <GlCascader
-            keys={{ label: 'name', value: 'id', children: 'children' }}
-            options={finalCategoryOptions}
-          />
-        )
+        children: <GlCascader options={useTreasureStore().getCategoryTree()} />
       }
     },
     {
@@ -82,7 +62,7 @@ export const useForm = (props: Props) => {
       formItem: {
         name: 'countryCode',
         label: t('label.country'),
-        children: <GlSelect options={getOptions('TREASURE_FEE')} />
+        children: <GlCascader options={useBasicDataStore().getRegionCountryTree()} />
       }
     },
     {
@@ -116,8 +96,6 @@ export const useForm = (props: Props) => {
     }
     form.clearValidate()
     setVisible(true)
-    const categoryRes = await postAdminTreasureCategoryTree({ body: {} })
-    setCategoryOptions(categoryRes.data ?? [])
   }
 
   const onClose = () => {

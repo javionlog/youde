@@ -31,6 +31,7 @@ export const DeleteBtn = (props: Props) => {
       MessagePlugin.success(t('message.operateSuccessful'))
       onClose()
       refresh()
+      useBasicDataStore.getState().setCountries()
     } finally {
       setConfirmLoading(false)
     }

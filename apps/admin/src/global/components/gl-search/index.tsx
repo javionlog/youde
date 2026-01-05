@@ -70,12 +70,7 @@ export const GlSearch = (props: Props) => {
             {items.map((item, index) => {
               return (
                 <GlGridItem key={String(item.formItem?.name)} index={index} {...item.gridItem}>
-                  <Form.FormItem
-                    {...item.formItem}
-                    label={<GlEllipsis>{item.formItem?.label}</GlEllipsis>}
-                  >
-                    {item.formItem?.children}
-                  </Form.FormItem>
+                  <GlFormItem {...item.formItem}>{item.formItem?.children}</GlFormItem>
                 </GlGridItem>
               )
             })}

@@ -123,6 +123,7 @@ export const useForm = (props: Props) => {
         MessagePlugin.success(t('message.operateSuccessful'))
         onClose()
         refresh()
+        useTreasureStore.getState().setCategoryTree()
       } finally {
         setConfirmLoading(false)
       }

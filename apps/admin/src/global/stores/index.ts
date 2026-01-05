@@ -1,5 +1,5 @@
 export * from './app'
-export * from './base-data'
+export * from './basic-data'
 export * from './http'
 export * from './locale'
 export * from './resource'

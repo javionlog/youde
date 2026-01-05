@@ -1,9 +1,4 @@
-import FormItem from 'tdesign-react/es/form/FormItem'
-import type {
-  GetAdminCountryResponse,
-  PostAdminCountryListData,
-  PostAdminCountryListResponse
-} from '@/global/api'
+import type { GetAdminCountryResponse, PostAdminCountryListData } from '@/global/api'
 import { postAdminCountryList } from '@/global/api'
 import { DeleteBtn } from './components/delete-btn'
 import { UpsertBtn } from './components/upsert-btn'
@@ -13,7 +8,6 @@ type SearchProps = Parameters<typeof GlSearch>[0]
 export default () => {
   const { t } = useTranslation()
   const ref = useRef<GlTableRef>(null)
-  const [countries, setCountries] = useState<PostAdminCountryListResponse['records']>([])
 
   const search = {
     items: [
@@ -24,17 +18,7 @@ export default () => {
           children: (
             <GlSelect
               multiple
-              options={uniqBy(
-                countries
-                  .map(item => {
-                    return {
-                      label: item.region,
-                      value: item.region
-                    }
-                  })
-                  .sort((a, b) => a.value.localeCompare(b.value)),
-                item => item.value
-              )}
+              options={useBasicDataStore().getRegionOptions()}
               onChange={async () => {
                 await Promise.resolve()
                 ref.current?.form.setFieldsValue({ codes: [], enUs: [], zhCn: [] })
@@ -45,61 +29,7 @@ export default () => {
       },
       {
         formItem: {
-          name: 'codes',
-          shouldUpdate: (prev, cur) => {
-            return prev.regions?.length !== cur.regions?.length
-          },
-          children: ({ getFieldValue }) => {
-            const regions = getFieldValue('regions') as string[]
-            const options = countries
-              .filter(item => {
-                return regions?.length ? regions.includes(item.region) : true
-              })
-              .map(item => {
-                return {
-                  label: item.code,
-                  value: item.code
-                }
-              })
-              .sort((a, b) => a.value.localeCompare(b.value))
-            return (
-              <FormItem name='codes' label={t('label.code')}>
-                <GlSelect multiple options={options} />
-              </FormItem>
-            )
-          }
-        }
-      },
-      {
-        formItem: {
-          name: 'enUs',
-          shouldUpdate: (prev, cur) => {
-            return prev.regions?.length !== cur.regions?.length
-          },
-          children: ({ getFieldValue }) => {
-            const regions = getFieldValue('regions') as string[]
-            const options = countries
-              .filter(item => {
-                return regions?.length ? regions.includes(item.region) : true
-              })
-              .map(item => {
-                return {
-                  label: item.enUs,
-                  value: item.enUs
-                }
-              })
-              .sort((a, b) => a.value.localeCompare(b.value))
-            return (
-              <FormItem key='enUs' name='enUs' label={t('label.english')}>
-                <GlSelect multiple options={options} />
-              </FormItem>
-            )
-          }
-        }
-      },
-      {
-        formItem: {
-          name: 'zhCn',
+          name: '_codes',
           shouldUpdate: (
             prev: PostAdminCountryListData['body'],
             cur: PostAdminCountryListData['body']
@@ -108,21 +38,60 @@ export default () => {
           },
           children: ({ getFieldValue }) => {
             const regions = getFieldValue('regions') as string[]
-            const options = countries
-              .filter(item => {
-                return regions?.length ? regions.includes(item.region) : true
-              })
-              .map(item => {
-                return {
-                  label: item.zhCn,
-                  value: item.zhCn
-                }
-              })
-              .sort((a, b) => a.value.localeCompare(b.value))
+            const options = useBasicDataStore().getCountryOptions(regions, {
+              label: 'code',
+              value: 'code'
+            })
             return (
-              <FormItem key='zhCn' name='zhCn' label={t('label.simplifiedChinese')}>
+              <GlFormItem name='codes' label={t('label.code')}>
                 <GlSelect multiple options={options} />
-              </FormItem>
+              </GlFormItem>
+            )
+          }
+        }
+      },
+      {
+        formItem: {
+          name: '_enUs',
+          shouldUpdate: (
+            prev: PostAdminCountryListData['body'],
+            cur: PostAdminCountryListData['body']
+          ) => {
+            return prev.regions?.length !== cur.regions?.length
+          },
+          children: ({ getFieldValue }) => {
+            const regions = getFieldValue('regions') as string[]
+            const options = useBasicDataStore().getCountryOptions(regions, {
+              label: 'enUs',
+              value: 'enUs'
+            })
+            return (
+              <GlFormItem name='enUs' label={t('label.english')}>
+                <GlSelect multiple options={options} />
+              </GlFormItem>
+            )
+          }
+        }
+      },
+      {
+        formItem: {
+          name: '_zhCn',
+          shouldUpdate: (
+            prev: PostAdminCountryListData['body'],
+            cur: PostAdminCountryListData['body']
+          ) => {
+            return prev.regions?.length !== cur.regions?.length
+          },
+          children: ({ getFieldValue }) => {
+            const regions = getFieldValue('regions') as string[]
+            const options = useBasicDataStore().getCountryOptions(regions, {
+              label: 'zhCn',
+              value: 'zhCn'
+            })
+            return (
+              <GlFormItem name='zhCn' label={t('label.simplifiedChinese')}>
+                <GlSelect multiple options={options} />
+              </GlFormItem>
             )
           }
         }
@@ -183,12 +152,6 @@ export default () => {
   const refresh = () => {
     ref.current?.fetch()
   }
-
-  useEffect(() => {
-    postAdminCountryList({ body: {} }).then(res => {
-      setCountries(res.data?.records ?? [])
-    })
-  }, [])
 
   return (
     <GlTable

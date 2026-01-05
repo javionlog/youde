@@ -32,6 +32,7 @@ export const DeleteBtn = (props: Props) => {
       MessagePlugin.success(t('message.operateSuccessful'))
       onClose()
       refresh()
+      useTreasureStore.getState().setCategoryTree()
     } finally {
       setConfirmLoading(false)
     }

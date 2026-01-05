@@ -57,6 +57,7 @@ declare global {
   const GlDropdown: typeof import('../src/global/components/gl-dropdown/index')['GlDropdown']
   const GlEllipsis: typeof import('../src/global/components/gl-ellipsis/index')['GlEllipsis']
   const GlForm: typeof import('../src/global/components/gl-form/index')['GlForm']
+  const GlFormItem: typeof import('../src/global/components/gl-form/index')['GlFormItem']
   const GlGrid: typeof import('../src/global/components/gl-grid/index')['GlGrid']
   const GlGridItem: typeof import('../src/global/components/gl-grid/index')['GlGridItem']
   const GlInput: typeof import('../src/global/components/gl-input/index')['GlInput']
@@ -168,6 +169,7 @@ declare global {
   const uniqBy: typeof import('es-toolkit')['uniqBy']
   const useAppStore: typeof import('../src/global/stores/app')['useAppStore']
   const useAutoHeight: typeof import('../src/global/hooks/use-auto-height/index')['useAutoHeight']
+  const useBasicDataStore: typeof import('../src/global/stores/basic-data')['useBasicDataStore']
   const useCallback: typeof import('react')['useCallback']
   const useContext: typeof import('react')['useContext']
   const useEffect: typeof import('react')['useEffect']
@@ -188,6 +190,7 @@ declare global {
   const useState: typeof import('react')['useState']
   const useTabStore: typeof import('../src/global/stores/tab')['useTabStore']
   const useTranslation: typeof import('react-i18next')['useTranslation']
+  const useTreasureStore: typeof import('../src/global/stores/treasure')['useTreasureStore']
   const useUserStore: typeof import('../src/global/stores/user')['useUserStore']
 }
 // for type re-export

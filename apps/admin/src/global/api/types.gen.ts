@@ -1200,8 +1200,8 @@ export type PostAdminTreasureListData = {
         id?: string | null;
         title?: string | null;
         createdBy?: string | null;
-        fee?: 'Free' | 'PartlyFree' | 'Paid' | null;
-        countries?: Array<string> | null;
+        fees?: Array<'Free' | 'PartlyFree' | 'Paid'> | null;
+        countryCodes?: Array<string> | null;
         categoryIds?: Array<string> | null;
         status?: Array<'Draft' | 'Pending' | 'Passed'> | null;
         sortBy?: {

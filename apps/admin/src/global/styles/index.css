@@ -46,6 +46,14 @@
   overflow: hidden;
 }
 
+.gl-tabs .t-tabs__nav-scroll {
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    height: 0;
+  }
+}
+
 .drawer-nopadding .t-drawer__body {
   padding: 0;
 }

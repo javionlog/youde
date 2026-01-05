@@ -51,8 +51,8 @@ export const listReqSpec = z.object({
   id: z.string().nullish(),
   title: z.string().nullish(),
   createdBy: z.string().nullish(),
-  fee: rowResSpec.shape.fee.nullish(),
-  countries: z.array(z.string()).nullish(),
+  fees: z.array(rowResSpec.shape.fee).nullish(),
+  countryCodes: z.array(z.string()).nullish(),
   categoryIds: z.array(z.string()).nullish(),
   status: z.array(rowSpec.shape.status).nullish(),
   sortBy: z
