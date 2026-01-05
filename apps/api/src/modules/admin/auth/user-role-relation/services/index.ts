@@ -6,7 +6,7 @@ import { throwDbError } from '@/global/errors'
 import { isEmpty } from '@/global/utils'
 import type { CreateReqType, DeleteReqType, ListReqType } from '../specs'
 
-export const createAdminUserRoleRelation = async (
+export const createUserRoleRelation = async (
   params: CreateReqType & {
     createdByUsername: string
   }
@@ -29,7 +29,7 @@ export const createAdminUserRoleRelation = async (
   }
 }
 
-export const deleteAdminUserRoleRelation = async (params: DeleteReqType) => {
+export const deleteUserRoleRelation = async (params: DeleteReqType) => {
   const { userId, roleId } = params
   const result = await db
     .delete(adminUserRoleRelation)
@@ -37,7 +37,7 @@ export const deleteAdminUserRoleRelation = async (params: DeleteReqType) => {
   return result
 }
 
-export const listAdminUserRoleRelations = async (params: ListReqType) => {
+export const listUserRoleRelations = async (params: ListReqType) => {
   const { userId, roleId, userIds, roleIds, page, pageSize } = params
 
   if ([userId, roleId, userIds, roleIds].filter(v => !isEmpty(v)).length === 0) {

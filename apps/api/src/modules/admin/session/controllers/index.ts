@@ -1,10 +1,5 @@
 import { adminGuardController } from '@/global/controllers'
-import {
-  createAdminSession,
-  deleteAdminSession,
-  getAdminSession,
-  listAdminSessions
-} from '../services'
+import { createSession, deleteSession, getSession, listSessions } from '../services'
 import {
   createReqSpec,
   deleteReqSpec,
@@ -22,7 +17,7 @@ const app = adminGuardController.group('/session', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await createAdminSession({ ...body, username, createdByUsername: username })
+        return await createSession({ ...body, username, createdByUsername: username })
       },
       {
         detail: {
@@ -36,7 +31,7 @@ const app = adminGuardController.group('/session', app =>
     .delete(
       '',
       async ({ body }) => {
-        return await deleteAdminSession(body)
+        return await deleteSession(body)
       },
       {
         detail: {
@@ -49,7 +44,7 @@ const app = adminGuardController.group('/session', app =>
     .get(
       '',
       async ({ query }) => {
-        return await getAdminSession(query)
+        return await getSession(query)
       },
       {
         detail: {
@@ -63,7 +58,7 @@ const app = adminGuardController.group('/session', app =>
     .post(
       '/list',
       async ({ body }) => {
-        return await listAdminSessions(body)
+        return await listSessions(body)
       },
       {
         detail: { tags, description: 'List sessions' },

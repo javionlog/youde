@@ -4,8 +4,8 @@ import { adminRole } from '@/db/schemas/admin'
 import { withOrderBy, withPagination } from '@/db/utils'
 import { throwDataNotFoundError, throwDbError } from '@/global/errors'
 import { isEmpty } from '@/global/utils'
-import { listAdminRoleResourceRelations } from '@/modules/admin/auth/role-resource-relation/services'
-import { listAdminUserRoleRelations } from '@/modules/admin/auth/user-role-relation/services'
+import { listRoleResourceRelations } from '@/modules/admin/auth/role-resource-relation/services'
+import { listUserRoleRelations } from '@/modules/admin/auth/user-role-relation/services'
 import type {
   CreateReqType,
   DeleteReqType,
@@ -17,7 +17,7 @@ import type {
   UpdateReqType
 } from '../specs'
 
-export const getAdminRole = async (params: GetReqType) => {
+export const getRole = async (params: GetReqType) => {
   const { id } = params
   const row = (await db.select().from(adminRole).where(eq(adminRole.id, id)))[0]
   if (!row) {
@@ -26,7 +26,7 @@ export const getAdminRole = async (params: GetReqType) => {
   return row
 }
 
-export const createAdminRole = async (
+export const createRole = async (
   params: CreateReqType & {
     createdByUsername: string
   }
@@ -49,13 +49,13 @@ export const createAdminRole = async (
   }
 }
 
-export const updateAdminRole = async (
+export const updateRole = async (
   params: UpdateReqType & {
     updatedByUsername: string
   }
 ) => {
   const { id, updatedByUsername, ...restParams } = params
-  await getAdminRole({ id })
+  await getRole({ id })
   try {
     const row = (
       await db
@@ -74,13 +74,13 @@ export const updateAdminRole = async (
   }
 }
 
-export const deleteAdminRole = async (params: DeleteReqType) => {
+export const deleteRole = async (params: DeleteReqType) => {
   const { id } = params
   const result = await db.delete(adminRole).where(eq(adminRole.id, id))
   return result
 }
 
-export const listAdminRoles = async (params: ListReqType) => {
+export const listRoles = async (params: ListReqType) => {
   const { name, enabled, page, pageSize, sortBy } = params
 
   const where = []
@@ -108,10 +108,10 @@ export const listAdminRoles = async (params: ListReqType) => {
   }
 }
 
-export const listUserAdminRoles = async (params: ListUserRolesReqType) => {
+export const listUserRoles = async (params: ListUserRolesReqType) => {
   const { userId, name, enabled, page, pageSize, sortBy } = params
 
-  const roleIds = (await listAdminUserRoleRelations({ userId })).records.map(o => o.roleId)
+  const roleIds = (await listUserRoleRelations({ userId })).records.map(o => o.roleId)
 
   const where = [inArray(adminRole.id, roleIds)]
   const dynamicQuery = db.select().from(adminRole).$dynamic()
@@ -139,10 +139,10 @@ export const listUserAdminRoles = async (params: ListUserRolesReqType) => {
   }
 }
 
-export const listUserGrantAdminRoles = async (params: ListUserGrantRolesReqType) => {
+export const listUserGrantRoles = async (params: ListUserGrantRolesReqType) => {
   const { userId, name, enabled, grant, page, pageSize, sortBy } = params
 
-  const roleIds = (await listAdminUserRoleRelations({ userId })).records.map(o => o.roleId)
+  const roleIds = (await listUserRoleRelations({ userId })).records.map(o => o.roleId)
 
   const where = []
   const dynamicQuery = db.select().from(adminRole).$dynamic()
@@ -196,10 +196,10 @@ export const listUserGrantAdminRoles = async (params: ListUserGrantRolesReqType)
   }
 }
 
-export const listResourceAdminRoles = async (params: ListResourceRolesReqType) => {
+export const listResourceRoles = async (params: ListResourceRolesReqType) => {
   const { resourceId, name, enabled, page, pageSize, sortBy } = params
 
-  const roleIds = (await listAdminRoleResourceRelations({ resourceId })).records.map(o => o.roleId)
+  const roleIds = (await listRoleResourceRelations({ resourceId })).records.map(o => o.roleId)
 
   const where = [inArray(adminRole.id, roleIds)]
   const dynamicQuery = db.select().from(adminRole).$dynamic()

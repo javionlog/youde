@@ -1,13 +1,13 @@
 import { adminGuardController } from '@/global/controllers'
 import {
-  createAdminResource,
-  deleteAdminResource,
-  getAdminResource,
-  listAdminResourceTree,
-  listRoleAdminResourceTree,
-  listRoleGrantAdminResourceTree,
-  listUserAdminResourceTree,
-  updateAdminResource
+  createResource,
+  deleteResource,
+  getResource,
+  listResourceTree,
+  listRoleGrantResourceTree,
+  listRoleResourceTree,
+  listUserResourceTree,
+  updateResource
 } from '../services'
 import {
   createReqSpec,
@@ -31,7 +31,7 @@ const app = adminGuardController.group('/resource', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await createAdminResource({ ...body, createdByUsername: username! })
+        return await createResource({ ...body, createdByUsername: username! })
       },
       {
         detail: {
@@ -46,7 +46,7 @@ const app = adminGuardController.group('/resource', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await updateAdminResource({ ...body, updatedByUsername: username! })
+        return await updateResource({ ...body, updatedByUsername: username! })
       },
       {
         detail: {
@@ -60,7 +60,7 @@ const app = adminGuardController.group('/resource', app =>
     .delete(
       '',
       async ({ body }) => {
-        return await deleteAdminResource(body)
+        return await deleteResource(body)
       },
       {
         detail: {
@@ -73,7 +73,7 @@ const app = adminGuardController.group('/resource', app =>
     .get(
       '',
       async ({ query }) => {
-        return await getAdminResource(query)
+        return await getResource(query)
       },
       {
         detail: {
@@ -87,7 +87,7 @@ const app = adminGuardController.group('/resource', app =>
     .post(
       '/tree',
       async ({ body }) => {
-        return await listAdminResourceTree(body)
+        return await listResourceTree(body)
       },
       {
         detail: { tags, description: 'List resource tree' },
@@ -98,7 +98,7 @@ const app = adminGuardController.group('/resource', app =>
     .post(
       '/user-resource-tree',
       async ({ body }) => {
-        return await listUserAdminResourceTree(body)
+        return await listUserResourceTree(body)
       },
       {
         detail: { tags, description: 'List user resource tree' },
@@ -109,7 +109,7 @@ const app = adminGuardController.group('/resource', app =>
     .post(
       '/role-resource-tree',
       async ({ body }) => {
-        return await listRoleAdminResourceTree(body)
+        return await listRoleResourceTree(body)
       },
       {
         detail: { tags, description: 'List role resource tree' },
@@ -120,7 +120,7 @@ const app = adminGuardController.group('/resource', app =>
     .post(
       '/role-grant-resource-tree',
       async ({ body }) => {
-        return await listRoleGrantAdminResourceTree(body)
+        return await listRoleGrantResourceTree(body)
       },
       {
         detail: { tags, description: 'List role grant resource tree' },

@@ -1,9 +1,9 @@
 import { adminGuardController } from '@/global/controllers'
 import {
-  createAdminRoleResourceRelation,
-  deleteAdminRoleResourceRelation,
-  listAdminRoleResourceRelations,
-  setManyAdminRoleResourceRelations
+  createRoleResourceRelation,
+  deleteRoleResourceRelation,
+  listRoleResourceRelations,
+  setManyRoleResourceRelations
 } from '../services'
 import {
   createReqSpec,
@@ -22,7 +22,7 @@ const app = adminGuardController.group('/role-resource-relation', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await createAdminRoleResourceRelation({ ...body, createdByUsername: username! })
+        return await createRoleResourceRelation({ ...body, createdByUsername: username! })
       },
       {
         detail: {
@@ -37,7 +37,7 @@ const app = adminGuardController.group('/role-resource-relation', app =>
       '/set-many',
       async ({ body, user }) => {
         const { username } = user
-        return await setManyAdminRoleResourceRelations({ ...body, createdByUsername: username! })
+        return await setManyRoleResourceRelations({ ...body, createdByUsername: username! })
       },
       {
         detail: {
@@ -50,7 +50,7 @@ const app = adminGuardController.group('/role-resource-relation', app =>
     .delete(
       '',
       async ({ body }) => {
-        return await deleteAdminRoleResourceRelation(body)
+        return await deleteRoleResourceRelation(body)
       },
       {
         detail: {
@@ -63,7 +63,7 @@ const app = adminGuardController.group('/role-resource-relation', app =>
     .post(
       '/list',
       async ({ body }) => {
-        return await listAdminRoleResourceRelations(body)
+        return await listRoleResourceRelations(body)
       },
       {
         detail: {

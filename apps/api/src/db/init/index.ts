@@ -2,16 +2,16 @@ import { consola } from 'consola'
 import { sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { SYSTEM_OPERATOR } from '@/global/config'
-import { createAdminResource } from '@/modules/admin/auth/resource/services'
+import { createResource } from '@/modules/admin/auth/resource/services'
 import type { RowType as ResourceRowType } from '@/modules/admin/auth/resource/specs'
-import { createAdminResourceLocale } from '@/modules/admin/auth/resource-locale/services'
-import { createAdminRole } from '@/modules/admin/auth/role/services'
-import { createAdminRoleResourceRelation } from '@/modules/admin/auth/role-resource-relation/services'
-import { createAdminUserRoleRelation } from '@/modules/admin/auth/user-role-relation/services'
+import { createResourceLocale } from '@/modules/admin/auth/resource-locale/services'
+import { createRole } from '@/modules/admin/auth/role/services'
+import { createRoleResourceRelation } from '@/modules/admin/auth/role-resource-relation/services'
+import { createUserRoleRelation } from '@/modules/admin/auth/user-role-relation/services'
 import { createCountry } from '@/modules/admin/country/services'
 import { createTreasureCategory } from '@/modules/admin/treasure-category/services'
 import { createTreasureCategoryLocale } from '@/modules/admin/treasure-category-locale/services'
-import { createAdminUser } from '@/modules/admin/user/services'
+import { createUser } from '@/modules/admin/user/services'
 import { countries } from './coutries'
 
 const reset = async () => {
@@ -46,7 +46,7 @@ const init = async () => {
   )
 
   /* Create user */
-  const userRes = await createAdminUser({
+  const userRes = await createUser({
     createdByUsername: SYSTEM_OPERATOR,
     enabled: true,
     isAdmin: true,
@@ -66,7 +66,7 @@ const init = async () => {
     }
   ]
   for (let i = 0; i < roleDatas.length; i++) {
-    const roleRes = await createAdminRole({
+    const roleRes = await createRole({
       ...roleCommonFileds,
       name: 'Super Admin'
     })
@@ -157,14 +157,14 @@ const init = async () => {
   ]
   for (let i = 0; i < resourceDatas.length; i++) {
     const item = resourceDatas[i]
-    const resourceRes = await createAdminResource({
+    const resourceRes = await createResource({
       ...resourceCommonFileds,
       type: item.type as ResourceType,
       name: item.name,
       sort: i + 1
     })
     resourceIds.push(resourceRes.id)
-    await createAdminResourceLocale({
+    await createResourceLocale({
       ...resourceLocaleCommonFileds,
       resourceId: resourceRes.id,
       enUs: item.enUs,
@@ -172,7 +172,7 @@ const init = async () => {
     })
     for (let j = 0; j < item.children.length; j++) {
       const subItem = item.children[j]
-      const subResourceRes = await createAdminResource({
+      const subResourceRes = await createResource({
         ...resourceCommonFileds,
         parentId: resourceRes.id,
         path: subItem.path,
@@ -181,7 +181,7 @@ const init = async () => {
         sort: j + 1
       })
       resourceIds.push(subResourceRes.id)
-      await createAdminResourceLocale({
+      await createResourceLocale({
         ...resourceLocaleCommonFileds,
         resourceId: subResourceRes.id,
         enUs: subItem.enUs,
@@ -192,13 +192,13 @@ const init = async () => {
 
   /* Create user, role, resource relation */
   for (const roleId of roleIds) {
-    await createAdminUserRoleRelation({
+    await createUserRoleRelation({
       createdByUsername: SYSTEM_OPERATOR,
       userId: userRes.id,
       roleId
     })
     for (const resourceId of resourceIds) {
-      await createAdminRoleResourceRelation({
+      await createRoleResourceRelation({
         createdByUsername: SYSTEM_OPERATOR,
         roleId,
         resourceId

@@ -6,7 +6,7 @@ import {
 } from '../services'
 import { createReqSpec, getReqSpec, promiseRowResSpec, updateReqSpec } from '../specs'
 
-const tags = ['Treasure-Category-Locale']
+const tags = ['Admin-Treasure-Category-Locale']
 
 const app = adminGuardController.group('/treasure-category-locale', app =>
   app

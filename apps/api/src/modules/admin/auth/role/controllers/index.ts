@@ -1,13 +1,13 @@
 import { adminGuardController } from '@/global/controllers'
 import {
-  createAdminRole,
-  deleteAdminRole,
-  getAdminRole,
-  listAdminRoles,
-  listResourceAdminRoles,
-  listUserAdminRoles,
-  listUserGrantAdminRoles,
-  updateAdminRole
+  createRole,
+  deleteRole,
+  getRole,
+  listResourceRoles,
+  listRoles,
+  listUserGrantRoles,
+  listUserRoles,
+  updateRole
 } from '../services'
 import {
   createReqSpec,
@@ -31,7 +31,7 @@ const app = adminGuardController.group('/role', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await createAdminRole({ ...body, createdByUsername: username! })
+        return await createRole({ ...body, createdByUsername: username! })
       },
       {
         detail: {
@@ -46,7 +46,7 @@ const app = adminGuardController.group('/role', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await updateAdminRole({ ...body, updatedByUsername: username! })
+        return await updateRole({ ...body, updatedByUsername: username! })
       },
       {
         detail: {
@@ -60,7 +60,7 @@ const app = adminGuardController.group('/role', app =>
     .delete(
       '',
       async ({ body }) => {
-        return await deleteAdminRole(body)
+        return await deleteRole(body)
       },
       {
         detail: {
@@ -73,7 +73,7 @@ const app = adminGuardController.group('/role', app =>
     .get(
       '',
       async ({ query }) => {
-        return await getAdminRole(query)
+        return await getRole(query)
       },
       {
         detail: {
@@ -87,7 +87,7 @@ const app = adminGuardController.group('/role', app =>
     .post(
       '/list',
       async ({ body }) => {
-        return await listAdminRoles(body)
+        return await listRoles(body)
       },
       {
         detail: { tags, description: 'List roles' },
@@ -98,7 +98,7 @@ const app = adminGuardController.group('/role', app =>
     .post(
       '/user-role-list',
       async ({ body }) => {
-        return await listUserAdminRoles(body)
+        return await listUserRoles(body)
       },
       {
         detail: { tags, description: 'List user roles' },
@@ -109,7 +109,7 @@ const app = adminGuardController.group('/role', app =>
     .post(
       '/user-grant-role-list',
       async ({ body }) => {
-        return await listUserGrantAdminRoles(body)
+        return await listUserGrantRoles(body)
       },
       {
         detail: { tags, description: 'List user grant roles' },
@@ -120,7 +120,7 @@ const app = adminGuardController.group('/role', app =>
     .post(
       '/resource-role-list',
       async ({ body }) => {
-        return await listResourceAdminRoles(body)
+        return await listResourceRoles(body)
       },
       {
         detail: { tags, description: 'List resource roles' },

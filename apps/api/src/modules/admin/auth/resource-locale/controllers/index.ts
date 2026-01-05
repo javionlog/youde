@@ -1,9 +1,5 @@
 import { adminGuardController } from '@/global/controllers'
-import {
-  createAdminResourceLocale,
-  getAdminResourceLocale,
-  updateAdminResourceLocale
-} from '../services'
+import { createResourceLocale, getResourceLocale, updateResourceLocale } from '../services'
 import { createReqSpec, getReqSpec, promiseRowResSpec, updateReqSpec } from '../specs'
 
 const tags = ['Admin-Resource-Locale']
@@ -14,7 +10,7 @@ const app = adminGuardController.group('/resource-locale', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await createAdminResourceLocale({ ...body, createdByUsername: username! })
+        return await createResourceLocale({ ...body, createdByUsername: username! })
       },
       {
         detail: {
@@ -29,7 +25,7 @@ const app = adminGuardController.group('/resource-locale', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await updateAdminResourceLocale({ ...body, updatedByUsername: username! })
+        return await updateResourceLocale({ ...body, updatedByUsername: username! })
       },
       {
         detail: {
@@ -43,7 +39,7 @@ const app = adminGuardController.group('/resource-locale', app =>
     .get(
       '',
       async ({ query }) => {
-        return await getAdminResourceLocale(query)
+        return await getResourceLocale(query)
       },
       {
         detail: {

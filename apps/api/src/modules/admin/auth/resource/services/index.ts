@@ -4,9 +4,9 @@ import { adminResource, adminResourceLocale, adminRole } from '@/db/schemas/admi
 import { withOrderBy } from '@/db/utils'
 import { throwDataNotFoundError, throwDbError } from '@/global/errors'
 import { buildTree, getChildrenNodes, isEmpty } from '@/global/utils'
-import { listAdminRoleResourceRelations } from '@/modules/admin/auth/role-resource-relation/services'
-import { listAdminUserRoleRelations } from '@/modules/admin/auth/user-role-relation/services'
-import { getAdminUser } from '@/modules/admin/user/services'
+import { listRoleResourceRelations } from '@/modules/admin/auth/role-resource-relation/services'
+import { listUserRoleRelations } from '@/modules/admin/auth/user-role-relation/services'
+import { getUser } from '@/modules/admin/user/services'
 import type {
   CreateReqType,
   DeleteReqType,
@@ -19,7 +19,7 @@ import type {
   UpdateReqType
 } from '../specs'
 
-export const getAdminResource = async (params: GetReqType) => {
+export const getResource = async (params: GetReqType) => {
   const { id } = params
   const row = (await db.select().from(adminResource).where(eq(adminResource.id, id)))[0]
   const locales = await db
@@ -36,7 +36,7 @@ export const getAdminResource = async (params: GetReqType) => {
   return result
 }
 
-export const createAdminResource = async (
+export const createResource = async (
   params: CreateReqType & {
     createdByUsername: string
   }
@@ -59,13 +59,13 @@ export const createAdminResource = async (
   }
 }
 
-export const updateAdminResource = async (
+export const updateResource = async (
   params: UpdateReqType & {
     updatedByUsername: string
   }
 ) => {
   const { id, parentId: _parentId, updatedByUsername, ...restParams } = params
-  await getAdminResource({ id })
+  await getResource({ id })
   try {
     const row = (
       await db
@@ -84,13 +84,13 @@ export const updateAdminResource = async (
   }
 }
 
-export const deleteAdminResource = async (params: DeleteReqType) => {
+export const deleteResource = async (params: DeleteReqType) => {
   const { id } = params
   const result = await db.delete(adminResource).where(eq(adminResource.id, id))
   return result
 }
 
-export const listAdminResourceTree = async (params: ListReqType) => {
+export const listResourceTree = async (params: ListReqType) => {
   const { enabled } = params
 
   const where = []
@@ -125,18 +125,18 @@ export const listAdminResourceTree = async (params: ListReqType) => {
   return buildTree(result)
 }
 
-export const listUserAdminResourceTree = async (params: ListUserResourcesReqType) => {
+export const listUserResourceTree = async (params: ListUserResourcesReqType) => {
   const { userId } = params
-  const userRow = await getAdminUser({ id: userId })
+  const userRow = await getUser({ id: userId })
 
   if (userRow.isAdmin) {
-    return await listAdminResourceTree({})
+    return await listResourceTree({})
   }
 
-  const roleIds = (await listAdminUserRoleRelations({ userId })).records.map(o => o.roleId)
+  const roleIds = (await listUserRoleRelations({ userId })).records.map(o => o.roleId)
   const roleRecords = await db.select().from(adminRole).where(inArray(adminRole.id, roleIds))
   const resourceIds = (
-    await listAdminRoleResourceRelations({
+    await listRoleResourceRelations({
       roleIds: roleRecords.filter(o => o.enabled).map(o => o.id)
     })
   ).records.map(o => o.resourceId)
@@ -177,10 +177,10 @@ export const listUserAdminResourceTree = async (params: ListUserResourcesReqType
   return buildTree(result)
 }
 
-export const listRoleAdminResourceTree = async (params: ListRoleResourcesReqType) => {
+export const listRoleResourceTree = async (params: ListRoleResourcesReqType) => {
   const { roleId } = params
   const resourceIds = (
-    await listAdminRoleResourceRelations({
+    await listRoleResourceRelations({
       roleId
     })
   ).records.map(o => o.resourceId)
@@ -221,10 +221,10 @@ export const listRoleAdminResourceTree = async (params: ListRoleResourcesReqType
   return buildTree(result)
 }
 
-export const listRoleGrantAdminResourceTree = async (params: ListRoleGrantResourcesReqType) => {
+export const listRoleGrantResourceTree = async (params: ListRoleGrantResourcesReqType) => {
   const { roleId } = params
   const resourceIds = (
-    await listAdminRoleResourceRelations({
+    await listRoleResourceRelations({
       roleId
     })
   ).records.map(o => o.resourceId)

@@ -8,7 +8,7 @@ import { throwDataNotFoundError, throwDbError } from '@/global/errors'
 import { isEmpty } from '@/global/utils'
 import type { CreateReqType, DeleteReqType, GetReqType, ListReqType } from '../specs'
 
-export const getAdminSession = async (params: GetReqType) => {
+export const getSession = async (params: GetReqType) => {
   const { token } = params
   const row = (await db.select().from(adminSession).where(eq(adminSession.token, token)))[0]
   if (!row) {
@@ -17,7 +17,7 @@ export const getAdminSession = async (params: GetReqType) => {
   return row
 }
 
-export const createAdminSession = async (
+export const createSession = async (
   params: CreateReqType & {
     createdByUsername: string
   }
@@ -42,13 +42,13 @@ export const createAdminSession = async (
   }
 }
 
-export const deleteAdminSession = async (params: DeleteReqType) => {
+export const deleteSession = async (params: DeleteReqType) => {
   const { token } = params
   const result = await db.delete(adminSession).where(eq(adminSession.token, token))
   return result
 }
 
-export const listAdminSessions = async (params: ListReqType) => {
+export const listSessions = async (params: ListReqType) => {
   const { username, page, pageSize, sortBy } = params
 
   const where = []

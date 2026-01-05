@@ -2,11 +2,11 @@ import { adminGuardController } from '@/global/controllers'
 import { listTreasures } from '../services'
 import { listReqSpec, promiseListResSpec } from '../specs'
 
-const tags = ['Guest']
+const tags = ['Portal-Treasure']
 
-const app = adminGuardController.group('/guest', app =>
+const app = adminGuardController.group('/treasure', app =>
   app.post(
-    '/treasure/list',
+    '/list',
     async ({ body }) => {
       return await listTreasures(body)
     },

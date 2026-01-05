@@ -1,9 +1,9 @@
 import { Elysia } from 'elysia'
 import { ip } from 'elysia-ip'
 import { ADMIN_SKIP_AUTH_ROUTES } from '@/global/config'
-import { deleteAdminSession, getAdminSession } from '@/modules/admin/session/services'
+import { deleteSession, getSession } from '@/modules/admin/session/services'
 import type { RowType as SessionRowType } from '@/modules/admin/session/specs'
-import { getAdminUser } from '@/modules/admin/user/services'
+import { getUser } from '@/modules/admin/user/services'
 import type { RowType as UserRowType } from '@/modules/admin/user/specs'
 
 export const baseController = new Elysia({ name: 'shared.baseController' })
@@ -57,7 +57,7 @@ export const adminGuardController = new Elysia({
     }
     let session = null
     try {
-      session = await getAdminSession({ token })
+      session = await getSession({ token })
       if (!session) {
         return status(401)
       }
@@ -66,11 +66,11 @@ export const adminGuardController = new Elysia({
       return status(401)
     }
     if (new Date().toISOString() > session.expiresAt) {
-      await deleteAdminSession({ token })
+      await deleteSession({ token })
       cookie.sessionToken.remove()
       return status(401)
     }
-    const user = await getAdminUser({ id: session.userId })
+    const user = await getUser({ id: session.userId })
     return {
       user,
       session

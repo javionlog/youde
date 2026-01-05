@@ -1,9 +1,5 @@
 import { adminGuardController } from '@/global/controllers'
-import {
-  createAdminUserRoleRelation,
-  deleteAdminUserRoleRelation,
-  listAdminUserRoleRelations
-} from '../services'
+import { createUserRoleRelation, deleteUserRoleRelation, listUserRoleRelations } from '../services'
 import {
   createReqSpec,
   deleteReqSpec,
@@ -20,7 +16,7 @@ const app = adminGuardController.group('/user-role-relation', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await createAdminUserRoleRelation({ ...body, createdByUsername: username! })
+        return await createUserRoleRelation({ ...body, createdByUsername: username! })
       },
       {
         detail: {
@@ -34,7 +30,7 @@ const app = adminGuardController.group('/user-role-relation', app =>
     .delete(
       '',
       async ({ body }) => {
-        return await deleteAdminUserRoleRelation(body)
+        return await deleteUserRoleRelation(body)
       },
       {
         detail: {
@@ -47,7 +43,7 @@ const app = adminGuardController.group('/user-role-relation', app =>
     .post(
       '/list',
       async ({ body }) => {
-        return await listAdminUserRoleRelations(body)
+        return await listUserRoleRelations(body)
       },
       {
         detail: {

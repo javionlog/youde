@@ -4,7 +4,7 @@ import { adminResourceLocale } from '@/db/schemas/admin'
 import { throwDbError } from '@/global/errors'
 import type { CreateReqType, GetReqType, UpdateReqType } from '../specs'
 
-export const getAdminResourceLocale = async (params: GetReqType) => {
+export const getResourceLocale = async (params: GetReqType) => {
   const { id } = params
 
   const row = (await db.select().from(adminResourceLocale).where(eq(adminResourceLocale.id, id)))[0]
@@ -12,7 +12,7 @@ export const getAdminResourceLocale = async (params: GetReqType) => {
   return row
 }
 
-export const createAdminResourceLocale = async (
+export const createResourceLocale = async (
   params: CreateReqType & {
     createdByUsername: string
   }
@@ -35,13 +35,13 @@ export const createAdminResourceLocale = async (
   }
 }
 
-export const updateAdminResourceLocale = async (
+export const updateResourceLocale = async (
   params: UpdateReqType & {
     updatedByUsername: string
   }
 ) => {
   const { id, updatedByUsername, ...restParams } = params
-  await getAdminResourceLocale({ id })
+  await getResourceLocale({ id })
   try {
     const row = (
       await db

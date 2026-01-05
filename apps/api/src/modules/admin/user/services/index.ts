@@ -11,10 +11,10 @@ import {
   throwRequestError
 } from '@/global/errors'
 import { getHashPassword, isEmpty } from '@/global/utils'
-import { listUserAdminResourceTree } from '@/modules/admin/auth/resource/services'
-import { listAdminRoleResourceRelations } from '@/modules/admin/auth/role-resource-relation/services'
-import { listAdminUserRoleRelations } from '@/modules/admin/auth/user-role-relation/services'
-import { createAdminSession, deleteAdminSession } from '@/modules/admin/session/services'
+import { listUserResourceTree } from '@/modules/admin/auth/resource/services'
+import { listRoleResourceRelations } from '@/modules/admin/auth/role-resource-relation/services'
+import { listUserRoleRelations } from '@/modules/admin/auth/user-role-relation/services'
+import { createSession, deleteSession } from '@/modules/admin/session/services'
 
 import type {
   CreateReqType,
@@ -30,7 +30,7 @@ import type {
   UpdateReqType
 } from '../specs'
 
-export const getAdminUser = async (params: GetReqType) => {
+export const getUser = async (params: GetReqType) => {
   const { id } = params
   const row = (await db.select().from(adminUser).where(eq(adminUser.id, id)))[0]
   if (!row) {
@@ -39,7 +39,7 @@ export const getAdminUser = async (params: GetReqType) => {
   return omit(row, ['password'])
 }
 
-export const getFullAdminUser = async (params: GetReqType) => {
+export const getFullUser = async (params: GetReqType) => {
   const { id } = params
   const row = (await db.select().from(adminUser).where(eq(adminUser.id, id)))[0]
   if (!row) {
@@ -68,14 +68,14 @@ export const signIn = async (
     throwDataNotFoundError('The user does not exist or the password is incorrect')
   }
   try {
-    const sessionRow = await createAdminSession({
+    const sessionRow = await createSession({
       ...restParams,
       userId: userRow.id,
       username: userRow.username,
       createdByUsername: userRow.username
     })
 
-    const resourceTree = await listUserAdminResourceTree({ userId: userRow.id })
+    const resourceTree = await listUserResourceTree({ userId: userRow.id })
     return {
       token: sessionRow.token,
       user: pick(userRow, ['id', 'username', 'isAdmin']),
@@ -88,10 +88,10 @@ export const signIn = async (
 
 export const signOut = async (params: SignOutReqType) => {
   const { token } = params
-  return await deleteAdminSession({ token })
+  return await deleteSession({ token })
 }
 
-export const resetAdminUserPassword = async (
+export const resetUserPassword = async (
   params: ResetPasswordReqType & {
     updatedByUsername: string
   }
@@ -116,7 +116,7 @@ export const resetAdminUserPassword = async (
   }
 }
 
-export const resetSelfAdminUserPassword = async (
+export const resetSelfPassword = async (
   params: ResetSelfPasswordReqType & {
     updatedByUsername: string
     currentUserId: string
@@ -131,7 +131,7 @@ export const resetSelfAdminUserPassword = async (
   }
   const oldHashPassword = getHashPassword(oldPassword)
   const newHashPassword = getHashPassword(newPassword)
-  const userRow = await getFullAdminUser({ id })
+  const userRow = await getFullUser({ id })
   if (oldHashPassword !== userRow.password) {
     throwRequestError('Incorrect old password')
   }
@@ -153,7 +153,7 @@ export const resetSelfAdminUserPassword = async (
   }
 }
 
-export const createAdminUser = async (
+export const createUser = async (
   params: CreateReqType & {
     createdByUsername: string
   }
@@ -178,13 +178,13 @@ export const createAdminUser = async (
   }
 }
 
-export const updateAdminUser = async (
+export const updateUser = async (
   params: UpdateReqType & {
     updatedByUsername: string
   }
 ) => {
   const { id, updatedByUsername, username, enabled, isAdmin } = params
-  await getAdminUser({ id })
+  await getUser({ id })
   try {
     const row = (
       await db
@@ -205,13 +205,13 @@ export const updateAdminUser = async (
   }
 }
 
-export const deleteAdminUser = async (params: DeleteReqType) => {
+export const deleteUser = async (params: DeleteReqType) => {
   const { id } = params
   const result = await db.delete(adminUser).where(eq(adminUser.id, id))
   return result
 }
 
-export const listAdminUsers = async (params: ListReqType) => {
+export const listUsers = async (params: ListReqType) => {
   const { username, enabled, isAdmin, page, pageSize, sortBy } = params
 
   const where = []
@@ -241,9 +241,9 @@ export const listAdminUsers = async (params: ListReqType) => {
   }
 }
 
-export const listRoleAdminUsers = async (params: ListRoleUsersReqType) => {
+export const listRoleUsers = async (params: ListRoleUsersReqType) => {
   const { roleId, username, enabled, isAdmin, page, pageSize, sortBy } = params
-  const userIds = (await listAdminUserRoleRelations({ roleId })).records.map(o => o.userId)
+  const userIds = (await listUserRoleRelations({ roleId })).records.map(o => o.userId)
 
   const where = [inArray(adminUser.id, userIds)]
   const dynamicQuery = db.select().from(adminUser).$dynamic()
@@ -272,10 +272,10 @@ export const listRoleAdminUsers = async (params: ListRoleUsersReqType) => {
   }
 }
 
-export const listResourceAdminUsers = async (params: ListResourceUsersReqType) => {
+export const listResourceUsers = async (params: ListResourceUsersReqType) => {
   const { resourceId, username, enabled, isAdmin, page, pageSize, sortBy } = params
-  const roleIds = (await listAdminRoleResourceRelations({ resourceId })).records.map(o => o.roleId)
-  const userIds = (await listAdminUserRoleRelations({ roleIds })).records.map(o => o.userId)
+  const roleIds = (await listRoleResourceRelations({ resourceId })).records.map(o => o.roleId)
+  const userIds = (await listUserRoleRelations({ roleIds })).records.map(o => o.userId)
 
   const where = [inArray(adminUser.id, userIds)]
   const dynamicQuery = db.select().from(adminUser).$dynamic()

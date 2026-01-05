@@ -16,7 +16,7 @@ import {
   updateReqSpec
 } from '../specs'
 
-const tags = ['Treasure-Category']
+const tags = ['Admin-Treasure-Category']
 
 const app = adminGuardController.group('/treasure-category', app =>
   app

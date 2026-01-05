@@ -10,7 +10,7 @@ import {
   updateReqSpec
 } from '../specs'
 
-const tags = ['Country']
+const tags = ['Admin-Country']
 
 const app = adminGuardController.group('/country', app =>
   app

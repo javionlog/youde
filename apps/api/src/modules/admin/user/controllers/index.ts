@@ -1,17 +1,17 @@
 import { ADMIN_SESSION_MAX_AGE } from '@/global/config'
 import { adminGuardController } from '@/global/controllers'
 import {
-  createAdminUser,
-  deleteAdminUser,
-  getAdminUser,
-  listAdminUsers,
-  listResourceAdminUsers,
-  listRoleAdminUsers,
-  resetAdminUserPassword,
-  resetSelfAdminUserPassword,
+  createUser,
+  deleteUser,
+  getUser,
+  listResourceUsers,
+  listRoleUsers,
+  listUsers,
+  resetSelfPassword,
+  resetUserPassword,
   signIn,
   signOut,
-  updateAdminUser
+  updateUser
 } from '../services'
 import {
   createReqSpec,
@@ -75,7 +75,7 @@ const app = adminGuardController.group('/user', app =>
       '/password',
       async ({ body, user }) => {
         const { username } = user
-        return await resetAdminUserPassword({ ...body, updatedByUsername: username })
+        return await resetUserPassword({ ...body, updatedByUsername: username })
       },
       {
         detail: {
@@ -89,7 +89,7 @@ const app = adminGuardController.group('/user', app =>
       '/self-password',
       async ({ status, cookie, body, user }) => {
         const { username, id } = user
-        await resetSelfAdminUserPassword({
+        await resetSelfPassword({
           ...body,
           updatedByUsername: username,
           currentUserId: id
@@ -111,7 +111,7 @@ const app = adminGuardController.group('/user', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await createAdminUser({ ...body, createdByUsername: username! })
+        return await createUser({ ...body, createdByUsername: username! })
       },
       {
         detail: {
@@ -126,7 +126,7 @@ const app = adminGuardController.group('/user', app =>
       '',
       async ({ body, user }) => {
         const { username } = user
-        return await updateAdminUser({ ...body, updatedByUsername: username! })
+        return await updateUser({ ...body, updatedByUsername: username! })
       },
       {
         detail: {
@@ -140,7 +140,7 @@ const app = adminGuardController.group('/user', app =>
     .delete(
       '',
       async ({ body }) => {
-        return await deleteAdminUser(body)
+        return await deleteUser(body)
       },
       {
         detail: {
@@ -153,7 +153,7 @@ const app = adminGuardController.group('/user', app =>
     .get(
       '',
       async ({ query }) => {
-        return await getAdminUser(query)
+        return await getUser(query)
       },
       {
         detail: {
@@ -167,7 +167,7 @@ const app = adminGuardController.group('/user', app =>
     .post(
       '/list',
       async ({ body }) => {
-        return await listAdminUsers(body)
+        return await listUsers(body)
       },
       {
         detail: { tags, description: 'Update user list' },
@@ -178,7 +178,7 @@ const app = adminGuardController.group('/user', app =>
     .post(
       '/role-user-list',
       async ({ body }) => {
-        return await listRoleAdminUsers(body)
+        return await listRoleUsers(body)
       },
       {
         detail: { tags, description: 'Update user list' },
@@ -189,7 +189,7 @@ const app = adminGuardController.group('/user', app =>
     .post(
       '/resource-user-list',
       async ({ body }) => {
-        return await listResourceAdminUsers(body)
+        return await listResourceUsers(body)
       },
       {
         detail: { tags, description: 'Update user list' },
