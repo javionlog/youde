@@ -12,6 +12,7 @@
     "add": "Add",
     "edit": "Edit",
     "delete": "Delete",
+    "refreshCurrent": "Refresh Current",
     "closeCurrent": "Close Current",
     "closeLeft": "Close Left",
     "closeRight": "Close Right",

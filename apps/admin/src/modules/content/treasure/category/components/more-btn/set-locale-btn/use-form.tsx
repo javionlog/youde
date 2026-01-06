@@ -105,7 +105,6 @@ const DialogBody = (props: DialogBodyProps) => {
     }
   ] satisfies TabPanelProps[]
   const [tabValue, setTabValue] = useState<TabValue>(tabs[0].value)
-  const { GlTabPanel } = GlTabs
 
   useImperativeHandle(ref, () => {
     return {

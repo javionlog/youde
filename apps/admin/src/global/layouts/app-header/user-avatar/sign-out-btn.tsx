@@ -6,6 +6,7 @@ export const SignOutBtn = () => {
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const [loading, setLoading] = useState(false)
+  const { resetStore } = useResetData()
 
   const onSignOut = async () => {
     if (loading) {
@@ -16,9 +17,8 @@ export const SignOutBtn = () => {
       await postAdminUserSignOut()
       const to = `/sign-in?redirect=${pathname}${search}`
       navigate(to)
-      useUserStore.setState({ user: null })
-      useResourceStore.setState({ resourceTree: [] })
       useHttpStore.setState({ responseStatus: 0 })
+      resetStore()
     } finally {
       setLoading(false)
     }

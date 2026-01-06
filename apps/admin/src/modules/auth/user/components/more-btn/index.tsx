@@ -9,8 +9,6 @@ interface Props {
   refresh: () => void
 }
 
-const { GlDropdownMenu, GlDropdownItem } = GlDropdown
-
 export const MoreBtn = (props: Props) => {
   const { rowData } = props
   const { t } = useTranslation()

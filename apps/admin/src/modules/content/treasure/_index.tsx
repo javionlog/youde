@@ -22,5 +22,5 @@ export default () => {
     }
   ] satisfies TabsProps['list']
 
-  return <GlTabs defaultValue='treasure' list={tabList} />
+  return <GlTabs defaultValue='treasure' list={tabList} size='small' />
 }

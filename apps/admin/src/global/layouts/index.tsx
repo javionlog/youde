@@ -6,11 +6,10 @@ import { AppSidebar } from './app-sidebar'
 const NavToSignIn = () => {
   const { pathname, search } = useLocation()
   const responseStatus = useHttpStore(state => state.responseStatus)
+  const { resetStore } = useResetData()
 
   useEffect(() => {
-    useUserStore.setState({ user: null })
-    useResourceStore.setState({ resourceTree: [] })
-    useHttpStore.setState({ responseStatus: 0 })
+    resetStore()
   }, [responseStatus])
 
   const to = `/sign-in?redirect=${pathname}${search}`
@@ -61,6 +60,7 @@ export const AppLayout = () => {
   const responseStatus = useHttpStore(state => state.responseStatus)
   const location = useLocation()
   const cachePaths = useTabStore(state => state.tabs).map(o => `/${o.path}`)
+  const activeTabVisible = useTabStore(state => state.activeTabVisible)
 
   const activeCacheKey = useMemo(() => {
     return location.pathname
@@ -101,7 +101,7 @@ export const AppLayout = () => {
             >
               <div className='grow rounded-lg bg-(--td-bg-color-container) p-5 sm:m-5'>
                 <KeepAlive activeCacheKey={activeCacheKey} include={cachePaths}>
-                  {outlet}
+                  {activeTabVisible && outlet}
                 </KeepAlive>
               </div>
             </Suspense>

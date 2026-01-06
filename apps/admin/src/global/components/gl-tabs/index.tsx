@@ -1,6 +1,6 @@
 import type { TabsProps } from 'tdesign-react'
 
-const GlTabs = (
+export const GlTabs = (
   props: Omit<TabsProps, 'size'> & {
     size?: TabsProps['size'] | 'small'
   }
@@ -18,6 +18,4 @@ const GlTabs = (
   )
 }
 
-GlTabs.GlTabPanel = Tabs.TabPanel
-
-export { GlTabs }
+export const GlTabPanel = Tabs.TabPanel

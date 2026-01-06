@@ -12,6 +12,7 @@
     "add": "新增",
     "edit": "编辑",
     "delete": "删除",
+    "refreshCurrent": "刷新当前",
     "closeCurrent": "关闭当前",
     "closeLeft": "关闭左侧",
     "closeRight": "关闭右侧",

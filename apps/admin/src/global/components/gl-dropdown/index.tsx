@@ -1,6 +1,6 @@
 import type { DropdownProps } from 'tdesign-react'
 
-const GlDropdown = (props: DropdownProps) => {
+export const GlDropdown = (props: DropdownProps) => {
   const { className, children, maxColumnWidth = 'auto', ...rest } = props
   return (
     <Dropdown
@@ -13,7 +13,5 @@ const GlDropdown = (props: DropdownProps) => {
   )
 }
 
-GlDropdown.GlDropdownMenu = Dropdown.DropdownMenu
-GlDropdown.GlDropdownItem = Dropdown.DropdownItem
-
-export { GlDropdown }
+export const GlDropdownMenu = Dropdown.DropdownMenu
+export const GlDropdownItem = Dropdown.DropdownItem

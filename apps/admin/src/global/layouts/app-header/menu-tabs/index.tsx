@@ -1,14 +1,20 @@
-import { ChevronDownIcon } from 'tdesign-icons-react'
+import { ChevronDownIcon, RefreshIcon } from 'tdesign-icons-react'
 import type { DropdownOption, TabValue } from 'tdesign-react'
-import { layoutMenus } from '@/global/router'
 
 export const MenuTabs = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation()
   const tabs = useTabStore(state => state.tabs)
-  const { addTab, deleteTab, deleteLeftTabs, deleteRightTabs, deleteOtherTabs, clearTabs } =
-    useTabStore()
+  const {
+    addTab,
+    deleteTab,
+    deleteLeftTabs,
+    deleteRightTabs,
+    deleteOtherTabs,
+    clearTabs,
+    refreshTab
+  } = useTabStore()
   const resources = useResourceStore.getState().getResources()
   const lang = camelCase(useLocaleStore(state => state.lang))
 
@@ -17,7 +23,14 @@ export const MenuTabs = () => {
   const activeTabIndex = tabs.findIndex(o => `/${o.path}` === location.pathname)
   const [tabValue, setTabValue] = useState<TabValue>(activeResourceItem?.id as string)
 
-  const { GlTabPanel } = GlTabs
+  const onRefreshTab = (value?: string) => {
+    if (value && value !== activeResourceItem?.id) {
+      return
+    }
+    if (activeResourceItem) {
+      refreshTab()
+    }
+  }
 
   const onRemoveTab = async (value?: string) => {
     if (value && value !== activeResourceItem?.id) {
@@ -46,6 +59,12 @@ export const MenuTabs = () => {
   }
 
   const dropdownOptions = [
+    {
+      content: t('action.refreshCurrent'),
+      onClick: () => {
+        refreshTab()
+      }
+    },
     {
       content: t('action.closeCurrent'),
       onClick: () => {
@@ -111,7 +130,12 @@ export const MenuTabs = () => {
           return (
             <GlTabPanel
               key={item.id}
-              label={menuName}
+              label={
+                <div className='flex items-center gap-1'>
+                  <RefreshIcon onClick={() => onRefreshTab(item.id)} />
+                  <span>{menuName}</span>
+                </div>
+              }
               value={item.id}
               removable={!item.isAffix}
               onRemove={({ value }) => onRemoveTab(value as string)}
