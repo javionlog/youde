@@ -1,9 +1,9 @@
 import { Desktop1Icon, LockOnIcon } from 'tdesign-icons-react'
-import type { FormProps, FormRules } from 'tdesign-react'
+import type { FormRules } from 'tdesign-react'
 import type { PostAdminUserSignInData } from '@/global/api'
 import { postAdminUserSignIn } from '@/global/api'
 
-const { FormItem } = Form
+type FormProps = Parameters<typeof GlForm>[0]
 
 const initialData = {
   username: 'admin',
@@ -21,6 +21,39 @@ export default () => {
     username: getRequiredRules(),
     password: getRequiredRules()
   } satisfies FormRules<PostAdminUserSignInData['body']>
+
+  const items = [
+    {
+      formItem: {
+        name: 'username',
+        children: (
+          <GlInput prefixIcon={<Desktop1Icon />} placeholder={t('message.usernameRequired')} />
+        )
+      }
+    },
+    {
+      formItem: {
+        name: 'password',
+        children: (
+          <GlInput
+            prefixIcon={<LockOnIcon />}
+            type='password'
+            placeholder={t('message.passwordRequired')}
+          />
+        )
+      }
+    },
+    {
+      formItem: {
+        name: 'submit',
+        children: (
+          <Button loading={loading} theme='primary' type='submit' block>
+            {t('action.signIn')}
+          </Button>
+        )
+      }
+    }
+  ] satisfies FormProps['items']
 
   const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
     if (validateResult === true) {
@@ -47,23 +80,15 @@ export default () => {
             <GlLangSelect />
             <GlThemeSelect />
           </div>
-          <Form form={form} labelWidth={0} rules={rules} initialData={formData} onSubmit={onSubmit}>
-            <FormItem name='username'>
-              <GlInput prefixIcon={<Desktop1Icon />} placeholder={t('message.usernameRequired')} />
-            </FormItem>
-            <FormItem name='password'>
-              <GlInput
-                prefixIcon={<LockOnIcon />}
-                type='password'
-                placeholder={t('message.passwordRequired')}
-              />
-            </FormItem>
-            <FormItem>
-              <Button loading={loading} theme='primary' type='submit' block>
-                {t('action.signIn')}
-              </Button>
-            </FormItem>
-          </Form>
+          <GlForm
+            form={form}
+            rules={rules}
+            items={items}
+            labelWidth={0}
+            initialData={formData}
+            labelEllipsis={false}
+            onSubmit={onSubmit}
+          />
         </div>
       </div>
     </div>

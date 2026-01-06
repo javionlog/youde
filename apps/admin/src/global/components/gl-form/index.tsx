@@ -1,7 +1,9 @@
-import type { FormItemProps, FormProps } from 'tdesign-react'
+import type { FormItemProps as _FormItemProps, FormProps as _FormProps } from 'tdesign-react'
 
 type GridProps = Parameters<typeof GlGrid>[0]
 type GridItemProps = Parameters<typeof GlGridItem>[0]
+type FormProps = _FormProps & { labelEllipsis?: boolean }
+type FormItemProps = _FormItemProps & { labelEllipsis?: boolean }
 
 type Item = {
   formItem?: FormItemProps
@@ -14,13 +16,13 @@ interface Props extends StyledProps, FormProps, GridProps {
 
 export const GlFormItem = (props: FormItemProps) => {
   const { FormItem } = Form
-  const { className, ...rest } = props
+  const { className, labelEllipsis = true, label, ...rest } = props
 
   return (
     <FormItem
       className={`gl-form-item ${className ?? ''}`}
+      label={labelEllipsis ? <GlEllipsis>{label}</GlEllipsis> : label}
       {...rest}
-      label={<GlEllipsis>{rest.label}</GlEllipsis>}
     >
       {props.children}
     </FormItem>
@@ -37,6 +39,7 @@ export const GlForm = (props: Props) => {
     resetType = 'initial',
     maxRows,
     items,
+    labelEllipsis = true,
     ...formProps
   } = props
 
@@ -74,7 +77,9 @@ export const GlForm = (props: Props) => {
           {items.map((item, index) => {
             return (
               <GlGridItem key={String(item.formItem?.name)} index={index} {...item.gridItem}>
-                <GlFormItem {...item.formItem}>{item.formItem?.children}</GlFormItem>
+                <GlFormItem labelEllipsis={labelEllipsis} {...item.formItem}>
+                  {item.formItem?.children}
+                </GlFormItem>
               </GlGridItem>
             )
           })}
