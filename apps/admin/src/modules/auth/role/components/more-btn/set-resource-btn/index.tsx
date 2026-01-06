@@ -8,12 +8,15 @@ interface Props {
 
 export const SetResourceBtn = (props: Props) => {
   const { text, onOpen } = useTree(props)
+  const { checkResource } = useResourceStore()
 
   return (
-    <div onClick={onOpen}>
-      <Link hover='color' theme='primary'>
-        {text}
-      </Link>
-    </div>
+    checkResource('Auth_Role_Edit') && (
+      <div onClick={onOpen}>
+        <Link hover='color' theme='primary'>
+          {text}
+        </Link>
+      </div>
+    )
   )
 }

@@ -99,28 +99,60 @@ const init = async () => {
           enUs: 'Seesion Management',
           zhCn: '会话管理',
           type: 'Page',
-          path: 'auth/session'
+          path: 'auth/session',
+          children: [
+            {
+              name: 'Auth_Session_Edit',
+              enUs: 'Edit Permission',
+              zhCn: '编辑权限',
+              type: 'Element'
+            }
+          ]
         },
         {
           name: 'User Management',
           enUs: 'User Management',
           zhCn: '用户管理',
           type: 'Page',
-          path: 'auth/user'
+          path: 'auth/user',
+          children: [
+            {
+              name: 'Auth_User_Edit',
+              enUs: 'Edit Permission',
+              zhCn: '编辑权限',
+              type: 'Element'
+            }
+          ]
         },
         {
           name: 'Role Management',
           enUs: 'Role Management',
           zhCn: '角色管理',
           type: 'Page',
-          path: 'auth/role'
+          path: 'auth/role',
+          children: [
+            {
+              name: 'Auth_Role_Edit',
+              enUs: 'Edit Permission',
+              zhCn: '编辑权限',
+              type: 'Element'
+            }
+          ]
         },
         {
           name: 'Resource Management',
           enUs: 'Resource Management',
           zhCn: '资源管理',
           type: 'Page',
-          path: 'auth/resource'
+          path: 'auth/resource',
+          children: [
+            {
+              name: 'Auth_Resource_Edit',
+              enUs: 'Edit Permission',
+              zhCn: '编辑权限',
+              type: 'Element'
+            }
+          ]
         }
       ]
     },
@@ -135,7 +167,15 @@ const init = async () => {
           enUs: 'Country',
           zhCn: '国家',
           type: 'Page',
-          path: 'basic-data/country'
+          path: 'basic-data/country',
+          children: [
+            {
+              name: 'BasicData_Country_Edit',
+              enUs: 'Edit Permission',
+              zhCn: '编辑权限',
+              type: 'Element'
+            }
+          ]
         }
       ]
     },
@@ -150,7 +190,8 @@ const init = async () => {
           enUs: 'Treasure Management',
           zhCn: '宝藏管理',
           type: 'Page',
-          path: 'content/treasure'
+          path: 'content/treasure',
+          children: []
         }
       ]
     }
@@ -187,6 +228,25 @@ const init = async () => {
         enUs: subItem.enUs,
         zhCn: subItem.zhCn
       })
+      if (subItem.children.length) {
+        for (let k = 0; k < subItem.children.length; k++) {
+          const grandsonItem = subItem.children[k]
+          const grandsonResourceRes = await createResource({
+            ...resourceCommonFileds,
+            parentId: subResourceRes.id,
+            type: grandsonItem.type as ResourceType,
+            name: grandsonItem.name,
+            sort: k + 1
+          })
+          resourceIds.push(grandsonResourceRes.id)
+          await createResourceLocale({
+            ...resourceLocaleCommonFileds,
+            resourceId: grandsonResourceRes.id,
+            enUs: grandsonItem.enUs,
+            zhCn: grandsonItem.zhCn
+          })
+        }
+      }
     }
   }
 

@@ -11,6 +11,7 @@ export const DeleteBtn = (props: Props) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(false)
   const [confirmLoading, setConfirmLoading] = useState(false)
+  const { checkResource } = useResourceStore()
 
   const onOpen = () => {
     setVisible(true)
@@ -37,19 +38,21 @@ export const DeleteBtn = (props: Props) => {
   }
 
   return (
-    <>
-      <Link hover='color' theme='primary' onClick={onOpen}>
-        {t('action.delete')}
-      </Link>
-      <GlDialog
-        header={t('action.delete')}
-        visible={visible}
-        confirmLoading={confirmLoading}
-        onClose={onClose}
-        onConfirm={onConfirm}
-      >
-        {t('message.confirmDelete')}
-      </GlDialog>
-    </>
+    checkResource('Auth_Session_Edit') && (
+      <>
+        <Link hover='color' theme='primary' onClick={onOpen}>
+          {t('action.delete')}
+        </Link>
+        <GlDialog
+          header={t('action.delete')}
+          visible={visible}
+          confirmLoading={confirmLoading}
+          onClose={onClose}
+          onConfirm={onConfirm}
+        >
+          {t('message.confirmDelete')}
+        </GlDialog>
+      </>
+    )
   )
 }

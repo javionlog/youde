@@ -7,12 +7,15 @@ interface Props {
 
 export const SetRoleBtn = (props: Props) => {
   const { text, onOpen } = useTable(props)
+  const { checkResource } = useResourceStore()
 
   return (
-    <div onClick={onOpen}>
-      <Link hover='color' theme='primary'>
-        {text}
-      </Link>
-    </div>
+    checkResource('Auth_User_Edit') && (
+      <div onClick={onOpen}>
+        <Link hover='color' theme='primary'>
+          {text}
+        </Link>
+      </div>
+    )
   )
 }

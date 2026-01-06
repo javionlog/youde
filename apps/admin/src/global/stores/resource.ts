@@ -9,6 +9,7 @@ interface State {
   getMenuResources: () => ResourceNode[]
   getPageResources: () => ResourceNode[]
   getElementResources: () => ResourceNode[]
+  checkResource: (name: string) => boolean
 }
 
 export const useResourceStore = create(
@@ -34,6 +35,11 @@ export const useResourceStore = create(
           return get()
             .getResources()
             .filter(o => o.type === 'Element')
+        },
+        checkResource: name => {
+          return get()
+            .getElementResources()
+            .some(o => o.name === name)
         }
       }
     }),

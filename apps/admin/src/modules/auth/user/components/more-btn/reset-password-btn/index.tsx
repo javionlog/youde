@@ -7,12 +7,15 @@ interface Props {
 
 export const ResetPasswordBtn = (props: Props) => {
   const { text, onOpen } = useForm(props)
+  const { checkResource } = useResourceStore()
 
   return (
-    <div onClick={onOpen}>
-      <Link hover='color' theme='primary'>
-        {text}
-      </Link>
-    </div>
+    checkResource('Auth_User_Edit') && (
+      <div onClick={onOpen}>
+        <Link hover='color' theme='primary'>
+          {text}
+        </Link>
+      </div>
+    )
   )
 }
