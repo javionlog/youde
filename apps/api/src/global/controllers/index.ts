@@ -76,3 +76,10 @@ export const adminGuardController = new Elysia({
       session
     }
   })
+
+export const portalGuardController = new Elysia({
+  name: 'shared.portalGuardController',
+  prefix: '/portal'
+}).resolve(() => {
+  return {}
+})

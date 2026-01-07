@@ -28,7 +28,8 @@ const app = adminGuardController.group('/treasure-category', app =>
       },
       {
         detail: {
-          tags
+          tags,
+          description: 'Create treasure category'
         },
         body: createReqSpec,
         response: promiseRowResSpec.omit({ locales: true })
@@ -42,7 +43,8 @@ const app = adminGuardController.group('/treasure-category', app =>
       },
       {
         detail: {
-          tags
+          tags,
+          description: 'Update treasure category'
         },
         body: updateReqSpec,
         response: promiseRowResSpec.omit({ locales: true })
@@ -55,7 +57,8 @@ const app = adminGuardController.group('/treasure-category', app =>
       },
       {
         detail: {
-          tags
+          tags,
+          description: 'Delete treasure category'
         },
         body: deleteReqSpec
       }
@@ -67,7 +70,8 @@ const app = adminGuardController.group('/treasure-category', app =>
       },
       {
         detail: {
-          tags
+          tags,
+          description: 'Get treasure category'
         },
         body: getReqSpec,
         response: promiseRowResSpec
@@ -79,7 +83,10 @@ const app = adminGuardController.group('/treasure-category', app =>
         return await listTreasureCategoryTree(body)
       },
       {
-        detail: { tags },
+        detail: {
+          tags,
+          description: 'List treasure category tree'
+        },
         body: listReqSpec,
         response: promiseTreeResSpec
       }

@@ -7,6 +7,13 @@ export default defineConfig({
     lint: 'biome',
     path: './src/global/api'
   },
+  parser: {
+    filters: {
+      operations: {
+        include: ['/admin/']
+      }
+    }
+  },
   plugins: [
     '@hey-api/schemas',
     {

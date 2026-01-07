@@ -11,6 +11,10 @@ import adminTreasure from './modules//admin/treasure/controllers'
 import adminTreasureCategory from './modules/admin/treasure-category/controllers'
 import adminTreasureCategoryLocale from './modules/admin/treasure-category-locale/controllers'
 import adminUser from './modules/admin/user/controllers'
+import portalCountry from './modules/portal/country/controllers'
+import portalTreasure from './modules//portal/treasure/controllers'
+import portalTreasureCategory from './modules/portal/treasure-category/controllers'
+import portalTreasureCategoryLocale from './modules/portal/treasure-category-locale/controllers'
 
 export const appController = new Elysia({ name: 'global.controller' })
   .use(sharedPlugin)
@@ -25,3 +29,7 @@ export const appController = new Elysia({ name: 'global.controller' })
   .use(adminTreasureCategoryLocale)
   .use(adminCountry)
   .use(adminTreasure)
+  .use(portalCountry)
+  .use(portalTreasure)
+  .use(portalTreasureCategory)
+  .use(portalTreasureCategoryLocale)

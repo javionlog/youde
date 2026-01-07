@@ -7,6 +7,13 @@ export default defineConfig({
     lint: 'biome',
     path: './src/global/api'
   },
+  parser: {
+    filters: {
+      operations: {
+        include: ['/portal/']
+      }
+    }
+  },
   plugins: [
     '@hey-api/schemas',
     {

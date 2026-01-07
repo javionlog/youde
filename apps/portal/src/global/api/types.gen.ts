@@ -4,350 +4,78 @@ export type ClientOptions = {
     baseUrl: 'http://localhost:3000' | (string & {});
 };
 
-export type ResourceNode = {
+export type TreasureCategoryNode = {
     id: string;
     createdAt: string | null;
     updatedAt: string | null;
     createdBy: string | null;
     updatedBy: string | null;
+    parentId: string | null;
     name: string;
     enabled: boolean;
-    remark: string | null;
     sort: number;
-    parentId: string | null;
-    type: 'Menu' | 'Page' | 'Element';
-    path: string | null;
-    activePath: string | null;
-    component: string | null;
-    icon: string | null;
-    isLink: boolean;
-    isCache: boolean;
-    isAffix: boolean;
-    isShow: boolean;
     locales: Array<{
         id: string;
         createdAt: string | null;
         updatedAt: string | null;
         createdBy: string | null;
         updatedBy: string | null;
-        resourceId: string;
+        categoryId: string;
         field: 'name';
         enUs: string;
         zhCn: string;
     }>;
-    children: Array<ResourceNode>;
+    children: Array<TreasureCategoryNode>;
 };
 
-export type GrantResourceNode = {
-    id: string;
-    createdAt: string | null;
-    updatedAt: string | null;
-    createdBy: string | null;
-    updatedBy: string | null;
-    name: string;
-    enabled: boolean;
-    remark: string | null;
-    sort: number;
-    parentId: string | null;
-    type: 'Menu' | 'Page' | 'Element';
-    path: string | null;
-    activePath: string | null;
-    component: string | null;
-    icon: string | null;
-    isLink: boolean;
-    isCache: boolean;
-    isAffix: boolean;
-    isShow: boolean;
-    locales: Array<{
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        resourceId: string;
-        field: 'name';
-        enUs: string;
-        zhCn: string;
-    }>;
-    grant: boolean;
-    children: Array<GrantResourceNode>;
-};
-
-export type DeleteAdminResourceData = {
+export type PostPortalCountryListData = {
     body: {
-        id: string;
+        page?: number;
+        pageSize?: number;
+        codes?: Array<string> | null;
+        regions?: Array<string> | null;
+        enUs?: Array<string> | null;
+        zhCn?: Array<string> | null;
+        sortBy?: {
+            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'code' | 'region' | 'enUs' | 'zhCn';
+            direction?: 'asc' | 'desc';
+        } | null;
     };
     path?: never;
     query?: never;
-    url: '/admin/resource';
+    url: '/portal/country/list';
 };
 
-export type GetAdminResourceData = {
-    body?: never;
-    path?: never;
-    query: {
-        id: string;
-    };
-    url: '/admin/resource';
-};
-
-export type GetAdminResourceResponses = {
+export type PostPortalCountryListResponses = {
     /**
      * Response for status 200
      */
     200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        name: string;
-        enabled: boolean;
-        remark: string | null;
-        sort: number;
-        parentId: string | null;
-        type: 'Menu' | 'Page' | 'Element';
-        path: string | null;
-        activePath: string | null;
-        component: string | null;
-        icon: string | null;
-        isLink: boolean;
-        isCache: boolean;
-        isAffix: boolean;
-        isShow: boolean;
-        locales: Array<{
+        records: Array<{
             id: string;
             createdAt: string | null;
             updatedAt: string | null;
             createdBy: string | null;
             updatedBy: string | null;
-            resourceId: string;
-            field: 'name';
+            code: string;
+            region: string;
             enUs: string;
             zhCn: string;
         }>;
+        total: number;
     };
 };
 
-export type GetAdminResourceResponse = GetAdminResourceResponses[keyof GetAdminResourceResponses];
+export type PostPortalCountryListResponse = PostPortalCountryListResponses[keyof PostPortalCountryListResponses];
 
-export type PatchAdminResourceData = {
-    body: {
-        id: string;
-        name: string;
-        enabled: boolean;
-        remark?: string | null;
-        sort: number;
-        parentId?: string | null;
-        type: 'Menu' | 'Page' | 'Element';
-        path?: string | null;
-        activePath?: string | null;
-        component?: string | null;
-        icon?: string | null;
-        isLink: boolean;
-        isCache: boolean;
-        isAffix: boolean;
-        isShow: boolean;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/resource';
-};
-
-export type PatchAdminResourceResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        name: string;
-        enabled: boolean;
-        remark: string | null;
-        sort: number;
-        parentId: string | null;
-        type: 'Menu' | 'Page' | 'Element';
-        path: string | null;
-        activePath: string | null;
-        component: string | null;
-        icon: string | null;
-        isLink: boolean;
-        isCache: boolean;
-        isAffix: boolean;
-        isShow: boolean;
-    };
-};
-
-export type PatchAdminResourceResponse = PatchAdminResourceResponses[keyof PatchAdminResourceResponses];
-
-export type PostAdminResourceData = {
-    body: {
-        name: string;
-        enabled: boolean;
-        remark?: string | null;
-        sort: number;
-        parentId?: string | null;
-        type: 'Menu' | 'Page' | 'Element';
-        path?: string | null;
-        activePath?: string | null;
-        component?: string | null;
-        icon?: string | null;
-        isLink: boolean;
-        isCache: boolean;
-        isAffix: boolean;
-        isShow: boolean;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/resource';
-};
-
-export type PostAdminResourceResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        name: string;
-        enabled: boolean;
-        remark: string | null;
-        sort: number;
-        parentId: string | null;
-        type: 'Menu' | 'Page' | 'Element';
-        path: string | null;
-        activePath: string | null;
-        component: string | null;
-        icon: string | null;
-        isLink: boolean;
-        isCache: boolean;
-        isAffix: boolean;
-        isShow: boolean;
-    };
-};
-
-export type PostAdminResourceResponse = PostAdminResourceResponses[keyof PostAdminResourceResponses];
-
-export type PostAdminResourceTreeData = {
-    body: {
-        enabled?: boolean | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/resource/tree';
-};
-
-export type PostAdminResourceTreeResponses = {
-    /**
-     * Response for status 200
-     */
-    200: Array<ResourceNode>;
-};
-
-export type PostAdminResourceTreeResponse = PostAdminResourceTreeResponses[keyof PostAdminResourceTreeResponses];
-
-export type PostAdminResourceUserResourceTreeData = {
-    body: {
-        userId: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/resource/user-resource-tree';
-};
-
-export type PostAdminResourceUserResourceTreeResponses = {
-    /**
-     * Response for status 200
-     */
-    200: Array<ResourceNode>;
-};
-
-export type PostAdminResourceUserResourceTreeResponse = PostAdminResourceUserResourceTreeResponses[keyof PostAdminResourceUserResourceTreeResponses];
-
-export type PostAdminResourceRoleResourceTreeData = {
-    body: {
-        roleId: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/resource/role-resource-tree';
-};
-
-export type PostAdminResourceRoleResourceTreeResponses = {
-    /**
-     * Response for status 200
-     */
-    200: Array<ResourceNode>;
-};
-
-export type PostAdminResourceRoleResourceTreeResponse = PostAdminResourceRoleResourceTreeResponses[keyof PostAdminResourceRoleResourceTreeResponses];
-
-export type PostAdminResourceRoleGrantResourceTreeData = {
-    body: {
-        roleId: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/resource/role-grant-resource-tree';
-};
-
-export type PostAdminResourceRoleGrantResourceTreeResponses = {
-    /**
-     * Response for status 200
-     */
-    200: Array<GrantResourceNode>;
-};
-
-export type PostAdminResourceRoleGrantResourceTreeResponse = PostAdminResourceRoleGrantResourceTreeResponses[keyof PostAdminResourceRoleGrantResourceTreeResponses];
-
-export type GetAdminResourceLocaleData = {
+export type GetPortalTreasureData = {
     body?: never;
     path?: never;
-    query: {
-        resourceId: string;
-        field: 'name';
-    };
-    url: '/admin/resource-locale';
-};
-
-export type GetAdminResourceLocaleResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        resourceId: string;
-        field: 'name';
-        enUs: string;
-        zhCn: string;
-    };
-};
-
-export type GetAdminResourceLocaleResponse = GetAdminResourceLocaleResponses[keyof GetAdminResourceLocaleResponses];
-
-export type PatchAdminResourceLocaleData = {
-    body: {
-        resourceId: string;
-        field: 'name';
-        enUs: string;
-        zhCn: string;
-    };
-    path?: never;
     query?: never;
-    url: '/admin/resource-locale';
+    url: '/portal/treasure';
 };
 
-export type PatchAdminResourceLocaleResponses = {
+export type GetPortalTreasureResponses = {
     /**
      * Response for status 200
      */
@@ -357,158 +85,43 @@ export type PatchAdminResourceLocaleResponses = {
         updatedAt: string | null;
         createdBy: string | null;
         updatedBy: string | null;
-        resourceId: string;
-        field: 'name';
-        enUs: string;
-        zhCn: string;
+        categoryId: string;
+        userId: string;
+        title: string;
+        description: string;
+        fee: 'Free' | 'PartlyFree' | 'Paid';
+        countryCode: string;
+        cover: string | null;
+        content: string;
+        url: string;
+        status: 'Draft' | 'Pending' | 'Passed';
     };
 };
 
-export type PatchAdminResourceLocaleResponse = PatchAdminResourceLocaleResponses[keyof PatchAdminResourceLocaleResponses];
+export type GetPortalTreasureResponse = GetPortalTreasureResponses[keyof GetPortalTreasureResponses];
 
-export type PostAdminResourceLocaleData = {
-    body: {
-        resourceId: string;
-        field: 'name';
-        enUs: string;
-        zhCn: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/resource-locale';
-};
-
-export type PostAdminResourceLocaleResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        resourceId: string;
-        field: 'name';
-        enUs: string;
-        zhCn: string;
-    };
-};
-
-export type PostAdminResourceLocaleResponse = PostAdminResourceLocaleResponses[keyof PostAdminResourceLocaleResponses];
-
-export type DeleteAdminRoleData = {
-    body: {
-        id: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/role';
-};
-
-export type GetAdminRoleData = {
-    body?: never;
-    path?: never;
-    query: {
-        id: string;
-    };
-    url: '/admin/role';
-};
-
-export type GetAdminRoleResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        name: string;
-        enabled: boolean;
-        remark: string | null;
-    };
-};
-
-export type GetAdminRoleResponse = GetAdminRoleResponses[keyof GetAdminRoleResponses];
-
-export type PatchAdminRoleData = {
-    body: {
-        id: string;
-        name: string;
-        enabled: boolean;
-        remark?: string | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/role';
-};
-
-export type PatchAdminRoleResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        name: string;
-        enabled: boolean;
-        remark: string | null;
-    };
-};
-
-export type PatchAdminRoleResponse = PatchAdminRoleResponses[keyof PatchAdminRoleResponses];
-
-export type PostAdminRoleData = {
-    body: {
-        name: string;
-        enabled: boolean;
-        remark?: string | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/role';
-};
-
-export type PostAdminRoleResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        name: string;
-        enabled: boolean;
-        remark: string | null;
-    };
-};
-
-export type PostAdminRoleResponse = PostAdminRoleResponses[keyof PostAdminRoleResponses];
-
-export type PostAdminRoleListData = {
+export type PostPortalTreasureListData = {
     body: {
         page?: number;
         pageSize?: number;
-        name?: string | null;
-        enabled?: boolean | null;
+        id?: string | null;
+        title?: string | null;
+        createdBy?: string | null;
+        fees?: Array<'Free' | 'PartlyFree' | 'Paid'> | null;
+        countryCodes?: Array<string> | null;
+        categoryIds?: Array<string> | null;
+        status?: Array<'Draft' | 'Pending' | 'Passed'> | null;
         sortBy?: {
-            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'name' | 'enabled' | 'remark';
+            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'categoryId' | 'userId' | 'title' | 'description' | 'fee' | 'countryCode' | 'cover' | 'content' | 'url' | 'status';
             direction?: 'asc' | 'desc';
         } | null;
     };
     path?: never;
     query?: never;
-    url: '/admin/role/list';
+    url: '/portal/treasure/list';
 };
 
-export type PostAdminRoleListResponses = {
+export type PostPortalTreasureListResponses = {
     /**
      * Response for status 200
      */
@@ -519,449 +132,49 @@ export type PostAdminRoleListResponses = {
             updatedAt: string | null;
             createdBy: string | null;
             updatedBy: string | null;
-            name: string;
-            enabled: boolean;
-            remark: string | null;
-        }>;
-        total: number;
-    };
-};
-
-export type PostAdminRoleListResponse = PostAdminRoleListResponses[keyof PostAdminRoleListResponses];
-
-export type PostAdminRoleUserRoleListData = {
-    body: {
-        page?: number;
-        pageSize?: number;
-        userId: string;
-        name?: string | null;
-        enabled?: boolean | null;
-        sortBy?: {
-            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'name' | 'enabled' | 'remark';
-            direction?: 'asc' | 'desc';
-        } | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/role/user-role-list';
-};
-
-export type PostAdminRoleUserRoleListResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        records: Array<{
-            id: string;
-            createdAt: string | null;
-            updatedAt: string | null;
-            createdBy: string | null;
-            updatedBy: string | null;
-            name: string;
-            enabled: boolean;
-            remark: string | null;
-        }>;
-        total: number;
-    };
-};
-
-export type PostAdminRoleUserRoleListResponse = PostAdminRoleUserRoleListResponses[keyof PostAdminRoleUserRoleListResponses];
-
-export type PostAdminRoleUserGrantRoleListData = {
-    body: {
-        page?: number;
-        pageSize?: number;
-        userId: string;
-        name?: string | null;
-        enabled?: boolean | null;
-        grant?: boolean | null;
-        sortBy?: {
-            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'name' | 'enabled' | 'remark';
-            direction?: 'asc' | 'desc';
-        } | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/role/user-grant-role-list';
-};
-
-export type PostAdminRoleUserGrantRoleListResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        records: Array<{
-            id: string;
-            createdAt: string | null;
-            updatedAt: string | null;
-            createdBy: string | null;
-            updatedBy: string | null;
-            name: string;
-            enabled: boolean;
-            remark: string | null;
-            grant: boolean;
-        }>;
-        total: number;
-    };
-};
-
-export type PostAdminRoleUserGrantRoleListResponse = PostAdminRoleUserGrantRoleListResponses[keyof PostAdminRoleUserGrantRoleListResponses];
-
-export type PostAdminRoleResourceRoleListData = {
-    body: {
-        page?: number;
-        pageSize?: number;
-        resourceId: string;
-        name?: string | null;
-        enabled?: boolean | null;
-        sortBy?: {
-            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'name' | 'enabled' | 'remark';
-            direction?: 'asc' | 'desc';
-        } | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/role/resource-role-list';
-};
-
-export type PostAdminRoleResourceRoleListResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        records: Array<{
-            id: string;
-            createdAt: string | null;
-            updatedAt: string | null;
-            createdBy: string | null;
-            updatedBy: string | null;
-            name: string;
-            enabled: boolean;
-            remark: string | null;
-        }>;
-        total: number;
-    };
-};
-
-export type PostAdminRoleResourceRoleListResponse = PostAdminRoleResourceRoleListResponses[keyof PostAdminRoleResourceRoleListResponses];
-
-export type DeleteAdminRoleResourceRelationData = {
-    body: {
-        roleId: string;
-        resourceId: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/role-resource-relation';
-};
-
-export type PostAdminRoleResourceRelationData = {
-    body: {
-        roleId: string;
-        resourceId: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/role-resource-relation';
-};
-
-export type PostAdminRoleResourceRelationResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        roleId: string;
-        resourceId: string;
-    };
-};
-
-export type PostAdminRoleResourceRelationResponse = PostAdminRoleResourceRelationResponses[keyof PostAdminRoleResourceRelationResponses];
-
-export type PostAdminRoleResourceRelationSetManyData = {
-    body: {
-        roleId: string;
-        createResourceIds: Array<string>;
-        deleteResourceIds: Array<string>;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/role-resource-relation/set-many';
-};
-
-export type PostAdminRoleResourceRelationListData = {
-    body: {
-        page?: number;
-        pageSize?: number;
-        roleId?: string;
-        resourceId?: string;
-        roleIds?: Array<string> | null;
-        resourceIds?: Array<string> | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/role-resource-relation/list';
-};
-
-export type PostAdminRoleResourceRelationListResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        records: Array<{
-            id: string;
-            createdAt: string | null;
-            updatedAt: string | null;
-            createdBy: string | null;
-            updatedBy: string | null;
-            roleId: string;
-            resourceId: string;
-        }>;
-        total: number;
-    };
-};
-
-export type PostAdminRoleResourceRelationListResponse = PostAdminRoleResourceRelationListResponses[keyof PostAdminRoleResourceRelationListResponses];
-
-export type DeleteAdminUserRoleRelationData = {
-    body: {
-        userId: string;
-        roleId: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/user-role-relation';
-};
-
-export type PostAdminUserRoleRelationData = {
-    body: {
-        userId: string;
-        roleId: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/user-role-relation';
-};
-
-export type PostAdminUserRoleRelationResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        userId: string;
-        roleId: string;
-    };
-};
-
-export type PostAdminUserRoleRelationResponse = PostAdminUserRoleRelationResponses[keyof PostAdminUserRoleRelationResponses];
-
-export type PostAdminUserRoleRelationListData = {
-    body: {
-        page?: number;
-        pageSize?: number;
-        userId?: string;
-        roleId?: string;
-        userIds?: Array<string> | null;
-        roleIds?: Array<string> | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/user-role-relation/list';
-};
-
-export type PostAdminUserRoleRelationListResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        records: Array<{
-            id: string;
-            createdAt: string | null;
-            updatedAt: string | null;
-            createdBy: string | null;
-            updatedBy: string | null;
+            categoryId: string;
             userId: string;
-            roleId: string;
+            title: string;
+            description: string;
+            fee: 'Free' | 'PartlyFree' | 'Paid';
+            countryCode: string;
+            cover: string | null;
+            content: string;
+            url: string;
+            status: 'Draft' | 'Pending' | 'Passed';
         }>;
         total: number;
     };
 };
 
-export type PostAdminUserRoleRelationListResponse = PostAdminUserRoleRelationListResponses[keyof PostAdminUserRoleRelationListResponses];
+export type PostPortalTreasureListResponse = PostPortalTreasureListResponses[keyof PostPortalTreasureListResponses];
 
-export type DeleteAdminSessionData = {
+export type PostPortalTreasureCategoryTreeData = {
     body: {
-        token: string;
+        enabled?: boolean | null;
     };
     path?: never;
     query?: never;
-    url: '/admin/session';
+    url: '/portal/treasure-category/tree';
 };
 
-export type GetAdminSessionData = {
-    body?: never;
-    path?: never;
-    query: {
-        token: string;
-    };
-    url: '/admin/session';
-};
-
-export type GetAdminSessionResponses = {
+export type PostPortalTreasureCategoryTreeResponses = {
     /**
      * Response for status 200
      */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        expiresAt: string;
-        token: string;
-        ipAddress: string | null;
-        userAgent: string | null;
-        username: string | null;
-        userId: string;
-    };
+    200: Array<TreasureCategoryNode>;
 };
 
-export type GetAdminSessionResponse = GetAdminSessionResponses[keyof GetAdminSessionResponses];
+export type PostPortalTreasureCategoryTreeResponse = PostPortalTreasureCategoryTreeResponses[keyof PostPortalTreasureCategoryTreeResponses];
 
-export type PostAdminSessionData = {
-    body: {
-        ipAddress?: string | null;
-        userAgent?: string | null;
-        username?: string | null;
-        userId: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/session';
-};
-
-export type PostAdminSessionResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        expiresAt: string;
-        token: string;
-        ipAddress: string | null;
-        userAgent: string | null;
-        username: string | null;
-        userId: string;
-    };
-};
-
-export type PostAdminSessionResponse = PostAdminSessionResponses[keyof PostAdminSessionResponses];
-
-export type PostAdminSessionListData = {
-    body: {
-        page?: number;
-        pageSize?: number;
-        username?: string | null;
-        sortBy?: {
-            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'expiresAt' | 'token' | 'ipAddress' | 'userAgent' | 'username' | 'userId';
-            direction?: 'asc' | 'desc';
-        } | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/session/list';
-};
-
-export type PostAdminSessionListResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        records: Array<{
-            id: string;
-            createdAt: string | null;
-            updatedAt: string | null;
-            createdBy: string | null;
-            updatedBy: string | null;
-            expiresAt: string;
-            token: string;
-            ipAddress: string | null;
-            userAgent: string | null;
-            username: string | null;
-            userId: string;
-        }>;
-        total: number;
-    };
-};
-
-export type PostAdminSessionListResponse = PostAdminSessionListResponses[keyof PostAdminSessionListResponses];
-
-export type PostAdminUserSignInData = {
-    body: {
-        username: string;
-        password: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/user/sign-in';
-};
-
-export type PostAdminUserSignInResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        token: string;
-        user: {
-            id: string;
-            username: string;
-            isAdmin: boolean;
-        };
-        resourceTree: Array<ResourceNode>;
-    };
-};
-
-export type PostAdminUserSignInResponse = PostAdminUserSignInResponses[keyof PostAdminUserSignInResponses];
-
-export type PostAdminUserSignOutData = {
+export type GetPortalTreasureCategoryLocaleData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/admin/user/sign-out';
+    url: '/portal/treasure-category-locale';
 };
 
-export type DeleteAdminUserData = {
-    body: {
-        id: string;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/user';
-};
-
-export type GetAdminUserData = {
-    body?: never;
-    path?: never;
-    query: {
-        id: string;
-    };
-    url: '/admin/user';
-};
-
-export type GetAdminUserResponses = {
+export type GetPortalTreasureCategoryLocaleResponses = {
     /**
      * Response for status 200
      */
@@ -971,186 +184,11 @@ export type GetAdminUserResponses = {
         updatedAt: string | null;
         createdBy: string | null;
         updatedBy: string | null;
-        username: string;
-        enabled: boolean;
-        isAdmin: boolean;
+        categoryId: string;
+        field: 'name';
+        enUs: string;
+        zhCn: string;
     };
 };
 
-export type GetAdminUserResponse = GetAdminUserResponses[keyof GetAdminUserResponses];
-
-export type PatchAdminUserData = {
-    body: {
-        id: string;
-        username: string;
-        enabled: boolean;
-        isAdmin: boolean;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/user';
-};
-
-export type PatchAdminUserResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        username: string;
-        enabled: boolean;
-        isAdmin: boolean;
-    };
-};
-
-export type PatchAdminUserResponse = PatchAdminUserResponses[keyof PatchAdminUserResponses];
-
-export type PostAdminUserData = {
-    body: {
-        username: string;
-        password: string;
-        enabled: boolean;
-        isAdmin: boolean;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/user';
-};
-
-export type PostAdminUserResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        id: string;
-        createdAt: string | null;
-        updatedAt: string | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        username: string;
-        enabled: boolean;
-        isAdmin: boolean;
-    };
-};
-
-export type PostAdminUserResponse = PostAdminUserResponses[keyof PostAdminUserResponses];
-
-export type PostAdminUserListData = {
-    body: {
-        page?: number;
-        pageSize?: number;
-        username?: string | null;
-        enabled?: boolean | null;
-        isAdmin?: boolean | null;
-        sortBy?: {
-            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'username' | 'password' | 'enabled' | 'isAdmin';
-            direction?: 'asc' | 'desc';
-        } | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/user/list';
-};
-
-export type PostAdminUserListResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        records: Array<{
-            id: string;
-            createdAt: string | null;
-            updatedAt: string | null;
-            createdBy: string | null;
-            updatedBy: string | null;
-            username: string;
-            enabled: boolean;
-            isAdmin: boolean;
-        }>;
-        total: number;
-    };
-};
-
-export type PostAdminUserListResponse = PostAdminUserListResponses[keyof PostAdminUserListResponses];
-
-export type PostAdminUserRoleUserListData = {
-    body: {
-        page?: number;
-        pageSize?: number;
-        roleId: string;
-        username?: string | null;
-        enabled?: boolean | null;
-        isAdmin?: boolean | null;
-        sortBy?: {
-            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'username' | 'password' | 'enabled' | 'isAdmin';
-            direction?: 'asc' | 'desc';
-        } | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/user/role-user-list';
-};
-
-export type PostAdminUserRoleUserListResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        records: Array<{
-            id: string;
-            createdAt: string | null;
-            updatedAt: string | null;
-            createdBy: string | null;
-            updatedBy: string | null;
-            username: string;
-            enabled: boolean;
-            isAdmin: boolean;
-        }>;
-        total: number;
-    };
-};
-
-export type PostAdminUserRoleUserListResponse = PostAdminUserRoleUserListResponses[keyof PostAdminUserRoleUserListResponses];
-
-export type PostAdminUserResourceUserListData = {
-    body: {
-        page?: number;
-        pageSize?: number;
-        resourceId: string;
-        username?: string | null;
-        enabled?: boolean | null;
-        isAdmin?: boolean | null;
-        sortBy?: {
-            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'username' | 'password' | 'enabled' | 'isAdmin';
-            direction?: 'asc' | 'desc';
-        } | null;
-    };
-    path?: never;
-    query?: never;
-    url: '/admin/user/resource-user-list';
-};
-
-export type PostAdminUserResourceUserListResponses = {
-    /**
-     * Response for status 200
-     */
-    200: {
-        records: Array<{
-            id: string;
-            createdAt: string | null;
-            updatedAt: string | null;
-            createdBy: string | null;
-            updatedBy: string | null;
-            username: string;
-            enabled: boolean;
-            isAdmin: boolean;
-        }>;
-        total: number;
-    };
-};
-
-export type PostAdminUserResourceUserListResponse = PostAdminUserResourceUserListResponses[keyof PostAdminUserResourceUserListResponses];
+export type GetPortalTreasureCategoryLocaleResponse = GetPortalTreasureCategoryLocaleResponses[keyof GetPortalTreasureCategoryLocaleResponses];

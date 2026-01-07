@@ -22,7 +22,8 @@ const app = adminGuardController.group('/country', app =>
       },
       {
         detail: {
-          tags
+          tags,
+          description: 'Create country'
         },
         body: createReqSpec,
         response: promiseRowResSpec
@@ -36,7 +37,8 @@ const app = adminGuardController.group('/country', app =>
       },
       {
         detail: {
-          tags
+          tags,
+          description: 'Update country'
         },
         body: updateReqSpec,
         response: promiseRowResSpec
@@ -49,7 +51,8 @@ const app = adminGuardController.group('/country', app =>
       },
       {
         detail: {
-          tags
+          tags,
+          description: 'Delete country'
         },
         body: deleteReqSpec
       }
@@ -61,7 +64,8 @@ const app = adminGuardController.group('/country', app =>
       },
       {
         detail: {
-          tags
+          tags,
+          description: 'Get country'
         },
         body: getReqSpec,
         response: promiseRowResSpec
@@ -73,7 +77,10 @@ const app = adminGuardController.group('/country', app =>
         return await listCountries(body)
       },
       {
-        detail: { tags },
+        detail: {
+          tags,
+          description: 'List countries'
+        },
         body: listReqSpec,
         response: promiseListResSpec
       }

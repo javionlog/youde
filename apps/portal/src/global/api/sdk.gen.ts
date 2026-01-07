@@ -2,8 +2,8 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import { postAdminResourceRoleGrantResourceTreeResponseTransformer, postAdminResourceRoleResourceTreeResponseTransformer, postAdminResourceTreeResponseTransformer, postAdminResourceUserResourceTreeResponseTransformer, postAdminUserSignInResponseTransformer } from './transformers.gen';
-import type { DeleteAdminResourceData, DeleteAdminRoleData, DeleteAdminRoleResourceRelationData, DeleteAdminSessionData, DeleteAdminUserData, DeleteAdminUserRoleRelationData, GetAdminResourceData, GetAdminResourceLocaleData, GetAdminResourceLocaleResponses, GetAdminResourceResponses, GetAdminRoleData, GetAdminRoleResponses, GetAdminSessionData, GetAdminSessionResponses, GetAdminUserData, GetAdminUserResponses, PatchAdminResourceData, PatchAdminResourceLocaleData, PatchAdminResourceLocaleResponses, PatchAdminResourceResponses, PatchAdminRoleData, PatchAdminRoleResponses, PatchAdminUserData, PatchAdminUserResponses, PostAdminResourceData, PostAdminResourceLocaleData, PostAdminResourceLocaleResponses, PostAdminResourceResponses, PostAdminResourceRoleGrantResourceTreeData, PostAdminResourceRoleGrantResourceTreeResponses, PostAdminResourceRoleResourceTreeData, PostAdminResourceRoleResourceTreeResponses, PostAdminResourceTreeData, PostAdminResourceTreeResponses, PostAdminResourceUserResourceTreeData, PostAdminResourceUserResourceTreeResponses, PostAdminRoleData, PostAdminRoleListData, PostAdminRoleListResponses, PostAdminRoleResourceRelationData, PostAdminRoleResourceRelationListData, PostAdminRoleResourceRelationListResponses, PostAdminRoleResourceRelationResponses, PostAdminRoleResourceRelationSetManyData, PostAdminRoleResourceRoleListData, PostAdminRoleResourceRoleListResponses, PostAdminRoleResponses, PostAdminRoleUserGrantRoleListData, PostAdminRoleUserGrantRoleListResponses, PostAdminRoleUserRoleListData, PostAdminRoleUserRoleListResponses, PostAdminSessionData, PostAdminSessionListData, PostAdminSessionListResponses, PostAdminSessionResponses, PostAdminUserData, PostAdminUserListData, PostAdminUserListResponses, PostAdminUserResourceUserListData, PostAdminUserResourceUserListResponses, PostAdminUserResponses, PostAdminUserRoleRelationData, PostAdminUserRoleRelationListData, PostAdminUserRoleRelationListResponses, PostAdminUserRoleRelationResponses, PostAdminUserRoleUserListData, PostAdminUserRoleUserListResponses, PostAdminUserSignInData, PostAdminUserSignInResponses, PostAdminUserSignOutData } from './types.gen';
+import { postPortalTreasureCategoryTreeResponseTransformer } from './transformers.gen';
+import type { GetPortalTreasureCategoryLocaleData, GetPortalTreasureCategoryLocaleResponses, GetPortalTreasureData, GetPortalTreasureResponses, PostPortalCountryListData, PostPortalCountryListResponses, PostPortalTreasureCategoryTreeData, PostPortalTreasureCategoryTreeResponses, PostPortalTreasureListData, PostPortalTreasureListResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -20,11 +20,11 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 };
 
 /**
- * Delete resource
+ * List countries
  */
-export const deleteAdminResource = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminResourceData, ThrowOnError>) => {
-    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
-        url: '/admin/resource',
+export const postPortalCountryList = <ThrowOnError extends boolean = false>(options: Options<PostPortalCountryListData, ThrowOnError>) => {
+    return (options.client ?? client).post<PostPortalCountryListResponses, unknown, ThrowOnError>({
+        url: '/portal/country/list',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -34,21 +34,21 @@ export const deleteAdminResource = <ThrowOnError extends boolean = false>(option
 };
 
 /**
- * Get resource
+ * Get treasure
  */
-export const getAdminResource = <ThrowOnError extends boolean = false>(options: Options<GetAdminResourceData, ThrowOnError>) => {
-    return (options.client ?? client).get<GetAdminResourceResponses, unknown, ThrowOnError>({
-        url: '/admin/resource',
+export const getPortalTreasure = <ThrowOnError extends boolean = false>(options?: Options<GetPortalTreasureData, ThrowOnError>) => {
+    return (options?.client ?? client).get<GetPortalTreasureResponses, unknown, ThrowOnError>({
+        url: '/portal/treasure',
         ...options
     });
 };
 
 /**
- * Update resource
+ * List treasures
  */
-export const patchAdminResource = <ThrowOnError extends boolean = false>(options: Options<PatchAdminResourceData, ThrowOnError>) => {
-    return (options.client ?? client).patch<PatchAdminResourceResponses, unknown, ThrowOnError>({
-        url: '/admin/resource',
+export const postPortalTreasureList = <ThrowOnError extends boolean = false>(options: Options<PostPortalTreasureListData, ThrowOnError>) => {
+    return (options.client ?? client).post<PostPortalTreasureListResponses, unknown, ThrowOnError>({
+        url: '/portal/treasure/list',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -58,11 +58,12 @@ export const patchAdminResource = <ThrowOnError extends boolean = false>(options
 };
 
 /**
- * Create resource
+ * List treasure category tree
  */
-export const postAdminResource = <ThrowOnError extends boolean = false>(options: Options<PostAdminResourceData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminResourceResponses, unknown, ThrowOnError>({
-        url: '/admin/resource',
+export const postPortalTreasureCategoryTree = <ThrowOnError extends boolean = false>(options: Options<PostPortalTreasureCategoryTreeData, ThrowOnError>) => {
+    return (options.client ?? client).post<PostPortalTreasureCategoryTreeResponses, unknown, ThrowOnError>({
+        responseTransformer: postPortalTreasureCategoryTreeResponseTransformer,
+        url: '/portal/treasure-category/tree',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -72,476 +73,11 @@ export const postAdminResource = <ThrowOnError extends boolean = false>(options:
 };
 
 /**
- * List resource tree
+ * Get treasure category locale
  */
-export const postAdminResourceTree = <ThrowOnError extends boolean = false>(options: Options<PostAdminResourceTreeData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminResourceTreeResponses, unknown, ThrowOnError>({
-        responseTransformer: postAdminResourceTreeResponseTransformer,
-        url: '/admin/resource/tree',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * List user resource tree
- */
-export const postAdminResourceUserResourceTree = <ThrowOnError extends boolean = false>(options: Options<PostAdminResourceUserResourceTreeData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminResourceUserResourceTreeResponses, unknown, ThrowOnError>({
-        responseTransformer: postAdminResourceUserResourceTreeResponseTransformer,
-        url: '/admin/resource/user-resource-tree',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * List role resource tree
- */
-export const postAdminResourceRoleResourceTree = <ThrowOnError extends boolean = false>(options: Options<PostAdminResourceRoleResourceTreeData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminResourceRoleResourceTreeResponses, unknown, ThrowOnError>({
-        responseTransformer: postAdminResourceRoleResourceTreeResponseTransformer,
-        url: '/admin/resource/role-resource-tree',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * List role grant resource tree
- */
-export const postAdminResourceRoleGrantResourceTree = <ThrowOnError extends boolean = false>(options: Options<PostAdminResourceRoleGrantResourceTreeData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminResourceRoleGrantResourceTreeResponses, unknown, ThrowOnError>({
-        responseTransformer: postAdminResourceRoleGrantResourceTreeResponseTransformer,
-        url: '/admin/resource/role-grant-resource-tree',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Get resource locale
- */
-export const getAdminResourceLocale = <ThrowOnError extends boolean = false>(options: Options<GetAdminResourceLocaleData, ThrowOnError>) => {
-    return (options.client ?? client).get<GetAdminResourceLocaleResponses, unknown, ThrowOnError>({
-        url: '/admin/resource-locale',
+export const getPortalTreasureCategoryLocale = <ThrowOnError extends boolean = false>(options?: Options<GetPortalTreasureCategoryLocaleData, ThrowOnError>) => {
+    return (options?.client ?? client).get<GetPortalTreasureCategoryLocaleResponses, unknown, ThrowOnError>({
+        url: '/portal/treasure-category-locale',
         ...options
-    });
-};
-
-/**
- * Update resource locale
- */
-export const patchAdminResourceLocale = <ThrowOnError extends boolean = false>(options: Options<PatchAdminResourceLocaleData, ThrowOnError>) => {
-    return (options.client ?? client).patch<PatchAdminResourceLocaleResponses, unknown, ThrowOnError>({
-        url: '/admin/resource-locale',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Create resource locale
- */
-export const postAdminResourceLocale = <ThrowOnError extends boolean = false>(options: Options<PostAdminResourceLocaleData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminResourceLocaleResponses, unknown, ThrowOnError>({
-        url: '/admin/resource-locale',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Delete role
- */
-export const deleteAdminRole = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminRoleData, ThrowOnError>) => {
-    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
-        url: '/admin/role',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Get role
- */
-export const getAdminRole = <ThrowOnError extends boolean = false>(options: Options<GetAdminRoleData, ThrowOnError>) => {
-    return (options.client ?? client).get<GetAdminRoleResponses, unknown, ThrowOnError>({
-        url: '/admin/role',
-        ...options
-    });
-};
-
-/**
- * Update role
- */
-export const patchAdminRole = <ThrowOnError extends boolean = false>(options: Options<PatchAdminRoleData, ThrowOnError>) => {
-    return (options.client ?? client).patch<PatchAdminRoleResponses, unknown, ThrowOnError>({
-        url: '/admin/role',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Create role
- */
-export const postAdminRole = <ThrowOnError extends boolean = false>(options: Options<PostAdminRoleData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminRoleResponses, unknown, ThrowOnError>({
-        url: '/admin/role',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * List roles
- */
-export const postAdminRoleList = <ThrowOnError extends boolean = false>(options: Options<PostAdminRoleListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminRoleListResponses, unknown, ThrowOnError>({
-        url: '/admin/role/list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * List user roles
- */
-export const postAdminRoleUserRoleList = <ThrowOnError extends boolean = false>(options: Options<PostAdminRoleUserRoleListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminRoleUserRoleListResponses, unknown, ThrowOnError>({
-        url: '/admin/role/user-role-list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * List user grant roles
- */
-export const postAdminRoleUserGrantRoleList = <ThrowOnError extends boolean = false>(options: Options<PostAdminRoleUserGrantRoleListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminRoleUserGrantRoleListResponses, unknown, ThrowOnError>({
-        url: '/admin/role/user-grant-role-list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * List resource roles
- */
-export const postAdminRoleResourceRoleList = <ThrowOnError extends boolean = false>(options: Options<PostAdminRoleResourceRoleListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminRoleResourceRoleListResponses, unknown, ThrowOnError>({
-        url: '/admin/role/resource-role-list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Delete role resource relation
- */
-export const deleteAdminRoleResourceRelation = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminRoleResourceRelationData, ThrowOnError>) => {
-    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
-        url: '/admin/role-resource-relation',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Create role resource relation
- */
-export const postAdminRoleResourceRelation = <ThrowOnError extends boolean = false>(options: Options<PostAdminRoleResourceRelationData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminRoleResourceRelationResponses, unknown, ThrowOnError>({
-        url: '/admin/role-resource-relation',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Set many role resource relations
- */
-export const postAdminRoleResourceRelationSetMany = <ThrowOnError extends boolean = false>(options: Options<PostAdminRoleResourceRelationSetManyData, ThrowOnError>) => {
-    return (options.client ?? client).post<unknown, unknown, ThrowOnError>({
-        url: '/admin/role-resource-relation/set-many',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * List role resource relations
- */
-export const postAdminRoleResourceRelationList = <ThrowOnError extends boolean = false>(options: Options<PostAdminRoleResourceRelationListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminRoleResourceRelationListResponses, unknown, ThrowOnError>({
-        url: '/admin/role-resource-relation/list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Delete user role relation
- */
-export const deleteAdminUserRoleRelation = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminUserRoleRelationData, ThrowOnError>) => {
-    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
-        url: '/admin/user-role-relation',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Create user role relation
- */
-export const postAdminUserRoleRelation = <ThrowOnError extends boolean = false>(options: Options<PostAdminUserRoleRelationData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminUserRoleRelationResponses, unknown, ThrowOnError>({
-        url: '/admin/user-role-relation',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * List user role relations
- */
-export const postAdminUserRoleRelationList = <ThrowOnError extends boolean = false>(options: Options<PostAdminUserRoleRelationListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminUserRoleRelationListResponses, unknown, ThrowOnError>({
-        url: '/admin/user-role-relation/list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Delete session
- */
-export const deleteAdminSession = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminSessionData, ThrowOnError>) => {
-    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
-        url: '/admin/session',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Get session
- */
-export const getAdminSession = <ThrowOnError extends boolean = false>(options: Options<GetAdminSessionData, ThrowOnError>) => {
-    return (options.client ?? client).get<GetAdminSessionResponses, unknown, ThrowOnError>({
-        url: '/admin/session',
-        ...options
-    });
-};
-
-/**
- * Create session
- */
-export const postAdminSession = <ThrowOnError extends boolean = false>(options: Options<PostAdminSessionData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminSessionResponses, unknown, ThrowOnError>({
-        url: '/admin/session',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Update session list
- */
-export const postAdminSessionList = <ThrowOnError extends boolean = false>(options: Options<PostAdminSessionListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminSessionListResponses, unknown, ThrowOnError>({
-        url: '/admin/session/list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * User sign in
- */
-export const postAdminUserSignIn = <ThrowOnError extends boolean = false>(options: Options<PostAdminUserSignInData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminUserSignInResponses, unknown, ThrowOnError>({
-        responseTransformer: postAdminUserSignInResponseTransformer,
-        url: '/admin/user/sign-in',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * User sign out
- */
-export const postAdminUserSignOut = <ThrowOnError extends boolean = false>(options?: Options<PostAdminUserSignOutData, ThrowOnError>) => {
-    return (options?.client ?? client).post<unknown, unknown, ThrowOnError>({
-        url: '/admin/user/sign-out',
-        ...options
-    });
-};
-
-/**
- * Delete user
- */
-export const deleteAdminUser = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminUserData, ThrowOnError>) => {
-    return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
-        url: '/admin/user',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Get user
- */
-export const getAdminUser = <ThrowOnError extends boolean = false>(options: Options<GetAdminUserData, ThrowOnError>) => {
-    return (options.client ?? client).get<GetAdminUserResponses, unknown, ThrowOnError>({
-        url: '/admin/user',
-        ...options
-    });
-};
-
-/**
- * Update user
- */
-export const patchAdminUser = <ThrowOnError extends boolean = false>(options: Options<PatchAdminUserData, ThrowOnError>) => {
-    return (options.client ?? client).patch<PatchAdminUserResponses, unknown, ThrowOnError>({
-        url: '/admin/user',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Create user
- */
-export const postAdminUser = <ThrowOnError extends boolean = false>(options: Options<PostAdminUserData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminUserResponses, unknown, ThrowOnError>({
-        url: '/admin/user',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Update user list
- */
-export const postAdminUserList = <ThrowOnError extends boolean = false>(options: Options<PostAdminUserListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminUserListResponses, unknown, ThrowOnError>({
-        url: '/admin/user/list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Update user list
- */
-export const postAdminUserRoleUserList = <ThrowOnError extends boolean = false>(options: Options<PostAdminUserRoleUserListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminUserRoleUserListResponses, unknown, ThrowOnError>({
-        url: '/admin/user/role-user-list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
- * Update user list
- */
-export const postAdminUserResourceUserList = <ThrowOnError extends boolean = false>(options: Options<PostAdminUserResourceUserListData, ThrowOnError>) => {
-    return (options.client ?? client).post<PostAdminUserResourceUserListResponses, unknown, ThrowOnError>({
-        url: '/admin/user/resource-user-list',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
     });
 };

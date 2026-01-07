@@ -4,38 +4,28 @@ export type ClientOptions = {
     baseUrl: 'http://localhost:3000' | (string & {});
 };
 
-export type ResourceNode = {
+export type TreasureCategoryNode = {
     id: string;
     createdAt: string | null;
     updatedAt: string | null;
     createdBy: string | null;
     updatedBy: string | null;
+    parentId: string | null;
     name: string;
     enabled: boolean;
-    remark: string | null;
     sort: number;
-    parentId: string | null;
-    type: 'Menu' | 'Page' | 'Element';
-    path: string | null;
-    activePath: string | null;
-    component: string | null;
-    icon: string | null;
-    isLink: boolean;
-    isCache: boolean;
-    isAffix: boolean;
-    isShow: boolean;
     locales: Array<{
         id: string;
         createdAt: string | null;
         updatedAt: string | null;
         createdBy: string | null;
         updatedBy: string | null;
-        resourceId: string;
+        categoryId: string;
         field: 'name';
         enUs: string;
         zhCn: string;
     }>;
-    children: Array<ResourceNode>;
+    children: Array<TreasureCategoryNode>;
 };
 
 export type GrantResourceNode = {
@@ -73,28 +63,38 @@ export type GrantResourceNode = {
     children: Array<GrantResourceNode>;
 };
 
-export type TreasureCategoryNode = {
+export type ResourceNode = {
     id: string;
     createdAt: string | null;
     updatedAt: string | null;
     createdBy: string | null;
     updatedBy: string | null;
-    parentId: string | null;
     name: string;
     enabled: boolean;
+    remark: string | null;
     sort: number;
+    parentId: string | null;
+    type: 'Menu' | 'Page' | 'Element';
+    path: string | null;
+    activePath: string | null;
+    component: string | null;
+    icon: string | null;
+    isLink: boolean;
+    isCache: boolean;
+    isAffix: boolean;
+    isShow: boolean;
     locales: Array<{
         id: string;
         createdAt: string | null;
         updatedAt: string | null;
         createdBy: string | null;
         updatedBy: string | null;
-        categoryId: string;
+        resourceId: string;
         field: 'name';
         enUs: string;
         zhCn: string;
     }>;
-    children: Array<TreasureCategoryNode>;
+    children: Array<ResourceNode>;
 };
 
 export type DeleteAdminResourceData = {

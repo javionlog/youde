@@ -375,6 +375,9 @@ export const postAdminUserRoleRelationList = <ThrowOnError extends boolean = fal
     });
 };
 
+/**
+ * Delete country
+ */
 export const deleteAdminCountry = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminCountryData, ThrowOnError>) => {
     return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
         url: '/admin/country',
@@ -386,6 +389,9 @@ export const deleteAdminCountry = <ThrowOnError extends boolean = false>(options
     });
 };
 
+/**
+ * Get country
+ */
 export const getAdminCountry = <ThrowOnError extends boolean = false>(options?: Options<GetAdminCountryData, ThrowOnError>) => {
     return (options?.client ?? client).get<GetAdminCountryResponses, unknown, ThrowOnError>({
         url: '/admin/country',
@@ -393,6 +399,9 @@ export const getAdminCountry = <ThrowOnError extends boolean = false>(options?: 
     });
 };
 
+/**
+ * Update country
+ */
 export const patchAdminCountry = <ThrowOnError extends boolean = false>(options: Options<PatchAdminCountryData, ThrowOnError>) => {
     return (options.client ?? client).patch<PatchAdminCountryResponses, unknown, ThrowOnError>({
         url: '/admin/country',
@@ -404,6 +413,9 @@ export const patchAdminCountry = <ThrowOnError extends boolean = false>(options:
     });
 };
 
+/**
+ * Create country
+ */
 export const postAdminCountry = <ThrowOnError extends boolean = false>(options: Options<PostAdminCountryData, ThrowOnError>) => {
     return (options.client ?? client).post<PostAdminCountryResponses, unknown, ThrowOnError>({
         url: '/admin/country',
@@ -415,6 +427,9 @@ export const postAdminCountry = <ThrowOnError extends boolean = false>(options: 
     });
 };
 
+/**
+ * List countries
+ */
 export const postAdminCountryList = <ThrowOnError extends boolean = false>(options: Options<PostAdminCountryListData, ThrowOnError>) => {
     return (options.client ?? client).post<PostAdminCountryListResponses, unknown, ThrowOnError>({
         url: '/admin/country/list',
@@ -478,6 +493,9 @@ export const postAdminSessionList = <ThrowOnError extends boolean = false>(optio
     });
 };
 
+/**
+ * Delete treasure
+ */
 export const deleteAdminTreasure = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminTreasureData, ThrowOnError>) => {
     return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
         url: '/admin/treasure',
@@ -489,6 +507,9 @@ export const deleteAdminTreasure = <ThrowOnError extends boolean = false>(option
     });
 };
 
+/**
+ * Get treasure
+ */
 export const getAdminTreasure = <ThrowOnError extends boolean = false>(options?: Options<GetAdminTreasureData, ThrowOnError>) => {
     return (options?.client ?? client).get<GetAdminTreasureResponses, unknown, ThrowOnError>({
         url: '/admin/treasure',
@@ -496,6 +517,9 @@ export const getAdminTreasure = <ThrowOnError extends boolean = false>(options?:
     });
 };
 
+/**
+ * Update treasure
+ */
 export const patchAdminTreasure = <ThrowOnError extends boolean = false>(options: Options<PatchAdminTreasureData, ThrowOnError>) => {
     return (options.client ?? client).patch<PatchAdminTreasureResponses, unknown, ThrowOnError>({
         url: '/admin/treasure',
@@ -507,6 +531,9 @@ export const patchAdminTreasure = <ThrowOnError extends boolean = false>(options
     });
 };
 
+/**
+ * Create treasure
+ */
 export const postAdminTreasure = <ThrowOnError extends boolean = false>(options: Options<PostAdminTreasureData, ThrowOnError>) => {
     return (options.client ?? client).post<PostAdminTreasureResponses, unknown, ThrowOnError>({
         url: '/admin/treasure',
@@ -518,6 +545,9 @@ export const postAdminTreasure = <ThrowOnError extends boolean = false>(options:
     });
 };
 
+/**
+ * List treasures
+ */
 export const postAdminTreasureList = <ThrowOnError extends boolean = false>(options: Options<PostAdminTreasureListData, ThrowOnError>) => {
     return (options.client ?? client).post<PostAdminTreasureListResponses, unknown, ThrowOnError>({
         url: '/admin/treasure/list',
@@ -529,6 +559,9 @@ export const postAdminTreasureList = <ThrowOnError extends boolean = false>(opti
     });
 };
 
+/**
+ * Delete treasure category
+ */
 export const deleteAdminTreasureCategory = <ThrowOnError extends boolean = false>(options: Options<DeleteAdminTreasureCategoryData, ThrowOnError>) => {
     return (options.client ?? client).delete<unknown, unknown, ThrowOnError>({
         url: '/admin/treasure-category',
@@ -540,6 +573,9 @@ export const deleteAdminTreasureCategory = <ThrowOnError extends boolean = false
     });
 };
 
+/**
+ * Get treasure category
+ */
 export const getAdminTreasureCategory = <ThrowOnError extends boolean = false>(options?: Options<GetAdminTreasureCategoryData, ThrowOnError>) => {
     return (options?.client ?? client).get<GetAdminTreasureCategoryResponses, unknown, ThrowOnError>({
         url: '/admin/treasure-category',
@@ -547,6 +583,9 @@ export const getAdminTreasureCategory = <ThrowOnError extends boolean = false>(o
     });
 };
 
+/**
+ * Update treasure category
+ */
 export const patchAdminTreasureCategory = <ThrowOnError extends boolean = false>(options: Options<PatchAdminTreasureCategoryData, ThrowOnError>) => {
     return (options.client ?? client).patch<PatchAdminTreasureCategoryResponses, unknown, ThrowOnError>({
         url: '/admin/treasure-category',
@@ -558,6 +597,9 @@ export const patchAdminTreasureCategory = <ThrowOnError extends boolean = false>
     });
 };
 
+/**
+ * Create treasure category
+ */
 export const postAdminTreasureCategory = <ThrowOnError extends boolean = false>(options: Options<PostAdminTreasureCategoryData, ThrowOnError>) => {
     return (options.client ?? client).post<PostAdminTreasureCategoryResponses, unknown, ThrowOnError>({
         url: '/admin/treasure-category',
@@ -569,6 +611,9 @@ export const postAdminTreasureCategory = <ThrowOnError extends boolean = false>(
     });
 };
 
+/**
+ * List treasure category tree
+ */
 export const postAdminTreasureCategoryTree = <ThrowOnError extends boolean = false>(options: Options<PostAdminTreasureCategoryTreeData, ThrowOnError>) => {
     return (options.client ?? client).post<PostAdminTreasureCategoryTreeResponses, unknown, ThrowOnError>({
         responseTransformer: postAdminTreasureCategoryTreeResponseTransformer,
@@ -581,6 +626,9 @@ export const postAdminTreasureCategoryTree = <ThrowOnError extends boolean = fal
     });
 };
 
+/**
+ * Get treasure category locale
+ */
 export const getAdminTreasureCategoryLocale = <ThrowOnError extends boolean = false>(options?: Options<GetAdminTreasureCategoryLocaleData, ThrowOnError>) => {
     return (options?.client ?? client).get<GetAdminTreasureCategoryLocaleResponses, unknown, ThrowOnError>({
         url: '/admin/treasure-category-locale',
@@ -588,6 +636,9 @@ export const getAdminTreasureCategoryLocale = <ThrowOnError extends boolean = fa
     });
 };
 
+/**
+ * Update treasure category locale
+ */
 export const patchAdminTreasureCategoryLocale = <ThrowOnError extends boolean = false>(options: Options<PatchAdminTreasureCategoryLocaleData, ThrowOnError>) => {
     return (options.client ?? client).patch<PatchAdminTreasureCategoryLocaleResponses, unknown, ThrowOnError>({
         url: '/admin/treasure-category-locale',
@@ -599,6 +650,9 @@ export const patchAdminTreasureCategoryLocale = <ThrowOnError extends boolean = 
     });
 };
 
+/**
+ * Create treasure category locale
+ */
 export const postAdminTreasureCategoryLocale = <ThrowOnError extends boolean = false>(options: Options<PostAdminTreasureCategoryLocaleData, ThrowOnError>) => {
     return (options.client ?? client).post<PostAdminTreasureCategoryLocaleResponses, unknown, ThrowOnError>({
         url: '/admin/treasure-category-locale',

@@ -18,7 +18,8 @@ const app = adminGuardController.group('/treasure-category-locale', app =>
       },
       {
         detail: {
-          tags
+          tags,
+          description: 'Create treasure category locale'
         },
         body: createReqSpec,
         response: promiseRowResSpec
@@ -32,7 +33,8 @@ const app = adminGuardController.group('/treasure-category-locale', app =>
       },
       {
         detail: {
-          tags
+          tags,
+          description: 'Update treasure category locale'
         },
         body: updateReqSpec,
         response: promiseRowResSpec
@@ -45,7 +47,8 @@ const app = adminGuardController.group('/treasure-category-locale', app =>
       },
       {
         detail: {
-          tags
+          tags,
+          description: 'Get treasure category locale'
         },
         body: getReqSpec,
         response: promiseRowResSpec
