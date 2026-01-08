@@ -26,8 +26,8 @@ CREATE TABLE "treasure" (
 	"fee" text NOT NULL,
 	"country_code" varchar(16) NOT NULL,
 	"cover" varchar(256),
-	"content" text NOT NULL,
-	"url" varchar(256) NOT NULL,
+	"content" text,
+	"url" varchar(256),
 	"status" text NOT NULL,
 	CONSTRAINT "treasure_title_unique" UNIQUE("title")
 );

@@ -10,8 +10,8 @@ export const treasure = pgTable('treasure', {
   fee: text('fee', { enum: ['Free', 'PartlyFree', 'Paid'] }).notNull(),
   countryCode: varchar('country_code', { length: 16 }).notNull(),
   cover: varchar('cover', { length: 256 }),
-  content: text('content').notNull(),
-  url: varchar('url', { length: 256 }).notNull(),
+  content: text('content'),
+  url: varchar('url', { length: 256 }),
   status: text('status', { enum: ['Draft', 'Pending', 'Passed'] }).notNull()
 })
 
