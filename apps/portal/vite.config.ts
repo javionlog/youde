@@ -139,7 +139,8 @@ export default defineConfig(({ mode, isSsrBuild }) => {
               {
                 name: 'tdesign-mobile-react',
                 test: /node_modules\/tdesign-mobile-react/,
-                priority: 2
+                priority: 2,
+                maxSize: Infinity
               },
               {
                 name: 'tdesign-icons-react',
