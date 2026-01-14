@@ -42,7 +42,6 @@ declare global {
   const Footer: typeof import('tdesign-mobile-react')['Footer']
   const Form: typeof import('tdesign-mobile-react')['Form']
   const FormItem: typeof import('tdesign-mobile-react')['FormItem']
-  const GlLangSelect: typeof import('../src/global/components/gl-lang-select/index')['GlLangSelect']
   const GlThemeSelect: typeof import('../src/global/components/gl-theme-select/index')['GlThemeSelect']
   const Grid: typeof import('tdesign-mobile-react')['Grid']
   const GridItem: typeof import('tdesign-mobile-react')['GridItem']
@@ -52,8 +51,8 @@ declare global {
   const Indexes: typeof import('tdesign-mobile-react')['Indexes']
   const IndexesAnchor: typeof import('tdesign-mobile-react')['IndexesAnchor']
   const Input: typeof import('tdesign-mobile-react')['Input']
+  const LANG_NAMESPACES: typeof import('../src/global/constants/index')['LANG_NAMESPACES']
   const LANG_TYPES: typeof import('../src/global/constants/index')['LANG_TYPES']
-  const LOCALE_NAMESPACES: typeof import('../src/global/constants/index')['LOCALE_NAMESPACES']
   const Link: typeof import('tdesign-mobile-react')['Link']
   const Links: typeof import('react-router')['Links']
   const List: typeof import('tdesign-mobile-react')['List']
@@ -117,7 +116,6 @@ declare global {
   const convertDateValues: typeof import('../../../packages/shared/dist/main.js')['convertDateValues']
   const createContext: typeof import('react')['createContext']
   const createElement: typeof import('react')['createElement']
-  const createI18nextStore: typeof import('../src/global/locales/index')['createI18nextStore']
   const flattenTree: typeof import('../../../packages/shared/dist/main.js')['flattenTree']
   const formatDate: typeof import('../src/global/utils/time')['formatDate']
   const getChildrenNodes: typeof import('../../../packages/shared/dist/main.js')['getChildrenNodes']
@@ -126,7 +124,6 @@ declare global {
   const getParentNodes: typeof import('../../../packages/shared/dist/main.js')['getParentNodes']
   const getTranslate: typeof import('../src/global/enums/index')['getTranslate']
   const getValue: typeof import('../src/global/enums/index')['getValue']
-  const i18n: typeof import('../src/global/locales/index')['i18n']
   const isBrowser: typeof import('es-toolkit')['isBrowser']
   const isEmpty: typeof import('../../../packages/shared/dist/main.js')['isEmpty']
   const isNil: typeof import('es-toolkit')['isNil']
@@ -159,7 +156,7 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { LangType, ThemeMode, ScreenSizeKey, LocaleNamespace } from '../src/global/constants/index'
+  export type { ThemeMode, LangType, LangNamespace, ScreenSizeKey } from '../src/global/constants/index'
   import('../src/global/constants/index')
   // @ts-ignore
   export type { Enums, EnumKeys } from '../src/global/enums/index'

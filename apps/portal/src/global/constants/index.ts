@@ -4,7 +4,7 @@ export const THEME_MODES = ['light', 'dark'] as const
 
 export const LANG_TYPES = ['en-us', 'zh-cn'] as const
 
-export const LOCALE_NAMESPACES = ['global'] as const
+export const LANG_NAMESPACES = ['global'] as const
 
 export const SCREEN_SIZE_MAP = {
   xs: [0, 512],
@@ -17,10 +17,10 @@ export const SCREEN_SIZE_MAP = {
 
 export const SCREEN_SIZE_KEYS = Object.keys(SCREEN_SIZE_MAP)
 
-export type LangType = (typeof LANG_TYPES)[number]
-
 export type ThemeMode = (typeof THEME_MODES)[number]
 
-export type ScreenSizeKey = keyof typeof SCREEN_SIZE_MAP
+export type LangType = (typeof LANG_TYPES)[number]
 
-export type LocaleNamespace = (typeof LOCALE_NAMESPACES)[number]
+export type LangNamespace = (typeof LANG_NAMESPACES)[number]
+
+export type ScreenSizeKey = keyof typeof SCREEN_SIZE_MAP

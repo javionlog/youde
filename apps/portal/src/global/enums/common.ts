@@ -1,13 +1,13 @@
 export const YES_NO = [
   {
     get label() {
-      return i18n.t('label.yes', { lng: i18n.language })
+      return 'Yes'
     },
     value: true
   },
   {
     get label() {
-      return i18n.t('label.no', { lng: i18n.language })
+      return 'No'
     },
     value: false
   }

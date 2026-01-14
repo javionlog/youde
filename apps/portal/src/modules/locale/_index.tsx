@@ -1,18 +1,18 @@
 import { data } from 'react-router'
-import { z } from 'zod'
+import type { LangNamespace, LangType } from '@/global/constants'
 import resources from '@/global/locales'
 import type { Route } from './+types/_index'
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const lang = z.enum(Object.keys(resources) as Array<keyof typeof resources>).safeParse(params.lng)
+  const lang = params.lng as LangType
+  const namespaces = params.ns as LangNamespace
+  if (!LANG_TYPES.includes(lang)) {
+    return data({ error: `${lang} not found` }, { status: 400 })
+  }
 
-  if (lang.error) return data({ error: lang.error }, { status: 400 })
+  if (!LANG_NAMESPACES.includes(namespaces)) {
+    return data({ error: `${namespaces} not found` }, { status: 400 })
+  }
 
-  const namespaces = resources[lang.data]
-
-  const ns = z.enum(Object.keys(namespaces) as Array<keyof typeof namespaces>).safeParse(params.ns)
-
-  if (ns.error) return data({ error: ns.error }, { status: 400 })
-
-  return data(namespaces[ns.data])
+  return data(resources[lang][namespaces])
 }

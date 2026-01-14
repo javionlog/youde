@@ -68,7 +68,6 @@
     "tailwindcss": "^4.1.10",
     "tdesign-icons-react": "^0.5.1",
     "tdesign-mobile-react": "^0.20.0",
-    "zod": "^4.1.12",
     "zustand": "^5.0.7"
   }
 }

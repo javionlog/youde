@@ -123,7 +123,8 @@ export default defineConfig(({ mode, isSsrBuild }) => {
               {
                 name: 'vendor',
                 test: /node_modules/,
-                priority: 1
+                priority: 1,
+                maxSize: Infinity
               },
               {
                 name: 'react',
