@@ -2,13 +2,31 @@ import type { ReactNode } from 'react'
 import type { Route } from './+types/root'
 import 'tdesign-mobile-react/es/style/index.css'
 import './global/styles/index.css'
+import { useTranslation } from 'react-i18next'
+import { data } from 'react-router'
 import { setApiConfig } from './global/config/api'
+import { getLocale, i18nextMiddleware, localeCoolie } from './global/middleware/i18next'
 
 setApiConfig()
 
+export const middleware = [i18nextMiddleware]
+
+export const loader = async ({ context }: Route.LoaderArgs) => {
+  const locale = getLocale(context)
+
+  return data(
+    { locale },
+    {
+      headers: { 'Set-Coolie': await localeCoolie.serialize(locale) }
+    }
+  )
+}
+
 export const Layout = ({ children }: { children: ReactNode }) => {
+  const { i18n } = useTranslation()
+
   return (
-    <html lang='en'>
+    <html lang={i18n.language} dir={i18n.dir(i18n.language)}>
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
@@ -52,7 +70,15 @@ export const ErrorBoundary = ({ error }: Route.ErrorBoundaryProps) => {
   )
 }
 
-const App = () => {
+const App = ({ loaderData: { locale } }: Route.ComponentProps) => {
+  const { i18n } = useTranslation()
+
+  useEffect(() => {
+    if (i18n.language !== locale) {
+      i18n.changeLanguage(locale)
+    }
+  }, [locale, i18n])
+
   return <Outlet />
 }
 

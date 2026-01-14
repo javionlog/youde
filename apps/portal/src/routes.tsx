@@ -1,26 +1,21 @@
 import type { RouteConfig } from '@react-router/dev/routes'
 import { route } from '@react-router/dev/routes'
-import type { ReactNode } from 'react'
-import { HomeIcon, UserIcon } from 'tdesign-icons-react'
 
 export const layoutRoutes = [
   {
-    name: '首页',
+    name: 'Home',
     path: '/',
-    file: './modules/home/_index.tsx',
-    icon: <HomeIcon />
+    file: './modules/home/_index.tsx'
   },
   {
-    name: '我的',
-    path: '/mine',
-    file: './modules/mine/_index.tsx',
-    icon: <UserIcon />
+    name: 'Locale',
+    path: '/locale/:lng/:ns',
+    file: './modules/locale/_index.tsx'
   }
 ] satisfies {
   name: string
   path: string
   file: string
-  icon: ReactNode
 }[]
 
 export default [

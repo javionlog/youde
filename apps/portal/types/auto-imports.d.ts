@@ -6,7 +6,6 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-  const API_BASE_URL: typeof import('../src/global/constants/index')['API_BASE_URL']
   const ActionSheet: typeof import('tdesign-mobile-react')['ActionSheet']
   const Activity: typeof import('react')['Activity']
   const Avatar: typeof import('tdesign-mobile-react')['Avatar']
@@ -43,6 +42,8 @@ declare global {
   const Footer: typeof import('tdesign-mobile-react')['Footer']
   const Form: typeof import('tdesign-mobile-react')['Form']
   const FormItem: typeof import('tdesign-mobile-react')['FormItem']
+  const GlLangSelect: typeof import('../src/global/components/gl-lang-select/index')['GlLangSelect']
+  const GlThemeSelect: typeof import('../src/global/components/gl-theme-select/index')['GlThemeSelect']
   const Grid: typeof import('tdesign-mobile-react')['Grid']
   const GridItem: typeof import('tdesign-mobile-react')['GridItem']
   const Guide: typeof import('tdesign-mobile-react')['Guide']
@@ -52,6 +53,7 @@ declare global {
   const IndexesAnchor: typeof import('tdesign-mobile-react')['IndexesAnchor']
   const Input: typeof import('tdesign-mobile-react')['Input']
   const LANG_TYPES: typeof import('../src/global/constants/index')['LANG_TYPES']
+  const LOCALE_NAMESPACES: typeof import('../src/global/constants/index')['LOCALE_NAMESPACES']
   const Link: typeof import('tdesign-mobile-react')['Link']
   const Links: typeof import('react-router')['Links']
   const List: typeof import('tdesign-mobile-react')['List']
@@ -115,29 +117,41 @@ declare global {
   const convertDateValues: typeof import('../../../packages/shared/dist/main.js')['convertDateValues']
   const createContext: typeof import('react')['createContext']
   const createElement: typeof import('react')['createElement']
+  const createI18nextStore: typeof import('../src/global/locales/index')['createI18nextStore']
   const flattenTree: typeof import('../../../packages/shared/dist/main.js')['flattenTree']
   const formatDate: typeof import('../src/global/utils/time')['formatDate']
   const getChildrenNodes: typeof import('../../../packages/shared/dist/main.js')['getChildrenNodes']
   const getKeys: typeof import('../../../packages/shared/dist/main.js')['getKeys']
+  const getOptions: typeof import('../src/global/enums/index')['getOptions']
   const getParentNodes: typeof import('../../../packages/shared/dist/main.js')['getParentNodes']
+  const getTranslate: typeof import('../src/global/enums/index')['getTranslate']
+  const getValue: typeof import('../src/global/enums/index')['getValue']
+  const i18n: typeof import('../src/global/locales/index')['i18n']
   const isBrowser: typeof import('es-toolkit')['isBrowser']
   const isEmpty: typeof import('../../../packages/shared/dist/main.js')['isEmpty']
   const isNil: typeof import('es-toolkit')['isNil']
   const isRouteErrorResponse: typeof import('react-router')['isRouteErrorResponse']
   const lazy: typeof import('react')['lazy']
+  const locales: typeof import('../src/global/locales/index')['default']
   const memo: typeof import('react')['memo']
   const uniq: typeof import('es-toolkit')['uniq']
   const uniqBy: typeof import('es-toolkit')['uniqBy']
+  const useAppStore: typeof import('../src/global/stores/app')['useAppStore']
+  const useAutoHeight: typeof import('../src/global/hooks/use-auto-height/index')['useAutoHeight']
   const useCallback: typeof import('react')['useCallback']
   const useContext: typeof import('react')['useContext']
   const useEffect: typeof import('react')['useEffect']
   const useGetState: typeof import('ahooks')['useGetState']
+  const useI18nextSSR: typeof import('react-i18next')['useSSR']
   const useImperativeHandle: typeof import('react')['useImperativeHandle']
+  const useLoaderData: typeof import('react-router')['useLoaderData']
+  const useLocaleStore: typeof import('../src/global/stores/locale')['useLocaleStore']
   const useLocation: typeof import('react-router')['useLocation']
   const useMemo: typeof import('react')['useMemo']
   const useNavigate: typeof import('react-router')['useNavigate']
   const useReducer: typeof import('react')['useReducer']
   const useRef: typeof import('react')['useRef']
+  const useScreen: typeof import('../src/global/hooks/use-screen/index')['useScreen']
   const useSize: typeof import('ahooks')['useSize']
   const useState: typeof import('react')['useState']
   const useTranslation: typeof import('react-i18next')['useTranslation']
@@ -145,6 +159,9 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { LangType, ThemeMode, ScreenSizeKey } from '../src/global/constants/index'
+  export type { LangType, ThemeMode, ScreenSizeKey, LocaleNamespace } from '../src/global/constants/index'
   import('../src/global/constants/index')
+  // @ts-ignore
+  export type { Enums, EnumKeys } from '../src/global/enums/index'
+  import('../src/global/enums/index')
 }

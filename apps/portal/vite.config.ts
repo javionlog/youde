@@ -64,7 +64,8 @@ export default defineConfig(({ mode, isSsrBuild }) => {
               'ScrollRestoration',
               'isRouteErrorResponse',
               'useNavigate',
-              'useLocation'
+              'useLocation',
+              'useLoaderData'
             ]
           },
           {
@@ -73,7 +74,7 @@ export default defineConfig(({ mode, isSsrBuild }) => {
           },
           {
             from: 'react-i18next',
-            imports: ['useTranslation']
+            imports: ['useTranslation', ['useSSR', 'useI18nextSSR']]
           },
           {
             from: 'ahooks',
@@ -84,7 +85,15 @@ export default defineConfig(({ mode, isSsrBuild }) => {
             imports: componentNames
           }
         ],
-        dirs: ['./src/global/utils/index.ts', './src/global/constants/index.ts'],
+        dirs: [
+          './src/global/utils/index.ts',
+          './src/global/stores/index.ts',
+          './src/global/locales/index.ts',
+          './src/global/constants/index.ts',
+          './src/global/enums/index.ts',
+          './src/global/components/index.tsx',
+          './src/global/hooks/index.tsx'
+        ],
         dts: 'types/auto-imports.d.ts'
       })
     ],

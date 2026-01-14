@@ -7,9 +7,6 @@ export const app = express()
 app.use(
   createRequestHandler({
     // @ts-ignore
-    build: () => import('virtual:react-router/server-build'),
-    getLoadContext() {
-      return {}
-    }
+    build: () => import('virtual:react-router/server-build')
   })
 )
