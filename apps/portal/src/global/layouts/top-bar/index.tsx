@@ -48,7 +48,7 @@ const SettingPanel = () => {
         )
       }
     ],
-    [lang]
+    [lang, themeMode]
   )
 
   const onChange: CollapseProps['onChange'] = val => {
