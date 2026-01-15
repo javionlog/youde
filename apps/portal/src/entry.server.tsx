@@ -9,7 +9,7 @@ import type { EntryContext, RouterContextProvider } from 'react-router'
 import { ServerRouter } from 'react-router'
 import { getInstance } from './global/middleware/i18next'
 
-export const streamTimeout = 5_000
+export const streamTimeout = 5000
 
 export default function handleRequest(
   request: Request,
@@ -26,7 +26,7 @@ export default function handleRequest(
       (userAgent && isbot(userAgent)) || entryContext.isSpaMode ? 'onAllReady' : 'onShellReady'
 
     const { pipe, abort } = renderToPipeableStream(
-      <I18nextProvider i18n={getInstance(routerContext)}>
+      <I18nextProvider i18n={getInstance(routerContext)} defaultNS={DEFAULT_LANG_NAMESPACE}>
         <ServerRouter context={entryContext} url={request.url} />
       </I18nextProvider>,
       {

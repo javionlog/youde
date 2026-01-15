@@ -29,6 +29,7 @@ declare global {
   const ConfigContext: typeof import('tdesign-mobile-react')['ConfigContext']
   const ConfigProvider: typeof import('tdesign-mobile-react')['ConfigProvider']
   const CountDown: typeof import('tdesign-mobile-react')['CountDown']
+  const DEFAULT_LANG_NAMESPACE: typeof import('../src/global/constants/index')['DEFAULT_LANG_NAMESPACE']
   const DateTimePicker: typeof import('tdesign-mobile-react')['DateTimePicker']
   const Dialog: typeof import('tdesign-mobile-react')['Dialog']
   const DialogPlugin: typeof import('tdesign-mobile-react')['DialogPlugin']
@@ -38,6 +39,7 @@ declare global {
   const DropdownItem: typeof import('tdesign-mobile-react')['DropdownItem']
   const DropdownMenu: typeof import('tdesign-mobile-react')['DropdownMenu']
   const Empty: typeof import('tdesign-mobile-react')['Empty']
+  const FALLBACK_LANG: typeof import('../src/global/constants/index')['FALLBACK_LANG']
   const Fab: typeof import('tdesign-mobile-react')['Fab']
   const Footer: typeof import('tdesign-mobile-react')['Footer']
   const Form: typeof import('tdesign-mobile-react')['Form']
@@ -156,7 +158,7 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { ThemeMode, LangType, LangNamespace, ScreenSizeKey } from '../src/global/constants/index'
+  export type { ThemeMode, LangType, LangNamespace, DefaultLangNamescpe, ScreenSizeKey } from '../src/global/constants/index'
   import('../src/global/constants/index')
   // @ts-ignore
   export type { Enums, EnumKeys } from '../src/global/enums/index'

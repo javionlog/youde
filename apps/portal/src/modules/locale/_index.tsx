@@ -4,7 +4,7 @@ import resources from '@/global/locales'
 import type { Route } from './+types/_index'
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const lang = params.lng as LangType
+  const lang = params.lng.toLowerCase() as LangType
   const namespaces = params.ns as LangNamespace
   if (!LANG_TYPES.includes(lang)) {
     return data({ error: `${lang} not found` }, { status: 400 })

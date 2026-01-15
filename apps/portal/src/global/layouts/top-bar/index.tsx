@@ -14,7 +14,7 @@ const SettingPanel = () => {
         <RadioGroup
           value={lang}
           onChange={val => {
-            const activeLang = val as 'en-us'
+            const activeLang = val as LangType
             useLocaleStore.setState({ lang: activeLang })
             i18n.changeLanguage(activeLang)
           }}
@@ -114,20 +114,12 @@ const SettingBtn = () => {
 }
 
 export const TopBar = () => {
-  // const { i18n } = useTranslation()
-
-  // const [state, setState] = useState('')
-
-  // const placeholder = t('component.input.placeholder')
-
-  // useEffect(() => {
-  //   setState(t('component.input.placeholder'))
-  // }, [])
+  const { t } = useTranslation()
 
   return (
     <Navbar
       fixed={false}
-      left={<Search shape='round' />}
+      left={<Search shape='round' placeholder={t('component.input.placeholder')} />}
       right={<SettingBtn />}
       className='sticky top-0'
     />
