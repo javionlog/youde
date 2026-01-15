@@ -9,44 +9,47 @@ const SettingPanel = () => {
   const [collapseValue, setCollapseValue] = useState<number[]>([])
   const { i18n } = useTranslation()
 
-  const settins = [
-    {
-      header: t('label.languageSetting'),
-      value: 'lang',
-      children: (
-        <RadioGroup
-          value={lang}
-          onChange={val => {
-            const activeLang = val as LangType
-            useLocaleStore.setState({ lang: activeLang })
-            i18n.changeLanguage(activeLang)
-            fetch(`/locale-sync/${activeLang}`)
-          }}
-        >
-          {getOptions('LANG_OPTION').map(item => {
-            return <Radio key={item.value} label={item.label} value={item.value} />
-          })}
-        </RadioGroup>
-      )
-    },
-    {
-      header: t('label.themeMode'),
-      value: 'themeMode',
-      children: (
-        <RadioGroup
-          value={themeMode}
-          onChange={val => {
-            const activeThemeMode = val as ThemeMode
-            useAppStore.setState({ themeMode: activeThemeMode })
-          }}
-        >
-          {getOptions('THEME_MODE').map(item => {
-            return <Radio key={item.value} label={item.label} value={item.value} />
-          })}
-        </RadioGroup>
-      )
-    }
-  ]
+  const settins = useMemo(
+    () => [
+      {
+        header: t('label.languageSetting'),
+        value: 'lang',
+        children: (
+          <RadioGroup
+            value={lang}
+            onChange={val => {
+              const activeLang = val as LangType
+              useLocaleStore.setState({ lang: activeLang })
+              i18n.changeLanguage(activeLang)
+              fetch(`/locale-sync/${activeLang}`)
+            }}
+          >
+            {getOptions('LANG_OPTION').map(item => {
+              return <Radio key={item.value} label={item.label} value={item.value} />
+            })}
+          </RadioGroup>
+        )
+      },
+      {
+        header: t('label.themeMode'),
+        value: 'themeMode',
+        children: (
+          <RadioGroup
+            value={themeMode}
+            onChange={val => {
+              const activeThemeMode = val as ThemeMode
+              useAppStore.setState({ themeMode: activeThemeMode })
+            }}
+          >
+            {getOptions('THEME_MODE').map(item => {
+              return <Radio key={item.value} label={item.label} value={item.value} />
+            })}
+          </RadioGroup>
+        )
+      }
+    ],
+    [lang]
+  )
 
   const onChange: CollapseProps['onChange'] = val => {
     setCollapseValue(val as number[])
