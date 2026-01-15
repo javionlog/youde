@@ -1,14 +1,20 @@
 import { initReactI18next } from 'react-i18next'
+import { createCookie } from 'react-router'
 import { createI18nextMiddleware } from 'remix-i18next/middleware'
 import resources from '@/global/locales'
+
+export const localeCookie = createCookie('lng', {
+  path: '/',
+  sameSite: 'lax',
+  secure: true,
+  httpOnly: true
+})
 
 export const [i18nextMiddleware, getLocale, getInstance] = createI18nextMiddleware({
   detection: {
     supportedLanguages: [...LANG_TYPES],
     fallbackLanguage: FALLBACK_LANG,
-    async findLocale() {
-      return await 'zh-cn'
-    }
+    cookie: localeCookie
   },
   i18next: { resources },
   plugins: [initReactI18next]

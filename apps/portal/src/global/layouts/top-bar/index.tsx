@@ -17,6 +17,7 @@ const SettingPanel = () => {
             const activeLang = val as LangType
             useLocaleStore.setState({ lang: activeLang })
             i18n.changeLanguage(activeLang)
+            fetch(`/locale-sync/${activeLang}`)
           }}
         >
           <Radio label='English' value='en-us' />

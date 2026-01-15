@@ -1,7 +1,6 @@
 import { data } from 'react-router'
-import type { LangNamespace, LangType } from '@/global/constants'
 import resources from '@/global/locales'
-import type { Route } from './+types/_index'
+import type { Route } from './+types/data'
 
 export async function loader({ params }: Route.LoaderArgs) {
   const lang = params.lng.toLowerCase() as LangType

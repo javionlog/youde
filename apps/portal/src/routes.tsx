@@ -10,7 +10,12 @@ export const layoutRoutes = [
   {
     name: 'Locale',
     path: '/locale/:lng/:ns',
-    file: './modules/locale/_index.tsx'
+    file: './modules/locale/data.tsx'
+  },
+  {
+    name: 'Locale',
+    path: '/locale-sync/:lng',
+    file: './modules/locale/sync.tsx'
   }
 ] satisfies {
   name: string

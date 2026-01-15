@@ -5,7 +5,7 @@ import './global/styles/index.css'
 import { useTranslation } from 'react-i18next'
 import { data } from 'react-router'
 import { setApiConfig } from './global/config/api'
-import { getLocale, i18nextMiddleware } from './global/middleware/i18next'
+import { getLocale, i18nextMiddleware, localeCookie } from './global/middleware/i18next'
 
 setApiConfig()
 
@@ -14,7 +14,7 @@ export const middleware = [i18nextMiddleware]
 export const loader = async ({ context }: Route.LoaderArgs) => {
   const locale = getLocale(context)
 
-  return data({ locale })
+  return data({ locale }, { headers: { 'Set-Cookie': await localeCookie.serialize(locale) } })
 }
 
 export const Layout = ({ children }: { children: ReactNode }) => {
