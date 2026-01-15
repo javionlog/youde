@@ -1,17 +1,38 @@
-export const YES_NO = [
+import i18n from 'i18next'
+import type { LangType, ThemeMode } from '../constants'
+
+export const THEME_MODE = [
   {
     get label() {
-      return 'Yes'
+      return i18n.t('enum.themeMode.light')
     },
-    value: true
+    value: 'light'
   },
   {
     get label() {
-      return 'No'
+      return i18n.t('enum.themeMode.dark')
     },
-    value: false
+    value: 'dark'
   }
 ] satisfies {
   label: string
-  value: boolean
+  value: ThemeMode
+}[]
+
+export const LANG_OPTION = [
+  {
+    get label() {
+      return 'English'
+    },
+    value: 'en-us'
+  },
+  {
+    get label() {
+      return '简体中文'
+    },
+    value: 'zh-cn'
+  }
+] satisfies {
+  label: string
+  value: LangType
 }[]

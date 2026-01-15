@@ -1,18 +1,19 @@
-const action = {}
-
-const label = {}
-
-const component = {
-  input: {
-    placeholder: 'Please input'
-  }
-}
-
-const message = {}
-
 export default {
-  action,
-  label,
-  component,
-  message
+  enum: {
+    themeMode: {
+      light: 'Light',
+      dark: 'Dark'
+    }
+  },
+  action: {},
+  label: {
+    themeMode: 'Theme Mode',
+    languageSetting: 'Language Setting'
+  },
+  component: {
+    input: {
+      placeholder: 'Please input'
+    }
+  },
+  message: {}
 }

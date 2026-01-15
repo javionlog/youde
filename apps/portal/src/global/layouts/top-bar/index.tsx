@@ -1,14 +1,17 @@
 import { SettingIcon } from 'tdesign-icons-react'
 import type { CollapseProps } from 'tdesign-mobile-react'
+import type { ThemeMode } from '@/global/constants'
 
 const SettingPanel = () => {
+  const { t } = useTranslation()
   const lang = useLocaleStore(state => state.lang)
+  const themeMode = useAppStore(state => state.themeMode)
   const [collapseValue, setCollapseValue] = useState<number[]>([])
   const { i18n } = useTranslation()
 
   const settins = [
     {
-      header: '设置语言',
+      header: t('label.languageSetting'),
       value: 'lang',
       children: (
         <RadioGroup
@@ -20,8 +23,26 @@ const SettingPanel = () => {
             fetch(`/locale-sync/${activeLang}`)
           }}
         >
-          <Radio label='English' value='en-us' />
-          <Radio label='简体中文' value='zh-cn' />
+          {getOptions('LANG_OPTION').map(item => {
+            return <Radio key={item.value} label={item.label} value={item.value} />
+          })}
+        </RadioGroup>
+      )
+    },
+    {
+      header: t('label.themeMode'),
+      value: 'themeMode',
+      children: (
+        <RadioGroup
+          value={themeMode}
+          onChange={val => {
+            const activeThemeMode = val as ThemeMode
+            useAppStore.setState({ themeMode: activeThemeMode })
+          }}
+        >
+          {getOptions('THEME_MODE').map(item => {
+            return <Radio key={item.value} label={item.label} value={item.value} />
+          })}
         </RadioGroup>
       )
     }
@@ -32,10 +53,10 @@ const SettingPanel = () => {
   }
 
   return (
-    <Collapse value={collapseValue} onChange={onChange} expandMutex>
+    <Collapse value={collapseValue} onChange={onChange}>
       {settins.map(item => {
         return (
-          <CollapsePanel key={item.value} header={item.header}>
+          <CollapsePanel key={item.value} value={item.value} header={item.header}>
             {item.children}
           </CollapsePanel>
         )

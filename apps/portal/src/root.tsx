@@ -4,7 +4,11 @@ import 'tdesign-mobile-react/es/style/index.css'
 import './global/styles/index.css'
 import { useTranslation } from 'react-i18next'
 import { data } from 'react-router'
+import { ConfigProvider } from 'tdesign-mobile-react'
+import enConfig from 'tdesign-mobile-react/es/locale/en_US'
+import zhConfig from 'tdesign-mobile-react/es/locale/zh_CN'
 import { setApiConfig } from './global/config/api'
+import type { LangType } from './global/constants'
 import { getLocale, i18nextMiddleware, localeCookie } from './global/middleware/i18next'
 
 setApiConfig()
@@ -19,6 +23,16 @@ export const loader = async ({ context }: Route.LoaderArgs) => {
 
 export const Layout = ({ children }: { children: ReactNode }) => {
   const { i18n } = useTranslation()
+  const themeMode = useAppStore(state => state.themeMode)
+
+  const langConfigMap = {
+    'zh-cn': zhConfig,
+    'en-us': enConfig
+  }
+
+  useEffect(() => {
+    document.documentElement.setAttribute('theme-mode', themeMode)
+  }, [themeMode])
 
   return (
     <html lang={i18n.language} dir={i18n.dir(i18n.language)}>
@@ -29,7 +43,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
         <Links />
       </head>
       <body>
-        {children}
+        <ConfigProvider globalConfig={langConfigMap[i18n.language as LangType]}>
+          <div className='bg-(--td-bg-color-page) text-(--td-text-color-primary)'>{children}</div>
+        </ConfigProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
