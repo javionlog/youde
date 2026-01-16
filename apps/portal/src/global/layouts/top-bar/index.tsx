@@ -21,7 +21,13 @@ const SettingPanel = () => {
               const activeLang = val as LangType
               useLocaleStore.setState({ lang: activeLang })
               i18n.changeLanguage(activeLang)
-              fetch(`/locale-sync/${activeLang}`)
+              fetch(`/locale-sync`, {
+                method: 'Post',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ lang: activeLang })
+              })
             }}
           >
             {getOptions('LANG_OPTION').map(item => {
@@ -39,6 +45,15 @@ const SettingPanel = () => {
             onChange={val => {
               const activeThemeMode = val as ThemeMode
               useAppStore.setState({ themeMode: activeThemeMode })
+              fetch(`/preference-sync`, {
+                method: 'Post',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  themeMode: activeThemeMode
+                })
+              })
             }}
           >
             {getOptions('THEME_MODE').map(item => {

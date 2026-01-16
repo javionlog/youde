@@ -3,55 +3,19 @@ import type { Route } from './+types/root'
 import 'tdesign-mobile-react/es/style/index.css'
 import './global/styles/index.css'
 import { useTranslation } from 'react-i18next'
-import { data } from 'react-router'
+import { data, useLoaderData } from 'react-router'
 import { ConfigProvider } from 'tdesign-mobile-react'
 import enConfig from 'tdesign-mobile-react/es/locale/en_US'
 import zhConfig from 'tdesign-mobile-react/es/locale/zh_CN'
 import { setApiConfig } from './global/config/api'
-import type { LangType } from './global/constants'
 import { getLocale, i18nextMiddleware, localeCookie } from './global/middleware/i18next'
+import {
+  getPreference,
+  preferenceCookie,
+  preferenceMiddleware
+} from './global/middleware/preference'
 
 setApiConfig()
-
-export const middleware = [i18nextMiddleware]
-
-export const loader = async ({ context }: Route.LoaderArgs) => {
-  const locale = getLocale(context)
-
-  return data({ locale }, { headers: { 'Set-Cookie': await localeCookie.serialize(locale) } })
-}
-
-export const Layout = ({ children }: { children: ReactNode }) => {
-  const { i18n } = useTranslation()
-  const themeMode = useAppStore(state => state.themeMode)
-
-  const langConfigMap = {
-    'zh-cn': zhConfig,
-    'en-us': enConfig
-  }
-
-  useEffect(() => {
-    document.documentElement.setAttribute('theme-mode', themeMode)
-  }, [themeMode])
-
-  return (
-    <html lang={i18n.language} dir={i18n.dir(i18n.language)}>
-      <head>
-        <meta charSet='utf-8' />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <ConfigProvider globalConfig={langConfigMap[i18n.language as LangType]}>
-          <div className='bg-(--td-bg-color-page) text-(--td-text-color-primary)'>{children}</div>
-        </ConfigProvider>
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
-  )
-}
 
 export const ErrorBoundary = ({ error }: Route.ErrorBoundaryProps) => {
   let message = 'Oops!'
@@ -78,6 +42,61 @@ export const ErrorBoundary = ({ error }: Route.ErrorBoundaryProps) => {
         </pre>
       )}
     </main>
+  )
+}
+
+export const middleware = [i18nextMiddleware, preferenceMiddleware]
+
+export const loader = async ({ context }: Route.LoaderArgs) => {
+  const preference = getPreference(context)
+
+  const locale = getLocale(context)
+
+  return data(
+    { locale, preference },
+    {
+      headers: [
+        ['Set-Cookie', await localeCookie.serialize(locale)],
+        ['Set-Cookie', await preferenceCookie.serialize(preference)]
+      ]
+    }
+  )
+}
+
+export const Layout = ({ children }: { children: ReactNode }) => {
+  const { i18n } = useTranslation()
+  const loaderData = useLoaderData<typeof loader>()
+  const themeMode = useAppStore(state => state.themeMode)
+
+  const langConfigMap = {
+    'zh-cn': zhConfig,
+    'en-us': enConfig
+  }
+
+  useEffect(() => {
+    document.documentElement.setAttribute('theme-mode', themeMode)
+  }, [themeMode])
+
+  return (
+    <html
+      lang={i18n.language}
+      dir={i18n.dir(i18n.language)}
+      {...{ 'theme-mode': loaderData.preference.themeMode }}
+    >
+      <head>
+        <meta charSet='utf-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <ConfigProvider globalConfig={langConfigMap[i18n.language as LangType]}>
+          <div className='bg-(--td-bg-color-page) text-(--td-text-color-primary)'>{children}</div>
+        </ConfigProvider>
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
   )
 }
 

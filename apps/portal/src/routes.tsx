@@ -14,8 +14,13 @@ export const layoutRoutes = [
   },
   {
     name: 'Locale',
-    path: '/locale-sync/:lng',
+    path: '/locale-sync',
     file: './modules/locale/sync.tsx'
+  },
+  {
+    name: 'Preference',
+    path: '/preference-sync',
+    file: './modules/preference/sync.tsx'
   }
 ] satisfies {
   name: string

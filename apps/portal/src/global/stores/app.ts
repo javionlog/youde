@@ -6,19 +6,11 @@ interface State {
   themeMode: ThemeMode
 }
 
-const getDefaultThemeMode = () => {
-  let result = 'light'
-  if (isBrowser()) {
-    result = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-  }
-  return result as ThemeMode
-}
-
 export const useAppStore = create(
   persist(
     subscribeWithSelector<State>(() => {
       return {
-        themeMode: getDefaultThemeMode()
+        themeMode: 'light'
       }
     }),
     { name: `${STORAGE_PREFIX}app`, storage: createJSONStorage(() => localStorage) }
