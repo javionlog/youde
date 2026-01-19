@@ -91,6 +91,7 @@ export default defineConfig(({ mode, isSsrBuild }) => {
           './src/global/locales/index.ts',
           './src/global/constants/index.ts',
           './src/global/enums/index.ts',
+          './src/global/events/index.ts',
           './src/global/components/index.tsx',
           './src/global/hooks/index.tsx'
         ],

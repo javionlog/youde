@@ -8,16 +8,19 @@ export const meta = () => {
 }
 
 export const loader = async () => {
-  const result = await postPortalTreasureList({ body: { page: 1, pageSize: 10 } })
-  return result
+  const { data = { records: [], total: 0 } } = await postPortalTreasureList({
+    body: { page: 1, pageSize: 10 }
+  })
+  return data
 }
 
 export default ({ loaderData }: Route.ComponentProps) => {
   const [loadingText, setLoadingText] = useState('')
   const [refreshing, setRefreshing] = useState(false)
   const page = useRef(1)
-  const total = useRef(loaderData.data?.total ?? 0)
-  const records = useRef<PostPortalTreasureListResponse['records']>(loaderData.data?.records ?? [])
+  const total = useRef(loaderData.total)
+
+  const records = useRef<PostPortalTreasureListResponse['records']>(loaderData.records)
 
   const fetchRecords = async (isRefresh = false) => {
     if ((records.current.length >= total.current && !isRefresh) || refreshing) {
@@ -30,7 +33,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
       page.current += 1
     }
     const res = await postPortalTreasureList({
-      body: { page: page.current, pageSize: 10 }
+      body: { page: page.current, pageSize: 10, title: useSearchStore.getState().value }
     }).then(r => r.data!)
     if (isRefresh) {
       records.current = res.records
@@ -52,6 +55,13 @@ export default ({ loaderData }: Route.ComponentProps) => {
       fetchRecords()
     }
   }
+
+  useEffect(() => {
+    emitter.on('search', () => {
+      setRefreshing(true)
+      fetchRecords(true)
+    })
+  }, [])
 
   return (
     <PullDownRefresh

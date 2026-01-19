@@ -1,5 +1,5 @@
 import { SettingIcon } from 'tdesign-icons-react'
-import type { CollapseProps } from 'tdesign-mobile-react'
+import type { CollapseProps, SearchProps } from 'tdesign-mobile-react'
 import type { ThemeMode } from '@/global/constants'
 
 const SettingPanel = () => {
@@ -155,11 +155,28 @@ const SettingBtn = () => {
 
 export const TopBar = () => {
   const { t } = useTranslation()
+  const value = useSearchStore(state => state.value)
+
+  const onChange: SearchProps['onChange'] = (val: string) => {
+    useSearchStore.setState({ value: val })
+  }
+
+  const onSubmit: SearchProps['onSubmit'] = ({ value }) => {
+    emitter.emit('search', { value })
+  }
 
   return (
     <Navbar
       fixed={false}
-      left={<Search shape='round' placeholder={t('component.input.placeholder')} />}
+      left={
+        <Search
+          value={value}
+          shape='round'
+          placeholder={t('component.input.placeholder')}
+          onChange={onChange}
+          onSubmit={onSubmit}
+        />
+      }
       right={<SettingBtn />}
       className='sticky top-0'
     />
