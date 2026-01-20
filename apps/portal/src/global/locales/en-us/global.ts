@@ -8,7 +8,10 @@ export default {
   action: {},
   label: {
     themeMode: 'Theme Mode',
-    languageSetting: 'Language Setting'
+    languageSetting: 'Language Setting',
+    noLimit: 'No Limit',
+    noDate: 'No Data',
+    category: 'Category'
   },
   component: {
     input: {

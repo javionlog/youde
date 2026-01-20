@@ -8,7 +8,10 @@ export default {
   action: {},
   label: {
     themeMode: '主题模式',
-    languageSetting: '语言设置'
+    languageSetting: '语言设置',
+    noLimit: '不限',
+    noDate: '无数据',
+    category: '分类'
   },
   component: {
     input: {

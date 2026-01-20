@@ -15,6 +15,7 @@ export const loader = async () => {
 }
 
 export default ({ loaderData }: Route.ComponentProps) => {
+  const { t } = useTranslation()
   const [loadingText, setLoadingText] = useState('')
   const [refreshing, setRefreshing] = useState(false)
   const page = useRef(1)
@@ -33,7 +34,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
       page.current += 1
     }
     const res = await postPortalTreasureList({
-      body: { page: page.current, pageSize: 10, title: useSearchStore.getState().value }
+      body: { page: page.current, pageSize: 10, ...useSearchStore.getState().value }
     }).then(r => r.data!)
     if (isRefresh) {
       records.current = res.records
@@ -71,11 +72,20 @@ export default ({ loaderData }: Route.ComponentProps) => {
       className='overflow-auto!'
     >
       <List asyncLoading={loadingText} onScroll={onScroll}>
-        {records.current.map(item => {
-          return (
-            <Cell key={item.id} align='middle' title={item.title} description={item.description} />
-          )
-        })}
+        {records.current.length ? (
+          records.current.map(item => {
+            return (
+              <Cell
+                key={item.id}
+                align='middle'
+                title={item.title}
+                description={item.description}
+              />
+            )
+          })
+        ) : (
+          <Empty description={t('label.noDate')} />
+        )}
       </List>
     </PullDownRefresh>
   )

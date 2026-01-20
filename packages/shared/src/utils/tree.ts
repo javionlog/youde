@@ -30,6 +30,33 @@ export const flattenTree = <T extends Record<string | number, any>, C extends ke
   return result
 }
 
+export const getEmptyChidrenTree = <T extends Record<string | number, any>, C extends keyof T>(
+  tree: T[] = [],
+  props?: { children?: C; isDepthFirst?: boolean }
+) => {
+  const { children = 'children', isDepthFirst = true } = props ?? {}
+  const stack = JSON.parse(JSON.stringify(tree)) as T[]
+  const result: T[] = []
+  while (stack.length > 0) {
+    const topItem = stack.shift()
+    if (topItem) {
+      result.push(topItem)
+      const items = topItem[children] as any[]
+      if (Array.isArray(items) && items.length) {
+        if (isDepthFirst) {
+          stack.unshift(...items)
+        } else {
+          stack.push(...items)
+        }
+      } else {
+        // @ts-ignore
+        topItem[children] = null
+      }
+    }
+  }
+  return result
+}
+
 export const buildTree = <
   T extends Record<number | string, any>,
   K extends keyof T,

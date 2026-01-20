@@ -7,6 +7,8 @@ import { data, useLoaderData } from 'react-router'
 import { ConfigProvider } from 'tdesign-mobile-react'
 import enConfig from 'tdesign-mobile-react/es/locale/en_US'
 import zhConfig from 'tdesign-mobile-react/es/locale/zh_CN'
+import { postPortalTreasureCategoryTree } from '@/global/api'
+import type { TreasureCategoryNode } from './global/api'
 import { setApiConfig } from './global/config/api'
 import { getLocale, i18nextMiddleware, localeCookie } from './global/middleware/i18next'
 import {
@@ -66,16 +68,11 @@ export const loader = async ({ context }: Route.LoaderArgs) => {
 export const Layout = ({ children }: { children: ReactNode }) => {
   const { i18n } = useTranslation()
   const loaderData = useLoaderData<typeof loader>()
-  const themeMode = useAppStore(state => state.themeMode)
 
   const langConfigMap = {
     'zh-cn': zhConfig,
     'en-us': enConfig
   }
-
-  useEffect(() => {
-    document.documentElement.setAttribute('theme-mode', themeMode)
-  }, [themeMode])
 
   return (
     <html
@@ -102,12 +99,42 @@ export const Layout = ({ children }: { children: ReactNode }) => {
 
 const App = ({ loaderData: { locale } }: Route.ComponentProps) => {
   const { i18n } = useTranslation()
+  const themeMode = useAppStore(state => state.themeMode)
+
+  const setCategory = (data: TreasureCategoryNode[]) => {
+    const lang = camelCase(i18n.language)
+    const tmpCategory = flattenTree(data).map(item => {
+      const localeItem = item?.locales.find(o => o.field === 'name')
+      return {
+        ...item,
+        label: localeItem?.[lang as 'enUs'] ?? item.name,
+        value: item.id
+      }
+    })
+    const categoryTree = getEmptyChidrenTree(buildTree(tmpCategory))
+    useCategoryStore.setState({ tree: categoryTree })
+  }
+
+  useEffect(() => {
+    document.documentElement.setAttribute('theme-mode', themeMode)
+  }, [themeMode])
 
   useEffect(() => {
     if (i18n.language !== locale) {
       i18n.changeLanguage(locale)
     }
   }, [locale, i18n])
+
+  useEffect(() => {
+    setCategory(useCategoryStore.getState().tree)
+  }, [i18n.language])
+
+  useEffect(() => {
+    postPortalTreasureCategoryTree({ body: {} }).then(res => {
+      const data = res.data ?? []
+      setCategory(data)
+    })
+  }, [])
 
   return <Outlet />
 }

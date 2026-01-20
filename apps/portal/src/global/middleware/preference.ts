@@ -7,11 +7,14 @@ export type Preference = {
 
 const preferenceContext = createContext<Preference>()
 
+const year = 60 * 60 * 24 * 365
+
 export const preferenceCookie = createCookie('preference', {
   path: '/',
   sameSite: 'lax',
   secure: true,
-  httpOnly: true
+  httpOnly: true,
+  maxAge: year
 })
 
 export const getPreference = (context: Readonly<RouterContextProvider>) => {

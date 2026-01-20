@@ -1,5 +1,5 @@
-import { SettingIcon } from 'tdesign-icons-react'
-import type { CollapseProps, SearchProps } from 'tdesign-mobile-react'
+import { ChevronRightIcon, CloseIcon, FilterIcon, SettingIcon } from 'tdesign-icons-react'
+import type { CascaderProps, CollapseProps, SearchProps } from 'tdesign-mobile-react'
 import type { ThemeMode } from '@/global/constants'
 
 const SettingPanel = () => {
@@ -63,7 +63,7 @@ const SettingPanel = () => {
         )
       }
     ],
-    [lang, themeMode]
+    [i18n.language, themeMode]
   )
 
   const onChange: CollapseProps['onChange'] = val => {
@@ -86,53 +86,13 @@ const SettingPanel = () => {
 const SettingBtn = () => {
   const [visible, setVisible] = useState(false)
 
-  const wrapRef = useRef<HTMLDivElement>(null)
-
   const onClick = () => {
     setVisible(true)
   }
 
   const onClose = () => {
     setVisible(false)
-    const wrapperEl = wrapRef.current?.parentElement?.parentElement!
-    wrapperEl.style.height = '0'
   }
-
-  const onOpen = () => {
-    setPopup()
-  }
-
-  const setPopup = () => {
-    const { width, left } = document.querySelector('.app-layout')!.getBoundingClientRect()
-
-    if (wrapRef.current) {
-      const wrapperEl = wrapRef.current?.parentElement?.parentElement!
-
-      wrapperEl.style.position = 'fixed'
-      wrapperEl.style.top = '0'
-      wrapperEl.style.left = `${left}px`
-      wrapperEl.style.width = `${width}px`
-      wrapperEl.style.height = '100dvh'
-      wrapperEl.style.zIndex = '1000'
-
-      const overlayEl = wrapperEl.querySelector('.t-overlay') as HTMLElement
-      const popupEl = wrapperEl.querySelector('.t-popup') as HTMLElement
-
-      overlayEl.style.position = 'absolute'
-
-      popupEl.style.position = 'absolute'
-      popupEl.style.height = '100dvh'
-      popupEl.style.width = '80%'
-    }
-  }
-
-  useEffect(() => {
-    const handleResize = () => {
-      setPopup()
-    }
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
 
   return (
     <>
@@ -143,10 +103,110 @@ const SettingBtn = () => {
         closeOnOverlayClick
         destroyOnClose
         onClose={onClose}
-        onOpen={onOpen}
       >
-        <div ref={wrapRef}>
+        <div className='h-full w-[80vw] overflow-auto'>
           <SettingPanel />
+        </div>
+      </Popup>
+    </>
+  )
+}
+
+const CategoryCell = () => {
+  const { t } = useTranslation()
+  const [visible, setVisible] = useState(false)
+  const categoryTree = useCategoryStore(state => state.tree)
+  const categoryId = useSearchStore(state => state.value.categoryIds?.[0])
+
+  const onChange: CascaderProps['onChange'] = value => {
+    useSearchStore.setState(state => ({
+      value: { ...state.value, categoryIds: [value as string] }
+    }))
+    emitter.emit('search', { title: '' })
+  }
+
+  const onClearCategory = () => {
+    useSearchStore.setState(state => ({ value: { ...state.value, categoryIds: [] } }))
+    emitter.emit('search', { title: '' })
+  }
+
+  const description = useMemo(() => {
+    const categoryList = flattenTree(categoryTree)
+    const categoryItem = categoryList.find(o => o.id === categoryId)
+    if (categoryItem) {
+      const parentNames = getParentNodes(categoryTree, categoryItem.id).map(o => o.label)
+      return [...parentNames, categoryItem.label].join(' / ')
+    }
+  }, [categoryId, categoryTree])
+
+  return (
+    <>
+      <Cell
+        title={t('label.category')}
+        description={description}
+        rightIcon={
+          categoryId ? (
+            <CloseIcon
+              onClick={event => {
+                event.stopPropagation()
+                onClearCategory()
+              }}
+            />
+          ) : (
+            <ChevronRightIcon />
+          )
+        }
+        onClick={() => {
+          setVisible(true)
+        }}
+      />
+      {visible && (
+        <Cascader
+          visible
+          title={t('label.category')}
+          value={categoryId}
+          options={categoryTree}
+          onChange={onChange}
+          onClose={() => {
+            setVisible(false)
+          }}
+        />
+      )}
+    </>
+  )
+}
+
+const FilterPanel = () => {
+  return (
+    <CellGroup>
+      <CategoryCell />
+    </CellGroup>
+  )
+}
+
+const FilterBtn = () => {
+  const [visible, setVisible] = useState(false)
+
+  const onClick = () => {
+    setVisible(true)
+  }
+
+  const onClose = () => {
+    setVisible(false)
+  }
+
+  return (
+    <>
+      <FilterIcon size='24' onClick={onClick} />
+      <Popup
+        visible={visible}
+        placement='right'
+        closeOnOverlayClick
+        destroyOnClose
+        onClose={onClose}
+      >
+        <div className='h-full w-[80vw] overflow-auto'>
+          <FilterPanel />
         </div>
       </Popup>
     </>
@@ -155,14 +215,14 @@ const SettingBtn = () => {
 
 export const TopBar = () => {
   const { t } = useTranslation()
-  const value = useSearchStore(state => state.value)
+  const { title } = useSearchStore(state => state.value)
 
   const onChange: SearchProps['onChange'] = (val: string) => {
-    useSearchStore.setState({ value: val })
+    useSearchStore.setState(state => ({ value: { ...state.value, title: val } }))
   }
 
   const onSubmit: SearchProps['onSubmit'] = ({ value }) => {
-    emitter.emit('search', { value })
+    emitter.emit('search', { title: value })
   }
 
   return (
@@ -170,14 +230,19 @@ export const TopBar = () => {
       fixed={false}
       left={
         <Search
-          value={value}
+          value={title ?? ''}
           shape='round'
           placeholder={t('component.input.placeholder')}
           onChange={onChange}
           onSubmit={onSubmit}
         />
       }
-      right={<SettingBtn />}
+      right={
+        <div className='flex gap-2'>
+          <FilterBtn />
+          <SettingBtn />
+        </div>
+      }
       className='sticky top-0'
     />
   )
