@@ -153,6 +153,7 @@ declare global {
   const formatDate: typeof import('../src/global/utils/time')['formatDate']
   const genDynamicRoutes: typeof import('../src/global/router/dynamic/index')['genDynamicRoutes']
   const getChildrenNodes: typeof import('../../../packages/shared/dist/main.js')['getChildrenNodes']
+  const getEmptyChidrenTree: typeof import('../../../packages/shared/dist/main.js')['getEmptyChidrenTree']
   const getKeys: typeof import('../../../packages/shared/dist/main.js')['getKeys']
   const getOptions: typeof import('../src/global/enums/index')['getOptions']
   const getParentNodes: typeof import('../../../packages/shared/dist/main.js')['getParentNodes']
