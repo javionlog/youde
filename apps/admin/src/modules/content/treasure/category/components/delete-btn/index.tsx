@@ -1,6 +1,6 @@
 import { DeleteIcon } from 'tdesign-icons-react'
 import type { DeleteAdminTreasureCategoryData, TreasureCategoryNode } from '@/global/api'
-import { deleteAdminResource } from '@/global/api'
+import { deleteAdminTreasureCategory } from '@/global/api'
 
 interface Props {
   rowData: TreasureCategoryNode
@@ -27,7 +27,7 @@ export const DeleteBtn = (props: Props) => {
       const params = {
         id: rowData.id
       } satisfies DeleteAdminTreasureCategoryData['body']
-      await deleteAdminResource({ body: params })
+      await deleteAdminTreasureCategory({ body: params })
 
       MessagePlugin.success(t('message.operateSuccessful'))
       onClose()
