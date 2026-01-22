@@ -24,7 +24,6 @@ CREATE TABLE "treasure" (
 	"title" varchar(256) NOT NULL,
 	"description" varchar(1024) NOT NULL,
 	"fee" text NOT NULL,
-	"country_code" varchar(16) NOT NULL,
 	"cover" varchar(256),
 	"content" text,
 	"url" varchar(256),

@@ -20,13 +20,6 @@ export const TreasurePanel = () => {
       },
       {
         formItem: {
-          name: 'title',
-          label: t('label.title'),
-          children: <GlInput />
-        }
-      },
-      {
-        formItem: {
           name: 'fees',
           label: t('label.fee'),
           children: <GlSelect options={getOptions('TREASURE_FEE')} multiple />
@@ -34,16 +27,16 @@ export const TreasurePanel = () => {
       },
       {
         formItem: {
-          name: 'countryCodes',
-          label: t('label.country'),
-          children: <GlCascader options={useBasicDataStore().getRegionCountryTree()} multiple />
+          name: 'status',
+          label: t('label.status'),
+          children: <GlSelect options={getOptions('TREASURE_STATUS')} multiple />
         }
       },
       {
         formItem: {
-          name: 'status',
-          label: t('label.status'),
-          children: <GlSelect options={getOptions('TREASURE_STATUS')} multiple />
+          name: 'title',
+          label: t('label.title'),
+          children: <GlInput />
         }
       }
     ]
@@ -58,25 +51,18 @@ export const TreasurePanel = () => {
       }
     },
     {
-      colKey: 'title',
-      title: t('label.title')
-    },
-    {
-      colKey: 'description',
-      title: t('label.description')
-    },
-    {
       colKey: 'fee',
       title: t('label.fee'),
       cellRenderType: 'enum',
       enumKey: 'TREASURE_FEE'
     },
     {
-      colKey: 'countryCode',
-      title: t('label.country'),
-      cell: ({ row }) => {
-        return useBasicDataStore.getState().getCountryName(row.countryCode)
-      }
+      colKey: 'title',
+      title: t('label.title')
+    },
+    {
+      colKey: 'description',
+      title: t('label.description')
     },
     {
       colKey: 'url',

@@ -23,10 +23,9 @@ export const useForm = (props: Props) => {
 
   const rules = {
     categoryId: getRequiredRules(),
-    title: getRequiredRules(),
-    description: getRequiredRules(),
     fee: getRequiredRules(),
-    countryCode: getRequiredRules()
+    title: getRequiredRules(),
+    description: getRequiredRules()
   } satisfies FormRules<NonNullable<PostAdminTreasureData['body']>>
 
   const items = [
@@ -35,6 +34,13 @@ export const useForm = (props: Props) => {
         name: 'categoryId',
         label: t('treasure.label.category', { ns: 'content' }),
         children: <GlCascader options={useTreasureStore().getCategoryTree()} />
+      }
+    },
+    {
+      formItem: {
+        name: 'fee',
+        label: t('label.fee'),
+        children: <GlSelect options={getOptions('TREASURE_FEE')} />
       }
     },
     {
@@ -49,20 +55,6 @@ export const useForm = (props: Props) => {
         name: 'description',
         label: t('label.description'),
         children: <GlInput />
-      }
-    },
-    {
-      formItem: {
-        name: 'fee',
-        label: t('label.fee'),
-        children: <GlSelect options={getOptions('TREASURE_FEE')} />
-      }
-    },
-    {
-      formItem: {
-        name: 'countryCode',
-        label: t('label.country'),
-        children: <GlCascader options={useBasicDataStore().getRegionCountryTree()} />
       }
     },
     {

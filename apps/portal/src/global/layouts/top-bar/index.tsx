@@ -1,6 +1,7 @@
 import { ChevronRightIcon, CloseIcon, FilterIcon, SettingIcon } from 'tdesign-icons-react'
-import type { CascaderProps, CollapseProps, SearchProps } from 'tdesign-mobile-react'
+import type { CascaderProps, CollapseProps, PickerProps, SearchProps } from 'tdesign-mobile-react'
 import type { ThemeMode } from '@/global/constants'
+import type { FeeValue } from '@/global/enums/common'
 
 const SettingPanel = () => {
   const { t } = useTranslation()
@@ -122,12 +123,17 @@ const CategoryCell = () => {
     useSearchStore.setState(state => ({
       value: { ...state.value, categoryIds: [value as string] }
     }))
-    emitter.emit('search', { title: '' })
+    emitter.emit('search', {})
   }
 
   const onClearCategory = () => {
     useSearchStore.setState(state => ({ value: { ...state.value, categoryIds: [] } }))
-    emitter.emit('search', { title: '' })
+    emitter.emit('search', {})
+    setVisible(false)
+  }
+
+  const onClose = () => {
+    setVisible(false)
   }
 
   const description = useMemo(() => {
@@ -160,18 +166,91 @@ const CategoryCell = () => {
           setVisible(true)
         }}
       />
-      {visible && (
-        <Cascader
-          visible
-          title={t('label.category')}
-          value={categoryId}
-          options={categoryTree}
-          onChange={onChange}
-          onClose={() => {
-            setVisible(false)
-          }}
-        />
-      )}
+      <Overlay visible={visible}>
+        {visible && (
+          <Cascader
+            visible
+            theme='tab'
+            title={t('label.category')}
+            value={categoryId}
+            options={categoryTree}
+            onChange={onChange}
+            onClose={onClose}
+          />
+        )}
+      </Overlay>
+    </>
+  )
+}
+
+const FeeCell = () => {
+  const { t, i18n } = useTranslation()
+  const [visible, setVisible] = useState(false)
+  const fees = useSearchStore(state => state.value.fees) ?? []
+
+  const onClearFee = () => {
+    useSearchStore.setState(state => ({
+      value: { ...state.value, fees: [] }
+    }))
+    emitter.emit('search', {})
+    setVisible(false)
+  }
+
+  const onClose = () => {
+    setVisible(false)
+  }
+
+  const onConfirm: PickerProps['onConfirm'] = value => {
+    const pickedValue = value as FeeValue[]
+    useSearchStore.setState(state => ({
+      value: { ...state.value, fees: pickedValue }
+    }))
+    emitter.emit('search', {})
+    setVisible(false)
+  }
+
+  const description = useMemo(() => {
+    return getTranslate('FEE', fees[0])
+  }, [fees])
+
+  const feeOptions = useMemo(() => {
+    return getOptions('FEE')
+  }, [i18n.language])
+
+  return (
+    <>
+      <Cell
+        title={t('label.fee')}
+        description={description}
+        rightIcon={
+          fees.length ? (
+            <CloseIcon
+              onClick={event => {
+                event.stopPropagation()
+                onClearFee()
+              }}
+            />
+          ) : (
+            <ChevronRightIcon />
+          )
+        }
+        onClick={() => {
+          setVisible(true)
+        }}
+      />
+      <Overlay visible={visible}>
+        {visible && (
+          <Popup visible onClose={onClose} placement='bottom'>
+            <Picker
+              value={fees}
+              title={t('label.fee')}
+              columns={feeOptions}
+              onCancel={onClose}
+              onConfirm={onConfirm}
+            />
+          </Popup>
+        )}
+      </Overlay>
     </>
   )
 }
@@ -180,12 +259,14 @@ const FilterPanel = () => {
   return (
     <CellGroup>
       <CategoryCell />
+      <FeeCell />
     </CellGroup>
   )
 }
 
 const FilterBtn = () => {
   const [visible, setVisible] = useState(false)
+  const { t } = useTranslation()
 
   const onClick = () => {
     setVisible(true)
@@ -193,6 +274,11 @@ const FilterBtn = () => {
 
   const onClose = () => {
     setVisible(false)
+  }
+
+  const onReset = () => {
+    useSearchStore.setState({ value: {} })
+    emitter.emit('search', {})
   }
 
   return (
@@ -205,8 +291,11 @@ const FilterBtn = () => {
         destroyOnClose
         onClose={onClose}
       >
-        <div className='h-full w-[80vw] overflow-auto'>
+        <div className='h-full w-[80vw] overflow-auto pb-10'>
           <FilterPanel />
+          <Button block className='absolute! bottom-0' onClick={onReset}>
+            {t('action.reset')}
+          </Button>
         </div>
       </Popup>
     </>

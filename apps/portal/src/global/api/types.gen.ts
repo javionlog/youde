@@ -90,10 +90,9 @@ export type GetPortalTreasureResponses = {
         title: string;
         description: string;
         fee: 'Free' | 'PartlyFree' | 'Paid';
-        countryCode: string;
         cover: string | null;
-        content: string;
-        url: string;
+        content: string | null;
+        url: string | null;
         status: 'Draft' | 'Pending' | 'Passed';
     };
 };
@@ -108,11 +107,10 @@ export type PostPortalTreasureListData = {
         title?: string | null;
         createdBy?: string | null;
         fees?: Array<'Free' | 'PartlyFree' | 'Paid'> | null;
-        countryCodes?: Array<string> | null;
         categoryIds?: Array<string> | null;
         status?: Array<'Draft' | 'Pending' | 'Passed'> | null;
         sortBy?: {
-            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'categoryId' | 'userId' | 'title' | 'description' | 'fee' | 'countryCode' | 'cover' | 'content' | 'url' | 'status';
+            field?: 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy' | 'categoryId' | 'userId' | 'title' | 'description' | 'fee' | 'cover' | 'content' | 'url' | 'status';
             direction?: 'asc' | 'desc';
         } | null;
     };
@@ -137,10 +135,9 @@ export type PostPortalTreasureListResponses = {
             title: string;
             description: string;
             fee: 'Free' | 'PartlyFree' | 'Paid';
-            countryCode: string;
             cover: string | null;
-            content: string;
-            url: string;
+            content: string | null;
+            url: string | null;
             status: 'Draft' | 'Pending' | 'Passed';
         }>;
         total: number;

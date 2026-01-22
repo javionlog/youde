@@ -16,8 +16,7 @@ export const getTreasure = async (params: GetReqType) => {
 }
 
 export const listTreasures = async (params: ListReqType) => {
-  const { id, title, fees, createdBy, categoryIds, countryCodes, status, page, pageSize, sortBy } =
-    params
+  const { id, title, fees, createdBy, categoryIds, status, page, pageSize, sortBy } = params
 
   const where = []
   const dynamicQuery = db.select().from(treasure).$dynamic()
@@ -36,9 +35,6 @@ export const listTreasures = async (params: ListReqType) => {
   }
   if (categoryIds?.length) {
     where.push(inArray(treasure.categoryId, categoryIds))
-  }
-  if (countryCodes?.length) {
-    where.push(inArray(treasure.countryCode, countryCodes))
   }
   if (status?.length) {
     where.push(inArray(treasure.status, status))

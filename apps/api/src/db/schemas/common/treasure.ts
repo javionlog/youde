@@ -8,7 +8,6 @@ export const treasure = pgTable('treasure', {
   title: varchar('title', { length: 256 }).notNull().unique(),
   description: varchar('description', { length: 1024 }).notNull(),
   fee: text('fee', { enum: ['Free', 'PartlyFree', 'Paid'] }).notNull(),
-  countryCode: varchar('country_code', { length: 16 }).notNull(),
   cover: varchar('cover', { length: 256 }),
   content: text('content'),
   url: varchar('url', { length: 256 }),

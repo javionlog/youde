@@ -2,7 +2,7 @@ import mitt from 'mitt'
 import type { PostPortalTreasureListData } from '@/global/api'
 
 type Events = {
-  search: { title: PostPortalTreasureListData['body']['title'] }
+  search: PostPortalTreasureListData['body']
 }
 
 export const emitter = mitt<Events>()

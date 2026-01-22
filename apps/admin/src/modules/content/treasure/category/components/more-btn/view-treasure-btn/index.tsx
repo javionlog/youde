@@ -18,25 +18,18 @@ export const ViewTreasureBtn = (props: Props) => {
       }
     },
     {
-      colKey: 'title',
-      title: t('label.title')
-    },
-    {
-      colKey: 'description',
-      title: t('label.description')
-    },
-    {
       colKey: 'fee',
       title: t('label.fee'),
       cellRenderType: 'enum',
       enumKey: 'TREASURE_FEE'
     },
     {
-      colKey: 'countryCode',
-      title: t('label.country'),
-      cell: ({ row }) => {
-        return useBasicDataStore.getState().getCountryName(row.countryCode)
-      }
+      colKey: 'title',
+      title: t('label.title')
+    },
+    {
+      colKey: 'description',
+      title: t('label.description')
     },
     {
       colKey: 'url',

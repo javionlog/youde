@@ -1,5 +1,5 @@
 {
-  "id": "4b662c23-e526-4348-9458-5b403e53710d",
+  "id": "190133be-6df3-424c-95c0-a30932034e78",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -148,12 +148,6 @@
         "fee": {
           "name": "fee",
           "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "country_code": {
-          "name": "country_code",
-          "type": "varchar(16)",
           "primaryKey": false,
           "notNull": true
         },
