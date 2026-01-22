@@ -1,3 +1,4 @@
+import { JumpIcon } from 'tdesign-icons-react'
 import type { TdListProps } from 'tdesign-mobile-react'
 import type { PostPortalTreasureListResponse } from '@/global/api'
 import { postPortalTreasureList } from '@/global/api'
@@ -78,8 +79,27 @@ export default ({ loaderData }: Route.ComponentProps) => {
               <Cell
                 key={item.id}
                 align='middle'
-                title={item.title}
-                description={item.description}
+                title={<div className='break-all'>{item.title}</div>}
+                note={
+                  <GlClientOnly>
+                    <div>
+                      <div className='whitespace-nowrap'>{getTranslate('FEE', item.fee)}</div>
+                      {item.url && (
+                        <div className='flex justify-end'>
+                          <Link
+                            suffixIcon={<JumpIcon />}
+                            theme='primary'
+                            className='justify-end whitespace-nowrap'
+                            onClick={() => {
+                              item.url && window.open(item.url, '_blank')
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </GlClientOnly>
+                }
+                description={<div className='break-all'>{item.description}</div>}
               />
             )
           })

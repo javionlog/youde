@@ -1,1 +1,1 @@
-export * from './gl-theme-select'
+export * from './gl-client-only'

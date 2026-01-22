@@ -44,7 +44,7 @@ declare global {
   const Footer: typeof import('tdesign-mobile-react')['Footer']
   const Form: typeof import('tdesign-mobile-react')['Form']
   const FormItem: typeof import('tdesign-mobile-react')['FormItem']
-  const GlThemeSelect: typeof import('../src/global/components/gl-theme-select/index')['GlThemeSelect']
+  const GlClientOnly: typeof import('../src/global/components/gl-client-only/index')['GlClientOnly']
   const Grid: typeof import('tdesign-mobile-react')['Grid']
   const GridItem: typeof import('tdesign-mobile-react')['GridItem']
   const Guide: typeof import('tdesign-mobile-react')['Guide']
