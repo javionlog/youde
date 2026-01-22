@@ -1,5 +1,5 @@
-import type { DeleteAdminRoleData, GetAdminTreasureResponse } from '@/global/api'
-import { deleteAdminRole } from '@/global/api'
+import type { DeleteAdminTreasureData, GetAdminTreasureResponse } from '@/global/api'
+import { deleteAdminTreasure } from '@/global/api'
 
 interface Props {
   rowData: GetAdminTreasureResponse
@@ -25,8 +25,8 @@ export const DeleteBtn = (props: Props) => {
       setConfirmLoading(true)
       const params = {
         id: rowData.id
-      } satisfies DeleteAdminRoleData['body']
-      await deleteAdminRole({ body: params })
+      } satisfies DeleteAdminTreasureData['body']
+      await deleteAdminTreasure({ body: params })
 
       MessagePlugin.success(t('message.operateSuccessful'))
       onClose()
