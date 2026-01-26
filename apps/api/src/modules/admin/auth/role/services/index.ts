@@ -63,7 +63,7 @@ export const updateRole = async (
         .set({
           ...restParams,
           updatedBy: updatedByUsername,
-          updatedAt: new Date().toDateString()
+          updatedAt: new Date().toISOString()
         })
         .where(eq(adminRole.id, id))
         .returning()

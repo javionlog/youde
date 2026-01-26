@@ -105,7 +105,7 @@ export const resetUserPassword = async (
         .set({
           password: hashPassword,
           updatedBy: updatedByUsername,
-          updatedAt: new Date().toDateString()
+          updatedAt: new Date().toISOString()
         })
         .where(eq(adminUser.id, id))
         .returning()
@@ -142,7 +142,7 @@ export const resetSelfPassword = async (
         .set({
           password: newHashPassword,
           updatedBy: updatedByUsername,
-          updatedAt: new Date().toDateString()
+          updatedAt: new Date().toISOString()
         })
         .where(eq(adminUser.id, id))
         .returning()
@@ -194,7 +194,7 @@ export const updateUser = async (
           enabled,
           isAdmin,
           updatedBy: updatedByUsername,
-          updatedAt: new Date().toDateString()
+          updatedAt: new Date().toISOString()
         })
         .where(eq(adminUser.id, id))
         .returning()

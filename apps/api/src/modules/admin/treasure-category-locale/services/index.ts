@@ -51,7 +51,7 @@ export const updateTreasureCategoryLocale = async (
         .set({
           ...restParams,
           updatedBy: updatedByUsername,
-          updatedAt: new Date().toDateString()
+          updatedAt: new Date().toISOString()
         })
         .where(eq(treasureCategoryLocale.id, id))
         .returning()

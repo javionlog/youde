@@ -52,7 +52,7 @@ export const updateCountry = async (
         .set({
           ...restParams,
           updatedBy: updatedByUsername,
-          updatedAt: new Date().toDateString()
+          updatedAt: new Date().toISOString()
         })
         .where(eq(country.id, id))
         .returning()

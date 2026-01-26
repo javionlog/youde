@@ -73,7 +73,7 @@ export const updateResource = async (
         .set({
           ...restParams,
           updatedBy: updatedByUsername,
-          updatedAt: new Date().toDateString()
+          updatedAt: new Date().toISOString()
         })
         .where(eq(adminResource.id, id))
         .returning()

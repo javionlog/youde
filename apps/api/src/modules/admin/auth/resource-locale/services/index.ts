@@ -49,7 +49,7 @@ export const updateResourceLocale = async (
         .set({
           ...restParams,
           updatedBy: updatedByUsername,
-          updatedAt: new Date().toDateString()
+          updatedAt: new Date().toISOString()
         })
         .where(eq(adminResourceLocale.id, id))
         .returning()
