@@ -2,7 +2,9 @@ import type { FormItemProps as _FormItemProps, FormProps as _FormProps } from 't
 
 type GridProps = Parameters<typeof GlGrid>[0]
 type GridItemProps = Parameters<typeof GlGridItem>[0]
-type FormProps = _FormProps & { labelEllipsis?: boolean }
+type FormProps = _FormProps & {
+  labelEllipsis?: boolean
+}
 type FormItemProps = _FormItemProps & { labelEllipsis?: boolean }
 
 type Item = {
@@ -63,6 +65,12 @@ export const GlForm = (props: Props) => {
     }
     return 3
   }, [breakpoint, columns])
+
+  useEffect(() => {
+    if (formProps.form) {
+      formProps.form.setFieldsValue(formProps.form.getFieldsValue(true))
+    }
+  }, [])
 
   return (
     <div ref={ref} className={`gl-form ${className ?? ''}`} style={style}>

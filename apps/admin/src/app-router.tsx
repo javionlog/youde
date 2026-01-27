@@ -12,8 +12,8 @@ export const AppRouter = () => {
   const themeMode = useAppStore(state => state.themeMode)
 
   const langConfigMap = {
-    'zh-cn': zhConfig,
-    'en-us': enConfig
+    'zh-cn': { ...zhConfig, isContextEffectPlugin: true },
+    'en-us': { ...enConfig, isContextEffectPlugin: true }
   }
   const [globalConfig, setGlobalConfig] = useState<GlobalConfigProvider>(langConfigMap[lang])
 
