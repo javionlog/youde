@@ -1,11 +1,6 @@
 networks:
   youde-network:
     external: true
-volumes:
-  db-data-prod:
-    external: true
-  db-log-prod:
-    external: true
 services:
   admin:
     image: ghcr.io/javionlog/youde-admin-prod:latest
@@ -24,7 +19,7 @@ services:
     depends_on:
       - api
     env_file:
-      - 1panel.env
+      - .env
   api:
     image: ghcr.io/javionlog/youde-api-prod:latest
     container_name: api-prod
@@ -33,16 +28,15 @@ services:
     depends_on:
       - db
     env_file:
-      - 1panel.env
+      - .env
   db:
     image: postgres:alpine
     container_name: db-prod
     volumes:
-      - db-data-prod:/var/lib/postgresql/data
-      - db-log-prod:/var/log/postgresql
+      - /apps/youde-prod/db-data:/var/lib/postgresql
     ports:
       - 5432:5432
     networks:
       - youde-network
     env_file:
-      - 1panel.env
+      - .env
