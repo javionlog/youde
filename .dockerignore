@@ -1,0 +1,72 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Env
+.env
+.env.*
+
+# Editor
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Log
+*.log
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test
+tests
+**/*.test.*
+**/*.spec.*
+coverage
+.nyc_output
+
+# Doc
+README.md
+AGENTS.md
+CLAUDE.md
+*.md
+docs
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+Jenkinsfile
+
+# Lint
+.eslintrc*
+.eslintignore
+.prettierrc*
+.prettierignore
+.stylelintrc*
+
+# Temp
+temp
+.cache
+.parcel-cache
+.vite
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore

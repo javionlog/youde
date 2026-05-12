@@ -1,4 +1,4 @@
 FROM nginx:alpine
-COPY dist /usr/share/nginx/html
+COPY apps/admin/dist /usr/share/nginx/html
 
 EXPOSE 80

@@ -49,21 +49,24 @@ jobs:
       - name: Push admin image
         uses: docker/build-push-action@v6
         with:
-          context: ./apps/admin
+          context: .
+          file: ./apps/admin/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}-admin-dev:latest
 
       - name: Push portal image
         uses: docker/build-push-action@v6
         with:
-          context: ./apps/portal
+          context: .
+          file: ./apps/portal/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}-portal-dev:latest
 
       - name: Push api image
         uses: docker/build-push-action@v6
         with:
-          context: ./apps/api
+          context: .
+          file: ./apps/api/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}-api-dev:latest
 
