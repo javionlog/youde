@@ -5,4 +5,7 @@ const app = new Elysia().use(appController).listen(3000)
 
 export type App = typeof app
 
-export default app
+export default {
+  ...app,
+  port: 3000
+}
