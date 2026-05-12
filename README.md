@@ -4,6 +4,8 @@ English | [简体中文](./README.zh-CN.md)
 
 [youde](https://javionlog.github.io/youde) is an end-to-end type-safe full-stack content management application.
 
+Preview [Admin Entry](https://admin.javionlog.top), [Portal Entry](https://portal.javionlog.top)
+
 ## Tech Stack
 
 - [React](https://github.com/facebook/react)

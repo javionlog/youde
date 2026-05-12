@@ -4,6 +4,8 @@
 
 [youde](https://javionlog.github.io/youde) 是一个端到端类型安全的全栈内容管理应用。
 
+预览 [管理员入口](https://admin.javionlog.top), [门户入口](https://portal.javionlog.top)
+
 ## 技术栈
 
 - [React](https://github.com/facebook/react)
