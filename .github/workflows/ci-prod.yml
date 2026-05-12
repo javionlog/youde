@@ -27,24 +27,8 @@ jobs:
       - name: Checkout respository
         uses: actions/checkout@v4
 
-      - name: Setup node version
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22.17.1'
-
-      - name: Setup bun version
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install dependencies
-        run: pnpm i
-
-      - name: Build apps
-        run: npm run build:prod
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Push admin image
         uses: docker/build-push-action@v6
@@ -53,6 +37,10 @@ jobs:
           file: ./apps/admin/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}-admin-prod:latest
+          build-args: |
+            BUILD_MODE=prod
+          cache-from: type=gha,scope=admin-prod
+          cache-to: type=gha,mode=max,scope=admin-prod
 
       - name: Push portal image
         uses: docker/build-push-action@v6
@@ -61,6 +49,10 @@ jobs:
           file: ./apps/portal/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}-portal-prod:latest
+          build-args: |
+            BUILD_MODE=prod
+          cache-from: type=gha,scope=portal-prod
+          cache-to: type=gha,mode=max,scope=portal-prod
 
       - name: Push api image
         uses: docker/build-push-action@v6
@@ -69,6 +61,10 @@ jobs:
           file: ./apps/api/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}-api-prod:latest
+          build-args: |
+            BUILD_MODE=prod
+          cache-from: type=gha,scope=api-prod
+          cache-to: type=gha,mode=max,scope=api-prod
 
       - name: Execute remote SSH commands using password
         uses: appleboy/ssh-action@v1
