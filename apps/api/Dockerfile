@@ -16,9 +16,9 @@ RUN pnpm --filter shared build:prod
 COPY apps/api/ ./apps/api/
 RUN pnpm deploy --filter api --prod /app/deploy
 
-# ✅ pnpm deploy 只复制 dist 产物到 node_modules，
-#    手动将 shared 的完整构建产物覆盖进去，确保内容一致
-RUN cp -r /app/packages/shared/dist /app/deploy/node_modules/@your-scope/shared/dist
+# ✅ pnpm deploy 对 workspace 本地包只做快照，产物可能不完整
+# 手动将 shared 构建产物覆盖到 deploy 后的 node_modules 中
+RUN cp -rf /app/packages/shared/dist /app/deploy/node_modules/@youde/shared/dist
 
 FROM oven/bun:1-alpine AS builder
 WORKDIR /app
