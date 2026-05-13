@@ -11,7 +11,7 @@ await Bun.build({
   format: 'esm',
   target: 'bun',
   splitting: true,
-  external: ['node:*', 'bun:*']
+  packages: 'bundle'
 })
 
 await cp(join(baseDir, 'public'), join(baseDir, 'dist/public'), { recursive: true })
