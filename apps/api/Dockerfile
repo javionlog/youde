@@ -28,6 +28,11 @@ WORKDIR /app
 
 ARG BUILD_MODE=prod
 
+RUN ls -la node_modules/@youde/ || echo "@youde not found ❌"
+RUN ls -la node_modules/@youde/shared/ || echo "shared not found ❌"
+RUN ls -la node_modules/@youde/shared/dist/ || echo "shared dist not found ❌"
+RUN cat node_modules/@youde/shared/package.json || echo "package.json not found ❌"
+
 # deploy 目录下的 node_modules 是真实文件，无 symlink 问题
 COPY --from=deps /app/deploy/node_modules ./node_modules
 COPY tsconfig.json ./
