@@ -1,3 +1,4 @@
+//workspaceCode:assistant-17786621637070_2=chat=litellm/claude-sonnet-4.6
 FROM node:22-alpine AS builder
 WORKDIR /app
 
@@ -14,6 +15,8 @@ RUN pnpm install --filter shared --filter admin
 COPY packages/shared/ ./packages/shared/
 COPY apps/admin/ ./apps/admin/
 
+# ✅ 先构建 shared，生成 dist/main.js，再构建 admin
+RUN pnpm --filter shared build:${BUILD_MODE}
 RUN pnpm --filter admin build:${BUILD_MODE}
 
 FROM nginx:alpine
