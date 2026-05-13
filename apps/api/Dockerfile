@@ -23,6 +23,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/api/node_modules ./apps/api/node_modules
 COPY --from=deps /app/packages/shared ./packages/shared
 
+# 调试：确认 shared 的 dist 产物存在
+RUN ls -la packages/shared/dist/ || echo "shared dist not found ❌"
+RUN cat packages/shared/dist/main.js | head -5 || echo "main.js not found ❌"
+
 COPY tsconfig.json ./
 COPY apps/api/ ./apps/api/
 
