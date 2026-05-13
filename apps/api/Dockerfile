@@ -1,4 +1,4 @@
-//workspaceCode:assistant-17786606966930_1=chat=litellm/claude-sonnet-4.6
+//workspaceCode:assistant-17786606966930_3=chat=litellm/claude-sonnet-4.6
 FROM node:22-alpine AS deps
 WORKDIR /app
 
@@ -17,15 +17,16 @@ RUN pnpm --filter shared build:prod
 COPY apps/api/ ./apps/api/
 RUN pnpm deploy --filter api --prod /app/deploy
 
+# ✅ pnpm deploy 只复制 dist 产物到 node_modules，
+#    手动将 shared 的完整构建产物覆盖进去，确保内容一致
+RUN cp -r /app/packages/shared/dist /app/deploy/node_modules/@your-scope/shared/dist
+
 FROM oven/bun:1-alpine AS builder
 WORKDIR /app
 
 ARG BUILD_MODE=prod
 
-# 复制 deploy 后的 node_modules（包含第三方依赖）
 COPY --from=deps /app/deploy/node_modules ./node_modules
-# 直接复制 shared 源码，让 Bun 打包时能完整解析所有导出
-COPY --from=deps /app/packages/shared/ ./packages/shared/
 COPY tsconfig.json ./
 COPY apps/api/ ./apps/api/
 
