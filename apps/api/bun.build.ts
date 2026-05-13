@@ -7,8 +7,7 @@ await Bun.build({
   outdir: './dist',
   format: 'esm',
   target: 'bun',
-  splitting: true,
-  external: ['node:*', 'bun:*']
+  splitting: true
 })
 
 await cp('./public', './dist/public', { recursive: true })
