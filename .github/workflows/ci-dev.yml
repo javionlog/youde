@@ -39,8 +39,9 @@ jobs:
           tags: ghcr.io/${{ github.repository }}-admin-dev:latest
           build-args: |
             BUILD_MODE=dev
-          cache-from: type=gha,scope=admin-dev
-          cache-to: type=gha,mode=max,scope=admin-dev
+          # cache-from: type=gha,scope=admin-dev
+          # cache-to: type=gha,mode=max,scope=admin-dev
+          no-cache: true
 
       - name: Push portal image
         uses: docker/build-push-action@v6
@@ -51,8 +52,9 @@ jobs:
           tags: ghcr.io/${{ github.repository }}-portal-dev:latest
           build-args: |
             BUILD_MODE=dev
-          cache-from: type=gha,scope=portal-dev
-          cache-to: type=gha,mode=max,scope=portal-dev
+          # cache-from: type=gha,scope=portal-dev
+          # cache-to: type=gha,mode=max,scope=portal-dev
+          no-cache: true
 
       - name: Push api image
         uses: docker/build-push-action@v6
@@ -63,8 +65,9 @@ jobs:
           tags: ghcr.io/${{ github.repository }}-api-dev:latest
           build-args: |
             BUILD_MODE=dev
-          cache-from: type=gha,scope=api-dev
-          cache-to: type=gha,mode=max,scope=api-dev
+          # cache-from: type=gha,scope=api-dev
+          # cache-to: type=gha,mode=max,scope=api-dev
+          no-cache: true
 
       - name: Execute remote SSH commands using password
         uses: appleboy/ssh-action@v1
