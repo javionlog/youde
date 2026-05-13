@@ -1,4 +1,3 @@
-//workspaceCode:assistant-17786621637070_2=chat=litellm/claude-sonnet-4.6
 FROM node:22-alpine AS builder
 WORKDIR /app
 
