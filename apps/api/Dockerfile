@@ -14,17 +14,18 @@ RUN pnpm install --filter shared --filter api
 COPY packages/shared/ ./packages/shared/
 COPY apps/api/ ./apps/api/
 
+# 先构建 shared
 RUN pnpm --filter shared build:${BUILD_MODE}
-RUN pnpm deploy --filter api --prod /app/deploy
 
 FROM oven/bun:1-alpine AS builder
 WORKDIR /app
 
 ARG BUILD_MODE=prod
 
-COPY --from=deps /app/deploy/node_modules ./node_modules
-COPY tsconfig.json ./
-COPY apps/api/ ./apps/api/
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/packages ./packages
+COPY --from=deps /app/apps ./apps
+COPY --from=deps /app/tsconfig.json ./
 
 RUN bun --env-file=apps/api/.env.${BUILD_MODE} apps/api/bun.build.ts
 
