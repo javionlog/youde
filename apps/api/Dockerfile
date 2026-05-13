@@ -26,6 +26,8 @@ COPY --from=deps /app/packages/shared ./packages/shared
 # 调试：确认 shared 的 dist 产物存在
 RUN ls -la packages/shared/dist/ || echo "shared dist not found ❌"
 RUN cat packages/shared/dist/main.js | head -5 || echo "main.js not found ❌"
+RUN ls -la node_modules/@youde/ || echo "@youde not found ❌"
+RUN ls -la node_modules/@youde/shared/dist/ || echo "shared dist not found ❌"
 
 COPY tsconfig.json ./
 COPY apps/api/ ./apps/api/
