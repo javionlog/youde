@@ -9,16 +9,20 @@ COPY apps/api/package.json ./apps/api/
 
 RUN pnpm install --filter shared --filter api
 
-RUN pnpm deploy --filter api --prod /app/deploy
+COPY packages/shared/ ./packages/shared/
+RUN pnpm --filter shared build:prod
 
 FROM oven/bun:1-alpine AS builder
 WORKDIR /app
 
 ARG BUILD_MODE=prod
 
-COPY --from=deps /app/deploy/node_modules ./node_modules
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/api/node_modules ./apps/api/node_modules
+
+COPY --from=deps /app/packages/shared ./packages/shared
+
 COPY tsconfig.json ./
-COPY packages/shared/ ./packages/shared/
 COPY apps/api/ ./apps/api/
 
 RUN bun --env-file=apps/api/.env.${BUILD_MODE} apps/api/bun.build.ts
