@@ -22,7 +22,8 @@ COPY tsconfig.json ./
 COPY packages/shared/ ./packages/shared/
 COPY apps/api/ ./apps/api/
 
-RUN bun --env-file=apps/api/.env.${BUILD_MODE} apps/api/bun.build.ts
+WORKDIR /app/apps/api
+RUN bun --env-file=.env.${BUILD_MODE} bun.build.ts
 
 FROM oven/bun:1-alpine
 WORKDIR /app
