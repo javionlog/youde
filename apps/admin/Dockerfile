@@ -14,7 +14,6 @@ RUN pnpm install --filter shared --filter admin
 COPY packages/shared/ ./packages/shared/
 COPY apps/admin/ ./apps/admin/
 
-# ✅ 先构建 shared，生成 dist/main.js，再构建 admin
 RUN pnpm --filter shared build:${BUILD_MODE}
 RUN pnpm --filter admin build:${BUILD_MODE}
 

@@ -14,6 +14,7 @@ RUN pnpm install --filter shared --filter portal
 COPY packages/shared/ ./packages/shared/
 COPY apps/portal/ ./apps/portal/
 
+RUN pnpm --filter shared build:${BUILD_MODE}
 RUN pnpm --filter portal build:${BUILD_MODE}
 
 FROM node:22-alpine
