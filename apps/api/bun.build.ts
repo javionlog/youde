@@ -1,13 +1,17 @@
 import { cp, rm } from 'node:fs/promises'
+import { join } from 'node:path'
 
-await rm('./dist', { recursive: true, force: true })
+const baseDir = import.meta.dir
+
+await rm(join(baseDir, 'dist'), { recursive: true, force: true })
 
 await Bun.build({
-  entrypoints: ['./src/main.ts'],
-  outdir: './dist',
+  entrypoints: [join(baseDir, 'src/main.ts')],
+  outdir: join(baseDir, 'dist'),
   format: 'esm',
   target: 'bun',
-  splitting: true
+  splitting: true,
+  external: ['node:*', 'bun:*']
 })
 
-await cp('./public', './dist/public', { recursive: true })
+await cp(join(baseDir, 'public'), join(baseDir, 'dist/public'), { recursive: true })
