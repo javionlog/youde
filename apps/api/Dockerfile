@@ -25,11 +25,6 @@ RUN grep "flattenTree" packages/shared/dist/main.js || echo "flattenTree not in 
 # 第五步：复制 api 源码
 COPY apps/api/ ./apps/api/
 
-# 验证 node_modules 中 @youde/shared 的结构
-RUN ls -la node_modules/@youde/shared/
-RUN cat node_modules/@youde/shared/package.json
-RUN ls -la node_modules/@youde/shared/dist/
-
 # 第六步：deploy，此时 shared 已有 dist 产物
 RUN pnpm deploy --filter api --prod /app/deploy
 
@@ -49,6 +44,10 @@ COPY apps/api/ ./apps/api/
 
 # 验证 builder 阶段
 RUN ls -la node_modules/@youde/ || echo "@youde not found in builder ❌"
+# 验证 node_modules 中 @youde/shared 的结构
+RUN ls -la node_modules/@youde/shared/
+RUN cat node_modules/@youde/shared/package.json
+RUN ls -la node_modules/@youde/shared/dist/
 
 RUN bun --env-file=apps/api/.env.${BUILD_MODE} apps/api/bun.build.ts
 
