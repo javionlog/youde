@@ -1,4 +1,4 @@
-import { ChevronDownIcon, ChevronUpIcon, RollbackIcon, SearchIcon } from 'tdesign-icons-react'
+import { ChevronDownIcon, ChevronUpIcon, RefreshIcon, SearchIcon } from 'tdesign-icons-react'
 import type { ButtonProps, FormItemProps, FormProps } from 'tdesign-react'
 
 type GridProps = Omit<Parameters<typeof GlGrid>[0], 'collapsed'>
@@ -99,7 +99,7 @@ export const GlSearch = (props: Props) => {
                   type='reset'
                   variant='outline'
                   shape='square'
-                  icon={<RollbackIcon size='20px' />}
+                  icon={<RefreshIcon size='20px' />}
                   {...resetBtn}
                 />
               </>

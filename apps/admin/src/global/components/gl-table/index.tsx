@@ -1,3 +1,4 @@
+import { useEffectOnActive } from 'keepalive-for-react'
 import type { ReactNode, RefObject } from 'react'
 import type {
   FormProps,
@@ -87,9 +88,14 @@ export const GlTable = <T extends TableRowData>(props: Props<T>) => {
     }
   }
 
-  useEffect(() => {
-    fetch()
+  useEffectOnActive(() => {
+    const values = form.getFieldsValue(true)
+    form.setFieldsValue(values)
   }, [])
+
+  useMountEffect(() => {
+    fetch()
+  })
 
   useImperativeHandle(ref, () => {
     return {
