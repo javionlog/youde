@@ -40,9 +40,9 @@ export const CategoryPanel = () => {
     return categoryName.includes(filterText.trim())
   }
 
-  useEffect(() => {
+  useMountEffect(() => {
     refresh()
-  }, [])
+  })
 
   return (
     <Loading loading={loading} className='h-full w-full'>
