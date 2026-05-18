@@ -20,7 +20,9 @@
     "build:dev": "turbo run build:dev",
     "build:prod": "turbo run build:prod",
     "check": "turbo run check",
-    "lint-staged": "turbo run lint-staged"
+    "lint-staged": "turbo run lint-staged",
+    "clean": "pnpm -r exec rm -rf node_modules",
+    "clean:install": "pnpm run clean && pnpm install"
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.1",
