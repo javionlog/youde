@@ -5,7 +5,6 @@ import { resolveModuleExportNames } from 'mlly'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
 import babel from 'vite-plugin-babel'
-import tsconfigPaths from 'vite-tsconfig-paths'
 
 const curDir = fileURLToPath(new URL('.', import.meta.url))
 
@@ -20,6 +19,9 @@ export default defineConfig(({ mode, isSsrBuild }) => {
   const { VITE_API_HOST_NAME, VITE_API_HOST_PORT } = env
 
   return {
+    resolve: {
+      tsconfigPaths: true
+    },
     plugins: [
       tailwindcss(),
       reactRouter(),
@@ -30,7 +32,6 @@ export default defineConfig(({ mode, isSsrBuild }) => {
           plugins: [['babel-plugin-react-compiler', {}]]
         }
       }),
-      tsconfigPaths(),
       AutoImport({
         imports: [
           {

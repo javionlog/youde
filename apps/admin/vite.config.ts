@@ -3,7 +3,6 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
 
 const curDir = fileURLToPath(new URL('.', import.meta.url))
 
@@ -11,8 +10,10 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, curDir, 'VITE_')
   const { VITE_API_HOST_NAME, VITE_API_HOST_PORT } = env
   return {
+    resolve: {
+      tsconfigPaths: true
+    },
     plugins: [
-      tsconfigPaths(),
       tailwindcss(),
       react({
         babel: {
