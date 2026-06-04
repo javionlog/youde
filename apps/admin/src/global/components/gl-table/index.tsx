@@ -10,12 +10,6 @@ import type {
 } from 'tdesign-react'
 
 type SearchProps = Parameters<typeof GlSearch>[0]
-type FetchResponseData = {
-  data: {
-    records: any[]
-    total: number
-  }
-}
 
 export type GlTableRef = PrimaryTableRef & {
   fetch: () => void
@@ -24,8 +18,9 @@ export type GlTableRef = PrimaryTableRef & {
 
 interface Props<T extends TableRowData> extends StyledProps, TableProps<T> {
   search?: SearchProps
-  params?: Record<PropertyKey, any>
-  api?: (...args: any[]) => Promise<any>
+  params?: Record<PropertyKey, unknown>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  api?: (...args: any[]) => Promise<{ data?: { records: T[]; total: number } }>
   operation?: ReactNode
   ref?: RefObject<GlTableRef | null>
 }
@@ -46,7 +41,7 @@ export const GlTable = <T extends TableRowData>(props: Props<T>) => {
 
   const { t } = useTranslation()
   const [form] = Form.useForm()
-  const [tableData, setTableData] = useState<any[]>([])
+  const [tableData, setTableData] = useState<T[]>([])
   const [loading, setLoading] = useState(false)
   const [total, setTotal] = useState(0)
   const [current, setCurrent, getCurrent] = useGetState(1)
@@ -76,9 +71,7 @@ export const GlTable = <T extends TableRowData>(props: Props<T>) => {
             pageSize: getPageSize()
           }
           setLoading(true)
-          const { records, total } = await api({ body: finalParams }).then(
-            (r: FetchResponseData) => r.data
-          )
+          const { records, total } = await api({ body: finalParams }).then(r => r.data!)
           setTableData(records)
           setTotal(total)
         } finally {
@@ -156,9 +149,7 @@ export const GlTable = <T extends TableRowData>(props: Props<T>) => {
             pageSize: getPageSize()
           }
           setLoading(true)
-          const { records, total } = await api({ body: finalParams }).then(
-            (r: FetchResponseData) => r.data
-          )
+          const { records, total } = await api({ body: finalParams }).then(r => r.data!)
           setTableData(records)
           setTotal(total)
         } finally {
