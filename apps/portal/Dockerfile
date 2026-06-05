@@ -24,4 +24,4 @@ COPY --from=builder /app/apps/portal/dist ./dist
 COPY --from=builder /app/apps/portal/build ./
 
 EXPOSE 4000
-ENTRYPOINT ["node", "server.js"]
+ENTRYPOINT ["node", "server.mjs"]
