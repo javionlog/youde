@@ -54,6 +54,13 @@
   }
 }
 
+@media (pointer: coarse) {
+  .gl-tabs .t-tabs__btn--left,
+  .gl-tabs .t-tabs__btn--right {
+    display: none;
+  }
+}
+
 .drawer-nopadding .t-drawer__body {
   padding: 0;
 }
