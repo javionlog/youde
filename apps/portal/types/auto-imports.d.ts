@@ -154,6 +154,7 @@ declare global {
   const useNavigate: typeof import('react-router').useNavigate
   const useReducer: typeof import('react').useReducer
   const useRef: typeof import('react').useRef
+  const useRevalidator: typeof import('react-router').useRevalidator
   const useScreen: typeof import('../src/global/hooks/use-screen/index').useScreen
   const useSearchStore: typeof import('../src/global/stores/search').useSearchStore
   const useSize: typeof import('ahooks').useSize

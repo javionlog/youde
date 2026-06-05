@@ -66,7 +66,8 @@ export default defineConfig(({ mode, isSsrBuild }) => {
               'isRouteErrorResponse',
               'useNavigate',
               'useLocation',
-              'useLoaderData'
+              'useLoaderData',
+              'useRevalidator'
             ]
           },
           {

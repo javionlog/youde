@@ -4,11 +4,11 @@ import type { ThemeMode } from '@/global/constants'
 import type { FeeValue } from '@/global/enums/common'
 
 const SettingPanel = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const lang = useLocaleStore(state => state.lang)
   const themeMode = useAppStore(state => state.themeMode)
   const [collapseValue, setCollapseValue] = useState<number[]>([])
-  const { i18n } = useTranslation()
+  const { revalidate } = useRevalidator()
 
   const settins = useMemo(
     () => [
@@ -21,13 +21,14 @@ const SettingPanel = () => {
             onChange={val => {
               const activeLang = val as LangType
               useLocaleStore.setState({ lang: activeLang })
-              i18n.changeLanguage(activeLang)
               fetch(`/locale-sync`, {
                 method: 'Post',
                 headers: {
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ lang: activeLang })
+              }).then(() => {
+                revalidate()
               })
             }}
           >
