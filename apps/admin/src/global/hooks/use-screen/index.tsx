@@ -1,7 +1,7 @@
 type Target = Parameters<typeof useSize>[0]
 
 export const useScreen = (target?: Target) => {
-  const resolvedTarget = target === null ? null : (target ?? document.querySelector('html'))
+  const resolvedTarget = target ?? document.querySelector('html')
   const size = useSize(resolvedTarget)
   const screenWidth = size?.width
 
