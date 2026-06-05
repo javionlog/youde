@@ -102,7 +102,7 @@ export default defineConfig(({ mode }) => {
     build: {
       rolldownOptions: {
         output: {
-          advancedChunks: {
+          codeSplitting: {
             maxSize: 1024 * 100,
             groups: [
               {

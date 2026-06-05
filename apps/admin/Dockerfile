@@ -9,7 +9,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json ./
 COPY packages/shared/package.json ./packages/shared/
 COPY apps/admin/package.json ./apps/admin/
 
-RUN pnpm install --filter shared --filter admin
+RUN pnpm install --filter shared --filter admin --ignore-scripts
 
 COPY packages/shared/ ./packages/shared/
 COPY apps/admin/ ./apps/admin/

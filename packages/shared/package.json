@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.3",
-    "tsdown": "^0.15.6"
+    "tsdown": "^0.22.1",
+    "unrun": "^0.3.0"
   }
 }

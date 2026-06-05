@@ -9,7 +9,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json ./
 COPY packages/shared/package.json ./packages/shared/
 COPY apps/portal/package.json ./apps/portal/
 
-RUN pnpm install --filter shared --filter portal
+RUN pnpm install --filter shared --filter portal --ignore-scripts
 
 COPY packages/shared/ ./packages/shared/
 COPY apps/portal/ ./apps/portal/

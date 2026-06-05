@@ -119,7 +119,7 @@ export default defineConfig(({ mode, isSsrBuild }) => {
       rolldownOptions: {
         input: isSsrBuild ? './server/app.ts' : undefined,
         output: {
-          advancedChunks: {
+          codeSplitting: {
             maxSize: 1024 * 100,
             groups: [
               {

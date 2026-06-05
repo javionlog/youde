@@ -1,4 +1,4 @@
-import KeepAlive from 'keepalive-for-react'
+import { KeepAlive } from 'keepalive-for-react'
 import type { ReactNode } from 'react'
 import { AppHeader } from './app-header'
 import { AppSidebar } from './app-sidebar'

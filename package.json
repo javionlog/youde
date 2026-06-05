@@ -21,7 +21,7 @@
     "build:prod": "turbo run build:prod",
     "check": "turbo run check",
     "lint-staged": "turbo run lint-staged",
-    "clean": "pnpm -r exec rm -rf node_modules",
+    "clean": "rm -rf node_modules && pnpm -r exec rm -rf node_modules",
     "clean:install": "pnpm run clean && pnpm install"
   },
   "devDependencies": {
