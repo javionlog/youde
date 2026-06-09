@@ -16,12 +16,12 @@
   },
   "scripts": {
     "prepare": "husky",
-    "start:dev": "turbo run start:dev",
-    "start:prod": "turbo run start:prod",
-    "build:dev": "turbo run build:dev",
-    "build:prod": "turbo run build:prod",
-    "check": "turbo run check",
-    "lint-staged": "turbo run lint-staged",
+    "start:dev": "pnpm -r --parallel run start:dev",
+    "start:prod": "pnpm -r --parallel run start:prod",
+    "build:dev": "pnpm -r --recursive run build:dev",
+    "build:prod": "pnpm -r --recursive run build:prod",
+    "check": "pnpm -r --parallel run check",
+    "lint-staged": "pnpm -r --parallel run lint-staged",
     "clean": "rm -rf node_modules && pnpm -r exec rm -rf node_modules",
     "clean:install": "pnpm run clean && pnpm install"
   },
@@ -33,7 +33,6 @@
     "lint-staged": "^16.1.2",
     "oxfmt": "^0.54.0",
     "oxlint": "^1.69.0",
-    "turbo": "^2.5.4",
     "typescript": "^5.9.2",
     "vite": "8.0.16"
   }

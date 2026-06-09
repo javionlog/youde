@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["bun.build.ts", "drizzle.config.ts", "oxlint.config.ts", "oxfmt.config.ts", "src"],
+  "include": ["bun.build.ts", "drizzle.config.ts", "src"],
   "compilerOptions": {
     "outDir": "dist",
     "types": ["bun", "./types/env.d.ts"],

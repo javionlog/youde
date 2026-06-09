@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["tsdown.config.ts", "oxlint.config.ts", "oxfmt.config.ts", "src"],
+  "include": ["tsdown.config.ts", "src"],
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
