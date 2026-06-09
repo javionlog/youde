@@ -110,7 +110,6 @@ export const MenuTabs = () => {
   const onChange = (val: TabValue) => {
     const item = allResources.find(o => o.id === val)
     if (item) {
-      setTabValue(val)
       navigate(`/${item.path}`)
     }
   }
@@ -134,7 +133,9 @@ export const MenuTabs = () => {
               key={item.id}
               label={
                 <div className='flex items-center gap-1'>
-                  <RefreshIcon onClick={() => onRefreshTab(item.id)} />
+                  {item.id === activeResourceItem?.id && (
+                    <RefreshIcon onClick={() => onRefreshTab(item.id)} />
+                  )}
                   <span>{menuName}</span>
                 </div>
               }
