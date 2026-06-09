@@ -164,28 +164,28 @@ export const useForm = (props: Props) => {
         formItem: {
           name: 'createdAt',
           label: t('label.createdAt'),
-          children: <GlEllipsis>{formatDate(rowData?.createdAt!)}</GlEllipsis>
+          children: <GlEllipsis>{formatDate(rowData?.createdAt)}</GlEllipsis>
         }
       },
       {
         formItem: {
           name: 'updatedAt',
           label: t('label.updatedAt'),
-          children: <GlEllipsis>{formatDate(rowData?.updatedAt!)}</GlEllipsis>
+          children: <GlEllipsis>{formatDate(rowData?.updatedAt)}</GlEllipsis>
         }
       },
       {
         formItem: {
           name: 'createdBy',
           label: t('label.createdBy'),
-          children: <GlEllipsis>{rowData?.createdBy!}</GlEllipsis>
+          children: <GlEllipsis>{rowData!.createdBy}</GlEllipsis>
         }
       },
       {
         formItem: {
           name: 'updatedBy',
           label: t('label.updatedBy'),
-          children: <GlEllipsis>{rowData?.updatedBy!}</GlEllipsis>
+          children: <GlEllipsis>{rowData!.updatedBy}</GlEllipsis>
         }
       }
     ] satisfies FormProps['items']

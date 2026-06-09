@@ -1,6 +1,12 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["vite.config.ts", "openapi-ts.config.ts", "src"],
+  "include": [
+    "vite.config.ts",
+    "openapi-ts.config.ts",
+    "oxlint.config.ts",
+    "oxfmt.config.ts",
+    "src"
+  ],
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],

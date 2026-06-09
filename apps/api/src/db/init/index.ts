@@ -85,7 +85,7 @@ const init = async () => {
   }
   const resourceLocaleCommonFileds = {
     createdByUsername: SYSTEM_OPERATOR,
-    field: 'name' as 'name'
+    field: 'name' as const
   }
   const resourceDatas = [
     {
@@ -276,7 +276,7 @@ const init = async () => {
   const categoryLocaleCommonFields = {
     userId: userRes.id,
     createdByUsername: userRes.username,
-    field: 'name' as 'name'
+    field: 'name' as const
   }
 
   const categoryDatas = [

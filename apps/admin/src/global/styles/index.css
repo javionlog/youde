@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @custom-variant dark (&:where([theme-mode=dark], [theme-mode=dark] *));
 @theme {
   --breakpoint-sm: 32rem;

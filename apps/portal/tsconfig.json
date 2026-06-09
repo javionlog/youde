@@ -3,6 +3,8 @@
   "include": [
     "vite.config.ts",
     "openapi-ts.config.ts",
+    "oxlint.config.ts",
+    "oxfmt.config.ts",
     "react-router.config.ts",
     "server.js",
     ".react-router/types",

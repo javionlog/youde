@@ -41,7 +41,7 @@ const DialogBody = (props: DialogBodyProps) => {
     const menuName = menuLocale?.[lang as 'enUs'] ?? nodeData.name
     return (
       <GlEllipsis>
-        <span className=' mr-1 text-(--td-brand-color)'>
+        <span className='mr-1 text-(--td-brand-color)'>
           [{getTranslate('RESOURCE_TYPE', nodeData.type)}]
         </span>
         <span>{menuName}</span>

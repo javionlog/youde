@@ -78,7 +78,7 @@ const DialogBody = (props: DialogBodyProps) => {
     const menuName = menuLocale?.[lang as 'enUs'] ?? nodeData.name
     return (
       <GlEllipsis>
-        <span className=' mr-1 text-(--td-brand-color)'>
+        <span className='mr-1 text-(--td-brand-color)'>
           [{getTranslate('RESOURCE_TYPE', nodeData.type)}]
         </span>
         <span>{menuName}</span>
@@ -176,7 +176,7 @@ export const useTree = (props: Props) => {
           dialogInstance.update({
             confirmLoading: true
           })
-          const data = dialogBodyRef.current?.getData()!
+          const data = dialogBodyRef.current!.getData()
           const createResourceIds = []
           const deleteResourceIds = []
           const diffList = flattenTree(data.resourceTree).map(item => {

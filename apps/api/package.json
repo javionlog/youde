@@ -1,13 +1,9 @@
 {
   "name": "@youde/api",
   "version": "0.0.1",
-  "author": "Javionlog",
   "license": "MIT",
-  "packageManager": "pnpm@9.0.0",
+  "author": "Javionlog",
   "type": "module",
-  "engines": {
-    "node": ">=22.17.1"
-  },
   "publishConfig": {
     "access": "public"
   },
@@ -26,17 +22,8 @@
     "db-studio:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit studio",
     "db-gen:dev": "bun --env-file=.env.dev --env-file=.env.dev.local drizzle-kit generate",
     "db-gen:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit generate",
-    "check": "tsc && biome check --write --unsafe",
+    "check": "tsc && oxlint --fix --ignore-pattern public && oxfmt",
     "lint-staged": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,ts,jsx,tsx,json,jsonc,css,html}": [
-      "tsc && biome check --write --unsafe"
-    ]
-  },
-  "devDependencies": {
-    "@types/bun": "^1.2.19",
-    "drizzle-kit": "^0.31.4"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^8.1.0",
@@ -52,5 +39,18 @@
     "es-toolkit": "^1.39.10",
     "postgres": "^3.4.7",
     "zod": "^4.1.12"
-  }
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.19",
+    "drizzle-kit": "^0.31.4"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,json,jsonc,css,html}": [
+      "tsc && oxlint --fix && oxfmt"
+    ]
+  },
+  "engines": {
+    "node": ">=22.22.3"
+  },
+  "packageManager": "pnpm@9.0.0"
 }

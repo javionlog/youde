@@ -28,7 +28,7 @@ export const useTabStore = create(
     return {
       tabs: initTab,
       aliveRef: null,
-      setAliveRef: (ref) => {
+      setAliveRef: ref => {
         set({ aliveRef: ref })
       },
       addTab: (tab: ResourceNode) => {

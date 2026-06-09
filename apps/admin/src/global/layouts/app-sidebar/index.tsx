@@ -131,7 +131,7 @@ const WideMenu = (props: SidebarProps) => {
         />
       }
       width={'256px'}
-      className='app-sidebar max-sm:hidden! h-dvh shrink-0'
+      className='app-sidebar h-dvh shrink-0 max-sm:hidden!'
     >
       <MenuItems menus={menus} />
     </Menu>

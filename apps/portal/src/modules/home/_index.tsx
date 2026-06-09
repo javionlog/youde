@@ -91,7 +91,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
                             theme='primary'
                             className='justify-end whitespace-nowrap'
                             onClick={() => {
-                              item.url && window.open(item.url, '_blank')
+                              if (item.url) window.open(item.url, '_blank')
                             }}
                           />
                         </div>

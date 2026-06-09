@@ -162,7 +162,7 @@ declare global {
   const getTranslate: typeof import('../src/global/enums/index').getTranslate
   const getValue: typeof import('../src/global/enums/index').getValue
   const i18n: typeof import('../src/global/locales/index').i18n
-  const initRouter: typeof import('../src/global/router/index')['initRouter']
+  const initRouter: (typeof import('../src/global/router/index'))['initRouter']
   const isEmpty: typeof import('../../../packages/shared/dist/main.js').isEmpty
   const isNil: typeof import('es-toolkit').isNil
   const layoutMenus: typeof import('../src/global/router/static/index').layoutMenus
