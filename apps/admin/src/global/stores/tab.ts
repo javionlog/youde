@@ -1,18 +1,21 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
+import type { RefObject } from 'react'
+import type { KeepAliveRef } from 'keepalive-for-react'
 import type { ResourceNode } from '@/global/api'
 import { layoutMenus } from '@/global/router'
 
 interface State {
   tabs: ResourceNode[]
-  activeTabVisible: boolean
+  aliveRef: RefObject<KeepAliveRef | null> | null
+  setAliveRef: (ref: RefObject<KeepAliveRef | null>) => void
   addTab: (tab: ResourceNode) => void
   deleteTab: (id: string) => void
   deleteLeftTabs: (index: number) => void
   deleteRightTabs: (index: number) => void
   deleteOtherTabs: (id: string) => void
   clearTabs: () => void
-  refreshTab: () => void
+  refreshTab: (path: string) => void
 }
 
 export const useTabStore = create(
@@ -24,7 +27,10 @@ export const useTabStore = create(
     }
     return {
       tabs: initTab,
-      activeTabVisible: true,
+      aliveRef: null,
+      setAliveRef: (ref) => {
+        set({ aliveRef: ref })
+      },
       addTab: (tab: ResourceNode) => {
         const tabs = get().tabs
         const index = tabs.findIndex(o => o.id === tab.id)
@@ -74,12 +80,8 @@ export const useTabStore = create(
         })
         set({ tabs })
       },
-      refreshTab: async () => {
-        set({ activeTabVisible: false })
-        await Promise.resolve()
-        setTimeout(() => {
-          set({ activeTabVisible: true })
-        }, 0)
+      refreshTab: (path: string) => {
+        get().aliveRef?.current?.refresh(path)
       }
     }
   })

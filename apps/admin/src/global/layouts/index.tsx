@@ -1,4 +1,4 @@
-import { KeepAlive } from 'keepalive-for-react'
+import { KeepAlive, useKeepAliveRef } from 'keepalive-for-react'
 import type { ReactNode } from 'react'
 import { AppHeader } from './app-header'
 import { AppSidebar } from './app-sidebar'
@@ -60,13 +60,16 @@ export const AppLayout = () => {
   const responseStatus = useHttpStore(state => state.responseStatus)
   const location = useLocation()
   const cachePaths = useTabStore(state => state.tabs).map(o => `/${o.path}`)
-  const activeTabVisible = useTabStore(state => state.activeTabVisible)
+  const setAliveRef = useTabStore(state => state.setAliveRef)
+
+  const aliveRef = useKeepAliveRef()
 
   const activeCacheKey = useMemo(() => {
     return location.pathname
   }, [location.pathname])
 
   useEffect(() => {
+    setAliveRef(aliveRef)
     useBasicDataStore.getState().setCountries()
     useTreasureStore.getState().setCategoryTree()
   }, [])
@@ -100,8 +103,8 @@ export const AppLayout = () => {
               }
             >
               <div className='grow rounded-lg bg-(--td-bg-color-container) p-5 sm:m-5'>
-                <KeepAlive activeCacheKey={activeCacheKey} include={cachePaths}>
-                  {activeTabVisible && outlet}
+                <KeepAlive aliveRef={aliveRef} activeCacheKey={activeCacheKey} include={cachePaths}>
+                  {outlet}
                 </KeepAlive>
               </div>
             </Suspense>

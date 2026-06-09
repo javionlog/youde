@@ -28,7 +28,7 @@ export const MenuTabs = () => {
       return
     }
     if (activeResourceItem) {
-      refreshTab()
+      refreshTab(location.pathname)
     }
   }
 
@@ -62,7 +62,9 @@ export const MenuTabs = () => {
     {
       content: t('action.refreshCurrent'),
       onClick: () => {
-        refreshTab()
+        if (activeResourceItem) {
+          refreshTab(location.pathname)
+        }
       }
     },
     {
