@@ -101,7 +101,7 @@ const App = ({ loaderData: { locale } }: Route.ComponentProps) => {
   const { i18n } = useTranslation()
   const themeMode = useAppStore(state => state.themeMode)
 
-  const setCategory = (data: TreasureCategoryNode[]) => {
+  const setCategory = useCallback((data: TreasureCategoryNode[]) => {
     const lang = camelCase(i18n.language)
     const tmpCategory = flattenTree(data).map(item => {
       const localeItem = item?.locales.find(o => o.field === 'name')
@@ -113,7 +113,7 @@ const App = ({ loaderData: { locale } }: Route.ComponentProps) => {
     })
     const categoryTree = getEmptyChidrenTree(buildTree(tmpCategory))
     useCategoryStore.setState({ tree: categoryTree })
-  }
+  }, [i18n.language])
 
   useEffect(() => {
     document.documentElement.setAttribute('theme-mode', themeMode)
@@ -127,14 +127,14 @@ const App = ({ loaderData: { locale } }: Route.ComponentProps) => {
 
   useEffect(() => {
     setCategory(useCategoryStore.getState().tree)
-  }, [i18n.language])
+  }, [i18n.language, setCategory])
 
   useEffect(() => {
     postPortalTreasureCategoryTree({ body: {} }).then(res => {
       const data = res.data ?? []
       setCategory(data)
     })
-  }, [])
+  }, [setCategory])
 
   return <Outlet />
 }

@@ -22,7 +22,7 @@
     "db-studio:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit studio",
     "db-gen:dev": "bun --env-file=.env.dev --env-file=.env.dev.local drizzle-kit generate",
     "db-gen:prod": "bun --env-file=.env.prod --env-file=.env.prod.local drizzle-kit generate",
-    "check": "tsc && oxlint --fix --ignore-pattern public && oxfmt",
+    "check": "tsc && oxlint --fix && oxfmt",
     "lint-staged": "lint-staged"
   },
   "dependencies": {

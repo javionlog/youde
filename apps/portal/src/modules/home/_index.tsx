@@ -24,7 +24,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
 
   const records = useRef<PostPortalTreasureListResponse['records']>(loaderData.records)
 
-  const fetchRecords = async (isRefresh = false) => {
+  const fetchRecords = useCallback(async (isRefresh = false) => {
     if ((records.current.length >= total.current && !isRefresh) || refreshing) {
       return
     }
@@ -45,7 +45,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
     total.current = res.total
     setLoadingText('')
     setRefreshing(false)
-  }
+  }, [refreshing])
 
   const onRefresh = () => {
     setRefreshing(true)
@@ -63,7 +63,7 @@ export default ({ loaderData }: Route.ComponentProps) => {
       setRefreshing(true)
       fetchRecords(true)
     })
-  }, [])
+  }, [fetchRecords])
 
   return (
     <PullDownRefresh

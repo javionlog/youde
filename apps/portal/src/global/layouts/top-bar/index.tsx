@@ -4,7 +4,7 @@ import type { ThemeMode } from '@/global/constants'
 import type { FeeValue } from '@/global/enums/common'
 
 const SettingPanel = () => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const lang = useLocaleStore(state => state.lang)
   const themeMode = useAppStore(state => state.themeMode)
   const [collapseValue, setCollapseValue] = useState<number[]>([])
@@ -65,7 +65,7 @@ const SettingPanel = () => {
         )
       }
     ],
-    [i18n.language, themeMode]
+    [themeMode, t, lang, revalidate]
   )
 
   const onChange: CollapseProps['onChange'] = val => {
@@ -185,9 +185,9 @@ const CategoryCell = () => {
 }
 
 const FeeCell = () => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [visible, setVisible] = useState(false)
-  const fees = useSearchStore(state => state.value.fees) ?? []
+  const fees = useSearchStore(state => state.value.fees ?? [])
 
   const onClearFee = () => {
     useSearchStore.setState(state => ({
@@ -210,13 +210,11 @@ const FeeCell = () => {
     setVisible(false)
   }
 
-  const description = useMemo(() => {
-    return getTranslate('FEE', fees[0])
-  }, [fees])
+  const description = getTranslate('FEE', fees[0])
 
   const feeOptions = useMemo(() => {
     return getOptions('FEE')
-  }, [i18n.language])
+  }, [])
 
   return (
     <>

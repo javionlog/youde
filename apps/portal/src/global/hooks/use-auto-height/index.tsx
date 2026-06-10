@@ -47,7 +47,7 @@ export const useAutoHeight = (
     }
     const { top } = el.getBoundingClientRect()
     setHeight(window.innerHeight - top - afterElHeight - afterHeight)
-  }, [getTarget, getAfterTarget])
+  }, [getTarget, getAfterTarget, afterHeight])
 
   useEffect(() => {
     const el = getTarget()
@@ -62,7 +62,7 @@ export const useAutoHeight = (
     return () => {
       observerRef.current?.disconnect()
     }
-  }, [getTarget, getAfterTarget])
+  }, [getTarget, getAfterTarget, updateHeight])
 
   useEffect(() => {
     const el = document.querySelector('body')!
@@ -84,7 +84,7 @@ export const useAutoHeight = (
     }
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  }, [updateHeight])
 
   return { height }
 }
