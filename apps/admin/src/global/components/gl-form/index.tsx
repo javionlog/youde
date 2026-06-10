@@ -67,10 +67,8 @@ export const GlForm = (props: Props) => {
   }, [breakpoint, columns])
 
   useEffect(() => {
-    if (formProps.form) {
-      formProps.form.setFieldsValue(formProps.form.getFieldsValue(true))
-    }
-  }, [])
+    formProps.form?.setFieldsValue(formProps.form.getFieldsValue(true))
+  }, [formProps.form])
 
   return (
     <div ref={ref} className={`gl-form ${className ?? ''}`} style={style}>

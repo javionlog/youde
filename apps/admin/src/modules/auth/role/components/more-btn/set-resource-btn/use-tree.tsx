@@ -70,7 +70,7 @@ const DialogBody = (props: DialogBodyProps) => {
       }
     }
     init()
-  }, [])
+  }, [rowData.id, dialogRef.current])
 
   const getLabel: TreeProps['label'] = node => {
     const nodeData = node.data as GrantResourceNode

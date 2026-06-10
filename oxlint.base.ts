@@ -21,9 +21,7 @@ export default defineConfig({
     {
       files: ['**/*.ts', '**/*.tsx'],
       rules: {
-        'react/exhaustive-deps': 'off'
         // 'typescript/no-explicit-any': 'off',
-        // 'typescript/no-non-null-assertion': 'off',
       }
     }
   ]

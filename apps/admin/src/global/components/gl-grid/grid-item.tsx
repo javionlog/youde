@@ -37,7 +37,7 @@ export const GlGridItem = (props: Props) => {
       marginLeft: offset > 0 && safeOffset < safeWidth ? finalMarginLeft : undefined,
       display: collapsed && !itemVisible ? 'none' : undefined
     }
-  }, [column, maxColumn, collapsed])
+  }, [column, maxColumn, collapsed, index, maxRows, finalGap])
 
   return (
     <div

@@ -119,7 +119,7 @@ export const MenuTabs = () => {
       addTab(activeResourceItem)
       setTabValue(activeResourceItem.id)
     }
-  }, [location])
+  }, [location, activeResourceItem, addTab])
 
   return (
     <div className='flex items-center'>

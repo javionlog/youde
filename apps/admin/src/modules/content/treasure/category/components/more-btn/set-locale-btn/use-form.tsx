@@ -66,7 +66,7 @@ const DialogForm = (props: DialogFormProps) => {
       form.clearValidate()
     }
     init()
-  }, [])
+  }, [form, localeItem])
 
   const rules = {
     zhCn: getRequiredRules(),

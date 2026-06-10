@@ -10,7 +10,7 @@ const NavToSignIn = () => {
 
   useEffect(() => {
     resetStore()
-  }, [responseStatus])
+  }, [responseStatus, resetStore])
 
   const to = `/sign-in?redirect=${pathname}${search}`
   return <Navigate to={to} replace />
@@ -72,7 +72,7 @@ export const AppLayout = () => {
     setAliveRef(aliveRef)
     useBasicDataStore.getState().setCountries()
     useTreasureStore.getState().setCategoryTree()
-  }, [])
+  }, [setAliveRef, aliveRef])
 
   useLocaleStore.subscribe(
     state => state.lang,

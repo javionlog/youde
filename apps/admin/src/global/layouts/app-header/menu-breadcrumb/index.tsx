@@ -4,7 +4,7 @@ import type { BreadcrumbProps } from 'tdesign-react'
 export const MenuBreadcrumb = () => {
   const location = useLocation()
   const resources = useResourceStore.getState().getResources()
-  const allResources = [...layoutMenus, ...resources]
+  const allResources = useMemo(() => [...layoutMenus, ...resources], [resources])
   const lang = camelCase(useLocaleStore(state => state.lang))
 
   const options = useMemo((): BreadcrumbProps['options'] => {
@@ -24,7 +24,7 @@ export const MenuBreadcrumb = () => {
         }
       }
     )
-  }, [location, lang])
+  }, [location, lang, allResources])
 
   return <Breadcrumb options={options} />
 }
