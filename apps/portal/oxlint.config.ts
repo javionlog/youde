@@ -163,5 +163,6 @@ const autoImportGlobals: OxlintGlobals = Object.fromEntries(
 
 export default defineConfig({
   extends: [baseConfig],
+  ignorePatterns: ['public', 'src/global/api', 'types/auto-imports.d.ts'],
   globals: autoImportGlobals
 })

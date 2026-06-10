@@ -24,28 +24,31 @@ export default ({ loaderData }: Route.ComponentProps) => {
 
   const records = useRef<PostPortalTreasureListResponse['records']>(loaderData.records)
 
-  const fetchRecords = useCallback(async (isRefresh = false) => {
-    if ((records.current.length >= total.current && !isRefresh) || refreshing) {
-      return
-    }
-    setLoadingText('loading')
-    if (isRefresh) {
-      page.current = 1
-    } else {
-      page.current += 1
-    }
-    const res = await postPortalTreasureList({
-      body: { page: page.current, pageSize: 10, ...useSearchStore.getState().value }
-    }).then(r => r.data!)
-    if (isRefresh) {
-      records.current = res.records
-    } else {
-      records.current = [...records.current, ...res.records]
-    }
-    total.current = res.total
-    setLoadingText('')
-    setRefreshing(false)
-  }, [refreshing])
+  const fetchRecords = useCallback(
+    async (isRefresh = false) => {
+      if ((records.current.length >= total.current && !isRefresh) || refreshing) {
+        return
+      }
+      setLoadingText('loading')
+      if (isRefresh) {
+        page.current = 1
+      } else {
+        page.current += 1
+      }
+      const res = await postPortalTreasureList({
+        body: { page: page.current, pageSize: 10, ...useSearchStore.getState().value }
+      }).then(r => r.data!)
+      if (isRefresh) {
+        records.current = res.records
+      } else {
+        records.current = [...records.current, ...res.records]
+      }
+      total.current = res.total
+      setLoadingText('')
+      setRefreshing(false)
+    },
+    [refreshing]
+  )
 
   const onRefresh = () => {
     setRefreshing(true)

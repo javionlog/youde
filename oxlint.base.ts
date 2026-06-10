@@ -12,7 +12,6 @@ export default defineConfig({
     'jsx-a11y',
     'promise'
   ],
-  ignorePatterns: ['public', 'node_modules', 'src/global/api', 'types/auto-imports.d.ts'],
   rules: {
     'no-unused-vars': 'error',
     'no-console': 'error'
