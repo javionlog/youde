@@ -9,5 +9,5 @@ interface Props {
 export const SetLocaleBtn = (props: Props) => {
   const { text, onOpen } = useForm(props)
 
-  return <div onClick={onOpen}>{text}</div>
+  return <button onClick={onOpen}>{text}</button>
 }

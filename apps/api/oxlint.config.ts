@@ -1,26 +1,6 @@
 import { defineConfig } from 'oxlint'
+import baseConfig from '../../oxlint.base.ts'
 
 export default defineConfig({
-  plugins: [
-    'eslint',
-    'typescript',
-    'unicorn',
-    'react',
-    'react-perf',
-    'oxc',
-    'import',
-    'jsx-a11y',
-    'promise'
-  ],
-  ignorePatterns: ['public', 'node_modules'],
-  rules: {
-    'no-unused-vars': 'error',
-    'no-console': 'error'
-  },
-  overrides: [
-    {
-      files: ['**/*.ts', '**/*.tsx'],
-      rules: {}
-    }
-  ]
+  extends: [baseConfig]
 })

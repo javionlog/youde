@@ -1,13 +1,6 @@
 import { defineConfig } from 'oxfmt'
+import baseConfig from '../../oxfmt.base.ts'
 
 export default defineConfig({
-  ignorePatterns: ['public', 'node_modules'],
-  printWidth: 100,
-  tabWidth: 2,
-  useTabs: false,
-  semi: false,
-  singleQuote: true,
-  jsxSingleQuote: true,
-  trailingComma: 'none',
-  arrowParens: 'avoid'
+  ...baseConfig
 })

@@ -8,7 +8,7 @@ interface Props extends StyledProps, TooltipProps {
 export const GlEllipsis = (props: Props) => {
   const { className, style, children, content, ...tooltipProps } = props
 
-  const outerRef = useRef<HTMLDivElement>(null)
+  const outerRef = useRef<HTMLButtonElement>(null)
   const [disabled, setDisabled] = useState(true)
 
   const onSetDisabled = () => {
@@ -24,15 +24,15 @@ export const GlEllipsis = (props: Props) => {
 
   return (
     <Tooltip content={disabled ? null : (content ?? children)} {...tooltipProps}>
-      <div
+      <button
         ref={outerRef}
-        className={`gl-ellipsis overflow-hidden overflow-ellipsis whitespace-nowrap ${className ?? ''}`}
+        className={`gl-ellipsis truncate ${className ?? ''}`}
         style={style}
         onMouseEnter={onSetDisabled}
         onClick={onSetDisabled}
       >
         {children}
-      </div>
+      </button>
     </Tooltip>
   )
 }

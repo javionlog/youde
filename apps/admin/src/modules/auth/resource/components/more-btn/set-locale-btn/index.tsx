@@ -10,5 +10,5 @@ export const SetLocaleBtn = (props: Props) => {
   const { text, onOpen } = useForm(props)
   const { checkResource } = useResourceStore()
 
-  return checkResource('Auth_Resource_Edit') && <div onClick={onOpen}>{text}</div>
+  return checkResource('Auth_Resource_Edit') && <button onClick={onOpen}>{text}</button>
 }

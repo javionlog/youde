@@ -121,9 +121,9 @@ export const ResetPasswordBtn = () => {
   const text = t('action.resetPassword')
 
   return (
-    <div onClick={onOpen}>
+    <button onClick={onOpen}>
       <UserPasswordIcon size='14px' className='mr-2' />
       <span>{text}</span>
-    </div>
+    </button>
   )
 }

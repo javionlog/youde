@@ -9,10 +9,10 @@ export const ViewResourceBtn = (props: Props) => {
   const { text, onOpen } = useTree(props)
 
   return (
-    <div onClick={onOpen}>
+    <button onClick={onOpen}>
       <Link hover='color' theme='primary'>
         {text}
       </Link>
-    </div>
+    </button>
   )
 }

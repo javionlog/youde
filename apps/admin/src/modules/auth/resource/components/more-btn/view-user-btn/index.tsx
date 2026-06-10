@@ -55,5 +55,5 @@ export const ViewUserBtn = (props: Props) => {
     })
   }
 
-  return <div onClick={onOpen}>{t('common.action.viewAssociatedUser', { ns: 'auth' })}</div>
+  return <button onClick={onOpen}>{t('common.action.viewAssociatedUser', { ns: 'auth' })}</button>
 }

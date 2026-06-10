@@ -81,6 +81,8 @@ export const ViewTreasureBtn = (props: Props) => {
   }
 
   return (
-    <div onClick={onOpen}>{t('treasure.action.viewAssociatedTreasure', { ns: 'content' })}</div>
+    <button onClick={onOpen}>
+      {t('treasure.action.viewAssociatedTreasure', { ns: 'content' })}
+    </button>
   )
 }

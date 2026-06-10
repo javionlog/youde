@@ -4,6 +4,11 @@ import { ConfigProvider } from 'tdesign-react'
 import enConfig from 'tdesign-react/es/locale/en_US'
 import zhConfig from 'tdesign-react/es/locale/zh_CN'
 
+const langConfigMap = {
+  'zh-cn': { ...zhConfig, isContextEffectPlugin: true },
+  'en-us': { ...enConfig, isContextEffectPlugin: true }
+}
+
 export const AppRouter = () => {
   const [routes, setRoutes] = useState<RouteObject[]>(defaultRoutes)
   const resourceTree = useResourceStore(state => state.resourceTree)
@@ -11,10 +16,6 @@ export const AppRouter = () => {
   const lang = useLocaleStore.getState().lang
   const themeMode = useAppStore(state => state.themeMode)
 
-  const langConfigMap = {
-    'zh-cn': { ...zhConfig, isContextEffectPlugin: true },
-    'en-us': { ...enConfig, isContextEffectPlugin: true }
-  }
   const [globalConfig, setGlobalConfig] = useState<GlobalConfigProvider>(langConfigMap[lang])
 
   useEffect(() => {

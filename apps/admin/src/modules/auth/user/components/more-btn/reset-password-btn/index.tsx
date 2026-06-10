@@ -11,11 +11,11 @@ export const ResetPasswordBtn = (props: Props) => {
 
   return (
     checkResource('Auth_User_Edit') && (
-      <div onClick={onOpen}>
+      <button onClick={onOpen}>
         <Link hover='color' theme='primary'>
           {text}
         </Link>
-      </div>
+      </button>
     )
   )
 }

@@ -12,11 +12,11 @@ export const SetResourceBtn = (props: Props) => {
 
   return (
     checkResource('Auth_Role_Edit') && (
-      <div onClick={onOpen}>
+      <button onClick={onOpen}>
         <Link hover='color' theme='primary'>
           {text}
         </Link>
-      </div>
+      </button>
     )
   )
 }

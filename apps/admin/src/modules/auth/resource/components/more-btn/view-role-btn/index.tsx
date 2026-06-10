@@ -62,5 +62,5 @@ export const ViewRoleBtn = (props: Props) => {
     })
   }
 
-  return <div onClick={onOpen}>{t('common.action.viewAssociatedRole', { ns: 'auth' })}</div>
+  return <button onClick={onOpen}>{t('common.action.viewAssociatedRole', { ns: 'auth' })}</button>
 }

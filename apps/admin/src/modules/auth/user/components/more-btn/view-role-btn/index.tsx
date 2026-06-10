@@ -63,10 +63,10 @@ export const ViewRoleBtn = (props: Props) => {
   }
 
   return (
-    <div onClick={onOpen}>
+    <button onClick={onOpen}>
       <Link hover='color' theme='primary'>
         {t('common.action.viewAssociatedRole', { ns: 'auth' })}
       </Link>
-    </div>
+    </button>
   )
 }

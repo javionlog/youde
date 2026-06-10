@@ -27,9 +27,9 @@ export const ViewUserInfoBtn = () => {
     })
   }
   return (
-    <div onClick={onOpen}>
+    <button onClick={onOpen}>
       <UserCircleIcon size='14px' className='mr-2' />
       <span>{t('label.userInfo')}</span>
-    </div>
+    </button>
   )
 }

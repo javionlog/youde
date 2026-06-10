@@ -25,9 +25,9 @@ export const SignOutBtn = () => {
   }
 
   return (
-    <div onClick={onSignOut}>
+    <button onClick={onSignOut}>
       <PoweroffIcon size='14px' className='mr-2' />
       <span>{t('action.signOut')}</span>
-    </div>
+    </button>
   )
 }
