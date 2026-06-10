@@ -13,7 +13,7 @@
     "preview:prod": "vite preview --mode prod",
     "api-gen": "openapi-ts",
     "check": "tsc && oxlint --fix && oxfmt",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged --relative"
   },
   "dependencies": {
     "@youde/shared": "workspace:^",

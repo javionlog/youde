@@ -24,7 +24,7 @@
     "build:dev": "tsdown",
     "build:prod": "tsdown",
     "check": "tsc && oxlint --fix && oxfmt",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged --relative"
   },
   "devDependencies": {
     "@types/node": "^24.0.3",

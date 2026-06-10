@@ -13,7 +13,7 @@
     "preview:prod": "node --env-file .env.prod ./server.js",
     "api-gen": "openapi-ts",
     "check": "react-router typegen && tsc && oxlint --fix && oxfmt",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged --relative"
   },
   "dependencies": {
     "@react-router/express": "^7.17.0",
