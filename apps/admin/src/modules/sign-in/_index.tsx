@@ -83,7 +83,7 @@ export default () => {
   return (
     <div className='grid h-dvh content-center'>
       <div className='mx-auto w-full max-w-lg p-4'>
-        <div className='rounded border-1 border-(--td-component-border) bg-(--td-bg-color-container) p-4'>
+        <div className='rounded border border-(--td-component-border) bg-(--td-bg-color-container) p-4'>
           <div className='mb-4 flex items-center justify-end gap-2'>
             <GlLangSelect />
             <GlThemeSelect />

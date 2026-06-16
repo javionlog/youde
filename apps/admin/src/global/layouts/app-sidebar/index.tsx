@@ -26,8 +26,8 @@ const MenuNode = (props: MenuNodeProps) => {
       icon={icon}
       onClick={() => {
         if (location.pathname !== menuPath) {
-          navigate(menuPath)
           addTab(menu)
+          navigate(menuPath)
         }
       }}
     >

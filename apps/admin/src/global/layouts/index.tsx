@@ -54,6 +54,7 @@ export const AppLayout = () => {
   const location = useLocation()
   const cachePaths = useTabStore(state => state.tabs).map(o => `/${o.path}`)
   const setAliveRef = useTabStore(state => state.setAliveRef)
+  const addTab = useTabStore(state => state.addTab)
 
   const aliveRef = useKeepAliveRef()
 
@@ -66,6 +67,15 @@ export const AppLayout = () => {
     useBasicDataStore.getState().setCountries()
     useTreasureStore.getState().setCategoryTree()
   }, [setAliveRef, aliveRef])
+
+  useEffect(() => {
+    const resources = useResourceStore.getState().getResources()
+    const allResources = [...layoutMenus, ...resources]
+    const activeResourceItem = allResources.find(o => `/${o.path}` === location.pathname)
+    if (activeResourceItem) {
+      addTab(activeResourceItem)
+    }
+  }, [location, addTab])
 
   useLocaleStore.subscribe(
     state => state.lang,

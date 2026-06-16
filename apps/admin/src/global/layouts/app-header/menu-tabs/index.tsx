@@ -6,22 +6,26 @@ export const MenuTabs = () => {
   const location = useLocation()
   const { t } = useTranslation()
   const tabs = useTabStore(state => state.tabs)
-  const {
-    addTab,
-    deleteTab,
-    deleteLeftTabs,
-    deleteRightTabs,
-    deleteOtherTabs,
-    clearTabs,
-    refreshTab
-  } = useTabStore()
+  const { deleteTab, deleteLeftTabs, deleteRightTabs, deleteOtherTabs, clearTabs, refreshTab } =
+    useTabStore()
   const resources = useResourceStore.getState().getResources()
   const lang = camelCase(useLocaleStore(state => state.lang))
 
   const allResources = [...layoutMenus, ...resources]
   const activeResourceItem = allResources.find(o => `/${o.path}` === location.pathname)
-  const activeTabIndex = tabs.findIndex(o => `/${o.path}` === location.pathname)
-  const [tabValue, setTabValue] = useState<TabValue>(activeResourceItem?.id as string)
+  const activeTabIndex = activeResourceItem
+    ? tabs.findIndex(o => o.id === activeResourceItem.id)
+    : -1
+
+  const pendingTabValueRef = useRef<string | null>(null)
+
+  const locationTabId = activeResourceItem?.id ?? tabs[0]?.id
+
+  if (pendingTabValueRef.current && pendingTabValueRef.current === locationTabId) {
+    pendingTabValueRef.current = null
+  }
+
+  const tabValue: TabValue = pendingTabValueRef.current ?? locationTabId
 
   const onRefreshTab = (value?: string) => {
     if (value && value !== activeResourceItem?.id) {
@@ -32,27 +36,29 @@ export const MenuTabs = () => {
     }
   }
 
-  const onRemoveTab = async (value?: string) => {
+  const onRemoveTab = (value?: string) => {
     if (value && value !== activeResourceItem?.id) {
       deleteTab(value)
       return
     }
     if (activeResourceItem && !activeResourceItem.isAffix) {
-      deleteTab(activeResourceItem.id)
-      await Promise.resolve()
-      const nextTab = tabs[activeTabIndex + 1]
-      const prevTab = tabs[activeTabIndex - 1]
+      const currentIndex = tabs.findIndex(o => o.id === activeResourceItem.id)
+      if (currentIndex === -1) return
+      const nextTab = tabs[currentIndex + 1]
+      const prevTab = tabs[currentIndex - 1]
       const homeTab = tabs.find(o => o.id === 'home')
+      const targetTab = nextTab ?? prevTab ?? homeTab
+      if (targetTab) {
+        pendingTabValueRef.current = targetTab.id
+      }
+      deleteTab(activeResourceItem.id)
       if (nextTab) {
-        setTabValue(nextTab.id)
         return navigate(`/${nextTab.path}`)
       }
       if (prevTab) {
-        setTabValue(prevTab.id)
         return navigate(`/${prevTab.path}`)
       }
       if (homeTab) {
-        setTabValue(homeTab.id)
         navigate(`/${homeTab.path}`)
       }
     }
@@ -76,13 +82,13 @@ export const MenuTabs = () => {
     {
       content: t('action.closeLeft'),
       onClick: () => {
-        deleteLeftTabs(activeTabIndex)
+        if (activeTabIndex !== -1) deleteLeftTabs(activeTabIndex)
       }
     },
     {
       content: t('action.closeRight'),
       onClick: () => {
-        deleteRightTabs(activeTabIndex)
+        if (activeTabIndex !== -1) deleteRightTabs(activeTabIndex)
       }
     },
     {
@@ -95,32 +101,20 @@ export const MenuTabs = () => {
     },
     {
       content: t('action.closeAll'),
-      onClick: async () => {
-        clearTabs()
-        await Promise.resolve()
+      onClick: () => {
         const homeTab = tabs.find(o => o.id === 'home')
         if (homeTab) {
-          setTabValue(homeTab.id)
+          pendingTabValueRef.current = homeTab.id
+        }
+        clearTabs()
+        if (homeTab) {
           navigate(`/${homeTab.path}`)
         }
       }
     }
   ] satisfies DropdownOption[]
 
-  const onChange = (val: TabValue) => {
-    const item = allResources.find(o => o.id === val)
-    if (item) {
-      navigate(`/${item.path}`)
-    }
-  }
-
-  useEffect(() => {
-    if (activeResourceItem) {
-      addTab(activeResourceItem)
-      setTabValue(activeResourceItem.id)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location])
+  const onChange = (_val: TabValue) => {}
 
   return (
     <div className='flex items-center'>
@@ -133,12 +127,24 @@ export const MenuTabs = () => {
             <GlTabPanel
               key={item.id}
               label={
-                <div className='flex items-center gap-1'>
-                  {item.id === activeResourceItem?.id && (
-                    <RefreshIcon onClick={() => onRefreshTab(item.id)} />
+                <button
+                  className='flex items-center gap-1'
+                  onClick={() => {
+                    if (item.id !== tabValue) {
+                      navigate(`/${item.path}`)
+                    }
+                  }}
+                >
+                  {item.id === tabValue && (
+                    <RefreshIcon
+                      onClick={e => {
+                        e.stopPropagation()
+                        onRefreshTab(item.id)
+                      }}
+                    />
                   )}
                   <span>{menuName}</span>
-                </div>
+                </button>
               }
               value={item.id}
               removable={!item.isAffix}
