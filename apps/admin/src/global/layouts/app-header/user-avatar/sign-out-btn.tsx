@@ -17,7 +17,6 @@ export const SignOutBtn = () => {
       await postAdminUserSignOut()
       const to = `/sign-in?redirect=${pathname}${search}`
       navigate(to)
-      useHttpStore.setState({ responseStatus: 0 })
       resetStore()
     } finally {
       setLoading(false)

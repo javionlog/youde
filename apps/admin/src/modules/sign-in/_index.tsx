@@ -12,10 +12,18 @@ const initialData = {
 
 export default () => {
   const [formData] = useState(initialData)
-  const navigate = useNavigate()
   const [form] = Form.useForm()
   const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
+  const { search } = useLocation()
+  const user = useUserStore(state => state.user)
+  const initialUser = useRef(user)
+
+  if (initialUser.current) {
+    const searchParams = new URLSearchParams(search)
+    const redirectPath = searchParams.get('redirect') ?? '/home'
+    return <Navigate to={redirectPath} replace />
+  }
 
   const rules = {
     username: getRequiredRules(),
@@ -61,14 +69,14 @@ export default () => {
         setLoading(true)
         const params = form.getFieldsValue(true) as typeof initialData
         const resData = await postAdminUserSignIn({ body: params }).then(r => r.data!)
+        const searchParams = new URLSearchParams(search)
+        const redirectPath = searchParams.get('redirect') ?? '/home'
+        useHttpStore.setState({ pendingRedirect: redirectPath })
         useUserStore.setState({ user: resData.user })
         useResourceStore.setState({ resourceTree: resData.resourceTree })
       } finally {
         setLoading(false)
       }
-      const searchParams = new URLSearchParams(window.location.search)
-      const redirectPath = searchParams.get('redirect') ?? '/home'
-      navigate(redirectPath)
     }
   }
 

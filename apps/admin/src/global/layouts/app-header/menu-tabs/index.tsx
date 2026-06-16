@@ -119,7 +119,8 @@ export const MenuTabs = () => {
       addTab(activeResourceItem)
       setTabValue(activeResourceItem.id)
     }
-  }, [location, activeResourceItem, addTab])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location])
 
   return (
     <div className='flex items-center'>

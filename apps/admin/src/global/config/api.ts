@@ -17,7 +17,10 @@ export const setApiConfig = () => {
   client.interceptors.response.use(async res => {
     if (!res.ok) {
       if (res.status === 401 && !res.url.includes('admin/user/sign-in')) {
-        useHttpStore.setState({ responseStatus: res.status })
+        useUserStore.setState({ user: null })
+        useResourceStore.setState({ resourceTree: [] })
+        useTabStore.getState().clearTabs()
+        useHttpStore.setState({ pendingRedirect: null })
       }
       let msg = res.statusText
       const contentType = res.headers.get('content-type')

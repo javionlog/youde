@@ -5,12 +5,6 @@ import { AppSidebar } from './app-sidebar'
 
 const NavToSignIn = () => {
   const { pathname, search } = useLocation()
-  const responseStatus = useHttpStore(state => state.responseStatus)
-  const { resetStore } = useResetData()
-
-  useEffect(() => {
-    resetStore()
-  }, [responseStatus, resetStore])
 
   const to = `/sign-in?redirect=${pathname}${search}`
   return <Navigate to={to} replace />
@@ -57,7 +51,6 @@ export const AppLayout = () => {
   const outlet = useOutlet()
   const user = useUserStore(state => state.user)
   const resourceTree = useResourceStore(state => state.resourceTree)
-  const responseStatus = useHttpStore(state => state.responseStatus)
   const location = useLocation()
   const cachePaths = useTabStore(state => state.tabs).map(o => `/${o.path}`)
   const setAliveRef = useTabStore(state => state.setAliveRef)
@@ -84,7 +77,7 @@ export const AppLayout = () => {
 
   const menus = [...layoutMenus, ...resourceTree]
 
-  if (!user || responseStatus === 401) {
+  if (!user) {
     return <NavToSignIn />
   }
 

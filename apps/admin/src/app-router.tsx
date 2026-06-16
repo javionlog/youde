@@ -15,6 +15,7 @@ export const AppRouter = () => {
   const element = useRoutes(routes)
   const lang = useLocaleStore.getState().lang
   const themeMode = useAppStore(state => state.themeMode)
+  const navigate = useNavigate()
 
   const [globalConfig, setGlobalConfig] = useState<GlobalConfigProvider>(langConfigMap[lang])
 
@@ -35,6 +36,14 @@ export const AppRouter = () => {
       ...noLayoutRoutes
     ])
   }, [resourceTree])
+
+  useEffect(() => {
+    const pendingRedirect = useHttpStore.getState().pendingRedirect
+    if (pendingRedirect) {
+      useHttpStore.setState({ pendingRedirect: null })
+      navigate(pendingRedirect)
+    }
+  }, [routes, navigate])
 
   useEffect(() => {
     document.documentElement.setAttribute('theme-mode', themeMode)
