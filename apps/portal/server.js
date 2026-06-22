@@ -3,6 +3,7 @@ import { consola } from 'consola'
 import express from 'express'
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import morgan from 'morgan'
+import { createRequestHandler } from '@react-router/express'
 
 const serverEntry = './dist/server/index.js'
 const port = Number(process.env.VITE_SERVER_HOST_PORT)
@@ -25,7 +26,11 @@ app.use(
 )
 app.use(morgan('tiny'))
 app.use(express.static('dist/client', { maxAge: '1h' }))
-app.use(await import(serverEntry).then(mod => mod.app))
+app.use(
+  createRequestHandler({
+    build: () => import(serverEntry)
+  })
+)
 
 app.listen(port, () => {
   consola.info(`Server is running on http://localhost:${port}`)

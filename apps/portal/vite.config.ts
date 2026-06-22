@@ -14,13 +14,20 @@ const componentNames = (await resolveModuleExportNames('tdesign-mobile-react/es/
   }
 )
 
-export default defineConfig(({ mode, isSsrBuild }) => {
+export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, curDir, 'VITE_')
   const { VITE_API_HOST_NAME, VITE_API_HOST_PORT } = env
 
   return {
     resolve: {
       tsconfigPaths: true
+    },
+    environments: {
+      ssr: {
+        resolve: {
+          noExternal: true
+        }
+      }
     },
     plugins: [
       tailwindcss(),
@@ -113,12 +120,8 @@ export default defineConfig(({ mode, isSsrBuild }) => {
         }
       }
     },
-    ssr: {
-      noExternal: isSsrBuild ? true : undefined
-    },
     build: {
       rolldownOptions: {
-        input: isSsrBuild ? './server/app.ts' : undefined,
         output: {
           codeSplitting: {
             maxSize: 1024 * 100,
