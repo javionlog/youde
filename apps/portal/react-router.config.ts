@@ -3,8 +3,5 @@ import type { Config } from '@react-router/dev/config'
 export default {
   appDirectory: 'src',
   buildDirectory: 'dist',
-  ssr: true,
-  future: {
-    v8_middleware: true
-  }
+  ssr: true
 } satisfies Config
