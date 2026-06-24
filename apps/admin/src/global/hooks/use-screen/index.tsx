@@ -1,12 +1,12 @@
 type Target = Parameters<typeof useSize>[0]
 
-export const useScreen = (target?: Target) => {
-  const resolvedTarget = target ?? document.querySelector('html')
+export const useScreen = (target?: Target | null) => {
+  const resolvedTarget = target === undefined ? document.querySelector('html') : target
   const size = useSize(resolvedTarget)
   const screenWidth = size?.width
 
   const breakpoint = useMemo(() => {
-    if (!screenWidth) {
+    if (screenWidth === undefined) {
       return SCREEN_SIZE_KEYS[SCREEN_SIZE_KEYS.length - 1] as ScreenSizeKey
     }
     for (const [key, val] of Object.entries(SCREEN_SIZE_MAP)) {
@@ -19,6 +19,7 @@ export const useScreen = (target?: Target) => {
 
   return {
     breakpoint,
-    isMobile: breakpoint === 'xs'
+    isMobile: breakpoint === 'xs',
+    screenWidth
   }
 }

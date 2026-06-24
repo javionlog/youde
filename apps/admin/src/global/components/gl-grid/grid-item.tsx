@@ -14,11 +14,11 @@ export const GlGridItem = (props: Props) => {
 
   const { column: maxColumn, gap, collapsed, maxRows } = useContext(GridContext)
 
-  const finalGap = useMemo(() => {
+  const colGap = useMemo(() => {
     if (Array.isArray(gap)) {
-      return `${gap[0]}px ${gap[1]}px`
+      return gap[1]
     }
-    return `${gap}px`
+    return gap
   }, [gap])
 
   const defaultStyle = useMemo(() => {
@@ -31,13 +31,13 @@ export const GlGridItem = (props: Props) => {
     const itemVisible = index + 1 <= maxRows * maxColumn
     const finalWidth = safeWidth > 1 ? `span ${safeWidth}` : undefined
     const finalSpan = safeSpan > 1 ? `span ${safeSpan}` : undefined
-    const finalMarginLeft = `calc(((100% + ${finalGap}px) / ${safeWidth}) * ${safeOffset})`
+    const finalMarginLeft = `calc(((100% + ${colGap}px) / ${safeWidth}) * ${safeOffset})`
     return {
       gridColumn: offset > 0 ? finalWidth : finalSpan,
       marginLeft: offset > 0 && safeOffset < safeWidth ? finalMarginLeft : undefined,
       display: collapsed && !itemVisible ? 'none' : undefined
     }
-  }, [column, maxColumn, collapsed, index, maxRows, finalGap])
+  }, [column, maxColumn, collapsed, index, maxRows, colGap])
 
   return (
     <div
