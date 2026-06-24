@@ -94,3 +94,7 @@
 .t-table .t-table__pagination {
   padding: 16px 0 0;
 }
+
+.t-tabs__nav-item > .remove-btn {
+  margin-left: 0;
+}

@@ -18,6 +18,7 @@ export const MenuTabs = () => {
     : -1
 
   const pendingTabValueRef = useRef<string | null>(null)
+  const removingTabRef = useRef(false)
 
   const locationTabId = activeResourceItem?.id ?? tabs[0]?.id
 
@@ -51,6 +52,7 @@ export const MenuTabs = () => {
       if (targetTab) {
         pendingTabValueRef.current = targetTab.id
       }
+      removingTabRef.current = true
       deleteTab(activeResourceItem.id)
       if (nextTab) {
         return navigate(`/${nextTab.path}`)
@@ -114,7 +116,17 @@ export const MenuTabs = () => {
     }
   ] satisfies DropdownOption[]
 
-  const onChange = (_val: TabValue) => {}
+  const onChange = (val: TabValue) => {
+    if (removingTabRef.current) {
+      removingTabRef.current = false
+      return
+    }
+    const tab = tabs.find(o => o.id === val)
+    if (tab) {
+      pendingTabValueRef.current = String(val)
+      navigate(`/${tab.path}`)
+    }
+  }
 
   return (
     <div className='flex items-center'>
@@ -127,14 +139,7 @@ export const MenuTabs = () => {
             <GlTabPanel
               key={item.id}
               label={
-                <button
-                  className='flex items-center gap-1'
-                  onClick={() => {
-                    if (item.id !== tabValue) {
-                      navigate(`/${item.path}`)
-                    }
-                  }}
-                >
+                <button className='flex items-center gap-1'>
                   {item.id === tabValue && (
                     <RefreshIcon
                       onClick={e => {
