@@ -3,7 +3,14 @@ type Target = Parameters<typeof useSize>[0]
 export const useScreen = (target?: Target | null) => {
   const resolvedTarget = target === undefined ? document.querySelector('html') : target
   const size = useSize(resolvedTarget)
-  const screenWidth = size?.width
+  const rawWidth = size?.width
+
+  // fix keep-alive shake
+  const lastValidWidthRef = useRef<number | undefined>(undefined)
+  if (rawWidth !== undefined && rawWidth > 0) {
+    lastValidWidthRef.current = rawWidth
+  }
+  const screenWidth = rawWidth === 0 ? lastValidWidthRef.current : rawWidth
 
   const breakpoint = useMemo(() => {
     if (screenWidth === undefined) {

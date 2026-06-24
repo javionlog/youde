@@ -42,6 +42,10 @@ export const useAutoHeight = (
     if (!el) {
       return
     }
+    // fix keep-alive shake
+    if (!document.contains(el)) {
+      return
+    }
     if (afterEl) {
       afterElHeight = afterEl.getBoundingClientRect().height
     }
