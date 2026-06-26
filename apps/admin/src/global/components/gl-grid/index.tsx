@@ -1,5 +1,5 @@
 import { Children, cloneElement, isValidElement, type ReactElement, type ReactNode } from 'react'
-import { GlGridItem } from './grid-item'
+import { GlGridItem, type GridItemInternalProps } from './grid-item'
 
 export { GlGridItem } from './grid-item'
 
@@ -79,11 +79,7 @@ export const GlGrid = (props: Props) => {
       const marginLeft =
         safeOffset > 0 ? `calc((100% + ${colGap}px) / ${safeWidth} * ${safeOffset})` : undefined
       return cloneElement(
-        child as ReactElement<{
-          _hidden: boolean
-          _gridColumn: string | undefined
-          _marginLeft: string | undefined
-        }>,
+        child as ReactElement<GridItemInternalProps>,
         { _hidden: hidden, _gridColumn: gridColumn, _marginLeft: marginLeft }
       )
     }

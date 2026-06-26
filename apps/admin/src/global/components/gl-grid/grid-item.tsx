@@ -5,7 +5,7 @@ export interface GlGridItemProps extends StyledProps {
   column?: { span?: number; offset?: number }
 }
 
-interface InternalProps extends GlGridItemProps {
+export interface GridItemInternalProps extends GlGridItemProps {
   _hidden?: boolean
   _gridColumn?: string
   _marginLeft?: string
@@ -13,7 +13,7 @@ interface InternalProps extends GlGridItemProps {
 
 export const GlGridItem = (props: GlGridItemProps) => {
   const { children, style, className } = props
-  const { _hidden, _gridColumn, _marginLeft } = props as InternalProps
+  const { _hidden, _gridColumn, _marginLeft } = props as GridItemInternalProps
 
   return (
     <div
