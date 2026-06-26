@@ -78,10 +78,11 @@ export const GlGrid = (props: Props) => {
       const gridColumn = safeWidth > 1 ? `span ${safeWidth}` : undefined
       const marginLeft =
         safeOffset > 0 ? `calc((100% + ${colGap}px) / ${safeWidth} * ${safeOffset})` : undefined
-      return cloneElement(
-        child as ReactElement<GridItemInternalProps>,
-        { _hidden: hidden, _gridColumn: gridColumn, _marginLeft: marginLeft }
-      )
+      return cloneElement(child as ReactElement<GridItemInternalProps>, {
+        _hidden: hidden,
+        _gridColumn: gridColumn,
+        _marginLeft: marginLeft
+      })
     }
     return child
   })
