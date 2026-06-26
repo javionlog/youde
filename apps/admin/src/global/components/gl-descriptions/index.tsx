@@ -66,7 +66,7 @@ export const GlDescriptions = (props: Props) => {
         {items.map((item, index) => {
           const key = `${index}${Date.now().toString()}`
           return (
-            <GlGridItem key={key} index={index} {...item.gridItem}>
+            <GlGridItem key={key} {...item.gridItem}>
               <div className={`flex ${labelAlign === 'top' ? 'flex-col gap-1' : 'gap-2'}`}>
                 <div
                   className={`shrink-0 text-(--td-text-color-placeholder) ${labelAlign === 'right' ? 'text-right' : 'text-left'}`}

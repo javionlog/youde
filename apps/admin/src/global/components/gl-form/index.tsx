@@ -80,9 +80,9 @@ export const GlForm = (props: Props) => {
           maxRows={maxRows}
           targetColumn={finalColumn}
         >
-          {items.map((item, index) => {
+          {items.map((item) => {
             return (
-              <GlGridItem key={String(item.formItem?.name)} index={index} {...item.gridItem}>
+              <GlGridItem key={String(item.formItem?.name)} {...item.gridItem}>
                 <GlFormItem labelEllipsis={labelEllipsis} {...item.formItem}>
                   {item.formItem?.children}
                 </GlFormItem>

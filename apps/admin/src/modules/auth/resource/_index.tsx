@@ -61,7 +61,7 @@ export default () => {
             <UpsertBtn refresh={refresh} />
           </div>
           <GlGrid maxRows={10} columns={{ xs: 2, sm: 2, md: 3, lg: 4, xl: 5, '2xl': 6 }}>
-            <GlGridItem index={1}>
+            <GlGridItem>
               <GlCheckbox
                 checked={elementVisible}
                 onChange={setElementVisible}
@@ -70,7 +70,7 @@ export default () => {
                 {t('common.message.showElement', { ns: 'auth' })}
               </GlCheckbox>
             </GlGridItem>
-            <GlGridItem index={2}>
+            <GlGridItem>
               <GlInputAdornment prepend={t('action.search')}>
                 <GlInput value={filterText} onChange={setFilterText} className='min-w-0' />
               </GlInputAdornment>

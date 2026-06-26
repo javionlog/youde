@@ -6,13 +6,14 @@ type Column = { span?: number; offset?: number }
 interface Props extends StyledProps {
   children?: ReactNode
   column?: Column
-  index: number
+  /** @internal injected by GlGrid via cloneElement, do not pass manually */
+  hidden?: boolean
 }
 
 export const GlGridItem = (props: Props) => {
-  const { children, style, className, column, index } = props
+  const { children, style, className, column, hidden } = props
 
-  const { column: maxColumn, gap, collapsed, maxRows } = useContext(GridContext)
+  const { column: maxColumn, gap } = useContext(GridContext)
 
   const colGap = useMemo(() => {
     if (Array.isArray(gap)) {
@@ -24,20 +25,20 @@ export const GlGridItem = (props: Props) => {
   const defaultStyle = useMemo(() => {
     const span = column?.span ?? 1
     const offset = column?.offset ?? 0
-    const width = span + offset
     const safeSpan = Math.max(1, Math.min(span, maxColumn))
-    const safeOffset = Math.max(0, Math.min(offset, maxColumn))
-    const safeWidth = Math.min(width, maxColumn)
-    const itemVisible = index + 1 <= maxRows * maxColumn
-    const finalWidth = safeWidth > 1 ? `span ${safeWidth}` : undefined
-    const finalSpan = safeSpan > 1 ? `span ${safeSpan}` : undefined
-    const finalMarginLeft = `calc(((100% + ${colGap}px) / ${safeWidth}) * ${safeOffset})`
+    const safeOffset = Math.max(0, Math.min(offset, maxColumn - safeSpan))
+    const safeWidth = safeSpan + safeOffset
+    const gridColumn = safeWidth > 1 ? `span ${safeWidth}` : undefined
+    const marginLeft =
+      safeOffset > 0
+        ? `calc((100% + ${colGap}px) / ${safeWidth} * ${safeOffset})`
+        : undefined
     return {
-      gridColumn: offset > 0 ? finalWidth : finalSpan,
-      marginLeft: offset > 0 && safeOffset < safeWidth ? finalMarginLeft : undefined,
-      display: collapsed && !itemVisible ? 'none' : undefined
+      gridColumn,
+      marginLeft,
+      display: hidden ? 'none' : undefined
     }
-  }, [column, maxColumn, collapsed, index, maxRows, colGap])
+  }, [column, maxColumn, hidden, colGap])
 
   return (
     <div

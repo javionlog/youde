@@ -51,7 +51,15 @@ export const GlSearch = (props: Props) => {
   }, [breakpoint, columns])
 
   const collpaseBtnVisible = useMemo(() => {
-    return items.length > maxRows * finalColumn
+    let usedCols = 0
+    for (const item of items) {
+      const span = item.gridItem?.column?.span ?? 1
+      const offset = item.gridItem?.column?.offset ?? 0
+      const safeSpan = Math.max(1, Math.min(span, finalColumn))
+      const safeOffset = Math.max(0, Math.min(offset, finalColumn - safeSpan))
+      usedCols += safeSpan + safeOffset
+    }
+    return usedCols > maxRows * finalColumn
   }, [items, maxRows, finalColumn])
 
   const [collapsed, setCollapsed] = useState(true)
@@ -67,9 +75,9 @@ export const GlSearch = (props: Props) => {
             maxRows={maxRows}
             targetColumn={finalColumn}
           >
-            {items.map((item, index) => {
+            {items.map((item) => {
               return (
-                <GlGridItem key={String(item.formItem?.name)} index={index} {...item.gridItem}>
+                <GlGridItem key={String(item.formItem?.name)} {...item.gridItem}>
                   <GlFormItem {...item.formItem}>{item.formItem?.children}</GlFormItem>
                 </GlGridItem>
               )

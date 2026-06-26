@@ -52,7 +52,7 @@ export const CategoryPanel = () => {
             <UpsertBtn refresh={refresh} />
           </div>
           <GlGrid maxRows={10} columns={{ xs: 2, sm: 2, md: 3, lg: 4, xl: 5, '2xl': 6 }}>
-            <GlGridItem index={1}>
+            <GlGridItem>
               <GlInputAdornment prepend={t('action.search')}>
                 <GlInput value={filterText} onChange={setFilterText} className='min-w-0' />
               </GlInputAdornment>

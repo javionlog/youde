@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react'
+import { Children, cloneElement, isValidElement, type ReactNode } from 'react'
 import { GridContext } from './context'
+import { GlGridItem } from './grid-item'
 
 export { GlGridItem } from './grid-item'
 
@@ -53,12 +54,32 @@ export const GlGrid = (props: Props) => {
     }
     return 3
   }, [breakpoint, columns])
+
   const finalGap = useMemo(() => {
     if (Array.isArray(gap)) {
       return `${gap[0]}px ${gap[1]}px`
     }
     return `${gap}px`
   }, [gap])
+
+  const column = targetColumn ?? finalColumn
+  const maxVisible = maxRows * column
+  let usedCols = 0
+  const indexedChildren = Children.map(children, (child) => {
+    if (isValidElement(child) && child.type === GlGridItem) {
+      const childProps = child.props as { column?: { span?: number; offset?: number } }
+      const span = childProps.column?.span ?? 1
+      const offset = childProps.column?.offset ?? 0
+      const safeSpan = Math.max(1, Math.min(span, column))
+      const safeOffset = Math.max(0, Math.min(offset, column - safeSpan))
+      const itemWidth = safeSpan + safeOffset
+      // if this item starts beyond the visible threshold, hide it
+      const hidden = collapsed && usedCols + itemWidth > maxVisible
+      usedCols += itemWidth
+      return cloneElement(child as React.ReactElement<{ hidden: boolean }>, { hidden })
+    }
+    return child
+  })
 
   return (
     <div
@@ -73,15 +94,8 @@ export const GlGrid = (props: Props) => {
         ...style
       }}
     >
-      <GridContext
-        value={{
-          column: targetColumn ?? finalColumn,
-          gap,
-          collapsed,
-          maxRows
-        }}
-      >
-        {children}
+      <GridContext value={{ column, gap }}>
+        {indexedChildren}
       </GridContext>
     </div>
   )
