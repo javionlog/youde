@@ -1,5 +1,4 @@
-import { Children, cloneElement, isValidElement, type ReactNode } from 'react'
-import { GridContext } from './context'
+import { Children, cloneElement, isValidElement, type ReactElement, type ReactNode } from 'react'
 import { GlGridItem } from './grid-item'
 
 export { GlGridItem } from './grid-item'
@@ -62,21 +61,31 @@ export const GlGrid = (props: Props) => {
     return `${gap}px`
   }, [gap])
 
+  const colGap = Array.isArray(gap) ? gap[1] : gap
   const column = targetColumn ?? finalColumn
   const maxVisible = maxRows * column
   let usedCols = 0
-  const indexedChildren = Children.map(children, child => {
+  const processedChildren = Children.map(children, child => {
     if (isValidElement(child) && child.type === GlGridItem) {
       const childProps = child.props as { column?: { span?: number; offset?: number } }
       const span = childProps.column?.span ?? 1
       const offset = childProps.column?.offset ?? 0
       const safeSpan = Math.max(1, Math.min(span, column))
       const safeOffset = Math.max(0, Math.min(offset, column - safeSpan))
-      const itemWidth = safeSpan + safeOffset
-      // if this item starts beyond the visible threshold, hide it
-      const hidden = collapsed && usedCols + itemWidth > maxVisible
-      usedCols += itemWidth
-      return cloneElement(child as React.ReactElement<{ hidden: boolean }>, { hidden })
+      const safeWidth = safeSpan + safeOffset
+      const hidden = collapsed && usedCols + safeWidth > maxVisible
+      usedCols += safeWidth
+      const gridColumn = safeWidth > 1 ? `span ${safeWidth}` : undefined
+      const marginLeft =
+        safeOffset > 0 ? `calc((100% + ${colGap}px) / ${safeWidth} * ${safeOffset})` : undefined
+      return cloneElement(
+        child as ReactElement<{
+          _hidden: boolean
+          _gridColumn: string | undefined
+          _marginLeft: string | undefined
+        }>,
+        { _hidden: hidden, _gridColumn: gridColumn, _marginLeft: marginLeft }
+      )
     }
     return child
   })
@@ -88,13 +97,13 @@ export const GlGrid = (props: Props) => {
       style={{
         display: 'grid',
         gap: `${finalGap}`,
-        gridTemplateColumns: `repeat(${targetColumn ?? finalColumn}, 1fr)`,
+        gridTemplateColumns: `repeat(${column}, 1fr)`,
         justifyContent,
         alignItems,
         ...style
       }}
     >
-      <GridContext value={{ column, gap }}>{indexedChildren}</GridContext>
+      {processedChildren}
     </div>
   )
 }
