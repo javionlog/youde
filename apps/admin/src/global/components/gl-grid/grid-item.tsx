@@ -30,9 +30,7 @@ export const GlGridItem = (props: Props) => {
     const safeWidth = safeSpan + safeOffset
     const gridColumn = safeWidth > 1 ? `span ${safeWidth}` : undefined
     const marginLeft =
-      safeOffset > 0
-        ? `calc((100% + ${colGap}px) / ${safeWidth} * ${safeOffset})`
-        : undefined
+      safeOffset > 0 ? `calc((100% + ${colGap}px) / ${safeWidth} * ${safeOffset})` : undefined
     return {
       gridColumn,
       marginLeft,

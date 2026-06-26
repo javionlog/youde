@@ -75,7 +75,7 @@ export const GlSearch = (props: Props) => {
             maxRows={maxRows}
             targetColumn={finalColumn}
           >
-            {items.map((item) => {
+            {items.map(item => {
               return (
                 <GlGridItem key={String(item.formItem?.name)} {...item.gridItem}>
                   <GlFormItem {...item.formItem}>{item.formItem?.children}</GlFormItem>

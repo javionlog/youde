@@ -65,7 +65,7 @@ export const GlGrid = (props: Props) => {
   const column = targetColumn ?? finalColumn
   const maxVisible = maxRows * column
   let usedCols = 0
-  const indexedChildren = Children.map(children, (child) => {
+  const indexedChildren = Children.map(children, child => {
     if (isValidElement(child) && child.type === GlGridItem) {
       const childProps = child.props as { column?: { span?: number; offset?: number } }
       const span = childProps.column?.span ?? 1
@@ -94,9 +94,7 @@ export const GlGrid = (props: Props) => {
         ...style
       }}
     >
-      <GridContext value={{ column, gap }}>
-        {indexedChildren}
-      </GridContext>
+      <GridContext value={{ column, gap }}>{indexedChildren}</GridContext>
     </div>
   )
 }
