@@ -204,7 +204,7 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { LangType, ThemeMode, ScreenSizeKey } from '../src/global/constants/index'
+  export type { ScreenSizeKey, LangType, ThemeMode } from '../src/global/constants/index'
   import('../src/global/constants/index')
   // @ts-ignore
   export type { Enums, EnumKeys } from '../src/global/enums/index'
