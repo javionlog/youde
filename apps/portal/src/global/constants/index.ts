@@ -19,7 +19,9 @@ export const SCREEN_SIZE_MAP = {
   '2xl': [1536, 1792]
 } as const
 
-export const SCREEN_SIZE_KEYS = Object.keys(SCREEN_SIZE_MAP)
+export type ScreenSizeKey = keyof typeof SCREEN_SIZE_MAP
+
+export const SCREEN_SIZE_KEYS = Object.keys(SCREEN_SIZE_MAP) as ScreenSizeKey[]
 
 export type ThemeMode = (typeof THEME_MODES)[number]
 
@@ -28,5 +30,3 @@ export type LangType = (typeof LANG_TYPES)[number]
 export type LangNamespace = (typeof LANG_NAMESPACES)[number]
 
 export type DefaultLangNamescpe = typeof DEFAULT_LANG_NAMESPACE
-
-export type ScreenSizeKey = keyof typeof SCREEN_SIZE_MAP

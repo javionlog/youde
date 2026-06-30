@@ -9,7 +9,7 @@ export const useScreen = (target?: Target) => {
         return key as ScreenSizeKey
       }
     }
-    return SCREEN_SIZE_KEYS[SCREEN_SIZE_KEYS.length - 1] as ScreenSizeKey
+    return SCREEN_SIZE_KEYS[SCREEN_SIZE_KEYS.length - 1]
   }, [screenWidth])
 
   return {

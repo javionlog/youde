@@ -16,9 +16,12 @@ export const getOptions = <K extends EnumKeys>(key: K) => {
   return enums[key]
 }
 
-export const getValue = <K extends EnumKeys>(key: K) => {
-  const item = enums[key].find(o => o.value)
-  return item?.value
+export const getValue = <K extends EnumKeys, V extends Enums[K][number]['value']>(
+  key: K,
+  value: V
+) => {
+  const item = enums[key].find(o => o.value === value)
+  return item ? (item.value as V) : undefined
 }
 
 export const getTranslate = <K extends EnumKeys, V extends Enums[K][number]['value']>(
